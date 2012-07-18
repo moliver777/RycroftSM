@@ -8,7 +8,7 @@ class SessionController < ApplicationController
   def create
     user = User.where(:username => params[:username]).first
     if user
-      session[:username] = user.username
+      session[:username] = user.username if params[:password] == user.password
     end
     redirect_to root_path
   end
