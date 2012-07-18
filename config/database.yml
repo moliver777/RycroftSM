@@ -4,9 +4,3 @@ development:
   database: rsm_development
   pool: 5
   timeout: 5000
-
-production:
-  adapter: postgresql
-  username: postgres
-  password: mgs2sol
-  database: rsm_production
