@@ -3,5 +3,5 @@ RycroftSM::Application.routes.draw do
 
   get "/login" => "session#login"
   post "/login" => "session#create"
-  get "/logout" => "session#logout"
+  get "/logout" => "session#destroy"
 end

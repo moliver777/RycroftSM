@@ -7,3 +7,16 @@
 	<%= password_field_tag :password, "", :placeholder => "Password" %><br/>
 	<button id="login">Login</button>
 </div>
+
+<script type="text/javascript">
+	$('button#login').unbind('click').click(function() {
+		$.ajax({
+			url: "/login",
+			type: "POST",
+			data: {username:$('input#username').val(),password:$('input#password').val()},
+			success: function() {
+				window.location.replace("/")
+			}
+		})
+	})
+</script>
