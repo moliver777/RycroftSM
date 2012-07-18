@@ -1,49 +1,65 @@
 <div class="menu_link">
 	<a class="head_link">Home</a>
 </div>
+
 <div class="menu_link">
 	<a class="head_link">Schedule</a>
 </div>
-<div class="menu_link">
-	<a class="head_link">Bookings</a><br/>
-	<div class="sub_links">
-		<a class="sub_link">sub</a><br/>
-		<a class="sub_link">sub</a><br/>
-		<a class="sub_link">sub</a>
+
+<% if current_user.user_level != User::BASE %>
+	<div class="menu_link">
+		<a class="head_link">Bookings</a><br/>
+		<div class="sub_links">
+			<a class="sub_link">sub</a><br/>
+			<a class="sub_link">sub</a><br/>
+			<a class="sub_link">sub</a>
+		</div>
 	</div>
-</div>
+<% end %>
+
 <div class="menu_link">
 	<a class="head_link">Clients</a><br/>
-	<div class="sub_links">
-		<a class="sub_link first">sub</a><br/>
-		<a class="sub_link">sub</a><br/>
-		<a class="sub_link">sub</a>
-	</div>
+	<% if current_user.user_level != User::BASE %>
+		<div class="sub_links">
+			<a class="sub_link first">sub</a><br/>
+			<a class="sub_link">sub</a><br/>
+			<a class="sub_link">sub</a>
+		</div>
+	<% end %>
 </div>
+
 <div class="menu_link">
 	<a class="head_link">Horses</a><br/>
-	<div class="sub_links">
-		<a class="sub_link">sub</a><br/>
-		<a class="sub_link">sub</a><br/>
-		<a class="sub_link">sub</a><br/>
-		<a class="sub_link">sub</a><br/>
-		<a class="sub_link">sub</a>
-	</div>
+	<% if current_user.user_level != User::BASE %>
+		<div class="sub_links">
+			<a class="sub_link">sub</a><br/>
+			<a class="sub_link">sub</a><br/>
+			<a class="sub_link">sub</a><br/>
+			<a class="sub_link">sub</a><br/>
+			<a class="sub_link">sub</a>
+		</div>
+	<% end %>
 </div>
+
 <div class="menu_link">
 	<a class="head_link">Staff</a><br/>
-	<div class="sub_links">
-		<a class="sub_link">sub</a><br/>
-		<a class="sub_link">sub</a>
-	</div>
+	<% if current_user.user_level != User::BASE %>
+		<div class="sub_links">
+			<a class="sub_link">sub</a><br/>
+			<a class="sub_link">sub</a>
+		</div>
+	<% end %>
 </div>
-<div class="menu_link">
-	<a class="head_link">Admin</a><br/>
-	<div class="sub_links">
-		<a class="sub_link first">sub</a><br/>
-		<a class="sub_link">sub</a>
+
+<% if current_user.user_level == User::MASTER %>
+	<div class="menu_link">
+		<a class="head_link">Admin</a><br/>
+		<div class="sub_links">
+			<a class="sub_link first">sub</a><br/>
+			<a class="sub_link">sub</a>
+		</div>
 	</div>
-</div>
+<% end %>
 
 <script type="text/javascript">
 	$(document).ready(function() {
