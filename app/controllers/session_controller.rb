@@ -10,7 +10,10 @@ class SessionController < ApplicationController
   def create
     user = User.where(:username => session[:username]).first
     if user
+      p user
       if params[:password] == user.password
+        p user.password
+        p params[:password] == user.password ? 'true' : 'false'
         session[:username] = user.username
         session[:error] = nil
       else
