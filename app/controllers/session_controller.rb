@@ -8,7 +8,7 @@ class SessionController < ApplicationController
   end
 
   def create
-    user = User.where(:username => params[:username]).first
+    user = User.find(session[:username])
     if user
       if params[:password] == user.password
         session[:username] = user.username
