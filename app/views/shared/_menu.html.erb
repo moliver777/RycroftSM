@@ -1,0 +1,56 @@
+<div class="menu_link">
+	<a class="head_link">Home</a>
+</div>
+<div class="menu_link">
+	<a class="head_link">Schedule</a>
+</div>
+<div class="menu_link">
+	<a class="head_link">Bookings</a><br/>
+	<div class="sub_links">
+		<a class="sub_link">sub</a><br/>
+		<a class="sub_link">sub</a><br/>
+		<a class="sub_link">sub</a>
+	</div>
+</div>
+<div class="menu_link">
+	<a class="head_link">Clients</a><br/>
+	<div class="sub_links">
+		<a class="sub_link first">sub</a><br/>
+		<a class="sub_link">sub</a><br/>
+		<a class="sub_link">sub</a>
+	</div>
+</div>
+<div class="menu_link">
+	<a class="head_link">Horses</a><br/>
+	<div class="sub_links">
+		<a class="sub_link">sub</a><br/>
+		<a class="sub_link">sub</a><br/>
+		<a class="sub_link">sub</a><br/>
+		<a class="sub_link">sub</a><br/>
+		<a class="sub_link">sub</a>
+	</div>
+</div>
+<div class="menu_link">
+	<a class="head_link">Staff</a><br/>
+	<div class="sub_links">
+		<a class="sub_link">sub</a><br/>
+		<a class="sub_link">sub</a>
+	</div>
+</div>
+<div class="menu_link">
+	<a class="head_link">Admin</a><br/>
+	<div class="sub_links">
+		<a class="sub_link first">sub</a><br/>
+		<a class="sub_link">sub</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('div.menu_link').mouseenter(function() {
+			$(this).find('div.sub_links').fadeIn('fast');
+		}).mouseleave(function() {
+			$(this).find('div.sub_links').fadeOut('fast');
+		})
+	})
+</script>

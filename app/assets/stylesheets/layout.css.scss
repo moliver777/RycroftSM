@@ -1,3 +1,15 @@
+/* RESET */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  margin:0;
+  padding:0;
+  border:0;
+  font-weight:inherit;
+  font-style:inherit;
+  font-size:100%;
+  font-family:inherit;
+  vertical-align:baseline;
+}
+
 /* GLOBAL */
 html {
   background-color: black;
@@ -41,6 +53,29 @@ a:hover {
   float: right;
 }
 
+#header #menu {
+/*  float:left;*/
+}
+
+#header #menu .menu_link {
+  width: 8%;
+  float: left;
+}
+
+#header #menu .menu_link a {
+  padding: 5px;
+}
+
+#header #menu .menu_link .sub_links {
+  margin-top: 8px;
+  padding-bottom: 5px;
+  background-color: #D4CFD0;
+  border-width: 0 2px 2px 2px;
+  border-style: solid;
+  border-color: #5A5154;
+  display: none;
+}
+
 /* CONTENT */
 #content {
   height: 500px;
@@ -51,7 +86,9 @@ a:hover {
 }
 
 #content #inner_content {
+  height: 500px;
   padding: 0 20px;
+  background-color: rgba(255,255,255,0.9);
 }
 
 /* FOOTER */
