@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120720153407) do
+ActiveRecord::Schema.define(:version => 20120720195607) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20120720153407) do
     t.string   "emergency_contact_phone"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "date_of_birth"
   end
 
   create_table "events", :force => true do |t|
@@ -102,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20120720153407) do
     t.string   "mobile_phone"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "date_of_birth"
   end
 
   create_table "users", :id => false, :force => true do |t|
