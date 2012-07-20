@@ -68,6 +68,7 @@ RycroftSM::Application.routes.draw do
 
   # NOTES
   get "/notes" => "notes#index"
+  get "/notes/general" => "notes#general"
   get "/notes/bookings" => "notes#bookings"
   get "/notes/clients" => "notes#clients"
   get "/notes/horses" => "notes#horses"
