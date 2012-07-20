@@ -1,2 +1,33 @@
-CLIENTS
-index.html.erb
+<h2>Clients</h2>
+<table id="clients" style="width:100%;">
+	<tr class="header">
+		<th class="sorted sortable" sort="last_name" style="width:15%;"><span class="sort"></span>Name</th>
+		<th class="sortable" sort="standard" style="width:12%;"><span class="sort"></span>Riding Standard</th>
+		<th style="width:33%;">Address</th>
+		<th style="width:15%;">Phone</th>
+		<th style="width:15%;">Emergency Contact</th>
+		<% if current_user.user_level != User::BASE %>
+			<th>Links</th>
+		<% end %>
+	</tr>
+	<%= render :partial => "table_contents" %>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("th.sortable"), function(i,sort) {
+			$(sort).unbind("click").click(function() {
+				$("th.sortable").removeClass("sorted");
+				$(this).addClass("sorted")
+				$.ajax({
+					url: "/clients/sort/"+$(this).attr("sort"),
+					type: "GET",
+					success: function(json) {
+						$('table#clients tr:not(.header)').remove();
+						$('table#clients').append(json);
+					}
+				})
+			})
+		})
+	})
+</script>
