@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :master_only
+
   def index
   end
 
@@ -15,5 +17,13 @@ class UsersController < ApplicationController
   end
 
   def destroy
+  end
+
+  def master_only
+    if current_user
+      if current_user.user_level != User::MASTER
+        redirect_to "/"
+      end
+    end
   end
 end

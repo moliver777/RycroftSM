@@ -1,5 +1,10 @@
 class NotesController < ApplicationController
+  skip_before_filter :user_permission?, :only => [:index,:general,:bookings,:clients,:horses,:staff,:show]
+
   def index
+  end
+
+  def general
   end
 
   def bookings
@@ -18,6 +23,9 @@ class NotesController < ApplicationController
   end
 
   def edit
+  end
+
+  def show
   end
 
   def create

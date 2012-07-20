@@ -1,4 +1,6 @@
 class HorsesController < ApplicationController
+  skip_before_filter :user_permission?, :only => [:index]
+
   def index
   end
 

@@ -1,6 +1,7 @@
 class SessionController < ApplicationController
 
   skip_before_filter :authenticated_user?
+  skip_before_filter :user_permission?
 
   def login
     @error = session[:error] if session[:error]

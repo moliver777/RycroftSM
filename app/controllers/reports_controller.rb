@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  skip_before_filter :user_permission?
+
   def index
   end
 
