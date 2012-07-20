@@ -28,7 +28,7 @@ RycroftSM::Application.routes.draw do
   get "/clients/delete/:delete_id" => "clients#remove_info"
   post "/clients/delete/:delete_id" => "clients#destroy"
 
-  # HORSES *needs views
+  # HORSES
   get "/horses" => "horses#index"
   get "/horses/new" => "horses#new"
   post "/horses/create" => "horses#create"
@@ -39,7 +39,7 @@ RycroftSM::Application.routes.draw do
   get "/horses/delete/:delete_id" => "horses#remove_info"
   post "/horses/delete/:delete_id" => "horses#destroy"
   get "/horses/availability" => "horses#availability"
-  get "/horses/availability/:horse_id" => "horses#load_availability"
+  get "/horses/availability/:horse_id" => "horses#edit_availability"
   post "/horses/availability/:horse_id" => "horses#set_availability"
 
   # WELFARE
@@ -48,7 +48,7 @@ RycroftSM::Application.routes.draw do
   get "/horses/welfare/edit/:horse_id" => "welfare#edit"
   post "/horses/welfare/update/:horse_id" => "welfare#update"
 
-  # STAFF *needs views
+  # STAFF
   get "/staff" => "staff#index"
   get "/staff/new" => "staff#new"
   post "/staff/create" => "staff#create"
@@ -66,7 +66,7 @@ RycroftSM::Application.routes.draw do
   get "/reports/horses/:horse_id" => "reports#horse"
   get "/reports/staff/:staff_id" => "reports#staff"
 
-  # NOTES *needs views
+  # NOTES
   get "/notes" => "notes#index"
   get "/notes/bookings" => "notes#bookings"
   get "/notes/clients" => "notes#clients"
@@ -78,7 +78,7 @@ RycroftSM::Application.routes.draw do
   post "/notes/update/:note_id" => "notes#update"
   post "/notes/delete/:note_id" => "notes#destroy"
 
-  # ADMIN *needs views
+  # ADMIN
   get "/admin" => "admin#index"
   get "/admin/users" => "users#index"
   get "/admin/users/new" => "users#new"

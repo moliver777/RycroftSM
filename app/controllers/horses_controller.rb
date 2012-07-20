@@ -20,7 +20,7 @@ class HorsesController < ApplicationController
   def availability
   end
 
-  def load_availability
+  def edit_availability
   end
 
   def set_availability
