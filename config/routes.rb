@@ -22,10 +22,8 @@ RycroftSM::Application.routes.draw do
   get "/clients/sort/:sort" => "clients#sort"
   get "/clients/new" => "clients#new"
   post "/clients/create" => "clients#create"
-  get "/clients/edit" => "clients#edit"
-  get "/clients/edit/:client_id" => "clients#show"
+  get "/clients/edit/:client_id" => "clients#edit"
   post "/clients/update/:client_id" => "clients#update"
-  get "/clients/delete" => "clients#remove"
   get "/clients/delete/:delete_id" => "clients#remove_info"
   post "/clients/delete/:delete_id" => "clients#destroy"
 

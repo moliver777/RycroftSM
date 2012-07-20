@@ -1,2 +1,3 @@
-CLIENTS
-edit.html.erb
+<h2>Edit <%= @client.first_name if @client.first_name %> <%= @client.last_name if @client.last_name %></h2>
+<%= render :partial => "form" %>
+<button id="cancel">Cancel</button><button id="save">Save</button>

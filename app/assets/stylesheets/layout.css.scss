@@ -82,7 +82,7 @@ a:hover {
   background-image: url("logo3.png");
   background-repeat: no-repeat;
   background-position: center;
-  overflow-x:hidden;
+  overflow-x: auto;
 }
 
 #content #inner_content {
@@ -122,6 +122,10 @@ table, td, th {
   word-wrap: break-word;
 }
 
+table.form_table, table.form_table td {
+  border: 0;
+}
+
 th {
   background-color: #5f5f5f;
   color: white;
@@ -144,4 +148,15 @@ table span.sort {
   background-image: url("icons/sort.png");
   width: 14px;
   height: 14px;
+}
+
+/* FORMS */
+.form_section {
+  padding: 10px;
+  border-bottom: 1px solid #5f5f5f;
+  margin-bottom: 10px;
+}
+
+input.long {
+  width: 200px;
 }

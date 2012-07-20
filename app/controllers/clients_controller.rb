@@ -12,18 +12,14 @@ class ClientsController < ApplicationController
   end
 
   def new
+    @client = Client.new
   end
 
   def edit
-  end
-
-  def show
+    @client = Client.find(params[:client_id])
   end
 
   def remove
-  end
-
-  def remove_info
   end
 
   def create
