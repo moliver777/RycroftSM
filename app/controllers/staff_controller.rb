@@ -6,7 +6,7 @@ class StaffController < ApplicationController
   end
 
   def sort
-    @staff = Staff.order(params[:sort]+", last_name")
+    @staff = Staff.order(params[:sort]+" "+params[:mod]+", last_name")
     view = render_to_string(:partial => "table_contents")
     render :json => view.to_json
   end

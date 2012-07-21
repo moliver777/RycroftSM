@@ -6,7 +6,7 @@ class ClientsController < ApplicationController
   end
 
   def sort
-    @clients = Client.order(params[:sort]+", last_name")
+    @clients = Client.order(params[:sort]+" "+params[:mod]+", last_name")
     view = render_to_string(:partial => "table_contents")
     render :json => view.to_json
   end

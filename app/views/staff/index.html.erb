@@ -4,9 +4,9 @@
 <% end %>
 <table id="staff" style="width:100%;">
 	<tr class="header">
-		<th class="sorted sortable" sort="last_name" style="width:15%;"><span class="sort"></span>Name</th>
-		<th class="sortable" sort="date_of_birth" style="width:13%"><span class="sort"></span>Date of Birth</th>
-		<th class="sortable" sort="role" style="width:15%;"><span class="sort"></span>Role</th>
+		<th class="sorted sortable" sort="last_name" mod="ASC" style="width:15%;"><span class="sort"></span>Name</th>
+		<th class="sortable" sort="date_of_birth" mod="DESC" style="width:13%"><span class="sort"></span>Date of Birth</th>
+		<th class="sortable" sort="role" mod="DESC" style="width:15%;"><span class="sort"></span>Role</th>
 		<th style="width:33%;">Address</th>
 		<th style="width:15%;">Phone</th>
 		<th>Links</th>
@@ -19,9 +19,10 @@
 		$.each($("th.sortable"), function(i,sort) {
 			$(sort).unbind("click").click(function() {
 				$("th.sortable").removeClass("sorted");
-				$(this).addClass("sorted")
+				$(this).addClass("sorted");
+				($(this).attr("mod") == "ASC") ? $(this).attr("mod", "DESC") : $(this).attr("mod", "ASC");
 				$.ajax({
-					url: "/staff/sort/"+$(this).attr("sort"),
+					url: "/staff/sort/"+$(this).attr("sort")+"/"+$(this).attr("mod"),
 					type: "GET",
 					success: function(json) {
 						$('table#staff tr:not(.header)').remove();

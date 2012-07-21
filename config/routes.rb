@@ -19,7 +19,7 @@ RycroftSM::Application.routes.draw do
 
   # CLIENTS
   get "/clients" => "clients#index"
-  get "/clients/sort/:sort" => "clients#sort"
+  get "/clients/sort/:sort/:mod" => "clients#sort"
   get "/clients/new" => "clients#new"
   post "/clients/create" => "clients#create"
   get "/clients/edit/:client_id" => "clients#edit"
@@ -48,7 +48,7 @@ RycroftSM::Application.routes.draw do
 
   # STAFF
   get "/staff" => "staff#index"
-  get "/staff/sort/:sort" => "staff#sort"
+  get "/staff/sort/:sort/:mod" => "staff#sort"
   get "/staff/new" => "staff#new"
   post "/staff/create" => "staff#create"
   get "/staff/edit/:staff_id" => "staff#edit"
