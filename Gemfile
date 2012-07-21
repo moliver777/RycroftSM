@@ -8,7 +8,7 @@ gem 'pg'
 gem 'activerecord'
 
 # Encryption
-# gem 'aem'
+gem 'aes'
 
 # Deploy with Heroku
 gem 'heroku'

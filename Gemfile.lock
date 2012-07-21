@@ -31,6 +31,7 @@ GEM
     activesupport (3.1.0)
       multi_json (~> 1.0)
     addressable (2.2.8)
+    aes (0.5.0)
     ansi (1.4.3)
     arel (2.2.3)
     bcrypt-ruby (3.0.1)
@@ -129,6 +130,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  aes
   coffee-rails (~> 3.1.0)
   heroku
   jquery-rails
