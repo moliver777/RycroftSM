@@ -1,2 +1,28 @@
-STAFF
-_form.html.erb
+<div class="form_section">
+	<h3>Details</h3>
+	<table class="form_table">
+		<tr>
+			<td><%= text_field_tag "first_name", @staff.first_name, :placeholder => "First Name", :class => "long field" %></td>
+			<td><%= text_field_tag "last_name", @staff.last_name, :placeholder => "Last Name", :class => "long field" %></td>
+			<td><%= text_field_tag "date_of_birth", @staff.date_of_birth, :placeholder => "YYYY-MM-DD", :class => "field" %></td>
+			<td><%= text_field_tag "role", @staff.role, :placeholder => "Role", :class => "field" %></td>
+		</tr>
+	</table>
+</div>
+<div class="form_section">
+	<h3>Contact</h3>
+	<table class="form_table">
+		<tr>
+			<td><%= text_field_tag "address_line_1", @staff.address_line_1, :placeholder => "Address Line 1", :class => "long field" %></td>
+			<td><%= text_field_tag "address_line_2", @staff.address_line_2, :placeholder => "Address Line 2", :class => "long field" %></td>
+			<td><%= text_field_tag "city", @staff.city, :placeholder => "City", :class => "field" %></td>
+			<td><%= text_field_tag "county", @staff.county, :placeholder => "County", :class => "field" %></td>
+			<td><%= text_field_tag "country", @staff.country, :placeholder => "Country", :class => "field" %></td>
+			<td><%= text_field_tag "post_code", @staff.post_code, :placeholder => "Post Code", :class => "field" %></td>
+		</tr>
+		<tr>
+			<td>Home: <%= text_field_tag "home_phone", @staff.home_phone, :placeholder => "Home Phone", :class => "field" %></td>
+			<td>Mobile: <%= text_field_tag "mobile_phone", @staff.mobile_phone, :placeholder => "Mobile Phone", :class => "field" %></td>
+		</tr>
+	</table class="form_table">
+</div>

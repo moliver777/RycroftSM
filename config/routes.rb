@@ -48,14 +48,12 @@ RycroftSM::Application.routes.draw do
 
   # STAFF
   get "/staff" => "staff#index"
+  get "/staff/sort/:sort" => "staff#sort"
   get "/staff/new" => "staff#new"
   post "/staff/create" => "staff#create"
-  get "/staff/edit" => "staff#edit"
-  get "/staff/edit/:staff_id" => "staff#show"
+  get "/staff/edit/:staff_id" => "staff#edit"
   post "/staff/update/:staff_id" => "staff#update"
-  get "/staff/delete" => "staff#remove"
-  get "/staff/delete/:delete_id" => "staff#remove_info"
-  post "/staff/delete/:delete_id" => "staff#destroy"
+  post "/staff/delete/:staff_id" => "staff#destroy"
 
   # REPORTS
   get "/reports" => "reports#index"

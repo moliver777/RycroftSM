@@ -10,9 +10,7 @@
 		<th style="width:30%;">Address</th>
 		<th style="width:15%;">Phone</th>
 		<th style="width:12%;">Emergency Contact</th>
-		<% if current_user.user_level != User::BASE %>
-			<th>Links</th>
-		<% end %>
+		<th>Links</th>
 	</tr>
 	<%= render :partial => "table_contents" %>
 </table>
