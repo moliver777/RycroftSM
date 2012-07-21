@@ -2,9 +2,10 @@
 	<h3>Details</h3>
 	<table class="form_table">
 		<tr>
-			<td><%= text_field_tag "first_name", @client.first_name, :placeholder => "First Name", :class => "long" %></td>
-			<td><%= text_field_tag "last_name", @client.last_name, :placeholder => "Last Name", :class => "long" %></td>
-			<td><%= select_tag "standard", "<option>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe %></td>
+			<td><%= text_field_tag "first_name", @client.first_name, :placeholder => "First Name", :class => "long field" %></td>
+			<td><%= text_field_tag "last_name", @client.last_name, :placeholder => "Last Name", :class => "long field" %></td>
+			<td><%= text_field_tag "date_of_birth", @client.date_of_birth, :placeholder => "YYYY-MM-DD", :class => "field" %></td>
+			<td><%= select_tag "standard", "<option>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "field" %></td>
 		</tr>
 	</table>
 </div>
@@ -12,16 +13,16 @@
 	<h3>Contact</h3>
 	<table class="form_table">
 		<tr>
-			<td><%= text_field_tag "address_line_1", @client.address_line_1, :placeholder => "Address Line 1", :class => "long" %></td>
-			<td><%= text_field_tag "address_line_2", @client.address_line_2, :placeholder => "Address Line 2", :class => "long" %></td>
-			<td><%= text_field_tag "city", @client.city, :placeholder => "City" %></td>
-			<td><%= text_field_tag "county", @client.county, :placeholder => "County" %></td>
-			<td><%= text_field_tag "country", @client.country, :placeholder => "Country" %></td>
-			<td><%= text_field_tag "post_code", @client.post_code, :placeholder => "Post Code" %></td>
+			<td><%= text_field_tag "address_line_1", @client.address_line_1, :placeholder => "Address Line 1", :class => "long field" %></td>
+			<td><%= text_field_tag "address_line_2", @client.address_line_2, :placeholder => "Address Line 2", :class => "long field" %></td>
+			<td><%= text_field_tag "city", @client.city, :placeholder => "City", :class => "field" %></td>
+			<td><%= text_field_tag "county", @client.county, :placeholder => "County", :class => "field" %></td>
+			<td><%= text_field_tag "country", @client.country, :placeholder => "Country", :class => "field" %></td>
+			<td><%= text_field_tag "post_code", @client.post_code, :placeholder => "Post Code", :class => "field" %></td>
 		</tr>
 		<tr>
-			<td>Home: <%= text_field_tag "home_phone", @client.home_phone, :placeholder => "Home Phone" %></td>
-			<td>Mobile: <%= text_field_tag "mobile_phone", @client.mobile_phone, :placeholder => "Mobile Phone" %></td>
+			<td>Home: <%= text_field_tag "home_phone", @client.home_phone, :placeholder => "Home Phone", :class => "field" %></td>
+			<td>Mobile: <%= text_field_tag "mobile_phone", @client.mobile_phone, :placeholder => "Mobile Phone", :class => "field" %></td>
 		</tr>
 	</table class="form_table">
 </div>
@@ -29,16 +30,14 @@
 	<h3>Emergency</h3>
 	<table class="form_table">
 		<tr>
-			<td><%= text_field_tag "emergency_contact_name", @client.emergency_contact_name, :placeholder => "Emergency Contact Name", :class => "long" %></td>
-			<td><%= text_field_tag "emergency_contact_phone", @client.emergency_contact_phone, :placeholder => "Emergency Contact Phone", :class => "long" %></td>
+			<td><%= text_field_tag "emergency_contact_name", @client.emergency_contact_name, :placeholder => "Emergency Contact Name", :class => "long field" %></td>
+			<td><%= text_field_tag "emergency_contact_phone", @client.emergency_contact_phone, :placeholder => "Emergency Contact Phone", :class => "long field" %></td>
 		</tr>
 	</table>
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		try {
-			$("select#standard").val("<%= @client.standard %>")
-		} catch (e) {}
+		try {$("select#standard").val("<%= @client.standard %>")} catch(e) {}
 	})
 </script>

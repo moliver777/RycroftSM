@@ -19,15 +19,20 @@ class ClientsController < ApplicationController
     @client = Client.find(params[:client_id])
   end
 
-  def remove
-  end
-
   def create
+    client = Client.new
+    client.set_fields params[:fields]
+    render :nothing => true
   end
 
   def update
+    client = Client.find(params[:client_id])
+    client.set_fields params[:fields]
+    render :nothing => true
   end
 
   def destroy
+    Client.find(params[:client_id]).destroy
+    render :nothing => true
   end
 end

@@ -7,13 +7,15 @@
 			<td><%= client.address %><br/><%= client.post_code if client.post_code %></td>
 			<td>Home: <%= client.home_phone if client.home_phone %><br/>Mobile: <%= client.mobile_phone if client.mobile_phone %></td>
 			<td><%= client.emergency_contact_name if client.emergency_contact_name %><br/><%= client.emergency_contact_phone if client.emergency_contact_phone %></td>
-			<td style="vertical-align:middle;">
-				<a href="/clients/edit/<%= client.id %>">Edit</a> | <a href="/clients/delete/<%= client.id %>">Delete</a>
-			</td>
+			<% if current_user.user_level != User::BASE %>
+				<td style="vertical-align:middle;">
+					<a href="/notes/clients/<%= client.id %>">Notes</a> | <a href="/clients/edit/<%= client.id %>">Edit</a> | <a onclick="confirmation('<%= client.first_name+" "+client.last_name %>','/clients/delete/<%= client.id %>')">Delete</a>
+				</td>
+			<% end %>
 		</tr>
 	<% end %>
 <% else %>
 	<tr>
-		<td colspan="<%= current_user.user_level == User::BASE ? 5 : 6 %>" class="center"><strong>No clients found</strong></td>
+		<td colspan="<%= current_user.user_level == User::BASE ? 6 : 7 %>" class="center"><strong>No clients found</strong></td>
 	</tr>
 <% end %>

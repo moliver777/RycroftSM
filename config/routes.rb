@@ -24,8 +24,7 @@ RycroftSM::Application.routes.draw do
   post "/clients/create" => "clients#create"
   get "/clients/edit/:client_id" => "clients#edit"
   post "/clients/update/:client_id" => "clients#update"
-  get "/clients/delete/:delete_id" => "clients#remove_info"
-  post "/clients/delete/:delete_id" => "clients#destroy"
+  post "/clients/delete/:client_id" => "clients#destroy"
 
   # HORSES
   get "/horses" => "horses#index"
@@ -69,9 +68,13 @@ RycroftSM::Application.routes.draw do
   get "/notes" => "notes#index"
   get "/notes/general" => "notes#general"
   get "/notes/bookings" => "notes#bookings"
+  get "/notes/bookings/:booking_id" => "notes#show_booking"
   get "/notes/clients" => "notes#clients"
+  get "/notes/clients/:client_id" => "notes#show_client"
   get "/notes/horses" => "notes#horses"
+  get "/notes/horses/:horse_id" => "notes#show_horse"
   get "/notes/staff" => "notes#staff"
+  get "/notes/staff/:staff_id" => "notes#show_staff"
   get "/notes/new" => "notes#new"
   post "/notes/create" => "notes#create"
   get "/notes/edit/:note_id" => "notes#edit"
