@@ -4,6 +4,7 @@ class SessionController < ApplicationController
   skip_before_filter :user_permission?
 
   def login
+    session[:username] = nil
     @error = session[:error] if session[:error]
     render :layout => "login"
   end
@@ -11,7 +12,7 @@ class SessionController < ApplicationController
   def create
     user = User.where(:username => params[:username]).first
     if user
-      if params[:password] == user.password
+      if params[:password] == User.decrypt(user.password)
         session[:username] = user.username
         session[:error] = nil
       else

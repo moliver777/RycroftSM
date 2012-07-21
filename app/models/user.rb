@@ -1,3 +1,5 @@
+require 'encryptor'
+
 class User < ActiveRecord::Base
   BASE = "BASE"
   SUPER = "SUPER"
