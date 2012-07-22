@@ -1,2 +1,38 @@
-HORSES
-index.html.erb
+<h2>Horses</h2>
+<% if current_user.user_level != User::BASE %>
+	<a href="/horses/new" style="float:right;padding:5px;">Add New Horse</a>
+<% end %>
+<table id="clients" style="width:100%;">
+	<tr class="header">
+		<th class="sorted sortable" sort="last_name" mod="ASC" style="width:15%;"><span class="sort"></span>Name</th>
+		<th class="sortable" sort="date_of_birth" mod="DESC" style="width:10%"><span class="sort"></span>Standard</th>
+		<th class="sortable" sort="standard" mod="DESC" style="width:12%;"><span class="sort"></span>Max Day Workload</th>
+		<th class="sortable" sort="standard" mod="DESC" style="width:10%;"><span class="sort"></span>Availability</th>
+		<th style="width:10%;">Farrier Due</th>
+		<th style="width:10%;">Worming Due</th>
+		<th style="width:10%;">Vet Due</th>
+		<th style="width:10%;">Medication Due</th>
+		<th>Links</th>
+	</tr>
+	<%= render :partial => "table_contents" %>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("th.sortable"), function(i,sort) {
+			$(sort).unbind("click").click(function() {
+				$("th.sortable").removeClass("sorted");
+				$(this).addClass("sorted");
+				($(this).attr("mod") == "ASC") ? $(this).attr("mod", "DESC") : $(this).attr("mod", "ASC");
+				$.ajax({
+					url: "/horses/sort/"+$(this).attr("sort")+"/"+$(this).attr("mod"),
+					type: "GET",
+					success: function(json) {
+						$('table#horses tr:not(.header)').remove();
+						$('table#horses').append(json);
+					}
+				})
+			})
+		})
+	})
+</script>

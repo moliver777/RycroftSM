@@ -1,0 +1,41 @@
+<% if !@horses.empty? %>
+	<% @horses.each do |horse| %>
+		<tr>
+			<td><%= horse.name if horse.name %></td>
+			<td><%= horse.standard.downcase.capitalize if horse.standard %></td>
+			<td><%= horse.max_day_workload if horse.max_day_workload %></td>
+			<td class="center">
+				<% if horse.availability %>
+					<input class="availability" type="checkbox" horse_id="<%= horse.id %>" checked="true"></input>
+				<% else %>
+					<input class="availability" type="checkbox" horse_id="<%= horse.id %>"></input>
+				<% end %>
+			</td>
+			<td><%= horse.farrier_due %></td>
+			<td><%= horse.worming_due %></td>
+			<td><%= horse.vet_due %></td>
+			<td><%= horse.medication_due %></td>
+			<td style="vertical-align:middle;">
+				<a href="/notes/horses/<%= horse.id %>">Notes</a> 
+				<% if current_user.user_level != User::BASE %>
+					 | <a href="/horses/edit/<%= horse.id %>">Edit</a> | <a onclick="confirmation('<%= horse.name %>','/horses/delete/<%= horse.id %>')">Delete</a>
+				<% end %>
+			</td>
+		</tr>
+	<% end %>
+<% else %>
+	<tr>
+		<td colspan="9" class="center"><strong>No horses found</strong></td>
+	</tr>
+<% end %>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input.availability").unbind("click").click(function() {
+			$.ajax({
+				url: "/horses/availability/"+$(this).attr('horse_id')+"/"+$(this).is(':checked'),
+				type: "POST"
+			})
+		})
+	})
+</script>
