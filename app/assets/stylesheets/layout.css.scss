@@ -55,10 +55,19 @@ a:hover {
   font-weight: bold;
   font-size: 20px;
   margin-bottom: 5px;
+  float: left;
+}
+
+#header #search_bar {
+  float: right;
 }
 
 #header #title .oversize {
   font-size: 25px;
+}
+
+#header #toolbar {
+  clear: both;
 }
 
 #header #user {

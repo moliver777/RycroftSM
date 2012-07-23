@@ -54,3 +54,13 @@ function save(root,url) {
 function cancel(url) {
 	window.location.replace(url)
 }
+
+// CLIENT SEARCH
+$(document).ready(function() {
+	$("button#search").unbind("click").click(function() {
+		window.location.href = "/search/"+$("input#search_field").val();
+	})
+	$("input#search_field").keypress(function(event) {
+		if (event.which == 13) $("button#search").trigger("click");
+	})
+})

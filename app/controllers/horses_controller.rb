@@ -15,6 +15,10 @@ class HorsesController < ApplicationController
     @horse = Horse.new
   end
 
+  def show
+    @horse = Horse.find(params[:horse_id])
+  end
+
   def edit
     @horse = Horse.find(params[:horse_id])
   end

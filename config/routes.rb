@@ -1,6 +1,9 @@
 RycroftSM::Application.routes.draw do
   root :to => "home#index"
 
+  # SEARCH
+  get "/search/:search" => "home#search"
+
   # SCHEDULE
   get "/schedule" => "home#schedule"
   # get "/schedule/:date" => "home#schedule_date"
@@ -22,6 +25,7 @@ RycroftSM::Application.routes.draw do
   get "/clients/sort/:sort/:mod" => "clients#sort"
   get "/clients/new" => "clients#new"
   post "/clients/create" => "clients#create"
+  get "/clients/show/:client_id" => "clients#show"
   get "/clients/edit/:client_id" => "clients#edit"
   post "/clients/update/:client_id" => "clients#update"
   post "/clients/delete/:client_id" => "clients#destroy"
@@ -31,16 +35,11 @@ RycroftSM::Application.routes.draw do
   get "/horses/sort/:sort/:mod" => "horses#sort"
   get "/horses/new" => "horses#new"
   post "/horses/create" => "horses#create"
+  get "/horses/show/:horse_id" => "horses#show"
   get "/horses/edit/:horse_id" => "horses#edit"
   post "/horses/update/:horse_id" => "horses#update"
   post "/horses/delete/:delete_id" => "horses#destroy"
   post "/horses/availability/:horse_id/:value" => "horses#availability"
-
-  # WELFARE
-  get "/horses/welfare" => "welfare#index"
-  # get "/horses/welfare/:horse_id" => "welfare#show"
-  # get "/horses/welfare/edit/:horse_id" => "welfare#edit"
-  # post "/horses/welfare/update/:horse_id" => "welfare#update"
 
   # STAFF
   get "/staff" => "staff#index"
