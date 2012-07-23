@@ -2,13 +2,13 @@ RycroftSM::Application.routes.draw do
   root :to => "home#index"
 
   # SCHEDULE
-  # get "/schedule" => "home#schedule"
+  get "/schedule" => "home#schedule"
   # get "/schedule/:date" => "home#schedule_date"
   # get "/schedule/event/:event_id" => "home#event"
 
   # BOOKINGS
-  # get "/bookings" => "bookings#index"
-  # get "/bookings/new" => "bookings#new"
+  get "/bookings" => "bookings#index"
+  get "/bookings/new" => "bookings#new"
   # post "/bookings/create" => "bookings#create"
   # get "/bookings/edit" => "bookings#edit"
   # get "/bookings/edit/:booking_id" => "bookings#show"
@@ -37,7 +37,7 @@ RycroftSM::Application.routes.draw do
   post "/horses/availability/:horse_id/:value" => "horses#availability"
 
   # WELFARE
-  # get "/horses/welfare" => "welfare#index"
+  get "/horses/welfare" => "welfare#index"
   # get "/horses/welfare/:horse_id" => "welfare#show"
   # get "/horses/welfare/edit/:horse_id" => "welfare#edit"
   # post "/horses/welfare/update/:horse_id" => "welfare#update"
@@ -52,22 +52,22 @@ RycroftSM::Application.routes.draw do
   post "/staff/delete/:staff_id" => "staff#destroy"
 
   # REPORTS
-  # get "/reports" => "reports#index"
+  get "/reports" => "reports#index"
   # get "/reports/bookings" => "reports#bookings"
   # get "/reports/clients/:client_id" => "reports#client"
   # get "/reports/horses/:horse_id" => "reports#horse"
   # get "/reports/staff/:staff_id" => "reports#staff"
 
   # NOTES
-  # get "/notes" => "notes#index"
-  # get "/notes/general" => "notes#general"
-  # get "/notes/bookings" => "notes#bookings"
+  get "/notes" => "notes#index"
+  get "/notes/general" => "notes#general"
+  get "/notes/bookings" => "notes#bookings"
   # get "/notes/bookings/:booking_id" => "notes#show_booking"
-  # get "/notes/clients" => "notes#clients"
+  get "/notes/clients" => "notes#clients"
   # get "/notes/clients/:client_id" => "notes#show_client"
-  # get "/notes/horses" => "notes#horses"
+  get "/notes/horses" => "notes#horses"
   # get "/notes/horses/:horse_id" => "notes#show_horse"
-  # get "/notes/staff" => "notes#staff"
+  get "/notes/staff" => "notes#staff"
   # get "/notes/staff/:staff_id" => "notes#show_staff"
   # get "/notes/new" => "notes#new"
   # post "/notes/create" => "notes#create"
@@ -76,18 +76,18 @@ RycroftSM::Application.routes.draw do
   # post "/notes/delete/:note_id" => "notes#destroy"
 
   # ADMIN
-  # get "/admin" => "admin#index"
-  # get "/admin/users" => "users#index"
+  get "/admin" => "admin#index"
+  get "/admin/users" => "users#index"
   # get "/admin/users/new" => "users#new"
   # post "/admin/users/create" => "users#create"
   # get "/admin/users/edit/:username" => "users#edit"
   # post "/admin/users/update/:username" => "users#update"
   # post "/admin/users/delete/:username" => "users#destroy"
-  # get "/admin/preferences" => "admin#preferences"
+  get "/admin/preferences" => "admin#preferences"
   # post "/admin/update_preferences" => "admin#update_preferences"
-  # get "/admin/site_settings" => "admin#site_settings"
+  get "/admin/site_settings" => "admin#site_settings"
   # post "/admin/update_site_settings" => "admin#update_site_settings"
-  # get "/admin/venues" => "venues#index"
+  get "/admin/venues" => "venues#index"
   # get "/admin/venues/new" => "venues#new"
   # post "/admin/venues/create" => "venues#create"
   # get "/admin/venues/edit/:venue_id" => "venues#edit"
