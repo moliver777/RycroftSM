@@ -95,9 +95,8 @@ RycroftSM::Application.routes.draw do
   # post "/admin/venues/delete/:venue_id" => "venues#destroy"
 
   # ACCOUNT
-  # get "/account" => "account#index"
-  # get "/account/edit" => "account#edit"
-  # post "/account/update" => "account#update"
+  get "/account" => "account#index"
+  post "/account/change_password" => "account#change_password"
 
   # SESSION
   get "/login" => "session#login"

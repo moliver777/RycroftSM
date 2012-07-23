@@ -19,6 +19,10 @@ html {
   text-align: center;
 }
 
+.right {
+  text-align: right;
+}
+
 a {
   text-decoration: none;
   color: black;
@@ -49,6 +53,10 @@ a:hover {
   margin-bottom: 5px;
 }
 
+#header #title .oversize {
+  font-size: 25px;
+}
+
 #header #user {
   float: right;
 }
@@ -65,7 +73,7 @@ a:hover {
 #header #menu .menu_link .sub_links {
   position: absolute;
   width: 7%;
-  margin-top: 8px;
+  margin-top: 2px;
   padding-bottom: 5px;
   background-color: #D4CFD0;
   border-width: 0 2px 2px 2px;

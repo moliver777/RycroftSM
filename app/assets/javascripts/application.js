@@ -31,6 +31,9 @@ function save(root,url) {
 	$.each($("select.field"), function(i,field) {
 		params[$(field).attr("id")] = $(field).val();
 	})
+	$.each($("input.field[type='checkbox']"), function(i,field) {
+		params[$(field).attr("id")] = $(field).is(":checked");
+	})
 	$.ajax({
 		url: url,
 		type: "POST",

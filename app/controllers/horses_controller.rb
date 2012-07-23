@@ -6,7 +6,9 @@ class HorsesController < ApplicationController
   end
 
   def sort
-    # todo
+    @horses = Horse.order(params[:sort]+" "+params[:mod]+", name")
+    view = render_to_string(:partial => "table_contents")
+    render :json => view.to_json
   end
 
   def new
@@ -14,7 +16,7 @@ class HorsesController < ApplicationController
   end
 
   def edit
-    # todo
+    @horse = Horse.find(params[:horse_id])
   end
 
   def availability
@@ -25,14 +27,19 @@ class HorsesController < ApplicationController
   end
 
   def create
-    # todo
+    horse = Horse.new
+    horse.set_fields params[:fields]
+    render :nothing => true
   end
 
   def update
-    # todo
+    horse = Horse.find(params[:horse_id])
+    horse.set_fields params[:fields]
+    render :nothing => true
   end
 
   def destroy
-    # todo
+    Horse.find(params[:horse_id]).destroy
+    render :nothing => true
   end
 end

@@ -6,7 +6,10 @@ class User < ActiveRecord::Base
   MASTER = "MASTER"
   LEVELS = [BASE,SUPER,MASTER]
 
-  self.primary_key = :username
+  def change_password password
+    self.password = User.encrypt(password)
+    self.save
+  end
 
   def self.encrypt password
     Encryptor::Aes256.new.digest password, 0

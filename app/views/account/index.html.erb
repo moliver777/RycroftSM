@@ -1,2 +1,44 @@
-ACCOUNT
-index.html.erb
+<h2 class="center">My Account</h2>
+<div class="center">
+<table class="account_table">
+	<tr>
+		<td class="right"><strong>Username:</strong></td><td><%= current_user.username %></td>
+	</tr>
+	<tr>
+		<td class="right"><strong>First Name:</strong></td><td><%= current_user.first_name %></td>
+	</tr>
+	<tr>
+		<td class="right"><strong>Last Name:</strong></td><td><%= current_user.last_name %></td>
+	</tr>
+	<tr>
+		<td class="right"><strong>User Permission Level:</strong></td><td><%= current_user.user_level.downcase.capitalize %></td>
+	</tr>
+</table>
+</div>
+
+<div class="center">
+	<h3 class="center">Change Password</h3>
+	<%= password_field_tag :old_password, "", :placeholder => "Old Password", :class => "long field" %><br/>
+	<%= password_field_tag :new_password, "", :placeholder => "New Password", :class => "long field" %><br/>
+	<%= password_field_tag :confirm_password, "", :placeholder => "Confirm New Password", :class => "long field" %><br/>
+	<button id="save">Confirm</button><br/><br/>
+	<span id="password_change_result"></span>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("button#save").unbind("click").click(function() {
+			if ($("input#new_password").val().length > 0) {
+				$.ajax({
+					url: "/account/change_password",
+					type: "POST",
+					data: {old: $("input#old_password").val(), pass: $("input#new_password").val(), confirm: $("input#confirm_password").val()},
+					success: function(json) {
+						json.error ? $("span#password_change_result").addClass("error") : $("span#password_change_result").removeClass("error");
+						$("span#password_change_result").html(json.result);
+					}
+				})
+			}
+		})
+	})
+</script>

@@ -7,6 +7,28 @@ class Horse < ActiveRecord::Base
   has_many :bookings
   has_many :notes
 
+  def set_fields fields
+    self.name = fields[:name]
+    self.standard = fields[:standard]
+    self.availability = fields[:availability] == "true" ? true : false
+    self.max_day_workload = fields[:max_day_workload]
+
+    self.farrier = fields[:farrier] == "true" ? true : false
+    self.farrier_date = fields[:farrier_date] if self.farrier
+    self.farrier_freq = fields[:farrier_freq] if self.farrier
+    self.worming = fields[:worming] == "true" ? true : false
+    self.worming_date = fields[:worming_date] if self.worming
+    self.worming_freq = fields[:worming_freq] if self.worming
+    self.vet = fields[:vet] == "true" ? true : false
+    self.vet_date = fields[:vet_date] if self.vet
+    self.vet_freq = fields[:vet_freq] if self.vet
+    self.medication = fields[:medication] == "true" ? true : false
+    self.medication_date = fields[:medication_date] if self.medication
+    self.medication_freq = fields[:medication_freq] if self.medication
+
+    self.save!
+  end
+
   def farrier_due
     if self.farrier
       date = self.farrier_date
