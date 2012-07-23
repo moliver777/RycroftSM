@@ -1,2 +1,11 @@
-VENUES
-_form.html.erb
+<div class="form_section">
+	<h3>Details</h3>
+	<table class="form_table">
+		<tr>
+			<td><%= text_field_tag "name", @venue.name, :placeholder => "Name", :class => "long field" %></td>
+		</tr>
+		<tr>
+			<td><%= text_area_tag "description", @venue.description, :placeholder => "Description", :class => "field", :size => "80x10" %></td>
+		</tr>
+	</table>
+</div>

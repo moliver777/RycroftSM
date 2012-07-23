@@ -1,2 +1,26 @@
-VENUES
-index.html.erb
+<h2>Venues</h2>
+<a href="/admin/venues/new" style="float:right;padding:5px;">Add New Venue</a>
+<div style="clear:both;">
+	<table id="users" style="width:75%;">
+		<tr class="header">
+			<th style="width:25%;">Name</th>
+			<th style="width:50%;">Description</th>
+			<th>Links</th>
+		</tr>
+		<% if !@venues.empty? %>
+			<% @venues.each do |venue| %>
+				<tr>
+					<td><%= venue.name if venue.name %></td>
+					<td style="word-wrap:break-word;"><%= venue.description if venue.description %></td>
+					<td style="vertical-align:middle;">
+						<a href="/admin/venues/edit/<%= venue.id %>">Edit</a> | <a onclick="confirmation('<%= venue.name %>','/admin/venues/delete/<%= venue.id %>')">Delete</a>
+					</td>
+				</tr>
+			<% end %>
+		<% else %>
+			<tr>
+				<td colspan="3" class="center"><strong>No venues found</strong></td>
+			</tr>
+		<% end %>
+	</table>
+</div>

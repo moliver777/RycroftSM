@@ -89,11 +89,11 @@ RycroftSM::Application.routes.draw do
   get "/admin/site_settings" => "admin#site_settings"
   # post "/admin/update_site_settings" => "admin#update_site_settings"
   get "/admin/venues" => "venues#index"
-  # get "/admin/venues/new" => "venues#new"
-  # post "/admin/venues/create" => "venues#create"
-  # get "/admin/venues/edit/:venue_id" => "venues#edit"
-  # post "/admin/venues/update/:venue_id" => "venues#update"
-  # post "/admin/venues/delete/:venue_id" => "venues#destroy"
+  get "/admin/venues/new" => "venues#new"
+  post "/admin/venues/create" => "venues#create"
+  get "/admin/venues/edit/:venue_id" => "venues#edit"
+  post "/admin/venues/update/:venue_id" => "venues#update"
+  post "/admin/venues/delete/:venue_id" => "venues#destroy"
 
   # ACCOUNT
   get "/account" => "account#index"

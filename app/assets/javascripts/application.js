@@ -36,15 +36,10 @@ function reset(id,url) {
 // SAVE NEW/EDIT
 function save(root,url) {
 	params = {}
-	$.each($("input.field"), function(i,field) {
-		params[$(field).attr("id")] = $(field).val();
-	})
-	$.each($("select.field"), function(i,field) {
-		params[$(field).attr("id")] = $(field).val();
-	})
-	$.each($("input.field[type='checkbox']"), function(i,field) {
-		params[$(field).attr("id")] = $(field).is(":checked");
-	})
+	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
+	$.each($("select.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.each($("textarea.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
 	$.ajax({
 		url: url,
 		type: "POST",

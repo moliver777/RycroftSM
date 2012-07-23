@@ -26,23 +26,3 @@
 		<% end %>
 	</table>
 </div>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		$.each($("th.sortable"), function(i,sort) {
-			$(sort).unbind("click").click(function() {
-				$("th.sortable").removeClass("sorted");
-				$(this).addClass("sorted");
-				($(this).attr("mod") == "ASC") ? $(this).attr("mod", "DESC") : $(this).attr("mod", "ASC");
-				$.ajax({
-					url: "/horses/sort/"+$(this).attr("sort")+"/"+$(this).attr("mod"),
-					type: "GET",
-					success: function(json) {
-						$('table#horses tr:not(.header)').remove();
-						$('table#horses').append(json);
-					}
-				})
-			})
-		})
-	})
-</script>
