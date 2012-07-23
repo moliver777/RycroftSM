@@ -1,0 +1,20 @@
+#admin_links {
+  margin: 100px auto 0 auto;
+  border: 0;
+  border-collapse: separate;
+  border-spacing: 10px;
+}
+
+#admin_links td {
+  vertical-align: center;
+  text-align: center;
+  width: 20%;
+  line-height: 80px;
+  height: 80px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#admin_links td:hover {
+  background-color: rgba(0,0,0,0.1);
+}

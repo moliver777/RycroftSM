@@ -9,7 +9,7 @@
 </div>
 
 <script type="text/javascript">
-	$('button#login').unbind('click').click(function() {
+	$('button#login').unbind("click").click(function() {
 		$.ajax({
 			url: "/login",
 			type: "POST",
@@ -18,5 +18,9 @@
 				window.location.replace("/")
 			}
 		})
+	})
+
+	$("input#password").keypress(function(event) {
+		if (event.which == 13) $("button#login").trigger("click");
 	})
 </script>
