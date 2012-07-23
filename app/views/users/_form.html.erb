@@ -1,2 +1,46 @@
-USERS
-_form.html.erb
+<div class="form_section">
+	<h3>Details</h3>
+	<table class="form_table">
+		<tr>
+			<td><%= text_field_tag "username", @user.username, :placeholder => "Username", :class => "long field" %></td>
+			<td><%= text_field_tag "first_name", @user.first_name, :placeholder => "First Name", :class => "long field" %></td>
+			<td><%= text_field_tag "last_name", @user.last_name, :placeholder => "Last Name", :class => "long field" %></td>
+		</tr>
+	</table>
+</div>
+<div class="form_section">
+	<h3>Permissions</h3>
+	<table class="form_table">
+		<tr>
+			<td><%= select_tag "user_level", "<option value='0'>Select Permission Level</option><option value='BASE'>Base</option><option value='SUPER'>Super</option><option value='MASTER'>Master</option>".html_safe, :class => "field" %></td>
+		</tr>
+		<tr>
+			<td id="level_desc">&nbsp;</td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("select#user_level").unbind("change").change(function() {
+			switch ($(this).val()) {
+				case "0" : 
+					$("td#level_desc").html("&nbsp;")
+				break;
+				case "BASE" : 
+					$("td#level_desc").html("Can view records but can't create, edit or delete them. Cannot create bookings.")
+				break;
+				case "SUPER" : 
+					$("td#level_desc").html("Can create, edit and delete records. Can create, edit and cancel bookings.")
+				break;
+				case "MASTER" : 
+					$("td#level_desc").html("No restrictions. Access to site settings, users, venues and able to reset user passwords.")
+				break;
+			}
+		})
+
+		try {
+			$("select#user_level").val("<%= @user.user_level %>").trigger("change")
+		} catch(e) {}
+	})
+</script>

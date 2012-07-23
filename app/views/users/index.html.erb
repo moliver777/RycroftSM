@@ -1,2 +1,48 @@
-USERS
-index.html.erb
+<h2>Users</h2>
+<a href="/admin/users/new" style="float:right;padding:5px;">Add New User</a>
+<div style="clear:both;">
+	<table id="users" style="width:50%;">
+		<tr class="header">
+			<th style="width:25%;">Level</th>
+			<th style="width:25%;">Username</th>
+			<th style="width:25%;">Name</th>
+			<th>Links</th>
+		</tr>
+		<% if !@users.empty? %>
+			<% @users.each do |user| %>
+				<tr>
+					<td><%= user.user_level.downcase.capitalize if user.user_level %></td>
+					<td><%= user.username if user.username %></td>
+					<td><%= user.last_name if user.last_name %>, <%= user.first_name if user.first_name %></td>
+					<td style="vertical-align:middle;">
+						<a onclick="reset('<%= user.username %>','/admin/users/reset_password/<%= user.username %>')">Reset Password</a> | <a href="/admin/users/edit/<%= user.username %>">Edit</a> | <a onclick="confirmation('<%= user.username %>','/admin/users/delete/<%= user.username %>')">Delete</a>
+					</td>
+				</tr>
+			<% end %>
+		<% else %>
+			<tr>
+				<td colspan="4" class="center"><strong>No users found</strong></td>
+			</tr>
+		<% end %>
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("th.sortable"), function(i,sort) {
+			$(sort).unbind("click").click(function() {
+				$("th.sortable").removeClass("sorted");
+				$(this).addClass("sorted");
+				($(this).attr("mod") == "ASC") ? $(this).attr("mod", "DESC") : $(this).attr("mod", "ASC");
+				$.ajax({
+					url: "/horses/sort/"+$(this).attr("sort")+"/"+$(this).attr("mod"),
+					type: "GET",
+					success: function(json) {
+						$('table#horses tr:not(.header)').remove();
+						$('table#horses').append(json);
+					}
+				})
+			})
+		})
+	})
+</script>

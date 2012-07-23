@@ -22,6 +22,17 @@ function confirmation(id,url) {
 	}
 }
 
+// CONFIRM RESET
+function reset(id,url) {
+	var result = confirm("Reset password for "+id+". The password will be set to 'password'. Are you sure?");
+	if (result) {
+		$.ajax({
+			url: url,
+			type: "POST"
+		})
+	}
+}
+
 // SAVE NEW/EDIT
 function save(root,url) {
 	params = {}

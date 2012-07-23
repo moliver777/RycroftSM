@@ -1,2 +1,7 @@
-USERS
-new.html.erb
+<h2>New User</h2>
+<%= render :partial => "form" %>
+<div class="form_section">
+	<h3>Password</h3>
+	Password will be set to the default, "password". This can be changed after logging in through the 'my account' section.
+</div>
+<button id="cancel" onclick="window.location.replace('/admin/users')">Cancel</button><button id="save" onclick="save('/admin/users','/admin/users/create')">Save</button>
