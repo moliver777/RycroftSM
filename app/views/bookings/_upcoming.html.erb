@@ -1,0 +1,57 @@
+<a class="change_date" date="<%= @date.advance(:days => -1).strftime("%Y-%m-%d") %>" style="float:left;"><< &nbsp;<%= @date.advance(:days => -1).strftime("%Y-%m-%d") %></a>
+<h3 id="upcoming_title">
+	<% if @date == Date.today %>
+		Todays Bookings
+	<% else %>
+		<%= @date < Date.today ? "Past" : "Future" %> Bookings : <%= @date.strftime("%Y-%m-%d") %>
+	<% end %>
+</h3>
+<a class="change_date" date="<%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>" style="float:right;"><%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>&nbsp; >></a>
+<br/>
+<table id="upcoming" style="width:100%">
+	<tr class="header">
+		<th>Event Name</th>
+		<th>Type</th>
+		<th>Capacity</th>
+		<th>Venue</th>
+		<th>Start Time</th>
+		<th>Client</th>
+		<th>Horse</th>
+		<th>Links</th>
+	</tr>
+	<% if !@upcoming.empty? %>
+		<% @upcoming.each do |event| %>
+			<% event.bookings.includes(:client).sort{|a,b| a.client.last_name <=> b.client.last_name}.each do |booking| %>
+				<tr>
+					<td><%= event.name if event.name %></td>
+					<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
+					<td><%= event.capacity if event.capacity %></td>
+					<td><%= event.venue.name if event.venue rescue nil %></td>
+					<td><%= event.start_time.strftime("%H:%M") if event.start_time %></td>
+					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.last_name if booking.client rescue nil %>, <%= booking.client.first_name if booking.client rescue nil %></a></td>
+					<td><a href="/horses/show/<%= booking.horse_id %>"><%= booking.horse.name if booking.horse rescue nil %></a></td>
+					<td>
+						<a href="/bookings/show/<%= booking.id %>">Details</a> | <a href="/notes/bookings/<%= booking.id %>">Notes</a>
+						<% if current_user.user_level != User::BASE %>
+							 | <a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a href="/bookings/cancel/<%= booking.id %>">Cancel</a>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		<% end %>
+	<% else %>
+		<tr>
+			<td colspan="8" class="center">No bookings found</td>
+		</tr>
+	<% end %>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("a.change_date"), function(i,date) {
+			$(date).unbind("click").click(function() {
+				$("div#upcoming_bookings").load("/bookings/upcoming/"+$(this).attr("date"));
+			})
+		})
+	})
+</script>

@@ -1,0 +1,132 @@
+<tr>
+	<% 15.times do |hr| %>
+		<% hr += 7 %>
+		<td colspan="4"><%= hr.to_s+":00" %></td>
+	<% end %>
+</tr>
+<% if !@venue %>
+	<tr><td colspan="60" style="text-align:center;font-weight:bold;height:20px;">Select a venue to see available times</td></tr>
+<% else %>
+	<tr>
+		<% 15.times do |hr| %>
+			<% hr += 7 %>
+			<% 4.times do |min| %>
+				<% min = min*15 %>
+				<td class="seg" style="height:20px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+			<% end %>
+		<% end %>
+	</tr>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var venue_events = JSON.parse('<%= @venue_events.to_json.html_safe %>');
+			$.each(venue_events, function(i,evt) {
+				var count = -1;
+				var current = (evt.id == parseInt("<%= @event.id if @event %>"));
+				$.each($("td.seg"), function(j,seg) {
+					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
+						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");
+						count = 1;
+					}
+					if (count != -1) {
+						if (count < evt.duration) {
+							count++;
+							current ? $(seg).addClass("selected") : $(seg).addClass("used");
+						} else {
+							count = -1;
+							current ? $(seg).addClass("selected last") : $(seg).addClass("used last");
+						}
+					}
+				})
+			})
+
+			$("button#clear").unbind("click").click(function() {
+				$("#venue_timetable td.selected").removeClass("selected first last");
+				$("input#start_time").val("");
+				$("input#end_time").val("");
+				$("input#duration").val("0:00");
+				$("#set_time").removeClass().addClass("start").attr("disabled", false).html("Set Start Time");
+				timetableInteraction();
+			})
+			timetableInteraction();
+
+			function timetableInteraction() {
+				if ($("#set_time").hasClass("start")) {
+					$("#set_time").unbind("click").click(function() {
+						var self = this;
+						$(this).addClass("on");
+						$.each($("td.seg"), function(i,seg) {
+							$(seg).unbind('click').click(function() {
+								$("td.seg").unbind("click");
+								if ($(this).hasClass("used")) {
+									$(self).removeClass("on");
+								} else {
+									$("input#start_time").val($(this).attr("hour")+":"+$(this).attr("mins"));
+									$(this).addClass("selected first");
+									$(self).removeClass().addClass("end on").html("Set End Time");
+									timetableInteraction();
+								}
+							})
+						})
+					})
+				} else {
+					$.each($("td.seg"), function(i,seg) {
+						$(seg).unbind('click').click(function() {
+							$("td.seg").unbind("click");
+							if ($(this).hasClass("used")) {
+								$("#set_time").removeClass("on");
+								$("td.selected").removeClass("selected first")
+								$("#set_time").removeClass().addClass("start").html("Set Start Time");
+								$("input#start_time").val("");
+								$("input#end_time").val("");
+							} else {
+								$("input#end_time").val($(this).attr("hour")+":"+$(this).attr("mins"));
+								$(this).addClass("selected last");
+								var first = false;
+								$.each($("td.seg"), function(j,seg2) {
+									if ($(seg2).hasClass("selected last") && !first) {
+										$("#set_time").removeClass("on");
+										$("td.selected").removeClass("selected first last");
+										$("#set_time").removeClass().addClass("start").html("Set Start Time");
+										$("input#start_time").val("");
+										$("input#end_time").val("");
+									}
+									if (first) {
+										if ($(seg2).hasClass("used")) {
+											$("#set_time").removeClass("on");
+											$("td.selected").removeClass("selected first last")
+											$("#set_time").removeClass().addClass("start").html("Set Start Time");
+											$("input#start_time").val("");
+											$("input#end_time").val("");
+											first = false;
+										} else if ($(seg2).hasClass("selected last")) {
+											$("#set_time").removeClass("on").attr("disabled", "disabled").html("Finished Setting Time");
+											first = false;
+										} else {
+											$(seg2).addClass("selected");
+										}
+									}
+									if ($(seg2).hasClass("selected first")) first = true;
+								})
+							}
+							$("input#duration").val(calculateDuration());
+						})
+					})
+				}
+			}
+
+			function calculateDuration() {
+				var segs = $("td.selected").length;
+				if (segs == 0) {
+					return "0:00"
+				} else {
+					mins = segs*15;
+					hours = Math.floor(mins/60);
+					mins = mins-(hours*60);
+					mins = (mins==0) ? "00" : String(mins);
+					return String(hours)+":"+mins;
+				}
+			}
+		})
+	</script>
+<% end %>
