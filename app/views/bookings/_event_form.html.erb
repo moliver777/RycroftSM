@@ -71,7 +71,13 @@
 				$("input#end_time").val("");
 				$("input#duration").val("0:00");
 				$("td.selected").removeClass("selected first last");
+				$("#set_time").removeClass().addClass("start").attr("disabled", false).html("Set Start Time");
+				timetableInteraction();
 			});
+		})
+
+		$("input#event_date").unbind("change").change(function() {
+			$("select#venue_id").trigger("change");
 		})
 	})
 </script>

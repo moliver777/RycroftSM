@@ -86,3 +86,83 @@ $(document).ready(function() {
 		if (event.which == 13) $("button#search").trigger("click");
 	})
 })
+
+// INTERACTION WITH BOOKING TIMETABLE
+function timetableInteraction() {
+	if ($("#set_time").hasClass("start")) {
+		$("#set_time").unbind("click").click(function() {
+			var self = this;
+			$(this).addClass("on");
+			$.each($("td.seg"), function(i,seg) {
+				$(seg).unbind('click').click(function() {
+					$("td.seg").unbind("click");
+					if ($(this).hasClass("used")) {
+						$(self).removeClass("on");
+					} else {
+						$("input#start_time").val($(this).attr("hour")+":"+$(this).attr("mins"));
+						$(this).addClass("selected first");
+						$(self).removeClass().addClass("end on").html("Set End Time");
+						timetableInteraction();
+					}
+				})
+			})
+		})
+	} else {
+		$.each($("td.seg"), function(i,seg) {
+			$(seg).unbind('click').click(function() {
+				$("td.seg").unbind("click");
+				if ($(this).hasClass("used")) {
+					$("#set_time").removeClass("on");
+					$("td.selected").removeClass("selected first")
+					$("#set_time").removeClass().addClass("start").html("Set Start Time");
+					$("input#start_time").val("");
+					$("input#end_time").val("");
+				} else {
+					$("input#end_time").val($(this).attr("hour")+":"+$(this).attr("mins"));
+					$(this).addClass("selected last");
+					var first = false;
+					$.each($("td.seg"), function(j,seg2) {
+						if ($(seg2).hasClass("selected last") && !first) {
+							$("#set_time").removeClass("on");
+							$("td.selected").removeClass("selected first last");
+							$("#set_time").removeClass().addClass("start").html("Set Start Time");
+							$("input#start_time").val("");
+							$("input#end_time").val("");
+						}
+						if (first) {
+							if ($(seg2).hasClass("used")) {
+								$("#set_time").removeClass("on");
+								$("td.selected").removeClass("selected first last")
+								$("#set_time").removeClass().addClass("start").html("Set Start Time");
+								$("input#start_time").val("");
+								$("input#end_time").val("");
+								first = false;
+							} else if ($(seg2).hasClass("selected last")) {
+								$("#set_time").removeClass("on").attr("disabled", "disabled").html("Finished Setting Time");
+								first = false;
+							} else {
+								$(seg2).addClass("selected");
+							}
+						}
+						if ($(seg2).hasClass("selected first")) first = true;
+					})
+				}
+				$("input#duration").val(calculateDuration());
+			})
+		})
+	}
+}
+
+// CALCULATE DURATION OF BOOKING IN SEGMENTS
+function calculateDuration() {
+	var segs = $("td.selected").length;
+	if (segs == 0) {
+		return "0:00"
+	} else {
+		mins = segs*15;
+		hours = Math.floor(mins/60);
+		mins = mins-(hours*60);
+		mins = (mins==0) ? "00" : String(mins);
+		return String(hours)+":"+mins;
+	}
+}

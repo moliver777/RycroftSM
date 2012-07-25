@@ -21,13 +21,23 @@
 	</tr>
 	<% if !@upcoming.empty? %>
 		<% @upcoming.each do |event| %>
+			<tr>
+				<td><%= event.name if event.name %></td>
+				<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
+				<td><%= event.capacity if event.capacity %></td>
+				<td><%= event.venue.name if event.venue rescue nil %></td>
+				<td><%= event.start_time.strftime("%H:%M") if event.start_time %></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
 			<% event.bookings.includes(:client).sort{|a,b| a.client.last_name <=> b.client.last_name}.each do |booking| %>
 				<tr>
-					<td><%= event.name if event.name %></td>
-					<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
-					<td><%= event.capacity if event.capacity %></td>
-					<td><%= event.venue.name if event.venue rescue nil %></td>
-					<td><%= event.start_time.strftime("%H:%M") if event.start_time %></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.last_name if booking.client rescue nil %>, <%= booking.client.first_name if booking.client rescue nil %></a></td>
 					<td><a href="/horses/show/<%= booking.horse_id %>"><%= booking.horse.name if booking.horse rescue nil %></a></td>
 					<td>
