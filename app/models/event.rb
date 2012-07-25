@@ -13,5 +13,23 @@ class Event < ActiveRecord::Base
   has_many :staff
   has_many :clients, :through => :bookings
   has_many :horses, :through => :bookings
-  has_one :venue
+  belongs_to :venue
+
+  def capacity
+    self.bookings.count.to_s+"/"+self.max_clients.to_s rescue nil
+  end
+
+  def duration
+    return "0:00" unless self.start_time && self.end_time
+    duration = self.end_time-self.start_time
+    hours = (duration/3600).to_i
+    mins = (duration/60 - hours*60).to_i
+    hours.to_s+":"+(mins == 0 ? "00" : mins.to_s)
+  end
+
+  def segment_duration
+    return 0 unless self.start_time && self.end_time
+    duration = self.end_time-self.start_time
+    ((duration/60)/15).to_i
+  end
 end

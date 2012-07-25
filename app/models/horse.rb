@@ -6,6 +6,7 @@ class Horse < ActiveRecord::Base
 
   has_many :bookings
   has_many :notes
+  has_many :events, :through => :bookings
 
   def set_fields fields
     self.name = fields[:name]
@@ -27,6 +28,20 @@ class Horse < ActiveRecord::Base
     self.medication_freq = fields[:medication_freq] if self.medication
 
     self.save!
+  end
+
+  def workload
+    hours = 0
+    mins = 0
+    self.events.each do |event|
+      duration = event.duration.split(":")
+      hours += duration[0].to_i
+      mins += duration[1].to_i
+    end
+    hours += mins/60
+    mins = mins%60
+    time = mins > 0 ? hours.to_s+":"+mins.to_s : hours.to_s
+    time+"/"+self.max_day_workload.to_s
   end
 
   def farrier_due

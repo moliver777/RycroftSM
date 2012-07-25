@@ -1,2 +1,41 @@
-BOOKINGS
-_form.html.erb
+<div class="form_section">
+	<%= render :partial => "event_form" %>
+</div>
+
+<div class="form_section">
+	<%= render :partial => "client_form" %>
+</div>
+
+<div class="form_section">
+	<h3>Horse</h3>
+	<table class="form_table">
+		<tr>
+			<td>
+				<select id="horse_id">
+					<option value="0"></option>
+					<% @horses.each do |horse| %>
+						<option value="<%= horse.id %>"><%= horse.name %> [<%= horse.standard.downcase.capitalize %>] (<%= horse.workload %>)</option>
+					<% end %>
+				</select>
+			</td>
+			<td>Leave blank if a horse is to be allocated by the system.</td>
+		</tr>
+	</table>
+	<%= hidden_field_tag "horse_id", @booking.horse_id, :class => "field" %>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("select#event_mode").val("<%= @event.id ? @event.id : 0 %>");
+		$("select#event_type").val("<%= @event.event_type ? @event.event_type : 0 %>");
+		$("select#standard").val("<%= @event.standard ? @event.standard : 0 %>");
+		$("select#venue_id").val("<%= @event.venue_id ? @event.venue_id : 0 %>");
+		$("select#horse_id").val("<%= @booking.horse_id ? @booking.horse_id : 0 %>");
+		$("input#event_date").datepicker({dateFormat: "yy-mm-dd"});
+	})
+
+	// search for clients
+	// if no client found, new client form
+	// run check on parameters and show errors before allowing save
+	// save new client to different class group and send to clients/create before creating booking
+</script>

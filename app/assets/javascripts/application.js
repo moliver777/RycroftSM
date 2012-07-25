@@ -50,6 +50,28 @@ function save(root,url) {
 	})
 }
 
+// SAVE BOOKING NEW/EDIT
+function complete_booking() {
+	params = {}
+	// if existing event add event_id to fields
+	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
+	$.each($("select.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.each($("textarea.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.ajax({
+		url: "/bookings/create",
+		type: "POST",
+		data: {fields: params},
+		success: function(json) {
+			if (json.error) {
+				
+			} else {
+				window.location.replace("/bookings/show/"+json.booking_id);
+			}
+		}
+	})
+}
+
 // CANCEL NEW/EDIT
 function cancel(url) {
 	window.location.replace(url)

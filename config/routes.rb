@@ -11,14 +11,14 @@ RycroftSM::Application.routes.draw do
 
   # BOOKINGS
   get "/bookings" => "bookings#index"
+  get "/bookings/upcoming/:date" => "bookings#upcoming"
   get "/bookings/new" => "bookings#new"
-  # post "/bookings/create" => "bookings#create"
-  # get "/bookings/edit" => "bookings#edit"
-  # get "/bookings/edit/:booking_id" => "bookings#show"
-  # post "/bookings/update/:booking_id" => "bookings#update"
-  # get "/bookings/cancel" => "bookings#cancel"
-  # get "/bookings/cancel/:booking_id" => "bookings#cancel_info"
-  # post "/bookings/cancel/:booking_id" => "bookings#destroy"
+  post "/bookings/create" => "bookings#create"
+  get "/bookings/show/:booking_id" => "bookings#show"
+  get "/bookings/edit/:booking_id" => "bookings#edit"
+  post "/bookings/update/:booking_id" => "bookings#update"
+  post "/bookings/cancel/:booking_id" => "bookings#destroy"
+  get "/reload_timetable/:date/:venue_id/:event_id" => "bookings#reload_timetable"
 
   # CLIENTS
   get "/clients" => "clients#index"

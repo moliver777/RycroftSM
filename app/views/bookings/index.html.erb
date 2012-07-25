@@ -1,2 +1,26 @@
-BOOKINGS
-index.html.erb
+<h2>Bookings</h2>
+
+<div id="upcoming_bookings">
+	<%= render :partial => "upcoming" %>
+</div>
+
+<div id="booking_controls">
+	<table id="booking_links">
+		<tr>
+			<td link="/bookings/new">New</td>
+			<td link="/bookings/search">Search</td>
+		</tr>
+	</table>
+</div>
+
+<div id="booking_notes">
+	<h3>Notes & Issues</h3>
+</div>
+
+<script type="text/javascript">
+	$.each($("#booking_links td"), function(i,link) {
+		$(link).unbind("click").click(function() {
+			window.location.href = $(this).attr("link");
+		})
+	})
+</script>
