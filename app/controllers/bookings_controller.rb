@@ -44,6 +44,12 @@ class BookingsController < ApplicationController
     render :partial => "client_fields"
   end
 
+  def horses
+    @horses = Horse.where(:availability => true).order("name")
+    @date = params[:date]
+    render :partial => "horse_form"
+  end
+
   def edit
     if params[:booking_id]
       @booking = Booking.find(params[:booking_id])
@@ -58,6 +64,7 @@ class BookingsController < ApplicationController
     @venue = @event.venue
     @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id = ?", @event.event_date, @venue.id)) if @venue
     @horses = Horse.where(:availability => true).order("name")
+    @date = @event.event_date
   end
 
   def reload_timetable

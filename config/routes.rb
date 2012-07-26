@@ -23,6 +23,7 @@ RycroftSM::Application.routes.draw do
   get "/bookings/reload_timetable/:date/:venue_id/:event_id" => "bookings#reload_timetable"
   get "/bookings/get_event/:event_id" => "bookings#event"
   get "/bookings/get_client/:client_id" => "bookings#client"
+  get "/bookings/refresh_horses/:date" => "bookings#horses"
   get "/bookings/client_search/:search" => "bookings#client_search"
 
   # CLIENTS

@@ -8,6 +8,7 @@
 //= require jquery_ujs
 //= require_tree .
 
+
 // LINK BUTTONS
 $(document).ready(function() {
 	$.each($("button.link"), function(i,link) {

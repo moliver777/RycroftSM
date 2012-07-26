@@ -30,10 +30,11 @@ class Horse < ActiveRecord::Base
     self.save!
   end
 
-  def workload
+  def workload date
+    return "n/a" unless date
     hours = 0
     mins = 0
-    self.events.each do |event|
+    self.events.where(:event_date => date).each do |event|
       duration = event.duration.split(":")
       hours += duration[0].to_i
       mins += duration[1].to_i

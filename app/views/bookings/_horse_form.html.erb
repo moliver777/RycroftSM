@@ -1,0 +1,14 @@
+<h3>Horse</h3>
+<table class="form_table">
+	<tr>
+		<td>
+			<select id="horse_id" class="field">
+				<option value="0"></option>
+				<% @horses.each do |horse| %>
+					<option value="<%= horse.id %>"><%= horse.name %> [<%= horse.standard.downcase.capitalize %>] (<%= horse.workload(@date) %>)</option>
+				<% end %>
+			</select>
+		</td>
+		<td>Leave blank if a horse is to be allocated by the system.</td>
+	</tr>
+</table>

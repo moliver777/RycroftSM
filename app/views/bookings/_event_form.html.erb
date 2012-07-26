@@ -81,6 +81,7 @@
 				} else {
 					$("#set_time").removeClass().addClass("start").attr("disabled", true).html("Finished Setting Time");
 				}
+				$("div#horse_form_container").load("/bookings/refresh_horses/"+$("input#event_date").val());
 			});
 		})
 		$("input#event_date").unbind("change").change(function() {
