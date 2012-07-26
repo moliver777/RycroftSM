@@ -6,21 +6,8 @@
 		<%= render :partial => "client_form" %>
 	</div>
 
-	<div class="form_section">
-		<h3>Horse</h3>
-		<table class="form_table">
-			<tr>
-				<td>
-					<select id="horse_id" class="field">
-						<option value="0"></option>
-						<% @horses.each do |horse| %>
-							<option value="<%= horse.id %>"><%= horse.name %> [<%= horse.standard.downcase.capitalize %>] (<%= horse.workload %>)</option>
-						<% end %>
-					</select>
-				</td>
-				<td>Leave blank if a horse is to be allocated by the system.</td>
-			</tr>
-		</table>
+	<div id="horse_form_container" class="form_section">
+		<%= render :partial => "horse_form" %>
 	</div>
 <% end %>
 
@@ -32,5 +19,6 @@
 		$("select#venue_id").val("<%= @event.venue_id ? @event.venue_id : 0 %>");
 		$("select#horse_id").val("<%= @booking.horse_id ? @booking.horse_id : 0 %>");
 		$("input#event_date").datepicker({dateFormat: "yy-mm-dd"});
+		$(".ui-datepicker").hide();
 	})
 </script>
