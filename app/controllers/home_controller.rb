@@ -13,12 +13,14 @@ class HomeController < ApplicationController
   end
 
   def schedule
-  end
-
-  def schedule_date
+    @date = params[:date] ? params[:date] : Date.today
+    @events = Event.where(:event_date => @date).order("start_time").group_by{|evt| evt.venue_id}
+    @venues = Venue.all
   end
 
   def event
+    @event = Event.find(params[:event_id])
+    render :partial => "event"
   end
 
   private

@@ -1,0 +1,19 @@
+#schedule_container {
+  margin-top: 20px;
+}
+
+#schedule {
+  width: 100%;
+}
+
+#schedule th:not(.first) {
+  border-left: 1px solid white;
+}
+
+#schedule th:not(.last) {
+  border-right: 1px solid white;
+}
+
+#schedule td.big {
+  font-size: 15px;
+}

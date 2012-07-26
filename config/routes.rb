@@ -6,8 +6,8 @@ RycroftSM::Application.routes.draw do
 
   # SCHEDULE
   get "/schedule" => "home#schedule"
-  # get "/schedule/:date" => "home#schedule_date"
-  # get "/schedule/event/:event_id" => "home#event"
+  get "/schedule/:date" => "home#schedule"
+  get "/schedule/event/:event_id" => "home#event"
 
   # BOOKINGS
   get "/bookings" => "bookings#index"

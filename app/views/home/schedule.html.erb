@@ -1,2 +1,28 @@
-HOME
-schedule.html.erb
+<% @date = Date.parse(@date) rescue @date %>
+<a href="/schedule/<%= @date.advance(:days => -1) %>" style="float:left;"><< <%= @date.advance(:days => -1) %></a>
+<a href="/schedule/<%= @date.advance(:days => 1) %>" style="float:right;"><%= @date.advance(:days => 1) %> >></a>
+<h2>Schedule: <%= @date == Date.today ? "Today" : @date %></h2>
+
+<div id="schedule_container">
+	<table id="schedule">
+		<tr id="header">
+			<th class="first">Venue</th>
+			<% 15.times do |hr| %>
+				<% hr += 7 %>
+				<th class="<%= 'last' if hr==21 %>" colspan="4"><%= (hr<10 ? "0"+hr.to_s : hr.to_s)+":00" %></th>
+			<% end %>
+		</tr>
+		<% @venues.each do |venue| %>
+			<tr venue_id="<%= venue.id %>">
+				<td class="big"><%= venue.name %></td>
+				<% 15.times do |hr| %>
+					<% hr += 7 %>
+					<% 4.times do |min| %>
+						<% min = min*15 %>
+						<td class="seg" style="height:50px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+					<% end %>
+				<% end %>
+			</tr>
+		<% end %>
+	</table>
+</div>
