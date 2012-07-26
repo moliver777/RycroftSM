@@ -1,0 +1,35 @@
+<tr>
+	<td><%= text_field_tag "first_name", @client.first_name, :placeholder => "First Name", :class => "long client_field" %><%= hidden_field_tag "client_id", (@client.id || 0) %></td>
+	<td><%= text_field_tag "last_name", @client.last_name, :placeholder => "Last Name", :class => "long client_field" %></td>
+	<td><%= text_field_tag "date_of_birth", @client.date_of_birth, :placeholder => "YYYY-MM-DD", :class => "client_field" %></td>
+	<td><%= select_tag "standard", "<option>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "client_field" %></td>
+</tr>
+<tr>
+	<td><%= text_field_tag "address_line_1", @client.address_line_1, :placeholder => "Address Line 1", :class => "long client_field" %></td>
+	<td><%= text_field_tag "address_line_2", @client.address_line_2, :placeholder => "Address Line 2", :class => "long client_field" %></td>
+	<td><%= text_field_tag "city", @client.city, :placeholder => "City", :class => "client_field" %></td>
+	<td><%= text_field_tag "county", @client.county, :placeholder => "County", :class => "client_field" %></td>
+	<td><%= text_field_tag "country", @client.country, :placeholder => "Country", :class => "client_field" %></td>
+	<td><%= text_field_tag "post_code", @client.post_code, :placeholder => "Post Code", :class => "client_field" %></td>
+</tr>
+<tr>
+	<td>Home: <%= text_field_tag "home_phone", @client.home_phone, :placeholder => "Home Phone", :class => "client_field" %></td>
+	<td>Mobile: <%= text_field_tag "mobile_phone", @client.mobile_phone, :placeholder => "Mobile Phone", :class => "client_field" %></td>
+</tr>
+<tr>
+	<td><%= text_field_tag "emergency_contact_name", @client.emergency_contact_name, :placeholder => "Emergency Contact Name", :class => "long client_field" %></td>
+	<td><%= text_field_tag "emergency_contact_phone", @client.emergency_contact_phone, :placeholder => "Emergency Contact Phone", :class => "long client_field" %></td>
+	<td><button id="clear_booking_client">Clear</button></td>
+</tr>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		try {$("select#standard.client_field").val("<%= @client.standard %>")} catch(e) {}
+
+		$("button#clear_booking_client").unbind("click").click(function() {
+			$("table.client_search").show();
+			$("table#client_search_results").empty();
+			$("table.client_fields").hide();
+		})
+	})
+</script>

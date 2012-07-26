@@ -66,18 +66,58 @@
 				var today = date.getFullYear()+"-"+((date.getMonth()+1 < 10) ? "0"+(date.getMonth()+1) : (date.getMonth()+1))+"-"+((date.getDate() < 10) ? "0"+date.getDate() : date.getDate());
 				$("input#event_date").val(today);
 			}
-			$("table#venue_timetable").load("/reload_timetable/"+$("input#event_date").val()+"/"+$(this).val()+"/"+$("select#event_mode").val(), function() {
+			$("table#venue_timetable").load("/bookings/reload_timetable/"+$("input#event_date").val()+"/"+$(this).val()+"/"+$("select#event_mode").val(), function() {
+				if (!window.blockWipeout) {
+					$("input#start_time").val("");
+					$("input#end_time").val("");
+					$("input#duration").val("0:00");
+					$("td.selected").removeClass("selected first last");
+					$("#set_time").removeClass().addClass("start").attr("disabled", false).html("Set Start Time");
+				} else {
+					$("input#duration").val(calculateDuration());
+				}
+				if ($("td.selected").length == 0) {
+					$("#set_time").removeClass().addClass("start").attr("disabled", false).html("Set Start Time");
+				} else {
+					$("#set_time").removeClass().addClass("start").attr("disabled", true).html("Finished Setting Time");
+				}
+			});
+		})
+		$("input#event_date").unbind("change").change(function() {
+			$("select#venue_id").trigger("change");
+		})
+
+		$("select#event_mode").unbind("change").change(function() {
+			if ($(this).val() == "0") {
+				$("input#event_name").val("");
+				$("select#event_type").val("0");
+				$("select#standard.field").val("0");
+				$("input#max_clients").val("");
+				$("textarea#description").val("");
 				$("input#start_time").val("");
 				$("input#end_time").val("");
 				$("input#duration").val("0:00");
-				$("td.selected").removeClass("selected first last");
-				$("#set_time").removeClass().addClass("start").attr("disabled", false).html("Set Start Time");
-				timetableInteraction();
-			});
-		})
-
-		$("input#event_date").unbind("change").change(function() {
-			$("select#venue_id").trigger("change");
+				$("select#horse_id").val("0");
+				$("select#venue_id").val("0").trigger("change");
+				$("input#event_date").val("");
+			} else {
+				$.ajax({
+					url: "/bookings/get_event/"+$(this).val(),
+					type: "GET",
+					success: function(evt) {
+						$("input#event_name").val(evt.event_name);
+						$("select#event_type").val(evt.event_type);
+						$("select#standard.field").val(evt.standard);
+						$("input#max_clients").val(evt.max_clients);
+						$("textarea#description").val(evt.description);
+						$("input#event_date").val(evt.date);
+						$("input#start_time").val(evt.formatted_start_time);
+						$("input#end_time").val(evt.formatted_end_time);
+						window.blockWipeout = true;
+						$("select#venue_id").val(evt.venue_id).trigger("change");
+					}
+				})
+			}
 		})
 	})
 </script>

@@ -79,5 +79,12 @@ tr.spaced td {
   border-right-width: 3px;
 }
 
+#client_search_results td.result {
+  border:1px solid #5f5f5f;
+  padding: 2px 10px;
+  cursor: pointer;
+}
 
-
+#client_search_results td.result:hover {
+  background-color: rgba(0,0,0,0.1);
+}

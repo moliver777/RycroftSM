@@ -1,3 +1,3 @@
 <h2>Edit "<%= @event.name if @event.name %>" <%= @event.start_time.strftime("%H:%M") if @event.start_time %><%= " - "+@booking.client.last_name+", "+@booking.client.first_name if @booking rescue nil %></h2>
 <%= render :partial => "form" %>
-<button id="cancel" onclick="window.location.replace('/bookings')">Cancel</button><button id="save" onclick="complete_booking()">Save</button>
+<button id="cancel" onclick="window.location.replace('/bookings')">Cancel</button><button id="save" onclick="completeBooking('<%= @booking.id %>')">Save</button>

@@ -1,2 +1,51 @@
-BOOKINGS
-show.html.erb
+<div class="show_section">
+	<h3>Booking</h3>
+	<table>
+		<tr>
+			<td>Event:</td>
+			<td><%= @event.name %></td>
+		</tr>
+		<tr>
+			<td>Type:</td>
+			<td><%= @event.event_type.downcase.capitalize if @event.event_type %></td>
+		</tr>
+		<tr>
+			<td>Standard:</td>
+			<td><%= @event.standard.downcase.capitalize if @event.standard %></td>
+		</tr>
+		<tr>
+			<td>Venue:</td>
+			<td><%= @event.venue.name if @event.venue %></td>
+		</tr>
+		<tr>
+			<td>Date:</td>
+			<td><%= @event.event_date %></td>
+		</tr>
+		<tr>
+			<td>Start Time:</td>
+			<td><%= @event.start_time.strftime("%H:%M") if @event.start_time %></td>
+		</tr>
+		<tr>
+			<td>End Time:</td>
+			<td><%= @event.end_time.strftime("%H:%M") if @event.end_time %></td>
+		</tr>
+	</table>
+</div>
+<div class="show_section">
+	<h3>Participant</h3>
+	<table>
+		<tr>
+			<td>Name:</td>
+			<td><%= @booking.client.first_name+" "+@booking.client.last_name if @booking.client %></td>
+		</tr>
+		<tr>
+			<td>Date of Birth:</td>
+			<td><%= @booking.client.date_of_birth if @booking.client %></td>
+		</tr>
+		<tr>
+			<td>Horse:</td>
+			<td><%= @booking.horse.name if @booking.horse %></td>
+		</tr>
+	</table>
+</div>
+<div style="text-align:center;"><button class="link" link="/bookings/edit/<%= @booking.id %>">Edit</button><button class="link" link="/bookings">Close</button></div>

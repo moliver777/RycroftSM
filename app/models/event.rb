@@ -15,6 +15,20 @@ class Event < ActiveRecord::Base
   has_many :horses, :through => :bookings
   belongs_to :venue
 
+  def set_fields fields
+    self.name = fields[:name]
+    self.description = fields[:description]
+    self.event_type = fields[:event_type]
+    self.standard = fields[:standard]
+    self.venue_id = fields[:venue_id]
+    self.event_date = fields[:event_date]
+    self.start_time = fields[:start_time]
+    self.end_time = fields[:end_time]
+    self.max_clients = fields[:max_clients]
+
+    self.save!
+  end
+
   def capacity
     self.bookings.count.to_s+"/"+self.max_clients.to_s rescue nil
   end

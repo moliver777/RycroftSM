@@ -1,4 +1,51 @@
 <h3>Client</h3>
-<table class="form_table">
-	
-</table>
+<% if @booking.client %>
+	<% @client = @booking.client %>
+	<table class="form_table client_search" style="display:none;">
+		<tr>
+			<td><button id="new_client">New</button></td>
+			<td><%= text_field_tag "booking_client_search_field" %><button id="booking_client_search">Search</button></td>
+		</tr>
+	</table>
+	<table id="client_search_results" class="form_table client_search" style="display:none;"></table>
+	<table class="form_table client_fields">
+		<%= render :partial => "client_fields" %>
+	</table>
+<% else %>
+	<table class="form_table client_search">
+		<tr>
+			<td><button id="new_client">New</button></td>
+			<td><%= text_field_tag "booking_client_search_field" %><button id="booking_client_search">Search</button></td>
+		</tr>
+	</table>
+	<table id="client_search_results" class="form_table client_search"></table>
+	<table class="form_table client_fields" style="display:none;"></table>
+<% end %>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("button#new_client").unbind("click").click(function() {
+			$.ajax({
+				url: "/bookings/get_client/new",
+				type: "GET",
+				success: function(json) {
+					$("table.client_search").hide();
+					$("table.client_fields").show();
+					$("table.client_fields").html(json);
+				}
+			})
+		})
+
+		$("button#booking_client_search").unbind("click").click(function() {
+			if ($("input#booking_client_search_field").val().length > 0) {
+				$("table#client_search_results").load("/bookings/client_search/"+$("input#booking_client_search_field").val());
+			} else {
+				$("table#client_search_results").load("/bookings/client_search/ALL");
+			}
+		})
+
+		$("input#booking_client_search_field").keypress(function(event) {
+			if (event.which == 13) $("button#booking_client_search").trigger("click");
+		})
+	})
+</script>

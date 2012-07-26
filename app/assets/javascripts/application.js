@@ -8,6 +8,15 @@
 //= require jquery_ujs
 //= require_tree .
 
+// LINK BUTTONS
+$(document).ready(function() {
+	$.each($("button.link"), function(i,link) {
+		$(link).unbind("click").click(function() {
+			window.location.href = $(this).attr("link");
+		})
+	})
+})
+
 // CONFIRM DELETE
 function confirmation(id,url) {
 	var result = confirm("Delete "+id+". Are you sure?")
@@ -51,25 +60,59 @@ function save(root,url) {
 }
 
 // SAVE BOOKING NEW/EDIT
-function complete_booking() {
+function completeBooking(id) {
 	params = {}
-	// if existing event add event_id to fields
+	if ($("select#event_mode").val() != 0) {params["event_id"] = $("select#event_mode").val()};
 	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
 	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
 	$.each($("select.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
 	$.each($("textarea.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
-	$.ajax({
-		url: "/bookings/create",
-		type: "POST",
-		data: {fields: params},
-		success: function(json) {
-			if (json.error) {
+	client = {}
+	if ($("input#client_id").val() != 0) {client["client_id"] = $("input#client_id").val()};
+	$.each($("input.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
+	$.each($("select.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
+	params["client"] = client;
+	if (id) {
+		$.ajax({
+			url: "/bookings/update/"+id,
+			type: "POST",
+			data: {fields: params},
+			success: function(json) {
+				if (json.error) {
 				
-			} else {
-				window.location.replace("/bookings/show/"+json.booking_id);
+				} else {
+					window.location.replace("/bookings/show/"+json.booking_id);
+				}
 			}
-		}
-	})
+		})
+	} else {
+		$.ajax({
+			url: "/bookings/create",
+			type: "POST",
+			data: {fields: params},
+			success: function(json) {
+				if (json.error) {
+				
+				} else {
+					window.location.replace("/bookings/show/"+json.booking_id);
+				}
+			}
+		})
+	}
+}
+
+// CANCEL BOOKING
+function cancelBooking(id,url) {
+	var result = confirm("Cancel "+id+". Are you sure?")
+	if (result) {
+		$.ajax({
+			url: url,
+			type: "POST",
+			success: function() {
+				window.location.reload()
+			}
+		})
+	}
 }
 
 // CANCEL NEW/EDIT
@@ -118,7 +161,7 @@ function timetableInteraction() {
 					$("input#start_time").val("");
 					$("input#end_time").val("");
 				} else {
-					$("input#end_time").val($(this).attr("hour")+":"+$(this).attr("mins"));
+					$("input#end_time").val(nextSeg(this));
 					$(this).addClass("selected last");
 					var first = false;
 					$.each($("td.seg"), function(j,seg2) {
@@ -151,6 +194,15 @@ function timetableInteraction() {
 			})
 		})
 	}
+}
+
+// GET TIME FROM FOLLOWING SEGMENT
+function nextSeg(seg) {
+	next_mins = parseInt($(seg).attr("mins"))+15;
+	next_mins = (next_mins == 60) ? "00" : String(next_mins);
+	next_hour = (next_mins == "00") ? parseInt($(seg).attr("hour"))+1 : parseInt($(seg).attr("hour"));
+	next_hour = (next_hour < 10) ? "0"+String(next_hour) : String(next_hour);
+	return next_hour+":"+next_mins
 }
 
 // CALCULATE DURATION OF BOOKING IN SEGMENTS
