@@ -1,5 +1,5 @@
 <div class="show_section">
-	<h3>Booking</h3>
+	<h3>Event</h3>
 	<table>
 		<tr>
 			<th>Event:</th>
@@ -32,20 +32,22 @@
 	</table>
 </div>
 <div class="show_section">
-	<h3>Participant</h3>
+	<h3>Bookings</h3>
 	<table>
 		<tr>
-			<th>Name:</th>
-			<td><%= @booking.client.first_name+" "+@booking.client.last_name if @booking.client %></td>
+			<th>Name</th>
+			<th>Date of Birth</th>
+			<th>Horse</th>
+			<th></th>
 		</tr>
-		<tr>
-			<th>Date of Birth:</th>
-			<td><%= @booking.client.date_of_birth if @booking.client %></td>
-		</tr>
-		<tr>
-			<th>Horse:</th>
-			<td><%= @booking.horse.name if @booking.horse %></td>
-		</tr>
+		<% @event.bookings.each do |booking| %>
+			<tr>
+				<td><%= booking.client.first_name+" "+booking.client.last_name if booking.client %></td>
+				<td><%= booking.client.date_of_birth if booking.client %></td>
+				<td><%= booking.horse.name if booking.horse %></td>
+				<td><a href="/bookings/edit/<%= booking.id %>">Edit</td>
+			</tr>
+		<% end %>
 	</table>
 </div>
-<div style="text-align:center;"><button class="link" link="/bookings/edit/<%= @booking.id %>">Edit</button><button class="link" link="/bookings">Close</button></div>
+<div style="text-align:center;"><button class="link" link="/bookings/edit_event/<%= @event.id %>">Edit Event</button><button class="link" link="/bookings">Close</button></div>

@@ -79,6 +79,11 @@ class BookingsController < ApplicationController
     @event = @booking.event
   end
 
+  def show_event
+    @event = Event.find(params[:event_id])
+    render "event"
+  end
+
   def create
     json = {}
     # create or update client

@@ -21,30 +21,28 @@
 	</tr>
 	<% if !@upcoming.empty? %>
 		<% @upcoming.each do |event| %>
-			<tr>
+			<tr style="border-top:3px solid #5F5F5F;">
 				<td><%= event.name if event.name %></td>
 				<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
 				<td><%= event.capacity if event.capacity %></td>
 				<td><%= event.venue.name if event.venue rescue nil %></td>
 				<td><%= event.start_time.strftime("%H:%M") if event.start_time %></td>
-				<td></td>
-				<td></td>
-				<td><a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.name %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a></td>
+				<td colspan="2"></td>
+				<td><a href="/bookings/show_event/<%= event.id %>">Details</a> | <a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.name %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a></td>
 			</tr>
-			<% event.bookings.includes(:client).sort{|a,b| a.client.last_name <=> b.client.last_name}.each do |booking| %>
+			<% event.bookings.includes(:client).sort{|a,b| a.client.last_name <=> b.client.last_name}.each_with_index do |booking,i| %>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<% if i==0 %>
+						<td colspan="5" rowspan="<%= event.bookings.count %>"></td>
+					<% end %>
 					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.last_name if booking.client rescue nil %>, <%= booking.client.first_name if booking.client rescue nil %></a></td>
 					<td><a href="/horses/show/<%= booking.horse_id %>"><%= booking.horse.name if booking.horse rescue nil %></a></td>
 					<td>
-						<a href="/bookings/show/<%= booking.id %>">Details</a> | <a href="/notes/bookings/<%= booking.id %>">Notes</a>
+						<a href="/bookings/show/<%= booking.id %>">Details</a> | 
 						<% if current_user.user_level != User::BASE %>
-							 | <a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.name %> <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/cancel/<%= booking.id %>')">Cancel</a>
+							<a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.name %> <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/cancel/<%= booking.id %>')">Cancel</a> | 
 						<% end %>
+						<a href="/notes/bookings/<%= booking.id %>">Notes</a>
 					</td>
 				</tr>
 			<% end %>

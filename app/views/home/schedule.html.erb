@@ -26,3 +26,11 @@
 		<% end %>
 	</table>
 </div>
+<div id="schTooltip"></div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		if (window.sch) window.sch.teardown();
+		window.sch = new Schedule(JSON.parse('<%= @events.to_json.html_safe %>'));
+	})
+</script>
