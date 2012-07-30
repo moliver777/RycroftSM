@@ -17,3 +17,34 @@
 #schedule td.big {
   font-size: 15px;
 }
+
+#schedule td.evt {
+  background-color: red;
+  border-left: 0;
+  border-right: 0;
+}
+
+#schedule td.evt:hover {
+  cursor: pointer;
+}
+
+#schedule td.evt.first {
+  border-left: 3px solid #5F5F5F;
+}
+
+#schedule td.evt.last {
+  border-right: 3px solid #5F5F5F;
+}
+
+#schTooltip {
+  display: none;
+  position: absolute;
+  padding: 2px;
+  background-color: #fff;
+  border: 1px solid #5F5F5F;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  z-index: 5000;
+  max-width: 250px;
+}
+

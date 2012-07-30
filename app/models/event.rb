@@ -46,4 +46,12 @@ class Event < ActiveRecord::Base
     duration = self.end_time-self.start_time
     ((duration/60)/15).to_i
   end
+
+  def client_list
+    self.clients.map{|c| c.first_name+" "+c.last_name}.join(", ") rescue ""
+  end
+
+  def horse_list
+    self.horses.map{|c| c.name}.join(", ") rescue ""
+  end
 end

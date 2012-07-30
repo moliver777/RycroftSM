@@ -14,7 +14,7 @@ class HomeController < ApplicationController
 
   def schedule
     @date = params[:date] ? params[:date] : Date.today
-    @events = Event.where(:event_date => @date).order("start_time").group_by{|evt| evt.venue_id}
+    @events = format_schedule_events Event.where(:event_date => @date).order("start_time")
     @venues = Venue.all
   end
 
@@ -31,5 +31,23 @@ class HomeController < ApplicationController
       @search += char if char.match(/\w|\s|\"|\'|\-/)
     end
     @search
+  end
+
+  def format_schedule_events events
+    formatted_events = []
+    events.each do |event|
+      formatted_event = {
+        "id" => event.id,
+        "venue_id" => event.venue_id,
+        "hour" => event.start_time.strftime("%H"),
+        "mins" => event.start_time.strftime("%M"),
+        "duration" => event.segment_duration,
+        "name" => event.name,
+        "clients" => event.client_list,
+        "horses" => event.horse_list
+      }
+      formatted_events << formatted_event
+    end
+    formatted_events.group_by{|evt| evt["venue_id"]}
   end
 end
