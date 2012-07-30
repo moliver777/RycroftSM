@@ -4,6 +4,7 @@ Schedule = function(events) {
 jQuery.extend(Schedule.prototype, {
 	init: function(events) {
 		this.events = events;
+		console.log(this.events);
 		this.setup();
 	},
 
@@ -17,7 +18,7 @@ jQuery.extend(Schedule.prototype, {
 		$.each(this.events, function(venue_id,venue_events) {
 			$.each(venue_events, function(i,evt) {
 				var count = -1;
-				$.each($('tr[venue_id="'+venue_id+'"] td.seg'), function(j,seg) {
+				$.each($('tr[venue_id="'+venue_id+'"] td.seg:not(.evt)'), function(j,seg) {
 					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
 						$(seg).addClass("evt first").attr("event_id", evt.id);
 						count = 1;

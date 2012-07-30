@@ -40,12 +40,18 @@
 			<th>Horse</th>
 			<th></th>
 		</tr>
-		<% @event.bookings.each do |booking| %>
+		<% if @event.bookings.first %>
+			<% @event.bookings.each do |booking| %>
+				<tr>
+					<td><%= booking.client.first_name+" "+booking.client.last_name if booking.client %></td>
+					<td><%= booking.client.date_of_birth if booking.client %></td>
+					<td><%= booking.horse.name if booking.horse %></td>
+					<td><a href="/bookings/edit/<%= booking.id %>">Edit</td>
+				</tr>
+			<% end %>
+		<% else %>
 			<tr>
-				<td><%= booking.client.first_name+" "+booking.client.last_name if booking.client %></td>
-				<td><%= booking.client.date_of_birth if booking.client %></td>
-				<td><%= booking.horse.name if booking.horse %></td>
-				<td><a href="/bookings/edit/<%= booking.id %>">Edit</td>
+				<td colspan="4">No bookings for this event</td>
 			</tr>
 		<% end %>
 	</table>

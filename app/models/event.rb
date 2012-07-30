@@ -48,10 +48,12 @@ class Event < ActiveRecord::Base
   end
 
   def client_list
+    return "N/A" unless self.clients.first
     self.clients.map{|c| c.first_name+" "+c.last_name}.join(", ") rescue ""
   end
 
   def horse_list
+    return "N/A" unless self.horses.first
     self.horses.map{|c| c.name}.join(", ") rescue ""
   end
 end

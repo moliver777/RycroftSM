@@ -95,7 +95,12 @@ function completeBooking(id) {
 				if (json.error) {
 				
 				} else {
-					window.location.replace("/bookings/show/"+json.booking_id);
+					if (json.booking_id) {
+						window.location.replace("/bookings/show/"+json.booking_id);
+					} else {
+						window.location.replace("/bookings/show_event/"+json.event_id);
+					}
+					
 				}
 			}
 		})

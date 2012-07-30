@@ -87,15 +87,20 @@ class BookingsController < ApplicationController
   def create
     json = {}
     # create or update client
-    client = params[:fields][:client][:client_id] ? Client.find(params[:fields][:client][:client_id]) : Client.new
-    client.set_fields params[:fields][:client]
+    if params[:fields][:client]
+      client = params[:fields][:client][:client_id] ? Client.find(params[:fields][:client][:client_id]) : Client.new
+      client.set_fields params[:fields][:client]
+    end
     # create or update event
     event = params[:fields][:event_id] ? Event.find(params[:fields][:event_id]) : Event.new
     event.set_fields params[:fields]
+    json[:event_id] = event.id
     # create booking
-    booking = Booking.new
-    booking.set_fields event.id, client.id, params[:fields][:horse_id]
-    json[:booking_id] = booking.id
+    if client
+      booking = Booking.new
+      booking.set_fields event.id, client.id, params[:fields][:horse_id]
+      json[:booking_id] = booking.id
+    end
     render :json => json
   end
 
