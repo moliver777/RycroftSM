@@ -31,6 +31,7 @@ a {
   text-decoration: none;
   color: black;
   cursor: pointer;
+  font-size: 12px;
 }
 
 a:hover {
@@ -184,6 +185,10 @@ table span.sort {
 
 input.long {
   width: 200px;
+}
+
+input.short {
+  width: 50px;
 }
 
 .show_section {

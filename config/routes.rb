@@ -26,6 +26,8 @@ RycroftSM::Application.routes.draw do
   get "/bookings/get_client/:client_id" => "bookings#client"
   get "/bookings/refresh_horses/:date" => "bookings#horses"
   get "/bookings/client_search/:search" => "bookings#client_search"
+  get "/bookings/search" => "bookings#search"
+  get "/bookings/search_results" => "bookings#search_results"
 
   # CLIENTS
   get "/clients" => "clients#index"

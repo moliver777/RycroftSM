@@ -1,0 +1,26 @@
+<table id="booking_search_results">
+	<tr>
+		<th>Event</th>
+		<th>Date</th>
+		<th>Time</th>
+		<th>Client</th>
+		<th>Horse</th>
+		<th></th>
+	</tr>
+	<% if !@results.empty? %>
+		<% @results.each do |booking| %>
+			<tr>
+				<td><%= booking.event.name %></td>
+				<td><%= booking.event.event_date %></td>
+				<td><%= booking.event.start_time.strftime("%H:%M") %></td>
+				<td><%= booking.client.first_name+" "+booking.client.last_name rescue nil %></td>
+				<td><%= booking.horse.name if booking.horse rescue nil %></td>
+				<td><a href="/bookings/show/<%= booking.id %>">View</a></td>
+			</tr>
+		<% end %>
+	<% else %>
+		<tr>
+			<td colspan="6" style="text-align:center;font-weight:bold;">No results found</td>
+		</tr>
+	<% end %>
+</table>

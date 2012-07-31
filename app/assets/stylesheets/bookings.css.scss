@@ -1,18 +1,17 @@
 /* INDEX */
 #upcoming_bookings {
-  width: 70%;
+  width: 68%;
   height: 418px;
   float: left;
   padding: 5px;
   margin-top: 5px;
   border: 2px solid #5f5f5f;
   border-radius: 10px;
+  overflow-y: auto;
 }
 
 #upcoming_bookings #upcoming_title {
-  float: left;
   text-align: center;
-  width: 80%;
   margin-bottom: 10px;
 }
 
@@ -87,4 +86,20 @@ tr.spaced td {
 
 #client_search_results td.result:hover {
   background-color: rgba(0,0,0,0.1);
+}
+
+/* BOOKING SEARCH */
+table#booking_search_table {
+  width: 100%;
+  border: 0;
+}
+
+table#booking_search_table td {
+  text-align: center;
+  border: 0;
+}
+
+table#booking_search_results {
+  margin-top: 10px;
+  width: 100%;
 }

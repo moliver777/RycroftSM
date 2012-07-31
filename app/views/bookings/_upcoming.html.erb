@@ -1,12 +1,12 @@
-<a class="change_date" date="<%= @date.advance(:days => -1).strftime("%Y-%m-%d") %>" style="float:left;"><< &nbsp;<%= @date.advance(:days => -1).strftime("%Y-%m-%d") %></a>
 <h3 id="upcoming_title">
+	<a class="change_date" date="<%= @date.advance(:days => -1).strftime("%Y-%m-%d") %>" style="float:left;"><< &nbsp;<%= @date.advance(:days => -1).strftime("%Y-%m-%d") %></a>
 	<% if @date == Date.today %>
 		Todays Bookings
 	<% else %>
 		<%= @date < Date.today ? "Past" : "Future" %> Bookings : <%= @date.strftime("%Y-%m-%d") %>
 	<% end %>
+	<a class="change_date" date="<%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>" style="float:right;"><%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>&nbsp; >></a>
 </h3>
-<a class="change_date" date="<%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>" style="float:right;"><%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>&nbsp; >></a>
 <br/>
 <table id="upcoming" style="width:100%">
 	<tr class="header">

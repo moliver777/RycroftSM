@@ -134,6 +134,31 @@ class BookingsController < ApplicationController
     render :nothing => true
   end
 
+  def search
+    @clients = Client.order("last_name")
+    @horses = Horse.order("name")
+  end
+
+  def search_results
+    p params
+    @results = []
+    client = Client.find(params[:fields][:client]) if params[:fields][:client]
+    p client
+    horse = Horse.find(params[:fields][:horse]) if params[:fields][:horse]
+    Event.where("event_date BETWEEN ? AND ?", params[:fields][:from_date], params[:fields][:to_date]).each do |event|
+      if client && horse
+        event.bookings.where(:client_id => client.id, :horse_id => horse.id).each{|b| @results << b}
+      elsif client
+        event.bookings.where(:client_id => client.id).each{|b| @results << b}
+      elsif horse
+        event.bookings.where(:horse_id => horse.id).each{|b| @results << b}
+      else
+        event.bookings.each{|b| @results << b}
+      end
+    end
+    render :json => {:view => render_to_string(:partial => "booking_search_results")}.to_json
+  end
+
   private
 
   def load_upcoming
@@ -152,14 +177,6 @@ class BookingsController < ApplicationController
       formatted_events << formatted_event
     end
     formatted_events
-  end
-
-  def parse_search search
-    @search = ""
-    search.split("").each do |char|
-      @search += char if char.match(/\w|\s|\"|\'|\-/)
-    end
-    @search
   end
 
 end

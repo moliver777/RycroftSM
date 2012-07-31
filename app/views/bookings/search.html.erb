@@ -1,0 +1,68 @@
+<h2 style="margin-bottom:10px;">Booking Search</h2>
+
+<div id="booking_search_panel">
+	<table id="booking_search_table">
+		<tr>
+			<td>
+				<select id="client" class="field">
+					<option value="0">Select Client</option>
+					<% @clients.each do |client| %>
+						<option value="<%= client.id %>"><%= client.last_name %>, <%= client.first_name %></option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				<select id="horse" class="field">
+					<option value="0">Select Horse</option>
+					<% @horses.each do |horse| %>
+						<option value="<%= horse.id %>"><%= horse.name %></option>
+					<% end %>
+				</select>
+			</td>
+			<td>From: <%= text_field_tag "from_date", Date.today, :class => "field" %></td>
+			<td>To: <%= text_field_tag "to_date", Date.today, :class => "field" %></td>
+			<td><button id="search">Search</button></td>
+		</tr>
+	</table>
+</div>
+
+<div id="booking_search_results_panel">
+	<table id="booking_search_results">
+		<tr>
+			<th>Event</th>
+			<th>Date</th>
+			<th>Time</th>
+			<th>Client</th>
+			<th>Horse</th>
+			<th></th>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input#from_date").datepicker({dateFormat: "yy-mm-dd"});
+		$("input#to_date").datepicker({dateFormat: "yy-mm-dd"});
+		$(".ui-datepicker").hide();
+
+		$("button#search").unbind("click").click(function() {
+			var data = {fields:{}};
+			$.each($("input.field"), function(i,field) {
+				data["fields"][$(field).attr("id")] = $(field).val();
+			})
+			$.each($("select.field"), function(i,field) {
+				if ($(field).val() != "0") {
+					data["fields"][$(field).attr("id")] = $(field).val();
+				}
+			})
+			$.ajax({
+				url: "/bookings/search_results",
+				type: "GET",
+				data: data,
+				success: function(json) {
+					$("div#booking_search_results_panel").html(json.view);
+				}
+			})
+		})
+	})
+</script>
