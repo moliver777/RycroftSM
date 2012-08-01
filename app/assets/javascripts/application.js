@@ -61,7 +61,7 @@ function save(root,url) {
 					$("ul#form_errors").append("<li>"+error+"</li>");
 				})
 			} else {
-				window.location.replace(root)
+				window.location.replace(root);
 			}
 		}
 	})
@@ -87,7 +87,9 @@ function completeBooking(id) {
 			data: {fields: params},
 			success: function(json) {
 				if (json.errors[0]) {
-				
+					$.each(json.errors, function(i,error) {
+						$("ul#form_errors").append("<li>"+error+"</li>");
+					})
 				} else {
 					window.location.replace("/bookings/show/"+json.booking_id);
 				}
@@ -100,7 +102,9 @@ function completeBooking(id) {
 			data: {fields: params},
 			success: function(json) {
 				if (json.errors[0]) {
-					
+					$.each(json.errors, function(i,error) {
+						$("ul#form_errors").append("<li>"+error+"</li>");
+					})
 				} else {
 					if (json.booking_id) {
 						window.location.replace("/bookings/show/"+json.booking_id);
@@ -129,7 +133,9 @@ function completeEventEdit(id) {
 			data: {fields: params},
 			success: function(json) {
 				if (json.errors[0]) {
-				
+					$.each(json.errors, function(i,error) {
+						$("ul#form_errors").append("<li>"+error+"</li>");
+					})
 				} else {
 					window.location.replace("/bookings/show_event/"+json.event_id);
 				}
@@ -142,7 +148,9 @@ function completeEventEdit(id) {
 			data: {fields: params},
 			success: function(json) {
 				if (json.errors[0]) {
-					
+					$.each(json.errors, function(i,error) {
+						$("ul#form_errors").append("<li>"+error+"</li>");
+					})
 				} else {
 					if (json.booking_id) {
 						window.location.replace("/bookings/show/"+json.booking_id);
