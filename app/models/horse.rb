@@ -84,4 +84,8 @@ class Horse < ActiveRecord::Base
     end
     date ? date.strftime("%Y-%m-%d") : "N/A"
   end
+
+  def self.status
+    
+  end
 end

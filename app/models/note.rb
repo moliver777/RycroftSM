@@ -10,4 +10,8 @@ class Note < ActiveRecord::Base
   belongs_to :client
   belongs_to :horse
   belongs_to :staff
+
+  def self.priority
+    
+  end
 end

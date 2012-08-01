@@ -86,7 +86,7 @@ function completeBooking(id) {
 			type: "POST",
 			data: {fields: params},
 			success: function(json) {
-				if (json.error) {
+				if (json.errors[0]) {
 				
 				} else {
 					window.location.replace("/bookings/show/"+json.booking_id);
@@ -99,8 +99,50 @@ function completeBooking(id) {
 			type: "POST",
 			data: {fields: params},
 			success: function(json) {
-				if (json.error) {
+				if (json.errors[0]) {
+					
+				} else {
+					if (json.booking_id) {
+						window.location.replace("/bookings/show/"+json.booking_id);
+					} else {
+						window.location.replace("/bookings/show_event/"+json.event_id);
+					}
+					
+				}
+			}
+		})
+	}
+}
+
+// SAVE EVENT EDIT
+function completeEventEdit(id) {
+	params = {}
+	if ($("select#event_mode").val() != 0) {params["event_id"] = $("select#event_mode").val()};
+	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
+	$.each($("select.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.each($("textarea.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	if (params["event_id"]) {
+		$.ajax({
+			url: "/bookings/update_event/"+params["event_id"],
+			type: "POST",
+			data: {fields: params},
+			success: function(json) {
+				if (json.errors[0]) {
 				
+				} else {
+					window.location.replace("/bookings/show_event/"+json.event_id);
+				}
+			}
+		})
+	} else {
+		$.ajax({
+			url: "/bookings/create",
+			type: "POST",
+			data: {fields: params},
+			success: function(json) {
+				if (json.errors[0]) {
+					
 				} else {
 					if (json.booking_id) {
 						window.location.replace("/bookings/show/"+json.booking_id);

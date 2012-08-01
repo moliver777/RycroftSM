@@ -85,37 +85,57 @@ class BookingsController < ApplicationController
   end
 
   def create
+    validation params[:fields], 0
     json = {}
-    # create or update client
-    if params[:fields][:client]
+    json[:errors] = @errors
+    if @validated
+      # create or update client
+      if params[:fields][:client]
+        client = params[:fields][:client][:client_id] ? Client.find(params[:fields][:client][:client_id]) : Client.new
+        client.set_fields params[:fields][:client]
+      end
+      # create or update event
+      event = params[:fields][:event_id] ? Event.find(params[:fields][:event_id]) : Event.new
+      event.set_fields params[:fields]
+      json[:event_id] = event.id
+      # create booking
+      if client
+        booking = Booking.new
+        booking.set_fields event.id, client.id, params[:fields][:horse_id]
+        json[:booking_id] = booking.id
+      end
+    end
+    render :json => json
+  end
+
+  def update
+    validation params[:fields], params[:booking_id]
+    json = {}
+    json[:errors] = @errors
+    if @validated
+      # create or update client
       client = params[:fields][:client][:client_id] ? Client.find(params[:fields][:client][:client_id]) : Client.new
       client.set_fields params[:fields][:client]
-    end
-    # create or update event
-    event = params[:fields][:event_id] ? Event.find(params[:fields][:event_id]) : Event.new
-    event.set_fields params[:fields]
-    json[:event_id] = event.id
-    # create booking
-    if client
-      booking = Booking.new
+      # create or update event
+      event = params[:fields][:event_id] ? Event.find(params[:fields][:event_id]) : Event.new
+      event.set_fields params[:fields]
+      # create booking
+      booking = Booking.find(params[:booking_id])
       booking.set_fields event.id, client.id, params[:fields][:horse_id]
       json[:booking_id] = booking.id
     end
     render :json => json
   end
 
-  def update
+  def update_event
+    validation params[:fields], params[:event_id]
     json = {}
-    # create or update client
-    client = params[:fields][:client][:client_id] ? Client.find(params[:fields][:client][:client_id]) : Client.new
-    client.set_fields params[:fields][:client]
-    # create or update event
-    event = params[:fields][:event_id] ? Event.find(params[:fields][:event_id]) : Event.new
-    event.set_fields params[:fields]
-    # create booking
-    booking = Booking.find(params[:booking_id])
-    booking.set_fields event.id, client.id, params[:fields][:horse_id]
-    json[:booking_id] = booking.id
+    json[:errors] = @errors
+    if @validated
+      event = Event.find(params[:event_id])
+      event.set_fields params[:fields]
+      json[:event_id] = event.id
+    end
     render :json => json
   end
 
@@ -177,6 +197,8 @@ class BookingsController < ApplicationController
     formatted_events
   end
 
-  def validation
+  def validation fields, id
+    @errors = []
+    @validated = @errors.length > 0 ? false : true
   end
 end

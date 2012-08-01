@@ -25,7 +25,7 @@ class ClientsController < ApplicationController
 
   def create
     validation params[:fields], 0
-    if @validation
+    if @validated
       client = Client.new
       client.set_fields params[:fields]
     end
@@ -34,7 +34,7 @@ class ClientsController < ApplicationController
 
   def update
     validation params[:fields], params[:client_id]
-    if @validation
+    if @validated
       client = Client.find(params[:client_id])
       client.set_fields params[:fields]
     end

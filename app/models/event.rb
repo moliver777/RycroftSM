@@ -56,4 +56,8 @@ class Event < ActiveRecord::Base
     return "N/A" unless self.horses.first
     self.horses.map{|c| c.name}.join(", ") rescue ""
   end
+
+  def self.status
+    
+  end
 end
