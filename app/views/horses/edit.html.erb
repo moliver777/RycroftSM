@@ -1,3 +1,4 @@
 <h2>Edit <%= @horse.name if @horse.name %></h2>
 <%= render :partial => "form" %>
+<ul class="error" id="form_errors"></ul>
 <button id="cancel" onclick="window.location.replace('/horses')">Cancel</button><button id="save" onclick="save('/horses','/horses/update/<%= @horse.id %>')">Save</button>

@@ -45,6 +45,7 @@ function reset(id,url) {
 
 // SAVE NEW/EDIT
 function save(root,url) {
+	$("ul#form_errors").empty();
 	params = {}
 	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
 	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
@@ -54,8 +55,14 @@ function save(root,url) {
 		url: url,
 		type: "POST",
 		data: {fields: params},
-		success: function() {
-			window.location.replace(root)
+		success: function(json) {
+			if (json[0]) {
+				$.each(json, function(i,error) {
+					$("ul#form_errors").append("<li>"+error+"</li>");
+				})
+			} else {
+				window.location.replace(root)
+			}
 		}
 	})
 }

@@ -140,10 +140,8 @@ class BookingsController < ApplicationController
   end
 
   def search_results
-    p params
     @results = []
     client = Client.find(params[:fields][:client]) if params[:fields][:client]
-    p client
     horse = Horse.find(params[:fields][:horse]) if params[:fields][:horse]
     Event.where("event_date BETWEEN ? AND ?", params[:fields][:from_date], params[:fields][:to_date]).each do |event|
       if client && horse
@@ -179,4 +177,6 @@ class BookingsController < ApplicationController
     formatted_events
   end
 
+  def validation
+  end
 end

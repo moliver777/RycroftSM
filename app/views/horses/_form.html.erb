@@ -3,7 +3,7 @@
 	<table class="form_table">
 		<tr>
 			<td><%= text_field_tag "name", @horse.name, :placeholder => "Name", :class => "long field" %></td>
-			<td><%= select_tag "standard", "<option>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "field" %></td>
+			<td><%= select_tag "standard", "<option value='0'>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "field" %></td>
 			<td style="padding-left:10px;padding-right:10px;">Availability: <%= check_box_tag "availability", "", @horse.availability, :class => "field" %></td>
 			<td><%= text_field_tag "max_day_workload", @horse.max_day_workload, :placeholder => "Max Day Workload (hrs)", :class => "long field" %></td>
 		</tr>
@@ -16,25 +16,25 @@
 			<td class="right"><strong>Farrier</strong></td>
 			<td><%= check_box_tag "farrier", "", @horse.farrier, :class => "field" %></td>
 			<td><%= text_field_tag "farrier_date", @horse.farrier_date, :placeholder => "Start Date (YYYY-MM-DD)", :class => "long field" %></td>
-			<td><%= text_field_tag "farrier_freq", @horse.farrier_freq, :placeholder => "Frequency (days)", :class => "field" %></td>
+			<td><%= text_field_tag "farrier_freq", @horse.farrier_freq, :placeholder => "Frequency (weeks)", :class => "field" %></td>
 		</tr>
 		<tr>
 			<td class="right"><strong>Worming</strong></td>
 			<td><%= check_box_tag "worming", "", @horse.worming, :class => "field" %></td>
 			<td><%= text_field_tag "worming_date", @horse.worming_date, :placeholder => "Start Date (YYYY-MM-DD)", :class => "long field" %></td>
-			<td><%= text_field_tag "worming_freq", @horse.worming_freq, :placeholder => "Frequency (days)", :class => "field" %></td>
+			<td><%= text_field_tag "worming_freq", @horse.worming_freq, :placeholder => "Frequency (weeks)", :class => "field" %></td>
 		</tr>
 		<tr>
 			<td class="right"><strong>Veterinary</strong></td>
 			<td><%= check_box_tag "vet", "", @horse.vet, :class => "field" %></td>
 			<td><%= text_field_tag "vet_date", @horse.vet_date, :placeholder => "Start Date (YYYY-MM-DD)", :class => "long field" %></td>
-			<td><%= text_field_tag "vet_freq", @horse.vet_freq, :placeholder => "Frequency (days)", :class => "field" %></td>
+			<td><%= text_field_tag "vet_freq", @horse.vet_freq, :placeholder => "Frequency (weeks)", :class => "field" %></td>
 		</tr>
 		<tr>
 			<td class="right"><strong>Medication</strong></td>
 			<td><%= check_box_tag "medication", "", @horse.medication, :class => "field" %></td>
 			<td><%= text_field_tag "medication_date", @horse.medication_date, :placeholder => "Start Date (YYYY-MM-DD)", :class => "long field" %></td>
-			<td><%= text_field_tag "medication_freq", @horse.medication_freq, :placeholder => "Frequency (days)", :class => "field" %></td>
+			<td><%= text_field_tag "medication_freq", @horse.medication_freq, :placeholder => "Frequency (weeks)", :class => "field" %></td>
 		</tr>
 	</table class="form_table">
 </div>

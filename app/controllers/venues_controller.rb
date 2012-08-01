@@ -14,15 +14,21 @@ class VenuesController < ApplicationController
   end
 
   def create
-    venue = Venue.new
-    venue.set_fields params[:fields]
-    render :nothing => true
+    validation params[:fields], 0
+    if @validated
+      venue = Venue.new
+      venue.set_fields params[:fields]
+    end
+    render :json => @errors.to_json
   end
 
   def update
-    venue = Venue.find(params[:venue_id])
-    venue.set_fields params[:fields]
-    render :nothing => true
+    validation params[:fields], params[:venue_id]
+    if @validated
+      venue = Venue.find(params[:venue_id])
+      venue.set_fields params[:fields]
+    end
+    render :json => @errors.to_json
   end
 
   def destroy
@@ -36,5 +42,14 @@ class VenuesController < ApplicationController
         redirect_to "/"
       end
     end
+  end
+
+  private
+
+  def validation fields, id
+    @errors = []
+    @errors << "Venue must have a name." unless fields[:name].length > 0
+    @errors << "There is already a venue with that name." if Venue.where("name = ? and id != ?", fields[:name], id).first
+    @validated = @errors.length > 0 ? false : true
   end
 end

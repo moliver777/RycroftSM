@@ -1,3 +1,4 @@
 <h2>New Client</h2>
 <%= render :partial => "form" %>
+<ul class="error" id="form_errors"></ul>
 <button id="cancel" onclick="window.location.replace('/clients')">Cancel</button><button id="save" onclick="save('/clients','/clients/create')">Save</button>

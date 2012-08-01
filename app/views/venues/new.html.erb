@@ -1,3 +1,4 @@
 <h2>New Venue</h2>
 <%= render :partial => "form" %>
+<ul class="error" id="form_errors"></ul>
 <button id="cancel" onclick="window.location.replace('/admin/venues')">Cancel</button><button id="save" onclick="save('/admin/venues','/admin/venues/create')">Save</button>
