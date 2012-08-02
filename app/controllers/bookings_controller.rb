@@ -1,6 +1,10 @@
 class BookingsController < ApplicationController
   def index
-    @date = Date.today
+    if params[:date]
+      @date = Date.parse(params[:date])
+    else
+      @date = Date.today
+    end
     load_upcoming
   end
 

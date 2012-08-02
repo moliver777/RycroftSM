@@ -48,4 +48,26 @@
 		</tr>
 	</table>
 </div>
-<div style="text-align:center;"><button class="link" link="/bookings/edit/<%= @booking.id %>">Edit</button><button class="link" link="/bookings">Close</button></div>
+<div class="show_section">
+	<h3>Notes</h3>
+	<table>
+		<tr class="header">
+			<th style="width:10%;">Title</th>
+			<th style="width:45%">Contents</th>
+			<th style="width:5%;">Priority</th>
+		</tr>
+		<% if !@booking.notes.empty? %>
+			<% @booking.notes.each do |note| %>
+				<tr>
+					<td><%= note.title %></td>
+					<td><%= note.content %></td>
+					<td><%= note.urgent ? "High" : "Normal" %></td>
+				</tr>
+			<% end %>
+		<% else %>
+			<tr><td colspan="3" style="text-align:center;font-weight:bold;">No notes found</td></tr>
+		<% end %>
+	</table>
+	<button class="link" link="/notes/new/BOOKING/<%= @booking.id %>">Create Note</button>
+</div>
+<div style="text-align:center;"><button class="link" link="/bookings/edit/<%= @booking.id %>">Edit</button><button class="link" link="/bookings/date/<%= @event.event_date %>">Close</button></div>

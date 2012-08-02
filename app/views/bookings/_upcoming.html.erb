@@ -7,6 +7,9 @@
 	<% end %>
 	<a class="change_date" date="<%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>" style="float:right;"><%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>&nbsp; >></a>
 </h3>
+<% if @date != Date.today %>
+	<div style="text-align:center;text-decoration:underline;"><a class="change_date" date="<%= Date.today.strftime("%Y-%m-%d") %>">Go to Today</a></div>
+<% end %>
 <br/>
 <table id="upcoming" style="width:100%">
 	<tr class="header">
