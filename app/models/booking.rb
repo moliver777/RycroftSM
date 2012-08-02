@@ -13,6 +13,6 @@ class Booking < ActiveRecord::Base
   end
 
   def self.status
-    
+    []
   end
 end

@@ -10,12 +10,14 @@ class Event < ActiveRecord::Base
   TYPES = [PRIVATE,GROUP,INTRODUCTORY]
 
   has_many :bookings
-  has_many :staff
   has_many :clients, :through => :bookings
   has_many :horses, :through => :bookings
+  belongs_to :staff
   belongs_to :venue
 
   def set_fields fields
+    staff = Staff.where(:id => fields[:staff_id]).first
+
     self.name = fields[:name]
     self.description = fields[:description]
     self.event_type = fields[:event_type]
@@ -25,6 +27,7 @@ class Event < ActiveRecord::Base
     self.start_time = fields[:start_time]
     self.end_time = fields[:end_time]
     self.max_clients = fields[:max_clients]
+    self.staff_id = staff ? staff.id : nil
 
     self.save!
   end
@@ -58,6 +61,11 @@ class Event < ActiveRecord::Base
   end
 
   def self.status
-    
+    issues = []
+    Event.all.each do |event|
+      issues << {:link => "/bookings", :text => event.name+" at "+event.start_time.strftime("%H:%M")+" is over capacity with too many bookings: "+event.bookings.count.to_s+"/"+event.max_clients.to_s+".<br/>Click here to go to the bookings section."} if event.bookings.count > event.max_clients
+      issues << {:link => "/bookings", :text => event.name+" at "+event.start_time.strftime("%H:%M")+" has no staff member assigned to it.<br/>Click here to go to the bookings section."} if !event.staff
+    end
+    issues.uniq
   end
 end

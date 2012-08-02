@@ -28,4 +28,8 @@ class Staff < ActiveRecord::Base
 
     self.save!
   end
+
+  def self.status
+    []
+  end
 end
