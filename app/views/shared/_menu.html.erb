@@ -11,7 +11,7 @@
 		<a href="/bookings" class="head_link">Bookings</a><br/>
 		<div class="sub_links">
 			<a href="/bookings/new" class="sub_link">New</a><br/>
-			<a href="/notes/bookings" class="sub_link">Notes</a>
+			<a href="/notes/BOOKING" class="sub_link">Notes</a>
 		</div>
 	</div>
 <% end %>
@@ -21,7 +21,7 @@
 	<% if current_user.user_level != User::BASE %>
 		<div class="sub_links">
 			<a href="/clients/new" class="sub_link">New</a><br/>
-			<a href="/notes/clients" class="sub_link">Notes</a>
+			<a href="/notes/CLIENT" class="sub_link">Notes</a>
 		</div>
 	<% end %>
 </div>
@@ -31,7 +31,7 @@
 	<% if current_user.user_level != User::BASE %>
 		<div class="sub_links">
 			<a href="/horses/new" class="sub_link">New</a><br/>
-			<a href="/notes/horses" class="sub_link">Notes</a><br/>
+			<a href="/notes/HORSE" class="sub_link">Notes</a><br/>
 		</div>
 	<% end %>
 </div>
@@ -41,7 +41,7 @@
 	<% if current_user.user_level != User::BASE %>
 		<div class="sub_links">
 			<a href="/staff/new" class="sub_link">New</a><br/>
-			<a href="/notes/staff" class="sub_link">Notes</a>
+			<a href="/notes/STAFF" class="sub_link">Notes</a>
 		</div>
 	<% end %>
 </div>

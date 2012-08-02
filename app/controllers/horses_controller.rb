@@ -49,7 +49,9 @@ class HorsesController < ApplicationController
   end
 
   def destroy
-    Horse.find(params[:horse_id]).destroy
+    horse = Horse.find(params[:horse_id])
+    horse.notes.destroy_all
+    horse.destroy
     render :nothing => true
   end
 

@@ -107,7 +107,7 @@ button.on {
 }
 
 /* CONTENT */
-#content {
+#appcontent {
   min-height: 500px;
   background-color: white;
   background-image: url("logo3.png");
@@ -116,7 +116,7 @@ button.on {
   overflow-x: auto;
 }
 
-#content #inner_content {
+#appcontent #inner_content {
   min-height: 460px;
   padding: 20px;
   background-color: rgba(255,255,255,0.9);

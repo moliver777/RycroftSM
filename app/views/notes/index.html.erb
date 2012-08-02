@@ -1,2 +1,11 @@
-NOTES
-index.html.erb
+<h2>Notes: All</h2>
+<div id="note_categories">
+	<a class="current" href="/notes">All</a>
+	<a href="/notes/GENERAL">General</a>
+	<a href="/notes/BOOKING">Bookings</a>
+	<a href="/notes/CLIENT">Clients</a>
+	<a href="/notes/HORSE">Horses</a>
+	<a href="/notes/STAFF">Staff</a>
+</div>
+<a href="/notes/new" style="float:right;padding:5px;">Create New Note</a>
+<%= render :partial => "table" %>

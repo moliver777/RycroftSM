@@ -142,6 +142,7 @@ class BookingsController < ApplicationController
   def destroy
     booking = Booking.find(params[:booking_id])
     event = booking.event
+    booking.notes.destroy_all
     booking.destroy
     event.destroy unless event.bookings.first
     render :nothing => true
@@ -149,6 +150,7 @@ class BookingsController < ApplicationController
 
   def destroy_event
     event = Event.find(params[:event_id])
+    event.bookings.each{|b| b.notes.destroy_all}
     event.bookings.destroy_all
     event.destroy
     render :nothing => true
@@ -199,6 +201,43 @@ class BookingsController < ApplicationController
 
   def validation fields, id
     @errors = []
+    # event validation
+    @errors << "Event must have a name." unless fields[:name].length > 0
+    @errors << "Event must have an event type." if fields[:event_type] == "0"
+    @errors << "Event must have a riding standard." if fields[:standard] == "0"
+    @errors << "Event must be assigned to a venue." if fields[:venue_id] == "0"
+    begin
+      throw "invalid" unless fields[:event_date].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
+      Date.parse(fields[:event_date])
+    rescue
+      @errors << "Event date is invalid."
+    end
+    @errors << "Must select a start time." unless fields[:start_time].length > 0
+    @errors << "Must select an end time." unless fields[:end_time].length > 0
+    @errors << "Max clients must be a number greater than 1." unless fields[:max_clients].to_i > 0
+    # client validation
+    if fields[:client]
+      fields = fields[:client]
+      @errors << "Client must have a first name." unless fields[:first_name].length > 0
+      @errors << "Client must have a last name." unless fields[:last_name].length > 0
+      if fields[:date_of_birth].length > 0
+        begin
+          throw "dob error" unless fields[:date_of_birth].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
+          Date.parse(fields[:date_of_birth])
+        rescue
+          @errors << "Date of birth is invalid."
+        end
+      end
+      @errors << "Client must have a riding standard." if fields[:standard] == "0"
+      if fields[:home_phone].length > 0
+        @errors << "Home phone number is invalid." unless fields[:home_phone].match(/[0-9]{6,}/)
+        @errors << "Home phone number is invalid." if fields[:home_phone].match(/\D/)
+      end
+      if fields[:mobile_phone].length > 0
+        @errors << "Mobile phone number is invalid." unless fields[:mobile_phone].match(/[0-9]{6,}/)
+        @errors << "Mobile phone number is invalid." if fields[:mobile_phone].match(/\D/)
+      end
+    end
     @validated = @errors.length > 0 ? false : true
   end
 end

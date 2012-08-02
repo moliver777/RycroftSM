@@ -42,7 +42,9 @@ class ClientsController < ApplicationController
   end
 
   def destroy
-    Client.find(params[:client_id]).destroy
+    client = Client.find(params[:client_id])
+    client.notes.destroy_all
+    client.destroy
     render :nothing => true
   end
 

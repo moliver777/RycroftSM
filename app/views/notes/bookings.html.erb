@@ -1,2 +1,11 @@
-NOTES
-bookings.html.erb
+<h2>Notes: Bookings<%= " : "+@event.name+" : "+@booking.client.first_name+" "+@booking.client.last_name if @booking && @event %></h2>
+<div id="note_categories">
+	<a href="/notes">All</a>
+	<a href="/notes/GENERAL">General</a>
+	<a class="current" href="/notes/BOOKING">Bookings</a>
+	<a href="/notes/CLIENT">Clients</a>
+	<a href="/notes/HORSE">Horses</a>
+	<a href="/notes/STAFF">Staff</a>
+</div>
+<a href="/notes/new/BOOKING<%= '/'+@booking.id.to_s if @booking %>" style="float:right;padding:5px;">Create New Note</a>
+<%= render :partial => "table" %>

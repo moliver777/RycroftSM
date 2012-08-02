@@ -1,2 +1,4 @@
-NOTES
-new.html.erb
+<h2>New Note</h2>
+<%= render :partial => "form" %>
+<ul class="error" id="form_errors"></ul>
+<button id="cancel" onclick="window.location.replace('/notes<%= "/"+@category if @category %><%= "/"+@subject.id.to_s if @subject %>')">Cancel</button><button id="save" onclick="save('/notes<%= "/"+@category if @category %><%= "/"+@subject.id.to_s if @subject %>','/notes/create')">Save</button>

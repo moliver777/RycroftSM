@@ -35,7 +35,7 @@
 				<% end %>
 			</select>
 		</td>
-		<td>Capacity:<%= text_field_tag "max_clients", @event.max_clients, :placeholder => "Maximum Capacity", :class => "field short" %></td>
+		<td>Capacity:<%= text_field_tag "max_clients", @event.max_clients, :class => "field short" %></td>
 	</tr>
 	<tr>
 		<td colspan="4"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "80x3", :class => "field" %></td>
@@ -106,7 +106,7 @@
 					url: "/bookings/get_event/"+$(this).val(),
 					type: "GET",
 					success: function(evt) {
-						$("input#event_name").val(evt.event_name);
+						$("input#name").val(evt.name);
 						$("select#event_type").val(evt.event_type);
 						$("select#standard.field").val(evt.standard);
 						$("input#max_clients").val(evt.max_clients);

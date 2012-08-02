@@ -38,7 +38,9 @@ class StaffController < ApplicationController
   end
 
   def destroy
-    Staff.find(params[:staff_id]).destroy
+    staff = Staff.find(params[:staff_id])
+    staff.notes.destroy_all
+    staff.destroy
     render :nothing => true
   end
 

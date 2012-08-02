@@ -1,2 +1,65 @@
-NOTES
-_form.html.erb
+<div class="form_section">
+	<h3>Details</h3>
+	<table class="form_table">
+		<tr>
+			<td><%= text_field_tag "title", @note.title, :placeholder => "Title", :class => "long field" %></td>
+			<td style="padding-left:10px;padding-right:10px;">High Priority: <%= check_box_tag "urgent", "", @note.urgent, :class => "field" %></td>
+		</tr>
+		<tr>
+			<td colspan="2"><%= text_area_tag "content", @note.content, :placeholder => "Contents", :class => "field", :size => "80x10" %></td>
+		</tr>
+	</table>
+</div>
+<div class="form_section">
+	<h3>Subject</h3>
+	<table class="form_table">
+		<tr>
+			<td>
+				<select id="category" class="field">
+					<option value="0">Select a Category</option>
+					<% Note::CATEGORIES.each do |category| %>
+						<option value="<%= category %>"><%= category.downcase.capitalize %></option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				<select id="booking_id" class="subject_select field" style="display:none;">
+					<option value="0">Select a Booking</option>
+					<%= @bookings.each do |booking| %>
+						<option value="<%= booking.id %>"><%= booking.event.name+" : "+booking.client.first_name+" "+booking.client.last_name %></option>
+					<% end %>
+				</select>
+				<select id="client_id" class="subject_select field" style="display:none;">
+					<option value="0">Select a Client</option>
+					<%= @clients.each do |client| %>
+						<option value="<%= client.id %>"><%= client.first_name+" "+client.last_name %></option>
+					<% end %>
+				</select>
+				<select id="horse_id" class="subject_select field" style="display:none;">
+					<option value="0">Select a Horse</option>
+					<%= @horses.each do |horse| %>
+						<option value="<%= horse.id %>"><%= horse.name %></option>
+					<% end %>
+				</select>
+				<select id="staff_id" class="subject_select field" style="display:none;">
+					<option value="0">Select Staff</option>
+					<%= @staff.each do |staff| %>
+						<option value="<%= staff.id %>"><%= staff.first_name+" "+staff.last_name %></option>
+					<% end %>
+				</select>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("select#category").unbind("change").change(function() {
+			$("select.subject_select").hide();
+			$("select#"+$(this).val().toLowerCase()+"_id").show().val("0");
+		})
+
+		try {$("select#category").val("<%= @category %>").trigger("change")} catch(e) {}
+		try {$("select#<%= @category.downcase if @category %>_id").val("<%= @subject.id if @subject %>")} catch(e) {}
+	})
+</script>

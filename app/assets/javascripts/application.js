@@ -69,6 +69,7 @@ function save(root,url) {
 
 // SAVE BOOKING NEW/EDIT
 function completeBooking(id) {
+	$("ul#form_errors").empty();
 	params = {}
 	if ($("select#event_mode").val() != 0) {params["event_id"] = $("select#event_mode").val()};
 	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
@@ -120,6 +121,7 @@ function completeBooking(id) {
 
 // SAVE EVENT EDIT
 function completeEventEdit(id) {
+	$("ul#form_errors").empty();
 	params = {}
 	if ($("select#event_mode").val() != 0) {params["event_id"] = $("select#event_mode").val()};
 	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
