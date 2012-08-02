@@ -38,7 +38,15 @@
 		<td>Capacity:<%= text_field_tag "max_clients", @event.max_clients, :class => "field short" %></td>
 	</tr>
 	<tr>
-		<td colspan="4"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "80x3", :class => "field" %></td>
+		<td colspan="3"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "70x3", :class => "field" %></td>
+		<td>
+			<select id="staff_id" class="field">
+				<option value="0">Staff</option>
+				<% Staff.order("last_name").each do |staff| %>
+					<option value="<%= staff.id %>"><%= staff.last_name %>, <%= staff.first_name %></option>
+				<% end %>
+			</select>
+		</td>
 		<td><%= text_field_tag "event_date", @event.event_date, :placeholder => "Date", :class => "field" %></td>
 		<td>Start time:<%= text_field_tag "start_time", (@event.start_time.strftime("%H:%M") rescue nil), :disabled => true, :class => "field short" %></td>
 		<td>Duration:<%= text_field_tag "duration", @event.duration, :disabled => true, :class => "short" %></td>
@@ -100,6 +108,7 @@
 				$("input#duration").val("0:00");
 				$("select#horse_id").val("0");
 				$("select#venue_id").val("0").trigger("change");
+				$("select#staff_id").val("0");
 				$("input#event_date").val("");
 			} else {
 				$.ajax({
@@ -116,6 +125,7 @@
 						$("input#end_time").val(evt.formatted_end_time);
 						window.blockWipeout = true;
 						$("select#venue_id").val(evt.venue_id).trigger("change");
+						$("select#staff_id").val(evt.staff_id);
 					}
 				})
 			}

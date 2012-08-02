@@ -29,6 +29,10 @@
 			<th>End Time:</th>
 			<td><%= @event.end_time.strftime("%H:%M") if @event.end_time %></td>
 		</tr>
+		<tr>
+			<th>Staff:</th>
+			<td><%= @event.staff.first_name+" "+@event.staff.last_name if @event.staff %></td>
+		</tr>
 	</table>
 </div>
 <div class="show_section">
