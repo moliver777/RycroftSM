@@ -1,0 +1,44 @@
+<h2><%= @staff.first_name if @staff.first_name %> <%= @staff.last_name if @staff.last_name %></h2>
+<div class="show_section">
+	<h3>Details</h3>
+	<table>
+		<tr>
+			<th>Date of Birth:</th>
+			<td><%= @staff.date_of_birth %></td>
+		</tr>
+		<tr>
+			<th>Role:</th>
+			<td><%= @staff.role %></td>
+		</tr>
+		<tr>
+			<th>Address:</th>
+			<td><%= @staff.address %><br/><%= @staff.post_code %></td>
+		</tr>
+		<tr>
+			<th>Telephone:</th>
+			<td>Home: <%= @staff.home_phone %><br/>Mobile: <%= @staff.mobile_phone %></td>
+		</tr>
+	</table>
+</div>
+<div class="show_section">
+	<h3>Notes</h3>
+	<table>
+		<tr class="header">
+			<th style="width:10%;">Title</th>
+			<th style="width:45%">Contents</th>
+			<th style="width:5%;">Priority</th>
+		</tr>
+		<% if !@staff.notes.empty? %>
+			<% @staff.notes.each do |note| %>
+				<tr>
+					<td><%= note.title %></td>
+					<td><%= note.content %></td>
+					<td><%= note.urgent ? "High" : "Normal" %></td>
+				</tr>
+			<% end %>
+		<% else %>
+			<tr><td colspan="3" style="text-align:center;font-weight:bold;">No notes found</td></tr>
+		<% end %>
+	</table>
+	<button class="link" link="/notes/new/STAFF/<%= @staff.id %>">Create Note</button>
+</div>
