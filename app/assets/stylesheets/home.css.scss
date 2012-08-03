@@ -1,3 +1,35 @@
+div#home_row_1 {
+}
+
+div#home_row_1 div {
+  border: 1px solid black;
+}
+
+div#home_row_2 div {
+  border: 1px solid black;
+}
+
+div.home_panel {
+  width: 48%;
+  height: 205px;
+}
+
+div.home_left {
+  float:left;
+}
+
+div.home_right {
+  float:right;
+}
+
+div#next_up {
+  margin-bottom: 40px;
+}
+
+div#issues {
+  margin-bottom: 40px;
+}
+
 tr.result {
   cursor: pointer;
 }

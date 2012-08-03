@@ -1,1 +1,48 @@
 <h2><%= @client.first_name if @client.first_name %> <%= @client.last_name if @client.last_name %></h2>
+<div class="show_section">
+	<h3>Details</h3>
+	<table>
+		<tr>
+			<th>Date of Birth:</th>
+			<td><%= @client.date_of_birth %></td>
+		</tr>
+		<tr>
+			<th>Standard:</th>
+			<td><%= @client.standard.downcase.capitalize if @client.standard %></td>
+		</tr>
+		<tr>
+			<th>Address:</th>
+			<td><%= @client.address %><br/><%= @client.post_code %></td>
+		</tr>
+		<tr>
+			<th>Telephone:</th>
+			<td>Home: <%= @client.home_phone %><br/>Mobile: <%= @client.mobile_phone %></td>
+		</tr>
+		<tr>
+			<th>Emergency Contact:</th>
+			<td><%= @client.emergency_contact_name %><br/><%= @client.emergency_contact_phone %></td>
+		</tr>
+	</table>
+</div>
+<div class="show_section">
+	<h3>Notes</h3>
+	<table>
+		<tr class="header">
+			<th style="width:10%;">Title</th>
+			<th style="width:45%">Contents</th>
+			<th style="width:5%;">Priority</th>
+		</tr>
+		<% if !@client.notes.empty? %>
+			<% @client.notes.each do |note| %>
+				<tr>
+					<td><%= note.title %></td>
+					<td><%= note.content %></td>
+					<td><%= note.urgent ? "High" : "Normal" %></td>
+				</tr>
+			<% end %>
+		<% else %>
+			<tr><td colspan="3" style="text-align:center;font-weight:bold;">No notes found</td></tr>
+		<% end %>
+	</table>
+	<button class="link" link="/notes/new/CLIENT/<%= @client.id %>">Create Note</button>
+</div>
