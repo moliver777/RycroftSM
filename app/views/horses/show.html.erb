@@ -1,1 +1,56 @@
 <h2><%= @horse.name if @horse.name %></h2>
+<div class="show_section">
+	<h3>Details</h3>
+	<table>
+		<tr>
+			<th>Standard:</th>
+			<td><%= @horse.standard %></td>
+		</tr>
+		<tr>
+			<th>Maximum Day Workload:</th>
+			<td><%= @horse.max_day_workload %></td>
+		</tr>
+		<tr>
+			<th>Available:</th>
+			<td><%= @horse.availability ? 'Yes' : 'No' %></td>
+		</tr>
+		<tr>
+			<th>Farrier Due:</th>
+			<td><%= @horse.farrier_due %></td>
+		</tr>
+		<tr>
+			<th>Worming Due:</th>
+			<td><%= @horse.worming_due %></td>
+		</tr>
+		<tr>
+			<th>Vet Due:</th>
+			<td><%= @horse.vet_due %></td>
+		</tr>
+		<tr>
+			<th>Medication Due:</th>
+			<td><%= @horse.medication_due %></td>
+		</tr>
+	</table>
+</div>
+<div class="show_section">
+	<h3>Notes</h3>
+	<table>
+		<tr class="header">
+			<th style="width:10%;">Title</th>
+			<th style="width:45%">Contents</th>
+			<th style="width:5%;">Priority</th>
+		</tr>
+		<% if !@horse.notes.empty? %>
+			<% @horse.notes.each do |note| %>
+				<tr>
+					<td><%= note.title %></td>
+					<td><%= note.content %></td>
+					<td><%= note.urgent ? "High" : "Normal" %></td>
+				</tr>
+			<% end %>
+		<% else %>
+			<tr><td colspan="3" style="text-align:center;font-weight:bold;">No notes found</td></tr>
+		<% end %>
+	</table>
+	<button class="link" link="/notes/new/HORSE/<%= @horse.id %>">Create Note</button>
+</div>

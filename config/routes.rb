@@ -57,6 +57,7 @@ RycroftSM::Application.routes.draw do
   get "/staff/sort/:sort/:mod" => "staff#sort"
   get "/staff/new" => "staff#new"
   post "/staff/create" => "staff#create"
+  get "/staff/show/:staff_id" => "staff#show"
   get "/staff/edit/:staff_id" => "staff#edit"
   post "/staff/update/:staff_id" => "staff#update"
   post "/staff/delete/:staff_id" => "staff#destroy"

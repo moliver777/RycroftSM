@@ -7,7 +7,7 @@
 			<td><%= staff.address %><br/><%= staff.post_code if staff.post_code %></td>
 			<td>Home: <%= staff.home_phone if staff.home_phone %><br/>Mobile: <%= staff.mobile_phone if staff.mobile_phone %></td>
 			<td style="vertical-align:middle;">
-				<a href="/notes/STAFF/<%= staff.id %>">Notes</a> 
+				<a href="/staff/show/<%= staff.id %>">Details</a> | <a href="/notes/STAFF/<%= staff.id %>">Notes</a> 
 				<% if current_user.user_level != User::BASE %>
 					 | <a href="/staff/edit/<%= staff.id %>">Edit</a> | <a onclick="confirmation('<%= staff.first_name+" "+staff.last_name %>','/staff/delete/<%= staff.id %>')">Delete</a>
 				<% end %>
