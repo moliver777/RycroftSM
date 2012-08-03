@@ -1,17 +1,7 @@
-div#home_row_1 {
-}
-
-div#home_row_1 div {
-  border: 1px solid black;
-}
-
-div#home_row_2 div {
-  border: 1px solid black;
-}
-
 div.home_panel {
   width: 48%;
   height: 205px;
+  border: 1px solid #5F5F5F;
 }
 
 div.home_left {
@@ -22,12 +12,50 @@ div.home_right {
   float:right;
 }
 
+div.home_left div.home_content {
+  overflow-y: auto;
+}
+
+div.home_right div.home_content {
+  overflow-y: auto;
+  direction: rtl;
+  text-align: left;
+}
+
 div#next_up {
   margin-bottom: 40px;
+  border-radius: 0 0 25px 0;
 }
 
 div#issues {
   margin-bottom: 40px;
+  border-radius: 0 0 0 25px;
+}
+
+div#reports {
+  border-radius: 0 25px 0 0;
+}
+
+div#notes {
+  border-radius: 25px 0 0 0;
+}
+
+div.home_content {
+  height: 180px;
+}
+
+div.home_title {
+  font-size: 20px;
+  height: 25px;
+  padding: 0 5px;
+}
+
+div.home_left div.home_title {
+  float: left;
+}
+
+div.home_right div.home_title {
+  float: right;
 }
 
 tr.result {
