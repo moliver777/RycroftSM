@@ -3,6 +3,19 @@
 	New Mill Lane, Eversley, Hampshire, RG27 0RA<br/>
 	Tel: 01189 732 761 - Email: rycroft.riding@btopenworld.com
 </div>
+<div id="issues_footer">
+	<% if !@status_issues.empty? %>
+		<a href="/"><strong><%= @status_issues.count %> issues found</strong></a>
+	<% else %>
+		<span>No issues found</span>
+	<% end %>
+	<br/>
+	<% if !@status_notes.empty? %>
+		<a href="/"><strong><%= @status_notes.count %> high priority notes found</strong></a>
+	<% else %>
+		<span>No high priority notes found</span>
+	<% end %>
+</div>
 <div id="powered_by">
 	Powered By: 
 	<%= image_tag "icons/rails.png", :size => "20x25" %>

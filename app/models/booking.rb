@@ -13,6 +13,10 @@ class Booking < ActiveRecord::Base
   end
 
   def self.status
-    []
+    issues = []
+    Booking.all.each do |booking|
+      issues << {:link => "/bookings", :text => booking.client.first_name+" "+booking.client.last_name+"'s booking for "+booking.event.name+" at "+booking.event.start_time.strftime("%H:%M")+" has no horse assigned to it.<br/>Click here to go to the bookings section."}
+    end
+    issues.uniq
   end
 end

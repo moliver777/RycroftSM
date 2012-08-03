@@ -63,6 +63,6 @@ class Note < ActiveRecord::Base
   end
 
   def self.priority
-    
+    Note.where(:urgent => true)
   end
 end

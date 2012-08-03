@@ -133,10 +133,23 @@ button.on {
   float: left;
 }
 
+#footer #issues_footer {
+  width: 300px;
+  height: 50px;
+  margin: auto;
+  text-align: center;
+  border: 1px solid #5F5F5F;
+}
+
+#footer #issues_footer span, #footer #issues_footer a {
+  display: inline-block;
+  margin-top: 7px;
+}
+
 #footer #powered_by {
   position: relative;
   float: right;
-  bottom: 7px;
+  bottom: 57px;
   line-height: 25px;
 }
 

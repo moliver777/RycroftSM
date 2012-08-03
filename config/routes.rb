@@ -112,6 +112,7 @@ RycroftSM::Application.routes.draw do
   post "/account/change_password" => "account#change_password"
 
   # SESSION
+  post "/issue/:drop_id" => "application#drop_issue"
   get "/login" => "session#login"
   post "/login" => "session#create"
   get "/logout" => "session#destroy"
