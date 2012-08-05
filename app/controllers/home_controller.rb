@@ -9,6 +9,7 @@ class HomeController < ApplicationController
     while !["00","15","30","45"].include?(time.strftime("%M"))
       time = time.advance(:minutes => 1)
     end
+    @next_split = time
     5.times do |i|
       @times << time.strftime("%H:%M")
       time = time.advance(:minutes => 15)

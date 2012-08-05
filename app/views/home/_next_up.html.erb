@@ -1,17 +1,21 @@
-<table id="next_up" style="width:100%;">
-	<% @events.each_with_index do |event,i| %>
-		<tr class="<%= 'odd' if i%2==0 %>">
-			<td><%= event.start_time.strftime("%H:%M") %>-<%= event.end_time.strftime("%H:%M") %></td>
-			<td><strong><%= event.name %></strong></td>
-			<td><strong>Staff:</strong> <%= event.staff.first_name if event.staff %> <%= event.staff.last_name if event.staff %></td>
-			<td><strong>Venue:</strong> <%= event.venue.name if event.venue %></td>
-		</tr>
-		<% event.bookings.each do |booking| %>
-			<tr class="<%= 'odd' if i%2==0 %>" style="<%= 'border-bottom:1px solid #5F5F5F;' if booking==event.bookings.last %>">
-				<td colspan="2"></td>
-				<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
-				<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
+<% if !@events.empty? %>
+	<table id="next_up" style="width:100%;">
+		<% @events.each_with_index do |event,i| %>
+			<tr class="<%= 'odd' if i%2==0 %>">
+				<td><%= event.start_time.strftime("%H:%M") %>-<%= event.end_time.strftime("%H:%M") %></td>
+				<td><strong><%= event.name %></strong></td>
+				<td><strong>Staff:</strong> <%= event.staff.first_name if event.staff %> <%= event.staff.last_name if event.staff %></td>
+				<td><strong>Venue:</strong> <%= event.venue.name if event.venue %></td>
 			</tr>
+			<% event.bookings.each do |booking| %>
+				<tr class="<%= 'odd' if i%2==0 %>" style="<%= 'border-bottom:1px solid #5F5F5F;' if booking==event.bookings.last %>">
+					<td colspan="2"></td>
+					<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
+					<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
+				</tr>
+			<% end %>
 		<% end %>
-	<% end %>
-</table>
+	</table>
+<% else %>
+	<div class="nothing_to_display">No events starting in the next hour (<%= @next_split.strftime("%H:%M") %>-<%= @next_split.advance(:hours => 1).strftime("%H:%M") %>)</div>
+<% end %>
