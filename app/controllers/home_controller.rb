@@ -19,8 +19,11 @@ class HomeController < ApplicationController
 
   def search
     results = []
+    clients = Client.all
     parse_search(params[:search]).split(" ").each do |term|
-      Client.where("first_name LIKE ? OR last_name LIKE ?", term, term).each{|result| results << result}
+      clients.select{|c| c.first_name.downcase == term.downcase || c.last_name.downcase == term.downcase}.each do |result|
+        results << result
+      end
     end
     @results = results.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
   end
