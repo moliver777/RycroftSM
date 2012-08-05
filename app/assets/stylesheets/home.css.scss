@@ -108,3 +108,11 @@ div.nothing_to_display {
   margin-top: 50px;
   font-weight: bold;
 }
+
+table#next_up, table#next_up td {
+  border: 0;
+}
+
+table#next_up tr.odd {
+  background-color: rgba(0,0,0,0.1);
+}

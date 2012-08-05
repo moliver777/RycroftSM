@@ -3,6 +3,17 @@ class HomeController < ApplicationController
 
   def index
     @all_notes = Note.order("urgent DESC")
+    @date = Date.today
+    @times = []
+    time = Time.now
+    while !["00","15","30","45"].include?(time.strftime("%M"))
+      time = time.advance(:minutes => 1)
+    end
+    5.times do |i|
+      @times << time.strftime("%H:%M")
+      time = time.advance(:minutes => 15)
+    end
+    @events = Event.where(:event_date => @date, :start_time => @times).order("start_time")
   end
 
   def search
