@@ -1,0 +1,9 @@
+<% if !@status_issues.empty? %>
+	<ul class="home_list">
+		<% @status_issues.each_with_index do |issue,i| %>
+			<li class="<%= 'odd' if i%2==0 %>"><a href="<%= issue[:link] %>"><%= issue[:text].html_safe %></a></li>
+		<% end %>
+	</ul>
+<% else %>
+<div class="nothing_to_display">No issues found</div>
+<% end %>

@@ -148,10 +148,9 @@ button.on {
 }
 
 #footer #powered_by {
-  position: absolute;
   float: right;
-  bottom: 50px;
-  right: 40px;
+  position: relative;
+  top: -5px;
   line-height: 25px;
 }
 

@@ -2,6 +2,7 @@ class HomeController < ApplicationController
   skip_before_filter :user_permission?
 
   def index
+    @all_notes = Note.order("urgent DESC")
   end
 
   def search

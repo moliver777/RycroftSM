@@ -165,6 +165,18 @@ class BookingsController < ApplicationController
     @horses = Horse.order("name")
   end
 
+  def auto_search
+    @clients = Client.order("last_name")
+    @horses = Horse.order("name")
+    @results = []
+    horse = Horse.find(params[:horse_id]) if params[:horse_id] rescue nil
+    @horse_id = horse.id if horse
+    Event.where(:event_date => Date.today).each do |event|
+       event.bookings.where(:horse_id => horse.id).each{|b| @results << b} if horse
+    end
+    render "search"
+  end
+
   def search_results
     @results = []
     client = Client.find(params[:fields][:client]) if params[:fields][:client]

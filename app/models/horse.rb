@@ -100,7 +100,7 @@ class Horse < ActiveRecord::Base
   def self.status
     issues = []
     Horse.all.each do |horse|
-      issues << {:link => "/bookings", :text => horse.name+" is overworked today. Current workload: "+horse.workload(Date.today)+"hrs.<br/>Click to go to the bookings section."} if horse.over_workload Date.today
+      issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is overworked today - Current workload: "+horse.workload(Date.today)+"hrs"} if horse.over_workload Date.today
       event_splits = []
       horse.events.where(:event_date => Date.today).each do |event|
         splits = []
@@ -123,7 +123,7 @@ class Horse < ActiveRecord::Base
         first = event.first
         event_splits.each_with_index do |event2,j|
           if i != j
-            issues << {:link => "/bookings", :text => horse.name+" is booked into consecutive events with no break at "+first+".<br/>Click to go to the bookings section."} if first == event2.last
+            issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is booked into consecutive events with no break at "+first} if first == event2.last
           end
         end
       end
@@ -133,7 +133,7 @@ class Horse < ActiveRecord::Base
           event_splits.each_with_index do |event2,j|
             event2.each do |split2|
               if i != j && split2 != event2.first && split2 != event2.last
-                issues << {:link => "/bookings", :text => horse.name+" is double-booked across different events.<br/>Click to go to the bookings section."} if split == split2
+                issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is double-booked across different events"} if split == split2
               end
             end
           end
@@ -144,7 +144,7 @@ class Horse < ActiveRecord::Base
       bookings.each_with_index do |booking,i|
         bookings.each_with_index do |booking2,j|
           if i != j
-            issues << {:link => "/bookings", :text => horse.name+" is double-booked for the "+booking.event.name+" event at "+booking.event.start_time.strftime("%H:%M")+".<br/>Click to go to the bookings section."} if booking.event == booking2.event
+            issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is double-booked for the "+booking.event.name+" event at "+booking.event.start_time.strftime("%H:%M")} if booking.event == booking2.event
           end
         end
       end

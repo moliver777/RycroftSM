@@ -30,6 +30,7 @@ RycroftSM::Application.routes.draw do
   get "/bookings/client_search/:search" => "bookings#client_search"
   get "/bookings/search" => "bookings#search"
   get "/bookings/search_results" => "bookings#search_results"
+  get "/bookings/search/:horse_id" => "bookings#auto_search"
 
   # CLIENTS
   get "/clients" => "clients#index"

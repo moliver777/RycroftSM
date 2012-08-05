@@ -86,6 +86,7 @@
 				}
 				if ($("td.selected").length == 0) {
 					$("#set_time").removeClass().addClass("start").attr("disabled", false).html("Set Start Time");
+					timetableInteraction();
 				} else {
 					$("#set_time").removeClass().addClass("start").attr("disabled", true).html("Finished Setting Time");
 				}

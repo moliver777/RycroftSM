@@ -62,9 +62,9 @@ class Event < ActiveRecord::Base
 
   def self.status
     issues = []
-    Event.all.each do |event|
-      issues << {:link => "/bookings", :text => event.name+" at "+event.start_time.strftime("%H:%M")+" is over capacity with too many bookings: "+event.bookings.count.to_s+"/"+event.max_clients.to_s+".<br/>Click here to go to the bookings section."} if event.bookings.count > event.max_clients
-      issues << {:link => "/bookings", :text => event.name+" at "+event.start_time.strftime("%H:%M")+" has no staff member assigned to it.<br/>Click here to go to the bookings section."} if !event.staff
+    Event.where(:event_date => Date.today).each do |event|
+      issues << {:link => "/bookings/edit_event/"+event.id.to_s, :text => event.name+" at "+event.start_time.strftime("%H:%M")+" is over capacity with too many bookings: "+event.bookings.count.to_s+"/"+event.max_clients.to_s} if event.bookings.count > event.max_clients
+      issues << {:link => "/bookings/edit_event/"+event.id.to_s, :text => event.name+" at "+event.start_time.strftime("%H:%M")+" has no staff member assigned to it"} if !event.staff
     end
     issues.uniq
   end

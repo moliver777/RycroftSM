@@ -27,16 +27,20 @@
 </div>
 
 <div id="booking_search_results_panel">
-	<table id="booking_search_results">
-		<tr>
-			<th>Event</th>
-			<th>Date</th>
-			<th>Time</th>
-			<th>Client</th>
-			<th>Horse</th>
-			<th></th>
-		</tr>
-	</table>
+	<% if @results %>
+		<%= render :partial => "booking_search_results" %>
+	<% else %>
+		<table id="booking_search_results">
+			<tr>
+				<th>Event</th>
+				<th>Date</th>
+				<th>Time</th>
+				<th>Client</th>
+				<th>Horse</th>
+				<th></th>
+			</tr>
+		</table>
+	<% end %>
 </div>
 
 <script type="text/javascript">
@@ -64,5 +68,9 @@
 				}
 			})
 		})
+		var horse_id = "<%= @horse_id if @horse_id %>"
+		if (horse_id.length > 0) {
+			$("select#horse").val(horse_id);
+		}
 	})
 </script>

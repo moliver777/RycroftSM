@@ -23,12 +23,10 @@ div.home_right div.home_content {
 }
 
 div#next_up {
-  margin-bottom: 40px;
   border-radius: 0 0 25px 0;
 }
 
 div#issues {
-  margin-bottom: 40px;
   border-radius: 0 0 0 25px;
 }
 
@@ -64,4 +62,49 @@ tr.result {
 
 tr.result:hover {
   background-color: rgba(0,0,0,0.1);
+}
+
+div#clock_wrapper {
+  position: relative;
+  clear: both;
+  top: -10px;
+  text-align: center;
+  height: 40px;
+}
+
+div#clock_wrapper div#date_wrapper_1 {
+  position: relative;
+  top: 25px;
+  float:left;
+  padding-left: 35%;
+  width: 10%;
+  text-align: right;
+}
+
+div#clock_wrapper div#date_wrapper_2 {
+  position: relative;
+  top: 25px;
+  float:right;
+  padding-right: 35%;
+  width: 10%;
+}
+
+/* PANEL LISTS */
+ul.home_list {
+  width: 100%;
+}
+
+ul.home_list li {
+  border-bottom: 1px solid #5F5F5F;
+  padding: 5px;
+}
+
+ul.home_list li.odd {
+  background-color: rgba(0,0,0,0.1);
+}
+
+div.nothing_to_display {
+  text-align: center;
+  margin-top: 50px;
+  font-weight: bold;
 }

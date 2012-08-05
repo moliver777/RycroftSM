@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   def application_status
     timer = SiteSetting.where(:name => "application_status_check").first
-    if timer.updated_at < Time.now.advance(:minutes => -2)
+    if timer.updated_at < Time.now#.advance(:minutes => -2)
       timer.value = timer.value.to_i == 999 ? 0.to_s : (timer.value.to_i + 1).to_s
       timer.save!
       issues = []

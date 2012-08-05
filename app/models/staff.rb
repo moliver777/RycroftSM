@@ -55,7 +55,7 @@ class Staff < ActiveRecord::Base
           event_splits.each_with_index do |event2,j|
             event2.each do |split2|
               if i != j && split2 != event2.first && split2 != event2.last
-                issues << {:link => "/bookings", :text => staff.first_name+" "+staff.last_name+" is double-booked across different events.<br/>Click to go to the bookings section."} if split == split2
+                issues << {:link => "/bookings", :text => staff.first_name+" "+staff.last_name+" is double-booked across different events"} if split == split2
               end
             end
           end
