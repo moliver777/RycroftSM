@@ -1,1 +1,127 @@
 <h2>Preferences & Site Settings</h2>
+<div class="show_section">
+	<h3>Preferences</h3>
+	<table>
+		<tr>
+			<th>Clock Style:</th>
+			<td>
+				<select class="field" id="clock_style">
+					<option value="swissRail">Swiss Rail</option>
+					<option value="chunkySwiss">Chunky Swiss</option>
+					<option value="fancy">Fancy</option>
+					<option value="simple">Simple</option>
+					<option value="classic">Classic</option>
+					<option value="modern">Modern</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Home Report Panel (left):</th>
+			<td>
+				<select class="field" id="home_report_1">
+					<option value="horse_workloads">Horse Workloads</option>
+					<option value="horse_events">Horse Events</option>
+					<option value="horse_standards">Horse Standards</option>
+					<option value="client_ages">Client Ages</option>
+					<option value="client_events">Client Events</option>
+					<option value="client_standards">Client Standards</option>
+					<option value="event_types">Event Types</option>
+					<option value="bookings_by_day">Bookings by Day</option>
+					<option value="bookings_by_hour">Bookings by Hour</option>
+				</select>
+				 for 
+				<select class="field" id="home_report_1_period">
+					<option value="1">Last 24 Hours</option>
+					<option value="7">Last 7 Days</option>
+					<option value="30">Last Month</option>
+					<option value="0">All Time</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Home Report Panel (right):</th>
+			<td>
+				<select class="field" id="home_report_2">
+					<option value="horse_workloads">Horse Workloads</option>
+					<option value="horse_events">Horse Events</option>
+					<option value="horse_standards">Horse Standards</option>
+					<option value="client_ages">Client Ages</option>
+					<option value="client_events">Client Events</option>
+					<option value="client_standards">Client Standards</option>
+					<option value="event_types">Event Types</option>
+					<option value="bookings_by_day">Bookings by Day</option>
+					<option value="bookings_by_hour">Bookings by Hour</option>
+				</select>
+				 for 
+				<select class="field" id="home_report_2_period">
+					<option value="1">Last 24 Hours</option>
+					<option value="7">Last 7 Days</option>
+					<option value="30">Last Month</option>
+					<option value="0">All Time</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="show_section">
+	<h3>Site Settings</h3>
+	<table>
+		<tr>
+			<th>Issue and Note Check Interval:</th>
+			<td><input class="field" id="status_check_interval" type="number" style="width:50px;" /> mins</td>
+		</tr>
+		<tr>
+			<th>Business Name:</th>
+			<td><input class="field" id="business_name" style="width:400px;" /></td>
+		</tr>
+		<tr>
+			<th>Business Address:</th>
+			<td><input class="field" id="business_address" style="width:400px;" /></td>
+		</tr>
+		<tr>
+			<th>Business Telephone:</th>
+			<td><input class="field" id="business_telephone" style="width:400px;" /></td>
+		</tr>
+		<tr>
+			<th>Business Email:</th>
+			<td><input class="field" id="business_email" style="width:400px;" /></td>
+		</tr>
+	</table>
+</div>
+<div style="text-align:center;">
+	<button id="update">Update</button><br/>
+	<div id="success" style="padding-top:10px;text-align:center;"></div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each(JSON.parse('<%= @preferences.to_json.html_safe %>'), function(i,preference) {
+			$("select#"+preference.name).val(preference.value);
+		})
+		$.each(JSON.parse('<%= @site_settings.to_json.html_safe %>'), function(i,setting) {
+			$("input#"+setting.name).val(setting.value);
+		})
+
+		$("button#update").click(function() {
+			$("div#success").html("");
+			var params = {
+				preferences: {},
+				site_settings: {}
+			}
+			$.each($("select.field"), function(i,preference) {
+				params.preferences[$(preference).attr("id")] = $(preference).val();
+			})
+			$.each($("input.field"), function(i,setting) {
+				params.site_settings[$(setting).attr("id")] = $(setting).val();
+			})
+			$.ajax({
+				url: "/admin/update_settings",
+				type: "POST",
+				data: params,
+				success: function() {
+					$("div#success").html("Preferences & Site Settings were successfully updated!");
+				}
+			})
+		})
+	})
+</script>

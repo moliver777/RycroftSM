@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticated_user?
   before_filter :user_permission?
   before_filter :application_status
+  before_filter :setup
 
   def authenticated_user?
     if !session[:username]
@@ -46,6 +47,14 @@ class ApplicationController < ActionController::Base
     session[:issues].each{|issue| issues << issue unless issue[:id] == params[:drop_id]}
     session[:issues] = issues
     render :nothing => true
+  end
+
+  def setup
+    @clock_style = Preference.where(:name => "clock_style").first.value rescue ""
+    @business_name = SiteSetting.where(:name => "business_name").first.value rescue ""
+    @business_address = SiteSetting.where(:name => "business_address").first.value rescue ""
+    @business_telephone = SiteSetting.where(:name => "business_telephone").first.value rescue ""
+    @business_email = SiteSetting.where(:name => "business_email").first.value rescue ""
   end
 
   def current_user

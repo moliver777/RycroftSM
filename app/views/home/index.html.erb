@@ -12,7 +12,7 @@
 		<div class="home_title" id="issues_title">Issues</div>
 	</div>
 </div>
-<div id="clock_wrapper"><div id="date_wrapper_1"><%= Date.today.strftime("%A") %> <%= Date.today.strftime("%d").to_i.ordinalize %></div><canvas id="clock" class="CoolClock:swissRail:30::"></canvas><div id="date_wrapper_2"><%= Date.today.strftime("%B %Y") %></div></div>
+<div id="clock_wrapper"><div id="date_wrapper_1"><%= Date.today.strftime("%A") %> <%= Date.today.strftime("%d").to_i.ordinalize %></div><canvas id="clock" class="CoolClock:<%= @clock_style %>:30::"></canvas><div id="date_wrapper_2"><%= Date.today.strftime("%B %Y") %></div></div>
 <div id="home_row_2">
 	<div class="home_panel home_left" id="reports">
 		<div class="home_title" id="reports_title">Reports</div>

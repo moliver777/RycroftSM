@@ -10,22 +10,23 @@ class AdminController < ApplicationController
   end
 
   def update_settings
-    params[:prefernces].each do |preference|
+    params[:preferences].each do |preference|
       begin
-        p = Preference.where(:name => preference[:name]).first
-        p.value = preference[:value]
-        p.save!
+        pref = Preference.where(:name => preference[0]).first
+        pref.value = preference[1]
+        pref.save!
       rescue
       end
     end
-    params[:site_settings].each do |site_setting|
+    params[:site_settings].each do |setting|
       begin
-        s = SiteSetting.where(:name => site_setting[:name]).first
-        s.value = site_setting[:value]
-        s.save!
+        sset = SiteSetting.where(:name => setting[0]).first
+        sset.value = setting[1]
+        sset.save!
       rescue
       end
     end
+    render :nothing => true
   end
 
   def master_only
