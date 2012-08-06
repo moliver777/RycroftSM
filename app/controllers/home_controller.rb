@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @all_notes = Note.order("urgent DESC")
     @date = Date.today
     @times = []
-    time = Time.now
+    time = Time.now.utc.localtime
     while !["00","15","30","45"].include?(time.strftime("%M"))
       time = time.advance(:minutes => 1)
     end
