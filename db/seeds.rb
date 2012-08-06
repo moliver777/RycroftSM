@@ -10,27 +10,27 @@ user.save!
 
 config = Preference.new
 config.name = "clock_style"
-config.value = "swissRails"
+config.value = "swissRail"
 config.save!
 
 config = Preference.new
 config.name = "home_report_1"
-config.value = ""
+config.value = "client_events"
 config.save!
 
 config = Preference.new
 config.name = "home_report_1_period"
-config.value = ""
+config.value = "7"
 config.save!
 
 config = Preference.new
 config.name = "home_report_2"
-config.value = "0"
+config.value = "horse_events"
 config.save!
 
 config = Preference.new
 config.name = "home_report_2_period"
-config.value = "0"
+config.value = "7"
 config.save!
 
 
@@ -44,7 +44,7 @@ config.save!
 config = SiteSetting.new
 config.name = "status_check_interval"
 config.value = "2"
-config.external = false
+config.external = true
 config.save!
 
 config = SiteSetting.new
