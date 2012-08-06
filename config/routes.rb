@@ -65,10 +65,7 @@ RycroftSM::Application.routes.draw do
 
   # REPORTS
   get "/reports" => "reports#index"
-  # get "/reports/bookings" => "reports#bookings"
-  # get "/reports/clients/:client_id" => "reports#client"
-  # get "/reports/horses/:horse_id" => "reports#horse"
-  # get "/reports/staff/:staff_id" => "reports#staff"
+  get "/reports/:from_date/:to_date" => "reports#change_date"
 
   # NOTES
   get "/notes" => "notes#index"

@@ -45,6 +45,19 @@ class Horse < ActiveRecord::Base
     time+"/"+self.max_day_workload.to_s
   end
 
+  def workload_period from, to
+    hours = 0
+    mins = 0
+    self.events.where(:event_date => from..to).each do |event|
+      duration = event.duration.split(":")
+      hours += duration[0].to_i
+      mins += duration[1].to_i
+    end
+    hours += mins/60
+    mins = mins%60
+    mins > 0 ? hours.to_s+"."+((mins/15)*25).to_s : hours.to_s
+  end
+
   def over_workload date
     return nil unless date
     hours = 0

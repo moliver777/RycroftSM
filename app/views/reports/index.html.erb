@@ -1,6 +1,7 @@
 <h2>Reports</h2>
 <div id="report_controls">
 	<%= text_field_tag "from_date", Date.today.to_time.advance(:days => -7).to_date, :class => "date" %> to <%= text_field_tag "to_date", Date.today, :class => "date" %>
+	<button id="update">Update</button>
 </div>
 <div id="report_contents">
 	<%= render :partial => "reports" %>
@@ -11,5 +12,15 @@
 		$("input#from_date").datepicker({dateFormat: "yy-mm-dd"});
 		$("input#to_date").datepicker({dateFormat: "yy-mm-dd"});
 		$(".ui-datepicker").hide();
+
+		$("button#update").click(function() {
+			$.ajax({
+				url: "/reports/"+$("input#from_date").val()+"/"+$("input#to_date").val(),
+				type: "GET",
+				success: function(json) {
+					$("div#report_contents").html(json.view);
+				}
+			})
+		})
 	})
 </script>
