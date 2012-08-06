@@ -35,18 +35,20 @@ var REPORTS = {
 		var chart = d3.select("g#workloadsChart");
 
 		try {
-			$.each(options.data, function(i,horse) {
-				chart.append("svg:rect")
-					.attr("x",x(i))
-					.attr("y",y(max)-y(horse.workload))
-					.attr("width",x(1)+"px")
-					.attr("height",y(horse.workload)+"px")
-					.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
-				svg.append("svg:text")
-					.attr("x",x(i)+2)
-					.attr("y",y(max)+10)
-					.text((horse.name.length > 10) ? horse.name.substr(0,8)+".." : horse.name);
-			})
+			if (max > 0) {
+				$.each(options.data, function(i,horse) {
+					chart.append("svg:rect")
+						.attr("x",x(i))
+						.attr("y",y(max)-y(horse.workload))
+						.attr("width",x(1)+"px")
+						.attr("height",y(horse.workload)+"px")
+						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
+					svg.append("svg:text")
+						.attr("x",x(i)+2)
+						.attr("y",y(max)+10)
+						.text((horse.name.length > 10) ? horse.name.substr(0,8)+".." : horse.name);
+				})
+			}
 		} catch (e) {
 			// console.log(e)
 		}
@@ -65,10 +67,18 @@ var REPORTS = {
 			.attr("stroke","#000")
 			.attr("transform","translate(0,-1)");
 
-		svg.append("svg:text")
-			.attr("x",x(count)+5)
-			.attr("y",10)
-			.style("text-anchor","right")
-			.text(max+"hrs");
+		if (max > 0) {
+			svg.append("svg:text")
+				.attr("x",x(count)+5)
+				.attr("y",10)
+				.style("text-anchor","right")
+				.text(max+"hrs");
+		} else {
+			svg.append("svg:text")
+				.attr("x",(width/2)+10)
+				.attr("y",20)
+				.style("text-anchor","right")
+				.text("No data");
+		}
 	}
 }
