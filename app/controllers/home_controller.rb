@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @all_notes = Note.order("urgent DESC")
     @date = Date.today
     @times = []
-    time = Time.now
+    time = ActiveSupport::TimeZone.find_tzinfo("London").utc_to_local(Time.now.utc)
     while !["00","15","30","45"].include?(time.strftime("%M"))
       time = time.advance(:minutes => 1)
     end
