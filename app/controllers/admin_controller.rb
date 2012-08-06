@@ -21,7 +21,7 @@ class AdminController < ApplicationController
     params[:site_settings].each do |setting|
       begin
         sset = SiteSetting.where(:name => setting[0]).first
-        sset.value = setting[1]
+        sset.value = setting[1].gsub("'","")
         sset.save!
       rescue
       end

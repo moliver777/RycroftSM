@@ -1,2 +1,15 @@
-REPORTS
-index.html.erb
+<h2>Reports</h2>
+<div id="report_controls">
+	<%= text_field_tag "from_date", Date.today.to_time.advance(:days => -7).to_date, :class => "date" %> to <%= text_field_tag "to_date", Date.today, :class => "date" %>
+</div>
+<div id="report_contents">
+	<%= render :partial => "reports" %>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input#from_date").datepicker({dateFormat: "yy-mm-dd"});
+		$("input#to_date").datepicker({dateFormat: "yy-mm-dd"});
+		$(".ui-datepicker").hide();
+	})
+</script>

@@ -1,0 +1,95 @@
+<div class="report_panel">
+	<h3>Horse Workloads</h3>
+	<div id="horse_workloads_container"></div>
+</div>
+<div class="report_panel">
+	<h3>Horse Events</h3>
+	<div id="horse_events_container"></div>
+</div>
+<div class="report_panel">
+	<h3>Horse Standards</h3>
+	<div id="horse_standards_container"></div>
+</div>
+<div class="report_panel">
+	<h3>Client Ages</h3>
+	<div id="client_ages_container"></div>
+</div>
+<div class="report_panel">
+	<h3>Client Events</h3>
+	<div id="client_events_container"></div>
+</div>
+<div class="report_panel">
+	<h3>Client Standards</h3>
+	<div id="client_standards_container"></div>
+</div>
+<div class="report_panel">
+	<h3>Event Types</h3>
+	<div id="event_types_container"></div>
+</div>
+<div class="report_panel">
+	<h3>Bookings by Day</h3>
+	<div id="day_bookings_container"></div>
+</div>
+<div class="report_panel">
+	<h3>Bookings by Hour</h3>
+	<div id="hour_bookings_container"></div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		REPORTS.create({
+			name: "horse_workloads",
+			data: [],
+			mini: false,
+			container: $("horse_workloads_container")
+		});
+		REPORTS.create({
+			name: "horse_events",
+			data: [],
+			mini: false,
+			container: $("horse_events_container")
+		});
+		REPORTS.create({
+			name: "horse_standards",
+			data: [],
+			mini: false,
+			container: $("horse_standards_container")
+		});
+		REPORTS.create({
+			name: "client_ages",
+			data: [],
+			mini: false,
+			container: $("client_ages_container")
+		});
+		REPORTS.create({
+			name: "client_events",
+			data: [],
+			mini: false,
+			container: $("client_events_container")
+		});
+		REPORTS.create({
+			name: "client_standards",
+			data: [],
+			mini: false,
+			container: $("client_standards_container")
+		});
+		REPORTS.create({
+			name: "event_types",
+			data: [],
+			mini: false,
+			container: $("event_types_container")
+		});
+		REPORTS.create({
+			name: "bookings_by_day",
+			data: [],
+			mini: false,
+			container: $("day_bookings_container")
+		});
+		REPORTS.create({
+			name: "bookings_by_hour",
+			data: [],
+			mini: false,
+			container: $("hour_bookings_container")
+		});
+	});
+</script>

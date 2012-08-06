@@ -9,6 +9,12 @@
 //= require_tree .
 
 
+
+// INNER CONTENT PANEL HEIGHT
+$(document).ready(function() {
+	$("#inner_content").css("height", $("#appcontent").height()-40+"px");
+})
+
 // LINK BUTTONS
 $(document).ready(function() {
 	$.each($("button.link"), function(i,link) {
