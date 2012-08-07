@@ -49,6 +49,11 @@ class ReportsController < ApplicationController
   end
 
   def horse_standards
+    @horse_standards = [
+      {:name => "Beginner", :count => Horse.where(:standard => Horse::BEGINNER).count},
+      {:name => "Intermediate", :count => Horse.where(:standard => Horse::INTERMEDIATE).count},
+      {:name => "Advanced", :count => Horse.where(:standard => Horse::ADVANCED).count}
+    ]
   end
 
   def client_ages
@@ -90,14 +95,22 @@ class ReportsController < ApplicationController
   end
 
   def client_standards
+    @client_standards = [
+      {:name => "Beginner", :count => Client.where(:standard => Horse::BEGINNER).count},
+      {:name => "Intermediate", :count => Client.where(:standard => Horse::INTERMEDIATE).count},
+      {:name => "Advanced", :count => Client.where(:standard => Horse::ADVANCED).count}
+    ]
   end
 
   def event_types
+    
   end
 
   def bookings_by_day
+    
   end
 
   def bookings_by_hour
+    
   end
 end

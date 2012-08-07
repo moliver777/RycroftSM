@@ -182,7 +182,96 @@ var REPORTS = {
 	},
 
 	horse_standards: function(options) {
-		
+		var arc = d3.svg.arc();
+		var pie = d3.layout.pie();
+		var count = options.data.length;
+		var width = $(options.container).width()-80;
+		var height = 200;
+		var radius = height/2
+
+		// arcs definition
+		function arcs(x,y) {
+			var current_arcs = pie(x);
+			var new_arcs = pie(y);
+			var i = -1;
+			var arc;
+			while (++i < count) {
+				arc = current_arcs[i];
+				arc.innerRadius = 0;
+				arc.outerRadius = radius;
+				arc.next = new_arcs[i];
+			}
+			return current_arcs;
+		}
+
+		var container = d3.select("#"+$(options.container).attr('id'))
+			.append("svg:svg")
+			.attr("width",$(options.container).css("width"))
+			.attr("height","230px")
+			.attr("id","horseStandardsSvg");
+
+		var svg = d3.select("svg#horseStandardsSvg")
+			.append("svg:g")
+			.attr("id", "hstandardsChart");
+
+		var chart = d3.select("g#hstandardsChart");
+
+		// create paths
+		var data = [];
+		$.each(options.data, function(i,horse) {data.push(horse.count)});
+		try {
+			chart.selectAll("g.hstandards_arc")
+				.data(arcs(data,data))
+				.enter().append("svg:g")
+				.attr("class","hstandards_arc")
+				.attr("transform","translate("+((width/2)+(radius/2))+","+(radius+5)+")")
+				.append("svg:path")
+				.attr("fill",function(d,i){return (i==0) ? '#EEEEEE': ((i==1) ? '#CCCCCC' : '#5F5F5F')})
+				.attr("d",arc)
+				.attr("id",function(d,i){return i});
+
+			// legend
+			chart.append("svg:rect")
+				.attr("x",(width/6)+10)
+				.attr("y",height+10)
+				.attr("width","10px")
+				.attr("height","10px")
+				.attr("stroke","#000000")
+				.attr("fill","#EEEEEE");
+			chart.append("svg:text")
+				.attr("x",(width/6)+22)
+				.attr("y",height+20)
+				.text("Beginner");
+			chart.append("svg:rect")
+				.attr("x",((width/6)*3)+10)
+				.attr("y",height+10)
+				.attr("width","10px")
+				.attr("height","10px")
+				.attr("stroke","#000000")
+				.attr("fill","#CCCCCC");
+			chart.append("svg:text")
+				.attr("x",((width/6)*3)+22)
+				.attr("y",height+20)
+				.text("Intermediate");
+			chart.append("svg:rect")
+				.attr("x",((width/6)*5)+10)
+				.attr("y",height+10)
+				.attr("width","10px")
+				.attr("height","10px")
+				.attr("stroke","#000000")
+				.attr("fill","#5F5F5F");
+			chart.append("svg:text")
+				.attr("x",((width/6)*5)+22)
+				.attr("y",height+20)
+				.text("Advanced");
+		} catch (e) {
+			svg.append("svg:text")
+				.attr("x",(width/2)+10)
+				.attr("y",20)
+				.style("text-anchor","right")
+				.text("No data");
+			// console.log(e)
+		}
 	},
 
 	client_ages: function(options) {
@@ -336,7 +425,96 @@ var REPORTS = {
 	},
 
 	client_standards: function(options) {
-		
+		var arc = d3.svg.arc();
+		var pie = d3.layout.pie();
+		var count = options.data.length;
+		var width = $(options.container).width()-80;
+		var height = 200;
+		var radius = height/2
+
+		// arcs definition
+		function arcs(x,y) {
+			var current_arcs = pie(x);
+			var new_arcs = pie(y);
+			var i = -1;
+			var arc;
+			while (++i < count) {
+				arc = current_arcs[i];
+				arc.innerRadius = 0;
+				arc.outerRadius = radius;
+				arc.next = new_arcs[i];
+			}
+			return current_arcs;
+		}
+
+		var container = d3.select("#"+$(options.container).attr('id'))
+			.append("svg:svg")
+			.attr("width",$(options.container).css("width"))
+			.attr("height","230px")
+			.attr("id","clientStandardsSvg");
+
+		var svg = d3.select("svg#clientStandardsSvg")
+			.append("svg:g")
+			.attr("id", "cstandardsChart");
+
+		var chart = d3.select("g#cstandardsChart");
+
+		// create paths
+		var data = [];
+		$.each(options.data, function(i,client) {data.push(client.count)});
+		try {
+			chart.selectAll("g.cstandards_arc")
+				.data(arcs(data,data))
+				.enter().append("svg:g")
+				.attr("class","cstandards_arc")
+				.attr("transform","translate("+((width/2)+(radius/2))+","+(radius+5)+")")
+				.append("svg:path")
+				.attr("fill",function(d,i){return (i==0) ? '#EEEEEE': ((i==1) ? '#CCCCCC' : '#5F5F5F')})
+				.attr("d",arc)
+				.attr("id",function(d,i){return i});
+
+			// legend
+			chart.append("svg:rect")
+				.attr("x",(width/6)+10)
+				.attr("y",height+10)
+				.attr("width","10px")
+				.attr("height","10px")
+				.attr("stroke","#000000")
+				.attr("fill","#EEEEEE");
+			chart.append("svg:text")
+				.attr("x",(width/6)+22)
+				.attr("y",height+20)
+				.text("Beginner");
+			chart.append("svg:rect")
+				.attr("x",((width/6)*3)+10)
+				.attr("y",height+10)
+				.attr("width","10px")
+				.attr("height","10px")
+				.attr("stroke","#000000")
+				.attr("fill","#CCCCCC");
+			chart.append("svg:text")
+				.attr("x",((width/6)*3)+22)
+				.attr("y",height+20)
+				.text("Intermediate");
+			chart.append("svg:rect")
+				.attr("x",((width/6)*5)+10)
+				.attr("y",height+10)
+				.attr("width","10px")
+				.attr("height","10px")
+				.attr("stroke","#000000")
+				.attr("fill","#5F5F5F");
+			chart.append("svg:text")
+				.attr("x",((width/6)*5)+22)
+				.attr("y",height+20)
+				.text("Advanced");
+		} catch (e) {
+			svg.append("svg:text")
+				.attr("x",(width/2)+10)
+				.attr("y",20)
+				.style("text-anchor","right")
+				.text("No data");
+			// console.log(e)
+		}
 	},
 
 	event_types: function(options) {
