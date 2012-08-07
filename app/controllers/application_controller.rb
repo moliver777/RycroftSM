@@ -62,4 +62,132 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def horse_workloads
+    horse_workloads = []
+    Horse.all.each do |horse|
+      horse_workloads << {:name => horse.name, :workload => horse.workload_period(@from, @to).to_f}
+    end
+    horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
+    @horse_workloads = horse_workloads.length > 5 ? horse_workloads.slice(0,5) : horse_workloads
+  end
+
+  def horse_events
+    horse_events = []
+    Horse.all.each do |horse|
+      horse_events << {:name => horse.name, :events => horse.events.where(:event_date => @from..@to).count}
+    end
+    horse_events = horse_events.sort_by{|h| h[:events]}.reverse
+    @horse_events = horse_events.length > 5 ? horse_events.slice(0,5) : horse_events
+  end
+
+  def horse_standards
+    @horse_standards = [
+      {:name => "Beginner", :count => Horse.where(:standard => Horse::BEGINNER).count},
+      {:name => "Intermediate", :count => Horse.where(:standard => Horse::INTERMEDIATE).count},
+      {:name => "Advanced", :count => Horse.where(:standard => Horse::ADVANCED).count}
+    ]
+  end
+
+  def client_ages
+    @client_ages = [
+      {:name => "0-18", :count => 0},
+      {:name => "19-25", :count => 0},
+      {:name => "26-35", :count => 0},
+      {:name => "36-45", :count => 0},
+      {:name => "46-55", :count => 0},
+      {:name => "56+", :count => 0}
+    ]
+    Client.all.each do |client|
+      if client.age != 0
+        if client.age < 19
+          @client_ages[0][:count] = @client_ages[0][:count] += 1
+        elsif client.age < 26
+          @client_ages[1][:count] = @client_ages[1][:count] += 1
+        elsif client.age < 36
+          @client_ages[2][:count] = @client_ages[2][:count] += 1
+        elsif client.age < 46
+          @client_ages[3][:count] = @client_ages[3][:count] += 1
+        elsif client.age < 56
+          @client_ages[4][:count] = @client_ages[4][:count] += 1
+        else
+          @client_ages[5][:count] = @client_ages[5][:count] += 1
+        end
+      end
+    end
+    @client_ages
+  end
+
+  def client_events
+    client_events = []
+    Client.all.each do |client|
+      client_events << {:name => client.first_name+" "+client.last_name, :events => client.events.where(:event_date => @from..@to).count}
+    end
+    client_events = client_events.sort_by{|h| h[:events]}.reverse
+    @client_events = client_events.length > 5 ? client_events.slice(0,5) : client_events
+  end
+
+  def client_standards
+    @client_standards = [
+      {:name => "Beginner", :count => Client.where(:standard => Horse::BEGINNER).count},
+      {:name => "Intermediate", :count => Client.where(:standard => Horse::INTERMEDIATE).count},
+      {:name => "Advanced", :count => Client.where(:standard => Horse::ADVANCED).count}
+    ]
+  end
+
+  def event_types
+    @event_types = []
+    Event::TYPES.each do |type|
+      count = 0
+      Event.where(:event_type => type, :event_date => @from..@to).each do |evt|
+        count += evt.bookings.count
+      end
+      @event_types << {:name => type.downcase.capitalize, :count => count}
+    end
+    @event_types
+  end
+
+  def bookings_by_day
+    @day_bookings = [
+      {:name => "Sun", :count => 0},
+      {:name => "Mon", :count => 0},
+      {:name => "Tue", :count => 0},
+      {:name => "Wed", :count => 0},
+      {:name => "Thu", :count => 0},
+      {:name => "Fri", :count => 0},
+      {:name => "Sat", :count => 0}
+    ]
+    Event.where(:event_date => @from..@to).each do |evt|
+      @day_bookings[evt.event_date.strftime("%w").to_i][:count] = @day_bookings[evt.event_date.strftime("%w").to_i][:count] += evt.bookings.count
+    end
+    @day_bookings
+  end
+
+  def bookings_by_hour
+    @hour_bookings = [
+      {:name => "07", :count => 0},
+      {:name => "08", :count => 0},
+      {:name => "09", :count => 0},
+      {:name => "10", :count => 0},
+      {:name => "11", :count => 0},
+      {:name => "12", :count => 0},
+      {:name => "13", :count => 0},
+      {:name => "14", :count => 0},
+      {:name => "15", :count => 0},
+      {:name => "16", :count => 0},
+      {:name => "17", :count => 0},
+      {:name => "18", :count => 0},
+      {:name => "19", :count => 0},
+      {:name => "20", :count => 0},
+      {:name => "21", :count => 0}
+    ]
+    Event.where(:event_date => @from..@to).each do |evt|
+      @hour_bookings.each_with_index do |hour,i|
+        if hour[:name] == evt.start_time.strftime("%H")
+          @hour_bookings[i][:count] = @hour_bookings[i][:count] += evt.bookings.count
+        end
+      end
+    end
+    @hour_bookings
+  end
+
 end

@@ -26,7 +26,7 @@ var REPORTS = {
 				this.bookings_by_day(options);
 			break;
 			case "bookings_by_hour" :
-				this.booking_by_hour(options);
+				this.bookings_by_hour(options);
 			break;
 		}
 	},
@@ -518,14 +518,227 @@ var REPORTS = {
 	},
 
 	event_types: function(options) {
-		
+		var max = 0
+		var count = options.data.length;
+		$.each(options.data, function(i,d) {
+			if (d.count > max) max = d.count;
+		})
+		var width = $(options.container).width()-80;
+		var height = 200;
+		var x = d3.scale.linear()
+			.domain([0, count])
+			.range([0, width]);
+		var y = d3.scale.linear()
+			.domain([0, max])
+			.range([0, height]);
+
+		var container = d3.select("#"+$(options.container).attr('id'))
+			.append("svg:svg")
+			.attr("width",$(options.container).css("width"))
+			.attr("height","230px")
+			.attr("id","eventTypesSvg");
+
+		var svg = d3.select("svg#eventTypesSvg")
+			.append("svg:g")
+			.attr("id", "typesChart");
+
+		var chart = d3.select("g#typesChart");
+
+		try {
+			if (max > 0) {
+				$.each(options.data, function(i,type) {
+					chart.append("svg:rect")
+						.attr("x",x(i))
+						.attr("y",y(max)-y(type.count))
+						.attr("width",x(1)+"px")
+						.attr("height",y(type.count)+"px")
+						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
+					svg.append("svg:text")
+						.attr("x",x(i)+2)
+						.attr("y",y(max)+10)
+						.text(type.name);
+				})
+			}
+		} catch (e) {
+			// console.log(e)
+		}
+
+		chart.append("svg:line")
+			.attr("x1",x(count))
+			.attr("x2",x(count))
+			.attr("y1",y(0))
+			.attr("y2",y(max))
+			.attr("stroke","#000");
+		chart.append("svg:line")
+			.attr("x1",x(0))
+			.attr("x2",x(count))
+			.attr("y1",y(max))
+			.attr("y2",y(max))
+			.attr("stroke","#000")
+			.attr("transform","translate(0,-1)");
+
+		if (max > 0) {
+			svg.append("svg:text")
+				.attr("x",x(count)+5)
+				.attr("y",10)
+				.style("text-anchor","right")
+				.text(max);
+		} else {
+			svg.append("svg:text")
+				.attr("x",(width/2)+10)
+				.attr("y",20)
+				.style("text-anchor","right")
+				.text("No data");
+		}
 	},
 
 	bookings_by_day: function(options) {
-		
+		var max = 0
+		var count = options.data.length;
+		$.each(options.data, function(i,d) {
+			if (d.count > max) max = d.count;
+		})
+		var width = $(options.container).width()-80;
+		var height = 200;
+		var x = d3.scale.linear()
+			.domain([0, count])
+			.range([0, width]);
+		var y = d3.scale.linear()
+			.domain([0, max])
+			.range([0, height]);
+
+		var container = d3.select("#"+$(options.container).attr('id'))
+			.append("svg:svg")
+			.attr("width",$(options.container).css("width"))
+			.attr("height","230px")
+			.attr("id","dayBookingsSvg");
+
+		var svg = d3.select("svg#dayBookingsSvg")
+			.append("svg:g")
+			.attr("id", "dbookingChart");
+
+		var chart = d3.select("g#dbookingChart");
+
+		try {
+			if (max > 0) {
+				$.each(options.data, function(i,day) {
+					chart.append("svg:rect")
+						.attr("x",x(i))
+						.attr("y",y(max)-y(day.count))
+						.attr("width",x(1)+"px")
+						.attr("height",y(day.count)+"px")
+						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
+					svg.append("svg:text")
+						.attr("x",x(i)+2)
+						.attr("y",y(max)+10)
+						.text(day.name);
+				})
+			}
+		} catch (e) {
+			// console.log(e)
+		}
+
+		chart.append("svg:line")
+			.attr("x1",x(count))
+			.attr("x2",x(count))
+			.attr("y1",y(0))
+			.attr("y2",y(max))
+			.attr("stroke","#000");
+		chart.append("svg:line")
+			.attr("x1",x(0))
+			.attr("x2",x(count))
+			.attr("y1",y(max))
+			.attr("y2",y(max))
+			.attr("stroke","#000")
+			.attr("transform","translate(0,-1)");
+
+		if (max > 0) {
+			svg.append("svg:text")
+				.attr("x",x(count)+5)
+				.attr("y",10)
+				.style("text-anchor","right")
+				.text(max);
+		} else {
+			svg.append("svg:text")
+				.attr("x",(width/2)+10)
+				.attr("y",20)
+				.style("text-anchor","right")
+				.text("No data");
+		}
 	},
 
 	bookings_by_hour: function(options) {
-		
+		var max = 0
+		var count = options.data.length;
+		$.each(options.data, function(i,d) {
+			if (d.count > max) max = d.count;
+		})
+		var width = $(options.container).width()-80;
+		var height = 200;
+		var x = d3.scale.linear()
+			.domain([0, count])
+			.range([0, width]);
+		var y = d3.scale.linear()
+			.domain([0, max])
+			.range([0, height]);
+
+		var container = d3.select("#"+$(options.container).attr('id'))
+			.append("svg:svg")
+			.attr("width",$(options.container).css("width"))
+			.attr("height","230px")
+			.attr("id","hourBookingsSvg");
+
+		var svg = d3.select("svg#hourBookingsSvg")
+			.append("svg:g")
+			.attr("id", "hbookingChart");
+
+		var chart = d3.select("g#hbookingChart");
+
+		try {
+			if (max > 0) {
+				$.each(options.data, function(i,hour) {
+					chart.append("svg:rect")
+						.attr("x",x(i))
+						.attr("y",y(max)-y(hour.count))
+						.attr("width",x(1)+"px")
+						.attr("height",y(hour.count)+"px")
+						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
+					svg.append("svg:text")
+						.attr("x",x(i)+2)
+						.attr("y",y(max)+10)
+						.text(hour.name);
+				})
+			}
+		} catch (e) {
+			// console.log(e)
+		}
+
+		chart.append("svg:line")
+			.attr("x1",x(count))
+			.attr("x2",x(count))
+			.attr("y1",y(0))
+			.attr("y2",y(max))
+			.attr("stroke","#000");
+		chart.append("svg:line")
+			.attr("x1",x(0))
+			.attr("x2",x(count))
+			.attr("y1",y(max))
+			.attr("y2",y(max))
+			.attr("stroke","#000")
+			.attr("transform","translate(0,-1)");
+
+		if (max > 0) {
+			svg.append("svg:text")
+				.attr("x",x(count)+5)
+				.attr("y",10)
+				.style("text-anchor","right")
+				.text(max);
+		} else {
+			svg.append("svg:text")
+				.attr("x",(width/2)+10)
+				.attr("y",20)
+				.style("text-anchor","right")
+				.text("No data");
+		}
 	}
 }

@@ -74,24 +74,24 @@
 				mini: false,
 				container: $("#client_standards_container")
 			});
-			// REPORTS.create({
-			// 	name: "event_types",
-			// 	data: JSON.parse('<%= @event_types.to_json.html_safe if @event_types %>'),
-			// 	mini: false,
-			// 	container: $("#event_types_container")
-			// });
-			// REPORTS.create({
-			// 	name: "bookings_by_day",
-			// 	data: JSON.parse('<%= @day_bookings.to_json.html_safe if @day_bookings %>'),
-			// 	mini: false,
-			// 	container: $("#day_bookings_container")
-			// });
-			// REPORTS.create({
-			// 	name: "bookings_by_hour",
-			// 	data: JSON.parse('<%= @hour_bookings.to_json.html_safe if @hour_bookings %>'),
-			// 	mini: false,
-			// 	container: $("#hour_bookings_container")
-			// });
+			REPORTS.create({
+				name: "event_types",
+				data: JSON.parse('<%= @event_types.to_json.html_safe if @event_types %>'),
+				mini: false,
+				container: $("#event_types_container")
+			});
+			REPORTS.create({
+				name: "bookings_by_day",
+				data: JSON.parse('<%= @day_bookings.to_json.html_safe if @day_bookings %>'),
+				mini: false,
+				container: $("#day_bookings_container")
+			});
+			REPORTS.create({
+				name: "bookings_by_hour",
+				data: JSON.parse('<%= @hour_bookings.to_json.html_safe if @hour_bookings %>'),
+				mini: false,
+				container: $("#hour_bookings_container")
+			});
 		} catch (e) {
 			// console.log(e);
 		}

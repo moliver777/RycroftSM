@@ -269,11 +269,13 @@ function timetableInteraction() {
 
 // GET TIME FROM FOLLOWING SEGMENT
 function nextSeg(seg) {
-	next_mins = parseInt($(seg).attr("mins"))+15;
+	mins = parseInt($(seg).attr("mins"));
+	hour = ($(seg).attr("hour")[0] == "0") ? parseInt($(seg).attr("hour")[1]) : parseInt($(seg).attr("hour"));
+	next_mins = mins+15;
 	next_mins = (next_mins == 60) ? "00" : String(next_mins);
-	next_hour = (next_mins == "00") ? parseInt($(seg).attr("hour"))+1 : parseInt($(seg).attr("hour"));
+	next_hour = (next_mins == "00") ? hour+1 : hour;
 	next_hour = (next_hour < 10) ? "0"+String(next_hour) : String(next_hour);
-	return next_hour+":"+next_mins
+	return next_hour+":"+next_mins;
 }
 
 // CALCULATE DURATION OF BOOKING IN SEGMENTS
