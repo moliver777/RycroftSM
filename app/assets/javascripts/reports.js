@@ -38,7 +38,7 @@ var REPORTS = {
 			if (d.workload > max) max = d.workload;
 		})
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var x = d3.scale.linear()
 			.domain([0, count])
 			.range([0, width]);
@@ -49,7 +49,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","horseWorkloadsSvg");
 
 		var svg = d3.select("svg#horseWorkloadsSvg")
@@ -67,10 +67,17 @@ var REPORTS = {
 						.attr("width",x(1)+"px")
 						.attr("height",y(horse.workload)+"px")
 						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
-					svg.append("svg:text")
-						.attr("x",x(i)+2)
-						.attr("y",y(max)+10)
-						.text((horse.name.length > 10) ? horse.name.substr(0,8)+".." : horse.name);
+					if (options.mini) {
+						svg.append("svg:text")
+							.attr("x",x(i)+2)
+							.attr("y",y(max)+10)
+							.text((horse.name.length > 7) ? horse.name.substr(0,6)+".." : horse.name);
+					} else {
+						svg.append("svg:text")
+							.attr("x",x(i)+2)
+							.attr("y",y(max)+10)
+							.text((horse.name.length > 10) ? horse.name.substr(0,8)+".." : horse.name);
+					}
 				})
 			}
 		} catch (e) {
@@ -104,6 +111,9 @@ var REPORTS = {
 				.style("text-anchor","right")
 				.text("No data");
 		}
+		if (options.mini) {
+			$(options.container).append("<span class='home_report_title'>Horse Workloads</span>")
+		}
 	},
 
 	horse_events: function(options) {
@@ -113,7 +123,7 @@ var REPORTS = {
 			if (d.events > max) max = d.events;
 		})
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var x = d3.scale.linear()
 			.domain([0, count])
 			.range([0, width]);
@@ -124,7 +134,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","horseEventsSvg");
 
 		var svg = d3.select("svg#horseEventsSvg")
@@ -142,10 +152,17 @@ var REPORTS = {
 						.attr("width",x(1)+"px")
 						.attr("height",y(horse.events)+"px")
 						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
-					svg.append("svg:text")
-						.attr("x",x(i)+2)
-						.attr("y",y(max)+10)
-						.text((horse.name.length > 10) ? horse.name.substr(0,8)+".." : horse.name);
+					if (options.mini) {
+						svg.append("svg:text")
+							.attr("x",x(i)+2)
+							.attr("y",y(max)+10)
+							.text((horse.name.length > 7) ? horse.name.substr(0,6)+".." : horse.name);
+					} else {
+						svg.append("svg:text")
+							.attr("x",x(i)+2)
+							.attr("y",y(max)+10)
+							.text((horse.name.length > 10) ? horse.name.substr(0,8)+".." : horse.name);
+					}
 				})
 			}
 		} catch (e) {
@@ -178,6 +195,9 @@ var REPORTS = {
 				.attr("y",20)
 				.style("text-anchor","right")
 				.text("No data");
+		}
+		if (options.mini) {
+			$(options.container).append("<span class='home_report_title'>Horse Events</span>")
 		}
 	},
 
@@ -273,7 +293,7 @@ var REPORTS = {
 			// console.log(e)
 		}
 		if (options.mini) {
-			$(options.container).append("<span>Horse Standards</span>")
+			$(options.container).append("<span class='home_report_title'>Horse Standards</span>")
 		}
 	},
 
@@ -284,7 +304,7 @@ var REPORTS = {
 			if (d.count > max) max = d.count;
 		})
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var x = d3.scale.linear()
 			.domain([0, count])
 			.range([0, width]);
@@ -295,7 +315,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","clientAgesSvg");
 
 		var svg = d3.select("svg#clientAgesSvg")
@@ -350,6 +370,9 @@ var REPORTS = {
 				.style("text-anchor","right")
 				.text("No data");
 		}
+		if (options.mini) {
+			$(options.container).append("<span class='home_report_title'>Client Ages</span>")
+		}
 	},
 
 	client_events: function(options) {
@@ -359,7 +382,7 @@ var REPORTS = {
 			if (d.events > max) max = d.events;
 		})
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var x = d3.scale.linear()
 			.domain([0, count])
 			.range([0, width]);
@@ -370,7 +393,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","clientEventsSvg");
 
 		var svg = d3.select("svg#clientEventsSvg")
@@ -388,10 +411,17 @@ var REPORTS = {
 						.attr("width",x(1)+"px")
 						.attr("height",y(client.events)+"px")
 						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
-					svg.append("svg:text")
-						.attr("x",x(i)+2)
-						.attr("y",y(max)+10)
-						.text((client.name.length > 10) ? client.name.substr(0,8)+".." : client.name);
+					if (options.mini) {
+						svg.append("svg:text")
+							.attr("x",x(i)+2)
+							.attr("y",y(max)+10)
+							.text((client.name.length > 7) ? client.name.substr(0,6)+".." : client.name);
+					} else {
+						svg.append("svg:text")
+							.attr("x",x(i)+2)
+							.attr("y",y(max)+10)
+							.text((client.name.length > 10) ? client.name.substr(0,8)+".." : client.name);
+					}
 				})
 			}
 		} catch (e) {
@@ -424,6 +454,9 @@ var REPORTS = {
 				.attr("y",20)
 				.style("text-anchor","right")
 				.text("No data");
+		}
+		if (options.mini) {
+			$(options.container).append("<span class='home_report_title'>Client Events</span>")
 		}
 	},
 
@@ -519,7 +552,7 @@ var REPORTS = {
 			// console.log(e)
 		}
 		if (options.mini) {
-			$(options.container).append("<span>Client Standards</span>")
+			$(options.container).append("<span class='home_report_title'>Client Standards</span>")
 		}
 	},
 
@@ -530,7 +563,7 @@ var REPORTS = {
 			if (d.count > max) max = d.count;
 		})
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var x = d3.scale.linear()
 			.domain([0, count])
 			.range([0, width]);
@@ -541,7 +574,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","eventTypesSvg");
 
 		var svg = d3.select("svg#eventTypesSvg")
@@ -596,6 +629,9 @@ var REPORTS = {
 				.style("text-anchor","right")
 				.text("No data");
 		}
+		if (options.mini) {
+			$(options.container).append("<span class='home_report_title'>Event Types</span>")
+		}
 	},
 
 	bookings_by_day: function(options) {
@@ -605,7 +641,7 @@ var REPORTS = {
 			if (d.count > max) max = d.count;
 		})
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var x = d3.scale.linear()
 			.domain([0, count])
 			.range([0, width]);
@@ -616,7 +652,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","dayBookingsSvg");
 
 		var svg = d3.select("svg#dayBookingsSvg")
@@ -671,6 +707,9 @@ var REPORTS = {
 				.style("text-anchor","right")
 				.text("No data");
 		}
+		if (options.mini) {
+			$(options.container).append("<span class='home_report_title'>Bookings by Day</span>")
+		}
 	},
 
 	bookings_by_hour: function(options) {
@@ -680,7 +719,7 @@ var REPORTS = {
 			if (d.count > max) max = d.count;
 		})
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var x = d3.scale.linear()
 			.domain([0, count])
 			.range([0, width]);
@@ -691,7 +730,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","hourBookingsSvg");
 
 		var svg = d3.select("svg#hourBookingsSvg")
@@ -745,6 +784,9 @@ var REPORTS = {
 				.attr("y",20)
 				.style("text-anchor","right")
 				.text("No data");
+		}
+		if (options.mini) {
+			$(options.container).append("<span class='home_report_title'>Bookings by Hour</span>")
 		}
 	}
 }

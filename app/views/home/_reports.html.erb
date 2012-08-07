@@ -3,14 +3,14 @@
 
 <script type="text/javascript">
 	REPORTS.create({
-		name: "horse_standards",
-		data: JSON.parse('<%= @horse_standards.to_json.html_safe if @horse_standards %>'),
+		name: "<%= @home_report_1 %>",
+		data: JSON.parse('<%= @data1.to_json.html_safe if @data1 %>'),
 		mini: true,
 		container: $("#home_report_panel_1")
 	});
 	REPORTS.create({
-		name: "client_standards",
-		data: JSON.parse('<%= @client_standards.to_json.html_safe if @client_standards %>'),
+		name: "<%= @home_report_2 %>",
+		data: JSON.parse('<%= @data2.to_json.html_safe if @data2 %>'),
 		mini: true,
 		container: $("#home_report_panel_2")
 	});

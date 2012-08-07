@@ -2,8 +2,7 @@ class HomeController < ApplicationController
   skip_before_filter :user_permission?
 
   def index
-    horse_standards
-    client_standards
+    reports
     @all_notes = Note.order("urgent DESC")
     @date = Date.today
     @times = []
@@ -68,4 +67,73 @@ class HomeController < ApplicationController
     end
     formatted_events.group_by{|evt| evt["venue_id"]}
   end
+
+  def reports
+    @to = Date.today
+    @home_report_1 = Preference.where(:name => "home_report_1").first.value
+    home_report_1_period = Preference.where(:name => "home_report_1_period").first.value.to_i*-1
+    @from = Date.today.to_time.advance(:days => home_report_1_period).to_date
+    case @home_report_1
+    when "horse_workloads"
+      horse_workloads
+      @data1 = @horse_workloads
+    when "horse_events"
+      horse_events
+      @data1 = @horse_events
+    when "horse_standards"
+      horse_standards
+      @data1 = @horse_standards
+    when "client_ages"
+      client_ages
+      @data1 = @client_ages
+    when "client_events"
+      client_events
+      @data1 = @client_events
+    when "client_standards"
+      client_standards
+      @data1 = @client_standards
+    when "event_types"
+      event_types
+      @data1 = @event_types
+    when "bookings_by_day"
+      bookings_by_day
+      @data1 = @day_bookings
+    when "bookings_by_hour"
+      bookings_by_hour
+      @data1 = @hour_bookings
+    end
+    @home_report_2 = Preference.where(:name => "home_report_2").first.value
+    home_report_2_period = Preference.where(:name => "home_report_2_period").first.value.to_i*-1
+    @from = Date.today.to_time.advance(:days => home_report_2_period).to_date
+    case @home_report_2
+    when "horse_workloads"
+      horse_workloads
+      @data2 = @horse_workloads
+    when "horse_events"
+      horse_events
+      @data2 = @horse_events
+    when "horse_standards"
+      horse_standards
+      @data2 = @horse_standards
+    when "client_ages"
+      client_ages
+      @data2 = @client_ages
+    when "client_events"
+      client_events
+      @data2 = @client_events
+    when "client_standards"
+      client_standards
+      @data2 = @client_standards
+    when "event_types"
+      event_types
+      @data2 = @event_types
+    when "bookings_by_day"
+      bookings_by_day
+      @data2 = @day_bookings
+    when "bookings_by_hour"
+      bookings_by_hour
+      @data2 = @hour_bookings
+    end
+  end
+
 end
