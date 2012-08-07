@@ -50,7 +50,7 @@ RycroftSM::Application.routes.draw do
   get "/horses/show/:horse_id" => "horses#show"
   get "/horses/edit/:horse_id" => "horses#edit"
   post "/horses/update/:horse_id" => "horses#update"
-  post "/horses/delete/:delete_id" => "horses#destroy"
+  post "/horses/delete/:horse_id" => "horses#destroy"
   post "/horses/availability/:horse_id/:value" => "horses#availability"
 
   # STAFF
