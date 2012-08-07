@@ -112,7 +112,7 @@ var REPORTS = {
 				.text("No data");
 		}
 		if (options.mini) {
-			$(options.container).append("<span class='home_report_title'>Horse Workloads</span>")
+			$(options.container).append("<span class='home_report_title'>Horse Workloads ("+options.period+")</span>")
 		}
 	},
 
@@ -197,7 +197,7 @@ var REPORTS = {
 				.text("No data");
 		}
 		if (options.mini) {
-			$(options.container).append("<span class='home_report_title'>Horse Events</span>")
+			$(options.container).append("<span class='home_report_title'>Horse Events ("+options.period+")</span>")
 		}
 	},
 
@@ -371,7 +371,7 @@ var REPORTS = {
 				.text("No data");
 		}
 		if (options.mini) {
-			$(options.container).append("<span class='home_report_title'>Client Ages</span>")
+			$(options.container).append("<span class='home_report_title'>Client Ages ("+options.period+")</span>")
 		}
 	},
 
@@ -456,7 +456,7 @@ var REPORTS = {
 				.text("No data");
 		}
 		if (options.mini) {
-			$(options.container).append("<span class='home_report_title'>Client Events</span>")
+			$(options.container).append("<span class='home_report_title'>Client Events ("+options.period+")</span>")
 		}
 	},
 
@@ -630,7 +630,7 @@ var REPORTS = {
 				.text("No data");
 		}
 		if (options.mini) {
-			$(options.container).append("<span class='home_report_title'>Event Types</span>")
+			$(options.container).append("<span class='home_report_title'>Event Types ("+options.period+")</span>")
 		}
 	},
 
@@ -708,7 +708,7 @@ var REPORTS = {
 				.text("No data");
 		}
 		if (options.mini) {
-			$(options.container).append("<span class='home_report_title'>Bookings by Day</span>")
+			$(options.container).append("<span class='home_report_title'>Bookings by Day ("+options.period+")</span>")
 		}
 	},
 
@@ -786,7 +786,7 @@ var REPORTS = {
 				.text("No data");
 		}
 		if (options.mini) {
-			$(options.container).append("<span class='home_report_title'>Bookings by Hour</span>")
+			$(options.container).append("<span class='home_report_title'>Bookings by Hour ("+options.period+")</span>")
 		}
 	}
 }

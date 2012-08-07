@@ -72,6 +72,8 @@ class HomeController < ApplicationController
     @to = Date.today
     @home_report_1 = Preference.where(:name => "home_report_1").first.value
     home_report_1_period = Preference.where(:name => "home_report_1_period").first.value.to_i*-1
+    @period_1 = friendly_period(home_report_1_period)
+    p @period_1
     @from = Date.today.to_time.advance(:days => home_report_1_period).to_date
     case @home_report_1
     when "horse_workloads"
@@ -104,6 +106,7 @@ class HomeController < ApplicationController
     end
     @home_report_2 = Preference.where(:name => "home_report_2").first.value
     home_report_2_period = Preference.where(:name => "home_report_2_period").first.value.to_i*-1
+    @period_2 = friendly_period(home_report_2_period)
     @from = Date.today.to_time.advance(:days => home_report_2_period).to_date
     case @home_report_2
     when "horse_workloads"
@@ -134,6 +137,23 @@ class HomeController < ApplicationController
       bookings_by_hour
       @data2 = @hour_bookings
     end
+  end
+
+  private
+
+  def friendly_period period
+    text = ""
+    case period
+    when -1
+      text = "Last 24 Hours"
+    when -7
+      text = "Last Week"
+    when -30
+      text = "Last Month"
+    when -99999
+      text = "All Time"
+    end
+    text
   end
 
 end
