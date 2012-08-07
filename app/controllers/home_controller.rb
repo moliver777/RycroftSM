@@ -2,6 +2,8 @@ class HomeController < ApplicationController
   skip_before_filter :user_permission?
 
   def index
+    horse_standards
+    client_standards
     @all_notes = Note.order("urgent DESC")
     @date = Date.today
     @times = []

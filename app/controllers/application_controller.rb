@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
   def horse_standards
     @horse_standards = [
       {:name => "Beginner", :count => Horse.where(:standard => Horse::BEGINNER).count},
-      {:name => "Intermediate", :count => Horse.where(:standard => Horse::INTERMEDIATE).count},
+      {:name => "Inter", :count => Horse.where(:standard => Horse::INTERMEDIATE).count},
       {:name => "Advanced", :count => Horse.where(:standard => Horse::ADVANCED).count}
     ]
   end
@@ -129,7 +129,7 @@ class ApplicationController < ActionController::Base
   def client_standards
     @client_standards = [
       {:name => "Beginner", :count => Client.where(:standard => Horse::BEGINNER).count},
-      {:name => "Intermediate", :count => Client.where(:standard => Horse::INTERMEDIATE).count},
+      {:name => "Inter", :count => Client.where(:standard => Horse::INTERMEDIATE).count},
       {:name => "Advanced", :count => Client.where(:standard => Horse::ADVANCED).count}
     ]
   end

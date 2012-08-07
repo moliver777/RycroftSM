@@ -1,0 +1,17 @@
+<div class="home_reports_panel" id="home_report_panel_1"></div>
+<div class="home_reports_panel" id="home_report_panel_2"></div>
+
+<script type="text/javascript">
+	REPORTS.create({
+		name: "horse_standards",
+		data: JSON.parse('<%= @horse_standards.to_json.html_safe if @horse_standards %>'),
+		mini: true,
+		container: $("#home_report_panel_1")
+	});
+	REPORTS.create({
+		name: "client_standards",
+		data: JSON.parse('<%= @client_standards.to_json.html_safe if @client_standards %>'),
+		mini: true,
+		container: $("#home_report_panel_2")
+	});
+</script>

@@ -186,7 +186,7 @@ var REPORTS = {
 		var pie = d3.layout.pie();
 		var count = options.data.length;
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var radius = height/2
 
 		// arcs definition
@@ -207,7 +207,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","horseStandardsSvg");
 
 		var svg = d3.select("svg#horseStandardsSvg")
@@ -252,7 +252,7 @@ var REPORTS = {
 			chart.append("svg:text")
 				.attr("x",((width/6)*3)+22)
 				.attr("y",height+20)
-				.text("Intermediate");
+				.text("Inter");
 			chart.append("svg:rect")
 				.attr("x",((width/6)*5)+10)
 				.attr("y",height+10)
@@ -271,6 +271,9 @@ var REPORTS = {
 				.style("text-anchor","right")
 				.text("No data");
 			// console.log(e)
+		}
+		if (options.mini) {
+			$(options.container).append("<span>Horse Standards</span>")
 		}
 	},
 
@@ -429,7 +432,7 @@ var REPORTS = {
 		var pie = d3.layout.pie();
 		var count = options.data.length;
 		var width = $(options.container).width()-80;
-		var height = 200;
+		var height = options.mini ? 120 : 200;
 		var radius = height/2
 
 		// arcs definition
@@ -450,7 +453,7 @@ var REPORTS = {
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
-			.attr("height","230px")
+			.attr("height",(height+30)+"px")
 			.attr("id","clientStandardsSvg");
 
 		var svg = d3.select("svg#clientStandardsSvg")
@@ -495,7 +498,7 @@ var REPORTS = {
 			chart.append("svg:text")
 				.attr("x",((width/6)*3)+22)
 				.attr("y",height+20)
-				.text("Intermediate");
+				.text("Inter");
 			chart.append("svg:rect")
 				.attr("x",((width/6)*5)+10)
 				.attr("y",height+10)
@@ -514,6 +517,9 @@ var REPORTS = {
 				.style("text-anchor","right")
 				.text("No data");
 			// console.log(e)
+		}
+		if (options.mini) {
+			$(options.container).append("<span>Client Standards</span>")
 		}
 	},
 
