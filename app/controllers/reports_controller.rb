@@ -37,19 +37,56 @@ class ReportsController < ApplicationController
     end
     horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
     @horse_workloads = horse_workloads.length > 5 ? horse_workloads.slice(0,5) : horse_workloads
-    p @horse_workloads
   end
 
   def horse_events
+    horse_events = []
+    Horse.all.each do |horse|
+      horse_events << {:name => horse.name, :events => horse.events.where(:event_date => @from..@to).count}
+    end
+    horse_events = horse_events.sort_by{|h| h[:events]}.reverse
+    @horse_events = horse_events.length > 5 ? horse_events.slice(0,5) : horse_events
   end
 
   def horse_standards
   end
 
   def client_ages
+    @client_ages = [
+      {:name => "0-18", :count => 0},
+      {:name => "19-25", :count => 0},
+      {:name => "26-35", :count => 0},
+      {:name => "36-45", :count => 0},
+      {:name => "46-55", :count => 0},
+      {:name => "56+", :count => 0}
+    ]
+    Client.all.each do |client|
+      if client.age != 0
+        if client.age < 19
+          @client_ages[0][:count] = @client_ages[0][:count] += 1
+        elsif client.age < 26
+          @client_ages[1][:count] = @client_ages[1][:count] += 1
+        elsif client.age < 36
+          @client_ages[2][:count] = @client_ages[2][:count] += 1
+        elsif client.age < 46
+          @client_ages[3][:count] = @client_ages[3][:count] += 1
+        elsif client.age < 56
+          @client_ages[4][:count] = @client_ages[4][:count] += 1
+        else
+          @client_ages[5][:count] = @client_ages[5][:count] += 1
+        end
+      end
+    end
+    @client_ages
   end
 
   def client_events
+    client_events = []
+    Client.all.each do |client|
+      client_events << {:name => client.first_name+" "+client.last_name, :events => client.events.where(:event_date => @from..@to).count}
+    end
+    client_events = client_events.sort_by{|h| h[:events]}.reverse
+    @client_events = client_events.length > 5 ? client_events.slice(0,5) : client_events
   end
 
   def client_standards

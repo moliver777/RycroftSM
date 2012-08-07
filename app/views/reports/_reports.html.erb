@@ -50,12 +50,12 @@
 				mini: false,
 				container: $("#horse_events_container")
 			});
-			REPORTS.create({
-				name: "horse_standards",
-				data: JSON.parse('<%= @horse_standards.to_json.html_safe if @horse_standards %>'),
-				mini: false,
-				container: $("#horse_standards_container")
-			});
+			// REPORTS.create({
+			// 	name: "horse_standards",
+			// 	data: JSON.parse('<%= @horse_standards.to_json.html_safe if @horse_standards %>'),
+			// 	mini: false,
+			// 	container: $("#horse_standards_container")
+			// });
 			REPORTS.create({
 				name: "client_ages",
 				data: JSON.parse('<%= @client_ages.to_json.html_safe if @client_ages %>'),
@@ -68,30 +68,30 @@
 				mini: false,
 				container: $("#client_events_container")
 			});
-			REPORTS.create({
-				name: "client_standards",
-				data: JSON.parse('<%= @client_standards.to_json.html_safe if @client_standards %>'),
-				mini: false,
-				container: $("#client_standards_container")
-			});
-			REPORTS.create({
-				name: "event_types",
-				data: JSON.parse('<%= @event_types.to_json.html_safe if @event_types %>'),
-				mini: false,
-				container: $("#event_types_container")
-			});
-			REPORTS.create({
-				name: "bookings_by_day",
-				data: JSON.parse('<%= @day_bookings.to_json.html_safe if @day_bookings %>'),
-				mini: false,
-				container: $("#day_bookings_container")
-			});
-			REPORTS.create({
-				name: "bookings_by_hour",
-				data: JSON.parse('<%= @hour_bookings.to_json.html_safe if @hour_bookings %>'),
-				mini: false,
-				container: $("#hour_bookings_container")
-			});
+			// REPORTS.create({
+			// 	name: "client_standards",
+			// 	data: JSON.parse('<%= @client_standards.to_json.html_safe if @client_standards %>'),
+			// 	mini: false,
+			// 	container: $("#client_standards_container")
+			// });
+			// REPORTS.create({
+			// 	name: "event_types",
+			// 	data: JSON.parse('<%= @event_types.to_json.html_safe if @event_types %>'),
+			// 	mini: false,
+			// 	container: $("#event_types_container")
+			// });
+			// REPORTS.create({
+			// 	name: "bookings_by_day",
+			// 	data: JSON.parse('<%= @day_bookings.to_json.html_safe if @day_bookings %>'),
+			// 	mini: false,
+			// 	container: $("#day_bookings_container")
+			// });
+			// REPORTS.create({
+			// 	name: "bookings_by_hour",
+			// 	data: JSON.parse('<%= @hour_bookings.to_json.html_safe if @hour_bookings %>'),
+			// 	mini: false,
+			// 	container: $("#hour_bookings_container")
+			// });
 		} catch (e) {
 			// console.log(e);
 		}

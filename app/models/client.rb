@@ -6,6 +6,7 @@ class Client < ActiveRecord::Base
 
   has_many :bookings
   has_many :notes
+  has_many :events, :through => :bookings
 
   def address
     address = ""
@@ -35,6 +36,11 @@ class Client < ActiveRecord::Base
     self.emergency_contact_phone = fields[:emergency_contact_phone]
 
     self.save!
+  end
+
+  def age
+    now = Time.now.utc.to_date
+    now.year - self.date_of_birth.year - ((now.month > self.date_of_birth.month || (now.month == self.date_of_birth.month && now.day >= self.date_of_birth.day)) ? 0 : 1)
   end
 
 end
