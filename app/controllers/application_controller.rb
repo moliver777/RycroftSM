@@ -191,4 +191,17 @@ class ApplicationController < ActionController::Base
     @hour_bookings
   end
 
+  def auto_assign skip_block
+    if !skip_block
+      block = Date.parse(SiteSetting.where(:name => "block_auto_assign_prompt").first.value)
+      return false if Date.today == block
+    end
+    Event.where(:event_date => Date.today).each do |evt|
+      evt.bookings.each do |booking|
+        return true unless booking.horse
+      end
+    end
+    return false
+  end
+
 end

@@ -6,6 +6,7 @@ class BookingsController < ApplicationController
       @date = Date.today
     end
     load_upcoming
+    @prompt = auto_assign(true)
   end
 
   def upcoming

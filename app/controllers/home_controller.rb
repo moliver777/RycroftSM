@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   def index
     reports
-    @prompt = current_user.user_level == User::BASE ? false : auto_assign
+    @prompt = current_user.user_level == User::BASE ? false : auto_assign(false)
     @all_notes = Note.order("urgent DESC")
     @date = Date.today
     @times = []
@@ -154,17 +154,6 @@ class HomeController < ApplicationController
       text = "All Time"
     end
     text
-  end
-
-  def auto_assign
-    block = Date.parse(SiteSetting.where(:name => "block_auto_assign_prompt").first.value)
-    return false if Date.today == block
-    Event.where(:event_date => Date.today).each do |evt|
-      evt.bookings.each do |booking|
-        return true unless booking.horse
-      end
-    end
-    return false
   end
 
 end
