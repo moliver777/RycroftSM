@@ -322,8 +322,9 @@ function fancyConfirmOKCancel(msg,callback) {
 	});
 }
 
-function fancyConfirmAutoAssign(callback) {
+function fancyConfirmAutoAssign() {
 	var ret;
+	var data;
 	jQuery.fancybox({
 		'overlayShow' : true,
 		'padding' : 0,
@@ -332,6 +333,7 @@ function fancyConfirmAutoAssign(callback) {
 		onComplete : function() {
 			jQuery("#fancyConfirm_cancel").click(function() {
 				ret = false;
+				data = null;
 				if ($("input#no_more_prompts").is(":checked")) {
 					$.ajax({
 						url: "/assignment/no_more_prompts",
@@ -342,17 +344,28 @@ function fancyConfirmAutoAssign(callback) {
 			})
 			jQuery("#fancyConfirm_ok").click(function() {
 				ret = true;
-				if ($("input#no_more_prompts").is(":checked")) {
-					$.ajax({
-						url: "/assignment/no_more_prompts",
-						type: "POST"
-					})
-				}
-				jQuery.fancybox.close();
+				$("#fancyConfirm_ok").attr("disabled",true);
+				$("#fancyConfirm_cancel").attr("disabled",true);
+				$("div.popup_content").empty().append("<p>Please wait...</p>");
+				$.ajax({
+					url: "/assignment/no_more_prompts",
+					type: "POST"
+				})
+				$.ajax({
+					url: "/assignment/auto_assign",
+					type: "POST",
+					success: function(json) {
+						var data = json;
+						data = "No assignments made";
+						$("div.popup_content").empty().append("<p>"+data+"</p>");
+						$("#fancyConfirm_cancel").hide();
+						$("#fancyConfirm_ok").val("Close").attr("disabled",false).unbind("click").click(function() {
+							jQuery.fancybox.close();
+							window.location.reload();
+						});
+					}
+				})
 			})
-		},
-		onClosed : function() {
-			callback.call(this,ret);
 		}
 	});
 }

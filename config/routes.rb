@@ -109,6 +109,7 @@ RycroftSM::Application.routes.draw do
   post "/account/change_password" => "account#change_password"
 
   # AUTO-ASSIGN
+  post "/assignment/auto_assign" => "assignment#auto_assign"
   post "/assignment/no_more_prompts" => "assignment#block"
 
   # SESSION
