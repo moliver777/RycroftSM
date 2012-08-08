@@ -332,8 +332,6 @@ function fancyConfirmAutoAssign() {
 		content : "<div class='popup_wrapper' id='confirm_popup'><h3>AUTO-ASSIGN</h3><div class='popup_content reduced_height'><p>There are bookings today with no horses currently assigned to them.</p><p>Would you like the system to try and auto-assign available horses to each booking?</p><p>WARNING: If suitable horses could not be found, some issues may appear on the home screen.</p><p style='margin-top:10px;'><input type='checkbox' id='no_more_prompts' />Don't show this again today (Auto-assign can be accessed from the bookings page)</p></div><div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Assign\" style=\"width:66px;\"></div></div>",
 		onComplete : function() {
 			jQuery("#fancyConfirm_cancel").click(function() {
-				ret = false;
-				data = null;
 				if ($("input#no_more_prompts").is(":checked")) {
 					$.ajax({
 						url: "/assignment/no_more_prompts",
@@ -343,14 +341,15 @@ function fancyConfirmAutoAssign() {
 				jQuery.fancybox.close();
 			})
 			jQuery("#fancyConfirm_ok").click(function() {
-				ret = true;
+				if ($("input#no_more_prompts").is(":checked")) {
+					$.ajax({
+						url: "/assignment/no_more_prompts",
+						type: "POST"
+					})
+				}
 				$("#fancyConfirm_ok").attr("disabled",true);
 				$("#fancyConfirm_cancel").attr("disabled",true);
 				$("div.popup_content").empty().append("<p>Please wait...</p>");
-				$.ajax({
-					url: "/assignment/no_more_prompts",
-					type: "POST"
-				})
 				$.ajax({
 					url: "/assignment/auto_assign",
 					type: "POST",
@@ -361,7 +360,7 @@ function fancyConfirmAutoAssign() {
 						$("#fancyConfirm_cancel").hide();
 						$("#fancyConfirm_ok").val("Close").attr("disabled",false).unbind("click").click(function() {
 							jQuery.fancybox.close();
-							window.location.reload();
+							window.location.href = "/schedule";
 						});
 					}
 				})
