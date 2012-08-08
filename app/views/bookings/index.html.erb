@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$.each($("#booking_links td.link"), function(i,link) {
+		$.each($("#booking_links td"), function(i,link) {
 			$(link).unbind("click").click(function() {
 				window.location.href = $(this).attr("link");
 			})
