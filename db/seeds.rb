@@ -42,6 +42,12 @@ config.external = false
 config.save!
 
 config = SiteSetting.new
+config.name = "block_auto_assign_prompt"
+config.value = Date.today.to_time.advance(:days => -1).to_date
+config.external = false
+config.save!
+
+config = SiteSetting.new
 config.name = "status_check_interval"
 config.value = "2"
 config.external = true

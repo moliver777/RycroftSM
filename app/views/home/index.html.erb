@@ -27,3 +27,22 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var prompt = ("<%= @prompt %>"=="true") ? true : false;
+		if (prompt) {
+			fancyConfirmAutoAssign(function(result) {
+				if (result) {
+					$.ajax({
+						url: "/assignment/auto_assign",
+						type: "POST",
+						success: function() {
+							window.location.reload()
+						}
+					})
+				}
+			})
+		}
+	})
+</script>

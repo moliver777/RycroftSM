@@ -26,27 +26,31 @@ $(document).ready(function() {
 
 // CONFIRM DELETE
 function confirmation(id,url) {
-	var result = confirm("Delete "+id+". Are you sure?")
-	if (result) {
-		$.ajax({
-			url: url,
-			type: "POST",
-			success: function() {
-				window.location.reload()
-			}
-		})
-	}
+	var popup_msg = "<h3>DELETE</h3><div class='popup_content reduced_height'><p>Delete "+id+".</p><p>Are you sure?</p></div>";
+	fancyConfirmOKCancel(popup_msg, function(result) {
+		if (result) {
+			$.ajax({
+				url: url,
+				type: "POST",
+				success: function() {
+					window.location.reload()
+				}
+			})
+		}
+	})
 }
 
 // CONFIRM RESET
 function reset(id,url) {
-	var result = confirm("Reset password for "+id+". The password will be set to 'password'. Are you sure?");
-	if (result) {
-		$.ajax({
-			url: url,
-			type: "POST"
-		})
-	}
+	var popup_msg = "<h3>PASSWORD RESET</h3><div class='popup_content reduced_height'><p>Reset password for "+id+".</p><p>Are you sure?</p></div>";
+	fancyConfirmOKCancel(popup_msg, function(result) {
+		if (result) {
+			$.ajax({
+				url: url,
+				type: "POST"
+			})
+		}
+	})
 }
 
 // SAVE NEW/EDIT
@@ -174,16 +178,18 @@ function completeEventEdit(id) {
 
 // CANCEL BOOKING
 function cancelBooking(id,url) {
-	var result = confirm("Cancel "+id+". Are you sure?")
-	if (result) {
-		$.ajax({
-			url: url,
-			type: "POST",
-			success: function() {
-				window.location.reload()
-			}
-		})
-	}
+	var popup_msg = "<h3>CANCEL</h3><div class='popup_content reduced_height'><p>Cancel "+id+".</p><p>Are you sure?</p></div>";
+	fancyConfirmOKCancel(popup_msg, function(result) {
+		if (result) {
+			$.ajax({
+				url: url,
+				type: "POST",
+				success: function() {
+					window.location.reload()
+				}
+			})
+		}
+	})
 }
 
 // CANCEL NEW/EDIT
@@ -290,4 +296,63 @@ function calculateDuration() {
 		mins = (mins==0) ? "00" : String(mins);
 		return String(hours)+":"+mins;
 	}
+}
+
+// FANCYBOX POPUPS
+function fancyConfirmOKCancel(msg,callback) {
+	var ret;
+	jQuery.fancybox({
+		'overlayShow' : true,
+		'padding' : 0,
+		modal : true,
+		content : "<div class='popup_wrapper' id='confirm_popup'>" + msg + "<div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\" style=\"width:66px;\"></div></div>",
+		onComplete : function() {
+			jQuery("#fancyConfirm_cancel").click(function() {
+				ret = false; 
+				jQuery.fancybox.close();
+			})
+			jQuery("#fancyConfirm_ok").click(function() {
+				ret = true; 
+				jQuery.fancybox.close();
+			})
+		},
+		onClosed : function() {
+			callback.call(this,ret);
+		}
+	});
+}
+
+function fancyConfirmAutoAssign(callback) {
+	var ret;
+	jQuery.fancybox({
+		'overlayShow' : true,
+		'padding' : 0,
+		modal : true,
+		content : "<div class='popup_wrapper' id='confirm_popup'><h3>AUTO-ASSIGN</h3><div class='popup_content reduced_height'><p>There are bookings today with no horses currently assigned to them.</p><p>Would you like the system to try and auto-assign available horses to each booking?</p><p>WARNING: If suitable horses could not be found, some issues may appear on the home screen.</p><p style='margin-top:10px;'><input type='checkbox' id='no_more_prompts' />Don't show this again today (Auto-assign can be accessed from the bookings page)</p></div><div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Assign\" style=\"width:66px;\"></div></div>",
+		onComplete : function() {
+			jQuery("#fancyConfirm_cancel").click(function() {
+				ret = false;
+				if ($("input#no_more_prompts").is(":checked")) {
+					$.ajax({
+						url: "/assignment/no_more_prompts",
+						type: "POST"
+					})
+				}
+				jQuery.fancybox.close();
+			})
+			jQuery("#fancyConfirm_ok").click(function() {
+				ret = true;
+				if ($("input#no_more_prompts").is(":checked")) {
+					$.ajax({
+						url: "/assignment/no_more_prompts",
+						type: "POST"
+					})
+				}
+				jQuery.fancybox.close();
+			})
+		},
+		onClosed : function() {
+			callback.call(this,ret);
+		}
+	});
 }

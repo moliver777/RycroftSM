@@ -9,6 +9,7 @@
 		<tr>
 			<td link="/bookings/new">New</td>
 			<td link="/bookings/search">Search</td>
+			<td id="auto_assign">Assign</td>
 		</tr>
 	</table>
 </div>
@@ -18,9 +19,11 @@
 </div>
 
 <script type="text/javascript">
-	$.each($("#booking_links td"), function(i,link) {
-		$(link).unbind("click").click(function() {
-			window.location.href = $(this).attr("link");
+	$(document).ready(function() {
+		$.each($("#booking_links td"), function(i,link) {
+			$(link).unbind("click").click(function() {
+				window.location.href = $(this).attr("link");
+			})
 		})
 	})
 </script>

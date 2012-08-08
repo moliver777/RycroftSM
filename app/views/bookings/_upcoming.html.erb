@@ -43,7 +43,7 @@
 					<td>
 						<a href="/bookings/show/<%= booking.id %>">Details</a> | 
 						<% if current_user.user_level != User::BASE %>
-							<a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.name %> <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/cancel/<%= booking.id %>')">Cancel</a> | 
+							<a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.name %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/cancel/<%= booking.id %>')">Cancel</a> | 
 						<% end %>
 						<a href="/notes/BOOKING/<%= booking.id %>">Notes</a>
 					</td>

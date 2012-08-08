@@ -3,6 +3,7 @@ class HomeController < ApplicationController
 
   def index
     reports
+    @prompt = current_user.user_level == User::BASE ? false : auto_assign
     @all_notes = Note.order("urgent DESC")
     @date = Date.today
     @times = []
@@ -73,7 +74,6 @@ class HomeController < ApplicationController
     @home_report_1 = Preference.where(:name => "home_report_1").first.value
     home_report_1_period = Preference.where(:name => "home_report_1_period").first.value.to_i*-1
     @period_1 = friendly_period(home_report_1_period)
-    p @period_1
     @from = Date.today.to_time.advance(:days => home_report_1_period).to_date
     case @home_report_1
     when "horse_workloads"
@@ -154,6 +154,17 @@ class HomeController < ApplicationController
       text = "All Time"
     end
     text
+  end
+
+  def auto_assign
+    block = Date.parse(SiteSetting.where(:name => "block_auto_assign_prompt").first.value)
+    return false if Date.today == block
+    Event.where(:event_date => Date.today).each do |evt|
+      evt.bookings.each do |booking|
+        return true unless booking.horse
+      end
+    end
+    return false
   end
 
 end

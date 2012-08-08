@@ -108,6 +108,9 @@ RycroftSM::Application.routes.draw do
   get "/account" => "account#index"
   post "/account/change_password" => "account#change_password"
 
+  # AUTO-ASSIGN
+  post "/assignment/no_more_prompts" => "assignment#block"
+
   # SESSION
   post "/issue/:drop_id" => "application#drop_issue"
   get "/login" => "session#login"
