@@ -49,7 +49,7 @@ config.save!
 
 config = SiteSetting.new
 config.name = "status_check_interval"
-config.value = "2"
+config.value = "1"
 config.external = true
 config.save!
 

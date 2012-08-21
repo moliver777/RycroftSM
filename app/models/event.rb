@@ -44,6 +44,12 @@ class Event < ActiveRecord::Base
     hours.to_s+":"+(mins == 0 ? "00" : mins.to_s)
   end
 
+  def duration_mins
+    return 0 unless self.start_time && self.end_time
+    duration = self.end_time-self.start_time
+    (duration/60).to_i
+  end
+
   def segment_duration
     return 0 unless self.start_time && self.end_time
     duration = self.end_time-self.start_time

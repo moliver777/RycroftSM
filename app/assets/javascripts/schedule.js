@@ -38,10 +38,14 @@ jQuery.extend(Schedule.prototype, {
 						$("#schTooltip").show();
 					}).mousemove(function(e) {
 						$("#schTooltip").css({left:e.pageX+15, top:e.pageY+10});
-					}).unbind("click").click(function() {
-						self.route($(this).attr("event_id"));
-					})
+					}).unbind("click");
 				})
+			})
+		})
+
+		$.each($("td.evt"), function(i,seg) {
+			$(seg).click(function() {
+				self.route($(this).attr("event_id"));
 			})
 		})
 

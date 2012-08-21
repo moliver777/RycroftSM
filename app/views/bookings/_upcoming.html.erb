@@ -13,33 +13,32 @@
 <br/>
 <table id="upcoming" style="width:100%">
 	<tr class="header">
+		<th>Start Time</th>
+		<th>Horse</th>
+		<th>Client</th>
 		<th>Event Name</th>
 		<th>Type</th>
-		<th>Capacity</th>
 		<th>Venue</th>
-		<th>Start Time</th>
-		<th>Client</th>
-		<th>Horse</th>
+		<th>Capacity</th>
 		<th>Links</th>
 	</tr>
 	<% if !@upcoming.empty? %>
 		<% @upcoming.each do |event| %>
 			<tr style="border-top:3px solid #5F5F5F;">
-				<td><%= event.name if event.name %></td>
-				<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
-				<td><%= event.capacity if event.capacity %></td>
-				<td><%= event.venue.name if event.venue rescue nil %></td>
 				<td><%= event.start_time.strftime("%H:%M") if event.start_time %></td>
 				<td colspan="2"></td>
+				<td><%= event.name if event.name %></td>
+				<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
+				<td><%= event.venue.name if event.venue rescue nil %></td>
+				<td><%= event.capacity if event.capacity %></td>
 				<td><a href="/bookings/show_event/<%= event.id %>">Details</a> | <a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.name %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a></td>
 			</tr>
 			<% event.bookings.includes(:client).sort{|a,b| a.client.last_name <=> b.client.last_name}.each_with_index do |booking,i| %>
 				<tr>
-					<% if i==0 %>
-						<td colspan="5" rowspan="<%= event.bookings.count %>"></td>
-					<% end %>
-					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.last_name if booking.client rescue nil %>, <%= booking.client.first_name if booking.client rescue nil %></a></td>
+					<% if i==0 %><td rowspan="<%= event.bookings.count %>"></td><% end %>
 					<td><a href="/horses/show/<%= booking.horse_id %>"><%= booking.horse.name if booking.horse rescue nil %></a></td>
+					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.last_name if booking.client rescue nil %>, <%= booking.client.first_name if booking.client rescue nil %></a></td>
+					<% if i==0 %><td colspan="4" rowspan="<%= event.bookings.count %>"></td><% end %>
 					<td>
 						<a href="/bookings/show/<%= booking.id %>">Details</a> | 
 						<% if current_user.user_level != User::BASE %>

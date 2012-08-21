@@ -58,7 +58,7 @@ class Horse < ActiveRecord::Base
     mins > 0 ? hours.to_s+"."+((mins/15)*25).to_s : hours.to_s
   end
 
-  def over_workload date
+  def over_workload date, add=0
     return nil unless date
     hours = 0
     mins = 0
@@ -67,7 +67,19 @@ class Horse < ActiveRecord::Base
       hours += duration[0].to_i
       mins += duration[1].to_i
     end
-    (hours*60)+mins > self.max_day_workload*60 ? true : false
+    (hours*60)+mins+add > self.max_day_workload*60 ? true : false
+  end
+
+  def current_mins date
+    return 0 unless date
+    hours = 0
+    mins = 0
+    self.events.where(:event_date => date).each do |event|
+      duration = event.duration.split(":")
+      hours += duration[0].to_i
+      mins += duration[1].to_i
+    end
+    (hours*60)+mins
   end
 
   def farrier_due

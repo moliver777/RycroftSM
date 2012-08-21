@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   def application_status
     timer = SiteSetting.where(:name => "application_status_check").first
     interval = SiteSetting.where(:name => "status_check_interval").first.value.to_i*-1
-    if timer.updated_at < Time.now#.advance(:minutes => interval)
+    if timer.updated_at < Time.now.advance(:minutes => interval)
       timer.value = timer.value.to_i == 999 ? 0.to_s : (timer.value.to_i + 1).to_s
       timer.save!
       issues = []
@@ -36,19 +36,12 @@ class ApplicationController < ActionController::Base
         issue[:id] = i
         issues[i] = issue
       end
-      session[:issues] = issues.flatten # save issues to session
+      session[:issues] = issues.flatten.uniq # save issues to session
       session[:notes] = notes # save notes to session
     end
     @status_issues = session[:issues] rescue [] # make session issues available to views
     @status_notes = session[:notes] rescue [] # make session notes available to views
   end
-
-  # def drop_issue
-  #   issues = []
-  #   session[:issues].each{|issue| issues << issue unless issue[:id] == params[:drop_id]}
-  #   session[:issues] = issues
-  #   render :nothing => true
-  # end
 
   def setup
     @clock_style = Preference.where(:name => "clock_style").first.value rescue ""

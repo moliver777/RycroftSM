@@ -355,8 +355,9 @@ function fancyConfirmAutoAssign() {
 					type: "POST",
 					success: function(json) {
 						var data = json;
-						data = "No assignments made";
-						$("div.popup_content").empty().append("<p>"+data+"</p>");
+						var table = "<tr><th>Booking</th><th></th><th>Horse</th></tr>";
+						$.each(data, function(booking,horse) { table += "<tr><td>"+booking+"</td><td>=></td><td>"+horse+"</td></tr>" });
+						$("div.popup_content").empty().append("<p><table style='margin:auto;'>"+table+"</table></p>");
 						$("#fancyConfirm_cancel").hide();
 						$("#fancyConfirm_ok").val("Close").attr("disabled",false).unbind("click").click(function() {
 							jQuery.fancybox.close();
