@@ -20,7 +20,7 @@
 			</select>
 		</td>
 		<td>
-			<select id="standard" class="field">
+			<select id="standard" class="field event">
 				<option value="0">Riding Standard</option>
 				<% Event::STANDARDS.each do |standard| %>
 					<option value="<%= standard %>"><%= standard.downcase.capitalize %></option>
@@ -101,7 +101,7 @@
 			if ($(this).val() == "0") {
 				$("input#event_name").val("");
 				$("select#event_type").val("0");
-				$("select#standard.field").val("0");
+				$("select#standard.field.event").val("0");
 				$("input#max_clients").val("");
 				$("textarea#description").val("");
 				$("input#start_time").val("");
@@ -118,7 +118,7 @@
 					success: function(evt) {
 						$("input#name").val(evt.name);
 						$("select#event_type").val(evt.event_type);
-						$("select#standard.field").val(evt.standard);
+						$("select#standard.field.event").val(evt.standard);
 						$("input#max_clients").val(evt.max_clients);
 						$("textarea#description").val(evt.description);
 						$("input#event_date").val(evt.date);

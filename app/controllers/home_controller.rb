@@ -144,9 +144,9 @@ class HomeController < ApplicationController
   def friendly_period period
     text = ""
     case period
-    when -1
-      text = "Last 24 Hours"
-    when -7
+    when 0
+      text = "Today"
+    when -6
       text = "Last Week"
     when -30
       text = "Last Month"
