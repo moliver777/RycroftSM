@@ -22,7 +22,7 @@ config.save!
 
 config = Preference.new
 config.name = "home_report_1_period"
-config.value = "7"
+config.value = "6"
 config.save!
 
 config = Preference.new
@@ -32,7 +32,7 @@ config.save!
 
 config = Preference.new
 config.name = "home_report_2_period"
-config.value = "7"
+config.value = "6"
 config.save!
 
 config = Preference.new
