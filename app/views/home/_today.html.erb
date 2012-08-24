@@ -17,5 +17,5 @@
 		<% end %>
 	</table>
 <% else %>
-	<div class="nothing_to_display">No events starting in the next hour (<%= @next_split.strftime("%H:%M") %>-<%= @next_split.advance(:hours => 1).strftime("%H:%M") %>)</div>
+	<div class="nothing_to_display">No events today</div>
 <% end %>

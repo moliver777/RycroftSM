@@ -5,17 +5,7 @@ class HomeController < ApplicationController
     @prompt = current_user.user_level == User::BASE ? false : auto_assign(false)
     @all_notes = Note.order("urgent DESC")
     @date = Date.today
-    @times = []
-    time = ActiveSupport::TimeZone.find_tzinfo("London").utc_to_local(Time.now.utc)
-    while !["00","15","30","45"].include?(time.strftime("%M"))
-      time = time.advance(:minutes => 1)
-    end
-    @next_split = time
-    5.times do |i|
-      @times << time.strftime("%H:%M")
-      time = time.advance(:minutes => 15)
-    end
-    @events = Event.where(:event_date => @date, :start_time => @times).order("start_time")
+    @events = Event.where(:event_date => @date).order("start_time")
   end
 
   def search
