@@ -1,15 +1,17 @@
-div.home_panel {
+div#home_col_left {
+  float:left;
   width: 48%;
+}
+
+div#home_col_right {
+  float:right;
+  width: 48%;
+}
+
+div.home_panel {
+  width: 100%;
   height: 205px;
   border: 1px solid #5F5F5F;
-}
-
-div.home_left {
-  float:left;
-}
-
-div.home_right {
-  float:right;
 }
 
 div.home_left div.home_content {
@@ -22,16 +24,12 @@ div.home_right div.home_content {
   text-align: left;
 }
 
-div#next_up {
-  border-radius: 0 0 25px 0;
+div#schedule {
+  height: 452px;
 }
 
 div#issues {
   border-radius: 0 0 0 25px;
-}
-
-div#reports {
-  border-radius: 0 25px 0 0;
 }
 
 div#notes {
@@ -68,25 +66,19 @@ div#clock_wrapper {
   position: relative;
   clear: both;
   top: -10px;
-  text-align: center;
+  left: -45px;
   height: 40px;
 }
 
-div#clock_wrapper div#date_wrapper_1 {
+div#clock_wrapper canvas#clock {
+  float:left;
+}
+
+div#clock_wrapper div#date_wrapper {
   position: relative;
   top: 25px;
   float:left;
-  padding-left: 35%;
-  width: 10%;
-  text-align: right;
-}
-
-div#clock_wrapper div#date_wrapper_2 {
-  position: relative;
-  top: 25px;
-  float:right;
-  padding-right: 35%;
-  width: 10%;
+  padding-left: 20px;
 }
 
 /* PANEL LISTS */

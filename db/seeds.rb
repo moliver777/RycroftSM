@@ -16,26 +16,6 @@ config.value = "swissRail"
 config.save!
 
 config = Preference.new
-config.name = "home_report_1"
-config.value = "client_events"
-config.save!
-
-config = Preference.new
-config.name = "home_report_1_period"
-config.value = "6"
-config.save!
-
-config = Preference.new
-config.name = "home_report_2"
-config.value = "horse_events"
-config.save!
-
-config = Preference.new
-config.name = "home_report_2_period"
-config.value = "6"
-config.save!
-
-config = Preference.new
 config.name = "price_list"
 config.value = '<div id="price_list_content">
 	<h2>Price List</h2>
