@@ -369,3 +369,23 @@ function fancyConfirmAutoAssign() {
 		}
 	});
 }
+
+function fancyPriceList() {
+	$.ajax({
+		url: "/price_list",
+		type: "GET",
+		success: function(view) {
+			jQuery.fancybox({
+				'overlayShow' : true,
+				'padding' : 0,
+				modal : true,
+				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div class=\"options\"><input id=\"fancyConfirm_close\" class=\"btn close_btn\" type=\"button\" value=\"Close\"></div></div>",
+				onComplete : function() {
+					jQuery("#fancyConfirm_close").click(function() {
+						jQuery.fancybox.close();
+					})
+				}
+			})
+		}
+	})
+}

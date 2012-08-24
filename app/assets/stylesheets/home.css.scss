@@ -128,3 +128,19 @@ div.home_reports_panel span.home_report_title {
   padding-left: 10px;
   font-size: 16px;
 }
+
+div#price_list_content {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  text-align: center;
+}
+
+div#price_list_content h2 {
+  border-bottom: 1px solid black;
+}
+
+div#price_list_content table {
+  margin-top: 10px;
+}

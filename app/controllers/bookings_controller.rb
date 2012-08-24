@@ -257,4 +257,13 @@ class BookingsController < ApplicationController
     end
     @validated = @errors.length > 0 ? false : true
   end
+
+  def parse_search search
+    @search = ""
+    search.split("").each do |char|
+      @search += char if char.match(/\w|\s|\"|\'|\-/)
+    end
+    @search
+  end
+
 end

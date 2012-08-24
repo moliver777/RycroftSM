@@ -30,6 +30,11 @@ class HomeController < ApplicationController
     @results = results.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
   end
 
+  def price_list
+    view = Preference.where(:name => "price_list").first.value rescue '<div class="error">No Price List Found!</div>'
+    render :text => view
+  end
+
   def schedule
     @date = params[:date] ? params[:date] : Date.today
     @events = format_schedule_events Event.where(:event_date => @date).order("start_time")

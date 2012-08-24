@@ -5,7 +5,8 @@ class AdminController < ApplicationController
   end
 
   def settings
-    @preferences = Preference.all
+    @preferences = Preference.where("name != 'price_list'")
+    @price_list = Preference.where(:name => "price_list").first.value rescue "No Price List found!"
     @site_settings = SiteSetting.where(:external => true)
   end
 

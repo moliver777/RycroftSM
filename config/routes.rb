@@ -3,6 +3,7 @@ RycroftSM::Application.routes.draw do
 
   # SEARCH
   get "/search/:search" => "home#search"
+  get "/price_list" => "home#price_list"
 
   # SCHEDULE
   get "/schedule" => "home#schedule"

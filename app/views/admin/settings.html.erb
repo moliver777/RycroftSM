@@ -16,6 +16,12 @@
 			</td>
 		</tr>
 		<tr>
+			<th style="vertical-align:middle;">Price List:</th>
+			<td>
+				<textarea class="field" cols="50" rows="15" id="price_list"><%= @price_list %></textarea>
+			</td>
+		</tr>
+		<tr>
 			<th>Home Report Panel (left):</th>
 			<td>
 				<select class="field" id="home_report_1">
@@ -109,6 +115,9 @@
 				site_settings: {}
 			}
 			$.each($("select.field"), function(i,preference) {
+				params.preferences[$(preference).attr("id")] = $(preference).val();
+			})
+			$.each($("textarea.field"), function(i,preference) {
 				params.preferences[$(preference).attr("id")] = $(preference).val();
 			})
 			$.each($("input.field"), function(i,setting) {
