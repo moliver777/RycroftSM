@@ -86,7 +86,7 @@ function completeBooking(id) {
 	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
 	$.each($("select.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
 	$.each($("textarea.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
-	client = {}
+	client = {};
 	if ($("input#client_id").val() != 0) {client["client_id"] = $("input#client_id").val()};
 	$.each($("input.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
 	$.each($("select.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
@@ -222,6 +222,7 @@ function timetableInteraction() {
 						$("input#start_time").val($(this).attr("hour")+":"+$(this).attr("mins"));
 						$(this).addClass("selected first");
 						$(self).removeClass().addClass("end on").html("Set End Time");
+						$("input#venue_id").val($(this).parent().attr("id"));
 						timetableInteraction();
 					}
 				})

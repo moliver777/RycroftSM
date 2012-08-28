@@ -2,37 +2,27 @@ class VenuesController < ApplicationController
   before_filter :master_only
 
   def index
-    @venues = Venue.order("name")
+    @venues = Venue.where(:master => true).order("name")
   end
 
   def new
     @venue = Venue.new
   end
 
-  def edit
-    @venue = Venue.find(params[:venue_id])
-  end
-
   def create
     validation params[:fields], 0
     if @validated
-      venue = Venue.new
-      venue.set_fields params[:fields]
-    end
-    render :json => @errors.to_json
-  end
-
-  def update
-    validation params[:fields], params[:venue_id]
-    if @validated
-      venue = Venue.find(params[:venue_id])
-      venue.set_fields params[:fields]
+      params[:fields][:capacity].to_i.times do |i|
+        venue = Venue.new
+        venue.set_fields params[:fields], (i==0)
+      end
     end
     render :json => @errors.to_json
   end
 
   def destroy
-    Venue.find(params[:venue_id]).destroy
+    venue = Venue.find(params[:venue_id])
+    Venue.where(:name => venue.name).destroy_all
     render :nothing => true
   end
 
@@ -49,7 +39,7 @@ class VenuesController < ApplicationController
   def validation fields, id
     @errors = []
     @errors << "Venue must have a name." unless fields[:name].length > 0
-    @errors << "There is already a venue with that name." if Venue.where("name = ? and id != ?", fields[:name], id).first
+    @errors << "Venue capacity must be greater than 0" unless fields[:capacity].to_i > 0
     @validated = @errors.length > 0 ? false : true
   end
 end

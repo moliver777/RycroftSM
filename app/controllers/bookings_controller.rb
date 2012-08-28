@@ -66,8 +66,9 @@ class BookingsController < ApplicationController
     end
     @events = [@event]
     Event.where("event_date >= ? AND id != ?", Date.today, @event.id).order("event_date, start_time").each{|evt| @events << evt}
-    @venue = @event.venue
-    @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id = ?", @event.event_date, @venue.id)) if @venue
+    @venue = Venue.where(:id => @event.master_venue_id).first
+    @venues = Venue.where(:name => @venue.name) if @venue
+    @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id IN (?)", @event.event_date, @venues.map{|v| v.id})) if @venues
     @horses = Horse.where(:availability => true).order("name")
     @date = @event.event_date
   end
@@ -75,7 +76,8 @@ class BookingsController < ApplicationController
   def reload_timetable
     @event = Event.where(:id => params[:event_id]).first
     @venue = Venue.where(:id => params[:venue_id]).first
-    @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id = ?", Date.parse(params[:date]), params[:venue_id])) if @venue
+    @venues = Venue.where(:name => @venue.name)
+    @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id IN (?)", Date.parse(params[:date]), @venues.map{|v| v.id})) if @venues
     render :partial => "venue_timetable"
   end
 
@@ -209,7 +211,8 @@ class BookingsController < ApplicationController
         "id" => event.id,
         "hour" => event.start_time.strftime("%H"),
         "mins" => event.start_time.strftime("%M"),
-        "duration" => event.segment_duration
+        "duration" => event.segment_duration,
+        "venue_id" => event.venue_id
       }
       formatted_events << formatted_event
     end
@@ -219,10 +222,9 @@ class BookingsController < ApplicationController
   def validation fields, id
     @errors = []
     # event validation
-    @errors << "Event must have a name." unless fields[:name].length > 0
     @errors << "Event must have an event type." if fields[:event_type] == "0"
     @errors << "Event must have a riding standard." if fields[:standard] == "0"
-    @errors << "Event must be assigned to a venue." if fields[:venue_id] == "0"
+    @errors << "Event must be assigned to a venue." if fields[:master_venue_id] == "0"
     begin
       throw "invalid" unless fields[:event_date].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
       Date.parse(fields[:event_date])
@@ -231,7 +233,6 @@ class BookingsController < ApplicationController
     end
     @errors << "Must select a start time." unless fields[:start_time].length > 0
     @errors << "Must select an end time." unless fields[:end_time].length > 0
-    @errors << "Max clients must be a number greater than 1." unless fields[:max_clients].to_i > 0
     # client validation
     if fields[:client]
       fields = fields[:client]

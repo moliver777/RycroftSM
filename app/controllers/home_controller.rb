@@ -27,7 +27,7 @@ class HomeController < ApplicationController
   def schedule
     @date = params[:date] ? params[:date] : Date.today
     @events = format_schedule_events Event.where(:event_date => @date).order("start_time")
-    @venues = Venue.all
+    @venues = Venue.all.group_by{|v| v.name}
   end
 
   def event
@@ -54,7 +54,7 @@ class HomeController < ApplicationController
         "hour" => event.start_time.strftime("%H"),
         "mins" => event.start_time.strftime("%M"),
         "duration" => event.segment_duration,
-        "name" => event.name,
+        "event_type" => event.event_type.downcase.capitalize,
         "clients" => event.client_list,
         "horses" => event.horse_list
       }

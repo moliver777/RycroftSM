@@ -4,7 +4,6 @@ Schedule = function(events) {
 jQuery.extend(Schedule.prototype, {
 	init: function(events) {
 		this.events = events;
-		console.log(this.events);
 		this.setup();
 	},
 
@@ -33,7 +32,7 @@ jQuery.extend(Schedule.prototype, {
 						}
 					}
 					$(seg).mouseover(function(e) {
-						$("#schTooltip").html("<strong style='font-size:15px;'>"+evt.name.toUpperCase()+"</strong><br/><strong>Clients:</strong> "+evt.clients+"<br/><strong>Horses:</strong> "+evt.horses);
+						$("#schTooltip").html("<strong style='font-size:15px;'>"+evt.event_type+"</strong><br/><strong>Clients:</strong> "+evt.clients+"<br/><strong>Horses:</strong> "+evt.horses);
 						$("#schTooltip").css({left:e.pageX+15, top:e.pageY+10});
 						$("#schTooltip").show();
 					}).mousemove(function(e) {

@@ -18,22 +18,17 @@ class Event < ActiveRecord::Base
   def set_fields fields
     staff = Staff.where(:id => fields[:staff_id]).first
 
-    self.name = fields[:name]
     self.description = fields[:description]
     self.event_type = fields[:event_type]
     self.standard = fields[:standard]
     self.venue_id = fields[:venue_id]
+    self.master_venue_id = fields[:master_venue_id]
     self.event_date = fields[:event_date]
     self.start_time = fields[:start_time]
     self.end_time = fields[:end_time]
-    self.max_clients = fields[:max_clients]
     self.staff_id = staff ? staff.id : nil
 
     self.save!
-  end
-
-  def capacity
-    self.bookings.count.to_s+"/"+self.max_clients.to_s rescue nil
   end
 
   def duration
@@ -69,8 +64,7 @@ class Event < ActiveRecord::Base
   def self.status
     issues = []
     Event.where(:event_date => Date.today).each do |event|
-      issues << {:link => "/bookings/edit_event/"+event.id.to_s, :text => event.name+" at "+event.start_time.strftime("%H:%M")+" is over capacity with too many bookings: "+event.bookings.count.to_s+"/"+event.max_clients.to_s} if event.bookings.count > event.max_clients
-      issues << {:link => "/bookings/edit_event/"+event.id.to_s, :text => event.name+" at "+event.start_time.strftime("%H:%M")+" has no staff member assigned to it"} if !event.staff
+      issues << {:link => "/bookings/edit_event/"+event.id.to_s, :text => "Event at "+event.start_time.strftime("%H:%M")+" has no staff member assigned to it"} if !event.staff
     end
     issues.uniq
   end

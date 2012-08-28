@@ -12,17 +12,21 @@
 				<th class="<%= 'last' if hr==21 %>" colspan="4"><%= (hr<10 ? "0"+hr.to_s : hr.to_s)+":00" %></th>
 			<% end %>
 		</tr>
-		<% @venues.each do |venue| %>
-			<tr venue_id="<%= venue.id %>">
-				<td class="big"><%= venue.name %></td>
-				<% 15.times do |hr| %>
-					<% hr += 7 %>
-					<% 4.times do |min| %>
-						<% min = min*15 %>
-						<td class="seg" style="height:50px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+		<% @venues.each do |name,venues| %>
+			<% venues.each do |venue| %>
+				<tr venue_id="<%= venue.id %>">
+					<% if venue == venues.first %>
+						<td class="big" rowspan="<%= venues.count %>"><%= venue.name %></td>
 					<% end %>
-				<% end %>
-			</tr>
+					<% 15.times do |hr| %>
+						<% hr += 7 %>
+						<% 4.times do |min| %>
+							<% min = min*15 %>
+							<td class="seg" style="height:50px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+						<% end %>
+					<% end %>
+				</tr>
+			<% end %>
 		<% end %>
 	</table>
 </div>

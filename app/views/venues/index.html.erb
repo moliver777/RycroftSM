@@ -3,8 +3,9 @@
 <div style="clear:both;">
 	<table id="users" style="width:75%;">
 		<tr class="header">
-			<th style="width:25%;">Name</th>
-			<th style="width:65%;">Description</th>
+			<th style="width:20%;">Name</th>
+			<th style="width:55%;">Description</th>
+			<th style="width:15%;">Capacity</th>
 			<th>Links</th>
 		</tr>
 		<% if !@venues.empty? %>
@@ -12,14 +13,15 @@
 				<tr>
 					<td><%= venue.name if venue.name %></td>
 					<td style="word-wrap:break-word;"><%= venue.description if venue.description %></td>
+					<td><%= venue.capacity %></td>
 					<td style="vertical-align:middle;">
-						<a href="/admin/venues/edit/<%= venue.id %>">Edit</a> | <a onclick="confirmation('<%= venue.name %>','/admin/venues/delete/<%= venue.id %>')">Delete</a>
+						<a onclick="confirmation('<%= venue.name %>','/admin/venues/delete/<%= venue.id %>')">Delete</a>
 					</td>
 				</tr>
 			<% end %>
 		<% else %>
 			<tr>
-				<td colspan="3" class="center"><strong>No venues found</strong></td>
+				<td colspan="4" class="center"><strong>No venues found</strong></td>
 			</tr>
 		<% end %>
 	</table>

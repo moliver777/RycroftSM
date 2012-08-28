@@ -1,4 +1,4 @@
-<h2>Edit "<%= @event.name if @event.name %>" <%= @event.start_time.strftime("%H:%M") if @event.start_time %><%= " - "+@booking.client.last_name+", "+@booking.client.first_name if @booking rescue nil %></h2>
+<h2>Edit "<%= @event.event_type if @event.event_type %>" <%= @event.start_time.strftime("%H:%M") if @event.start_time %><%= " - "+@booking.client.last_name+", "+@booking.client.first_name if @booking rescue nil %></h2>
 <%= render :partial => "form" %>
 <ul class="error" id="form_errors"></ul>
 <% if @event_edit_flag %>

@@ -7,15 +7,17 @@
 <% if !@venue %>
 	<tr><td colspan="60" style="text-align:center;font-weight:bold;height:20px;">Select a venue to see available times</td></tr>
 <% else %>
-	<tr>
-		<% 15.times do |hr| %>
-			<% hr += 7 %>
-			<% 4.times do |min| %>
-				<% min = min*15 %>
-				<td class="seg" style="height:20px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+	<% @venues.each do |venue| %>
+		<tr id="<%= venue.id %>">
+			<% 15.times do |hr| %>
+				<% hr += 7 %>
+				<% 4.times do |min| %>
+					<% min = min*15 %>
+					<td class="seg" style="height:20px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+				<% end %>
 			<% end %>
-		<% end %>
-	</tr>
+		</tr>
+	<% end %>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -23,7 +25,8 @@
 			$.each(venue_events, function(i,evt) {
 				var count = -1;
 				var current = (evt.id == parseInt("<%= @event.id if @event %>"));
-				$.each($("td.seg"), function(j,seg) {
+				console.log(evt.venue_id)
+				$.each($("tr#"+evt.venue_id+" td.seg"), function(j,seg) {
 					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
 						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");
 						count = 1;
