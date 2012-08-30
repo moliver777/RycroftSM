@@ -129,6 +129,31 @@ function completeBooking(id) {
 	}
 }
 
+// SAVE PAYMENT
+function savePayment(id) {
+	var id = id;
+	$("ul#form_errors").empty();
+	params = {}
+	params["booking_id"] = id;
+	params["amount"] = $("input#amount").val();
+	params["payment_type"] = $('input:radio:checked').val();
+	$.ajax({
+		url: "/bookings/create_payment",
+		type: "POST",
+		data: {fields: params},
+		success: function(json) {
+			var json = json.errors;
+			if (json[0]) {
+				$.each(json, function(i,error) {
+					$("ul#form_errors").append("<li>"+error+"</li>");
+				})
+			} else {
+				window.location.replace("/bookings/show/"+id);
+			}
+		}
+	})
+}
+
 // SAVE EVENT EDIT
 function completeEventEdit(id) {
 	$("ul#form_errors").empty();
@@ -374,6 +399,26 @@ function fancyConfirmAutoAssign() {
 function fancyPriceList() {
 	$.ajax({
 		url: "/price_list",
+		type: "GET",
+		success: function(view) {
+			jQuery.fancybox({
+				'overlayShow' : true,
+				'padding' : 0,
+				modal : true,
+				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div class=\"options\"><input id=\"fancyConfirm_close\" class=\"btn close_btn\" type=\"button\" value=\"Close\"></div></div>",
+				onComplete : function() {
+					jQuery("#fancyConfirm_close").click(function() {
+						jQuery.fancybox.close();
+					})
+				}
+			})
+		}
+	})
+}
+
+function fancyAvailableNow() {
+	$.ajax({
+		url: "/available_now",
 		type: "GET",
 		success: function(view) {
 			jQuery.fancybox({

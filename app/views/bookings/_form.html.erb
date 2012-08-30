@@ -1,7 +1,12 @@
 <div class="form_section">
 	<%= render :partial => "event_form" %>
 </div>
+
 <% if !@event_edit_flag %>
+	<div class="form_section">
+		<%= render :partial => "cost_form" %>
+	</div>
+
 	<div class="form_section">
 		<%= render :partial => "client_form" %>
 	</div>

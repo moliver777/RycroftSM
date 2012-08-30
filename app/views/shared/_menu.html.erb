@@ -50,6 +50,12 @@
 	<a href="/notes" class="head_link">Notes</a>
 </div>
 
+<% if current_user.user_level != User::BASE %>
+	<div class="menu_link">
+		<a href="/cash_up" class="head_link">Cash Up</a>
+	</div>
+<% end %>
+
 <div class="menu_link">
 	<a href="/reports" class="head_link">Reports</a>
 </div>

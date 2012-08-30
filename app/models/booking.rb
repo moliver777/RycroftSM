@@ -3,13 +3,19 @@ class Booking < ActiveRecord::Base
   belongs_to :client
   belongs_to :horse
   has_many :notes
+  has_many :payments
 
-  def set_fields event, client, horse
+  def set_fields event, client, cost, horse
     self.event_id = event if event
     self.client_id = client if client
+    self.cost = cost.to_f if cost
     self.horse_id = horse && Horse.where(:id => horse).first ? horse : nil
 
     self.save!
+  end
+
+  def balance
+    self.cost - self.payments.sum("amount")
   end
 
   def self.status

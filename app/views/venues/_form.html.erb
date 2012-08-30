@@ -3,7 +3,7 @@
 	<table class="form_table">
 		<tr>
 			<td><%= text_field_tag "name", @venue.name, :placeholder => "Name", :class => "long field" %></td>
-			<td><%= number_field_tag "capacity", 0, :placeholder => "Capacity", :class => "field" %></td>
+			<td><%= number_field_tag "capacity", 0, :class => "field" %></td>
 		</tr>
 		<tr>
 			<td colspan="2"><%= text_area_tag "description", @venue.description, :placeholder => "Description", :class => "field", :size => "80x10" %></td>

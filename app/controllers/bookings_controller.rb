@@ -108,7 +108,7 @@ class BookingsController < ApplicationController
       # create booking
       if client
         booking = Booking.new
-        booking.set_fields event.id, client.id, params[:fields][:horse_id]
+        booking.set_fields event.id, client.id, params[:fields][:cost], params[:fields][:horse_id]
         json[:booking_id] = booking.id
       end
     end
@@ -128,7 +128,7 @@ class BookingsController < ApplicationController
       event.set_fields params[:fields]
       # create booking
       booking = Booking.find(params[:booking_id])
-      booking.set_fields event.id, client.id, params[:fields][:horse_id]
+      booking.set_fields event.id, client.id, params[:fields][:cost], params[:fields][:horse_id]
       json[:booking_id] = booking.id
     end
     render :json => json
@@ -198,6 +198,43 @@ class BookingsController < ApplicationController
     render :json => {:view => render_to_string(:partial => "booking_search_results")}.to_json
   end
 
+  def available_now
+    render :partial => "available_now"
+  end
+
+  def payment
+    @booking = Booking.find(params[:booking_id]) rescue nil
+    @event = @booking.event if @booking
+  end
+
+  def create_payment
+    validate_payment params[:fields]
+    json = {}
+    json[:errors] = @errors
+    if @validated
+      payment = Payment.new
+      payment.set_fields params[:fields]
+    end
+    render :json => json
+  end
+
+  def delete_payment
+    Payment.find(params[:payment_id]).destroy rescue nil
+    render :nothing => true
+  end
+
+  def cash_up
+    @date = params[:date] ? params[:date] : Date.today
+    @totals = {"cash" => 0.00, "card" => 0.00, "cheque" => 0.00, "total" => 0.00}
+    @payments = Payment.where(:payment_date => @date).group_by{|p| p.friendly_type.downcase}
+    @payments.each do |type,payments|
+      payments.each do |p|
+        @totals[type] += p.amount
+        @totals["total"] += p.amount
+      end
+    end
+  end
+
   private
 
   def load_upcoming
@@ -233,6 +270,10 @@ class BookingsController < ApplicationController
     end
     @errors << "Must select a start time." unless fields[:start_time].length > 0
     @errors << "Must select an end time." unless fields[:end_time].length > 0
+    # cost validation
+    if fields[:cost]
+      @errors << "Cost cannot be less than 0." if fields[:cost].to_f < 0.00
+    end
     # client validation
     if fields[:client]
       fields = fields[:client]
@@ -256,6 +297,12 @@ class BookingsController < ApplicationController
         @errors << "Mobile phone number is invalid." if fields[:mobile_phone].match(/\D/)
       end
     end
+    @validated = @errors.length > 0 ? false : true
+  end
+
+  def validate_payment fields
+    @errors = []
+    @errors << "Amount must be greater than 0." unless fields[:amount].to_f > 0
     @validated = @errors.length > 0 ? false : true
   end
 

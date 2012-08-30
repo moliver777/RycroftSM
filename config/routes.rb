@@ -32,6 +32,14 @@ RycroftSM::Application.routes.draw do
   get "/bookings/search" => "bookings#search"
   get "/bookings/search_results" => "bookings#search_results"
   get "/bookings/search/:horse_id" => "bookings#auto_search"
+  get "/available_now" => "bookings#available_now"
+
+  # PAYMENTS
+  get "/bookings/payment/:booking_id" => "bookings#payment"
+  post "/bookings/create_payment" => "bookings#create_payment"
+  post "/bookings/delete_payment/:payment_id" => "bookings#delete_payment"
+  get "/cash_up" => "bookings#cash_up"
+  get "/cash_up/:date" => "bookings#cash_up"
 
   # CLIENTS
   get "/clients" => "clients#index"
@@ -101,8 +109,6 @@ RycroftSM::Application.routes.draw do
   get "/admin/venues" => "venues#index"
   get "/admin/venues/new" => "venues#new"
   post "/admin/venues/create" => "venues#create"
-  get "/admin/venues/edit/:venue_id" => "venues#edit"
-  post "/admin/venues/update/:venue_id" => "venues#update"
   post "/admin/venues/delete/:venue_id" => "venues#destroy"
 
   # ACCOUNT

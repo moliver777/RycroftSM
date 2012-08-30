@@ -1,0 +1,28 @@
+<h2>Payment - <%= @event.event_date %> <%= @event.start_time.strftime("%H:%M") %> - <%= @booking.client.first_name %> <%= @booking.client.last_name %></h2>
+<div class="form_section" style="text-align:center;">
+	Current Balance Owed: <%= number_to_currency(@booking.balance, :unit => "£", :precision => 2) %><br/>
+	<br/>
+	<table style="margin:auto;">
+		<tr>
+			<td>
+				<input type="radio" name="payment_type" value="cash" checked="checked" />
+				Cash
+			</td>
+			<td>
+				<input type="radio" name="payment_type" value="card" />
+				Card
+			</td>
+			<td>
+				<input type="radio" name="payment_type" value="cheque" />
+				Cheque
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">Amount: <%= number_field_tag :amount, 0, :min => 0, :step => 0.01, :class => "field" %></td>
+		</tr>
+	</table>
+</div>
+<div style="text-align:center;">
+	<ul class="error" id="form_errors" style="margin-left:45%;"></ul>
+	<button id="cancel" onclick="window.location.replace('/bookings/show/<%= @booking.id %>')">Cancel</button><button id="save" onclick="savePayment('<%= @booking.id %>')">Save</button>
+</div>

@@ -49,6 +49,33 @@
 	</table>
 </div>
 <div class="show_section">
+	<h3>Payment</h3>
+	<table>
+		<tr>
+			<th colspan="2">Cost (Total)</th>
+			<td><%= number_to_currency(@booking.cost, :unit => "£", :precision => 2) %></td>
+		</tr>
+		<tr>
+			<th colspan="2">Balance (Owed)</th>
+			<td><%= number_to_currency(@booking.balance, :unit => "£", :precision => 2) %></td>
+		</tr>
+		<% if @booking.payments.count > 0 %>
+			<tr>
+				<th colspan="3" style="text-align:center;">Payments</th>
+			</tr>
+			<% @booking.payments.each do |payment| %>
+				<tr>
+					<td><%= payment.created_at.strftime("%Y-%m-%d %H:%M") if payment.created_at %></td>
+					<td><%= payment.friendly_type %></td>
+					<td><%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %></td>
+					<td><a onclick="confirmation('<%= payment.friendly_type %> - <%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %>','/bookings/delete_payment/<%= payment.id %>')">Delete</a></td>
+				</tr>
+			<% end %>
+		<% end %>
+	</table>
+	<button class="link" link="/bookings/payment/<%= @booking.id %>">Make Payment</button>
+</div>
+<div class="show_section">
 	<h3>Notes</h3>
 	<table>
 		<tr class="header">
@@ -71,3 +98,19 @@
 	<button class="link" link="/notes/new/BOOKING/<%= @booking.id %>">Create Note</button>
 </div>
 <div style="text-align:center;"><button class="link" link="/bookings/edit/<%= @booking.id %>">Edit</button><button class="link" link="/bookings/date/<%= @event.event_date %>">Close</button></div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("a.delete_payment"), function(i,link) {
+			$(link).unbind("click").click(function() {
+				$.ajax({
+					url: "/bookings/delete_payment/"+$(this).attr("payment_id"),
+					type: "POST",
+					success: function() {
+						window.location.reload();
+					}
+				})
+			})
+		})
+	})
+</script>
