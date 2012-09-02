@@ -16,6 +16,8 @@ class Note < ActiveRecord::Base
     self.content = fields[:content]
     self.urgent = fields[:urgent] == "true" ? true : false
     self.category = fields[:category]
+    self.start_date = fields[:start_date]
+    self.end_date = fields[:end_date]
     case self.category
     when BOOKING
       self.booking_id = fields[:booking_id]
@@ -63,6 +65,23 @@ class Note < ActiveRecord::Base
   end
 
   def self.priority
-    Note.where(:urgent => true)
+    Client.all.each do |client|
+      if client.events.where("event_date > ?", Date.today.advance(:months => -3)).count == 0 && client.last_reminder < Date.today.advance(:months => -3)
+        note = Note.new
+        note.title = "Client hasn't visited for 3 months."
+        note.content = "This client should be called."
+        note.content += " Home: "+client.home_phone if client.home_phone.length > 0
+        note.content += " Mobile: "+client.mobile_phone if client.mobile_phone.length > 0
+        note.urgent = true
+        note.category = "CLIENT"
+        note.client_id = client.id
+        note.start_date = Date.today
+        note.end_date = Date.today.advance(:days => 7)
+        note.save!
+        client.last_reminder = Date.today
+        client.save!
+      end
+    end
+    Note.where("urgent = ? AND start_date <= ? AND end_date >= ? AND hidden = false", true, Date.today, Date.today)
   end
 end

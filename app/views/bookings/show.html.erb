@@ -65,7 +65,7 @@
 			</tr>
 			<% @booking.payments.each do |payment| %>
 				<tr>
-					<td><%= payment.created_at.strftime("%Y-%m-%d %H:%M") if payment.created_at %></td>
+					<td><%= payment.created_at.localtime.strftime("%Y-%m-%d %H:%M") if payment.created_at %></td>
 					<td><%= payment.friendly_type %></td>
 					<td><%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %></td>
 					<td><a onclick="confirmation('<%= payment.friendly_type %> - <%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %>','/bookings/delete_payment/<%= payment.id %>')">Delete</a></td>

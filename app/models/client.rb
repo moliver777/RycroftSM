@@ -22,6 +22,7 @@ class Client < ActiveRecord::Base
     self.last_name = fields[:last_name]
     self.date_of_birth = fields[:date_of_birth]
     self.standard = fields[:standard]
+    self.last_reminder = Date.today
 
     self.address_line_1 = fields[:address_line_1]
     self.address_line_2 = fields[:address_line_2]

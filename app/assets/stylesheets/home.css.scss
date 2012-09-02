@@ -93,6 +93,8 @@ div#clock_wrapper div#date_wrapper {
 /* PANEL LISTS */
 ul.home_list {
   width: 100%;
+  direction: ltr;
+  list-style: none;
 }
 
 ul.home_list li {

@@ -2,51 +2,51 @@ class NotesController < ApplicationController
   skip_before_filter :user_permission?, :except => [:new,:edit,:create,:update,:destroy]
 
   def index
-    @notes = Note.order("urgent DESC, updated_at DESC")
+    @notes = Note.order("urgent DESC, end_date DESC")
   end
 
   def general
-    @notes = Note.where(:category => Note::GENERAL).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:category => Note::GENERAL).order("urgent DESC, end_date DESC")
   end
 
   def bookings
-    @notes = Note.where(:category => Note::BOOKING).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:category => Note::BOOKING).order("urgent DESC, end_date DESC")
   end
 
   def show_booking
     @booking = Booking.find(params[:booking_id])
     @event = @booking.event
-    @notes = Note.where(:booking_id => params[:booking_id]).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:booking_id => params[:booking_id]).order("urgent DESC, end_date DESC")
     render "bookings"
   end
 
   def clients
-    @notes = Note.where(:category => Note::CLIENT).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:category => Note::CLIENT).order("urgent DESC, end_date DESC")
   end
 
   def show_client
     @client = Client.find(params[:client_id])
-    @notes = Note.where(:client_id => params[:client_id]).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:client_id => params[:client_id]).order("urgent DESC, end_date DESC")
     render "clients"
   end
 
   def horses
-    @notes = Note.where(:category => Note::HORSE).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:category => Note::HORSE).order("urgent DESC, end_date DESC")
   end
 
   def show_horse
     @horse = Horse.find(params[:horse_id])
-    @notes = Note.where(:horse_id => params[:horse_id]).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:horse_id => params[:horse_id]).order("urgent DESC, end_date DESC")
     render "horses"
   end
 
   def staff
-    @notes = Note.where(:category => Note::STAFF).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:category => Note::STAFF).order("urgent DESC, end_date DESC")
   end
 
   def show_staff
     @staff = Staff.find(params[:staff_id])
-    @notes = Note.where(:staff_id => params[:staff_id]).order("urgent DESC, updated_at DESC")
+    @notes = Note.where(:staff_id => params[:staff_id]).order("urgent DESC, end_date DESC")
     render "staff"
   end
 
@@ -107,6 +107,13 @@ class NotesController < ApplicationController
     render :nothing => true
   end
 
+  def hide
+    note = Note.find(params[:note_id])
+    note.hidden = true
+    note.save!
+    redirect_to "/"
+  end
+
   private
 
   def load_subjects
@@ -121,6 +128,7 @@ class NotesController < ApplicationController
     @errors << "Note must have a title." unless fields[:title].length > 0
     @errors << "Note must have some content." unless fields[:content].length > 0
     @errors << "Note must have a category." if fields[:category] == "0"
+    @errors << "Note must have a start and end date." unless Date.parse(fields[:start_date]) && Date.parse(fields[:end_date])
     case fields[:category]
     when Note::BOOKING
       @errors << "Booking category must be linked to a booking." if fields[:booking_id] == "0"

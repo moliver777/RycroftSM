@@ -94,6 +94,7 @@ RycroftSM::Application.routes.draw do
   get "/notes/edit/:note_id" => "notes#edit"
   post "/notes/update/:note_id" => "notes#update"
   post "/notes/delete/:note_id" => "notes#destroy"
+  get "/notes/hide/:note_id" => "notes#hide"
 
   # ADMIN
   get "/admin" => "admin#index"
