@@ -10,7 +10,7 @@
 	<% if !@results.empty? %>
 		<% @results.each do |booking| %>
 			<tr>
-				<td><%= booking.event.name %></td>
+				<td><%= booking.event.event_type.downcase.capitalize %></td>
 				<td><%= booking.event.event_date %></td>
 				<td><%= booking.event.start_time.strftime("%H:%M") %></td>
 				<td><%= booking.client.first_name+" "+booking.client.last_name rescue nil %></td>

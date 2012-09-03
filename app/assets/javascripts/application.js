@@ -435,3 +435,8 @@ function fancyAvailableNow() {
 		}
 	})
 }
+
+function fancyNextWeek(id) {
+	
+}
+

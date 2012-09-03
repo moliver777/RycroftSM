@@ -26,7 +26,7 @@
 				<select id="booking_id" class="subject_select field" style="display:none;">
 					<option value="0">Select a Booking</option>
 					<%= @bookings.each do |booking| %>
-						<option value="<%= booking.id %>"><%= booking.event.event_type.downcase.capitalize+" "+booking.event.start_time.strftime("%H:%M")+" : "+booking.client.first_name+" "+booking.client.last_name %></option>
+						<option value="<%= booking.id %>"><%= booking.event.event_date.strftime("%Y-%m-%d") %> <%= booking.event.event_type.downcase.capitalize+" "+booking.event.start_time.strftime("%H:%M")+" : "+booking.client.first_name+" "+booking.client.last_name %></option>
 					<% end %>
 				</select>
 				<select id="client_id" class="subject_select field" style="display:none;">

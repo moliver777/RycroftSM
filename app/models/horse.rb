@@ -169,7 +169,7 @@ class Horse < ActiveRecord::Base
       bookings.each_with_index do |booking,i|
         bookings.each_with_index do |booking2,j|
           if i != j
-            issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is double-booked for the "+booking.event.name+" event at "+booking.event.start_time.strftime("%H:%M")} if booking.event == booking2.event
+            issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is double-booked for the "+booking.event.event_type.downcase.capitalize+" event at "+booking.event.start_time.strftime("%H:%M")} if booking.event == booking2.event
           end
         end
       end

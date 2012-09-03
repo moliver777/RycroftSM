@@ -117,7 +117,7 @@ class NotesController < ApplicationController
   private
 
   def load_subjects
-    @bookings = Booking.all.sort{|a,b| a.event.name <=> b.event.name}
+    @bookings = Booking.includes(:event).where("events.event_date >= ?", Date.today).order("events.event_date")
     @clients = Client.order("last_name")
     @horses = Horse.order("name")
     @staff = Staff.order("last_name")

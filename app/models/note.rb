@@ -37,7 +37,7 @@ class Note < ActiveRecord::Base
     when "GENERAL"
       title = ""
     when "BOOKING"
-      title = self.booking.event.name+" : "+self.booking.client.first_name+" "+self.booking.client.last_name
+      title = self.booking.event.event_type.downcase.capitalize+" "+event.start_time.strftime("%H:%M")+" : "+self.booking.client.first_name+" "+self.booking.client.last_name
     when "CLIENT"
       title = self.client.first_name+" "+self.client.last_name
     when "HORSE"
@@ -68,7 +68,7 @@ class Note < ActiveRecord::Base
     Client.all.each do |client|
       if client.events.where("event_date > ?", Date.today.advance(:months => -3)).count == 0 && client.last_reminder < Date.today.advance(:months => -3)
         note = Note.new
-        note.title = "Client hasn't visited for 3 months."
+        note.title = "Client hasn't visited for 3 months"
         note.content = "This client should be called."
         note.content += " Home: "+client.home_phone if client.home_phone.length > 0
         note.content += " Mobile: "+client.mobile_phone if client.mobile_phone.length > 0
