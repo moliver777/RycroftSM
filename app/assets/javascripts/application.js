@@ -413,7 +413,7 @@ function fancyPriceList() {
 				}
 			})
 		}
-	})
+	});
 }
 
 function fancyAvailableNow() {
@@ -433,10 +433,26 @@ function fancyAvailableNow() {
 				}
 			})
 		}
-	})
+	});
 }
 
 function fancyNextWeek(id) {
-	
+	$.ajax({
+		url: "/rebook/"+id,
+		type: "GET",
+		success: function(view) {
+			jQuery.fancybox({
+				'overlayShow' : true,
+				'padding' : 0,
+				modal : true,
+				content:  "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_continue\" class=\"btn continue_btn\" type=\"button\" value=\"Continue\"></div></div>",
+				onComplete : function() {
+					jQuery("#fancyConfirm_cancel").click(function() {
+						jQuery.fancybox.close();
+					})
+				}
+			})
+		}
+	});
 }
 

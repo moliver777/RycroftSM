@@ -1,0 +1,16 @@
+<div class="rebook_panel" id="step1">
+	<h3>Re-Book <%= @booking.event.event_date.strftime("%Y-%m-%d") %> <%= @booking.event.event_type.downcase.capitalize %> <%= @booking.event.start_time.strftime("%H:%M") %> - <%= @booking.client.first_name %> <%= @booking.client.last_name %></h3>
+	<!-- OPTIONS FOR WHEN -->
+	<table id="rebook_table">
+		<tr>
+			<td colspan="4"><input type="radio" name="rebook_option" value="next_week" checked="checked" /> Next Week</td>
+		</tr>
+		<tr>
+			<td><input type="radio" name="rebook_option" value="custom" /> Custom</td>
+			<td><%= text_field_tag :event_date, @booking.event.event_date.advance(:days => 7), :placeholder => "Date", :class => "field", :disabled => true %></td>
+			<td>From <%= text_field_tag :start_time, @booking.event.start_time.strftime("%H:%M"), :class => "field", :disabled => true %></td>
+			<td>To <%= text_field_tag :end_time, @booking.event.end_time.strftime("%H:%M"), :class => "field", :disabled => true %></td>
+		</tr>
+	</table>
+	<!-- SHOW ERRORS IF NOT AVAILABLE AND NEAREST POSSIBLE SPACE -->
+</div>

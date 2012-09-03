@@ -235,6 +235,15 @@ class BookingsController < ApplicationController
     end
   end
 
+  def rebook
+    @booking = Booking.find(params[:booking_id])
+    data = render_to_string(:partial => "rebook")
+    render :json => data.to_json
+  end
+
+  def check_rebook
+  end
+
   private
 
   def load_upcoming
