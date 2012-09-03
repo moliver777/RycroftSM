@@ -35,6 +35,15 @@ class HorsesController < ApplicationController
     if @validated
       horse = Horse.new
       horse.set_fields params[:fields]
+      note = Note.new
+      note.title = "Horse must have an assessment."
+      note.content = "All new horses must undertake an assessment."
+      note.urgent = true
+      note.category = "HORSE"
+      note.client_id = horse.id
+      note.start_date = Date.today
+      note.end_date = Date.today.advance(:days => 7)
+      note.save!
     end
     render :json => @errors.to_json
   end

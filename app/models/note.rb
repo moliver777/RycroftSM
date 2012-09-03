@@ -72,7 +72,7 @@ class Note < ActiveRecord::Base
         note.content = "This client should be called."
         note.content += " Home: "+client.home_phone if client.home_phone.length > 0
         note.content += " Mobile: "+client.mobile_phone if client.mobile_phone.length > 0
-        note.urgent = true
+        note.urgent = false
         note.category = "CLIENT"
         note.client_id = client.id
         note.start_date = Date.today
