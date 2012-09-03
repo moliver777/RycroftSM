@@ -16,7 +16,7 @@
 	<% if @payments["cash"] %>
 		<% @payments["cash"].each do |payment| %>
 			<tr>
-				<td><%= payment.created_at.strftime("%H:%M") %></td>
+				<td><%= payment.created_at.localtime.strftime("%H:%M") %></td>
 				<td><%= payment.booking.event.event_date.strftime("%Y-%m-%d") %> <%= payment.booking.event.start_time.strftime("%H:%M") %></td>
 				<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
@@ -33,7 +33,7 @@
 	<% if @payments["card"] %>
 		<% @payments["card"].each do |payment| %>
 			<tr>
-				<td><%= payment.created_at.strftime("%H:%M") %></td>
+				<td><%= payment.created_at.localtime.strftime("%H:%M") %></td>
 				<td><%= payment.booking.event.event_date.strftime("%Y-%m-%d") %> <%= payment.booking.event.start_time.strftime("%H:%M") %></td>
 				<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
@@ -50,7 +50,7 @@
 	<% if @payments["cheque"] %>
 		<% @payments["cheque"].each do |payment| %>
 			<tr>
-				<td><%= payment.created_at.strftime("%H:%M") %></td>
+				<td><%= payment.created_at.localtime.strftime("%H:%M") %></td>
 				<td><%= payment.booking.event.event_date.strftime("%Y-%m-%d") %> <%= payment.booking.event.start_time.strftime("%H:%M") %></td>
 				<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
