@@ -450,6 +450,12 @@ function fancyNextWeek(id) {
 					jQuery("#fancyConfirm_cancel").click(function() {
 						jQuery.fancybox.close();
 					})
+					jQuery("#fancyConfirm_continue").click(function() {
+						// Send fields to server and check if this is ok
+						// $.ajax({
+							// if ok, say so unless show errors and set continue button to save booking and forward to booking show
+						// })
+					})
 				}
 			})
 		}

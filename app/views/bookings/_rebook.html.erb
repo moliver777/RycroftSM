@@ -14,3 +14,22 @@
 	</table>
 	<!-- SHOW ERRORS IF NOT AVAILABLE AND NEAREST POSSIBLE SPACE -->
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input#event_date").datepicker({dateFormat: "yy-mm-dd"});
+		$(".ui-datepicker").hide();
+
+		$("input[type='radio']").unbind("click").click(function() {
+			if ($(this).val() == "next_week") {
+				$("input#event_date").val("<%= @booking.event.event_date.advance(:days => 7) %>").attr("disabled", true);
+				$("input#start_time").val("<%= @booking.event.start_time.strftime('%H:%M') %>").attr("disabled", true);
+				$("input#end_time").val("<%= @booking.event.end_time.strftime('%H:%M') %>").attr("disabled", true);
+			} else {
+				$("input#event_date").attr("disabled", false);
+				$("input#start_time").attr("disabled", false);
+				$("input#end_time").attr("disabled", false);
+			}
+		})
+	})
+</script>
