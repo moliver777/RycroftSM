@@ -20,7 +20,6 @@ class Event < ActiveRecord::Base
 
     self.description = fields[:description]
     self.event_type = fields[:event_type]
-    self.standard = fields[:standard]
     self.venue_id = fields[:venue_id]
     self.master_venue_id = fields[:master_venue_id]
     self.event_date = fields[:event_date]
@@ -34,7 +33,6 @@ class Event < ActiveRecord::Base
   def rebook old, venue, fields
     self.description = old.description
     self.event_type = old.event_type
-    self.standard = old.standard
     self.venue_id = venue
     self.master_venue_id = old.master_venue_id
     self.event_date = fields[:event_date]

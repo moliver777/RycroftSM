@@ -19,14 +19,6 @@
 			</select>
 		</td>
 		<td>
-			<select id="standard" class="field event">
-				<option value="0">Riding Standard</option>
-				<% Event::STANDARDS.each do |standard| %>
-					<option value="<%= standard %>"><%= standard.downcase.capitalize %></option>
-				<% end %>
-			</select>
-		</td>
-		<td>
 			<select id="master_venue_id" class="field">
 				<option value="0">Venue</option>
 				<% Venue.where(:master => true).order("name").each do |venue| %>
@@ -101,7 +93,6 @@
 			if ($(this).val() == "0") {
 				$("input#event_name").val("");
 				$("select#event_type").val("0");
-				$("select#standard.field.event").val("0");
 				$("textarea#description").val("");
 				$("input#start_time").val("");
 				$("input#end_time").val("");
@@ -117,7 +108,6 @@
 					success: function(evt) {
 						$("input#name").val(evt.name);
 						$("select#event_type").val(evt.event_type);
-						$("select#standard.field.event").val(evt.standard);
 						$("textarea#description").val(evt.description);
 						$("input#event_date").val(evt.date);
 						$("input#start_time").val(evt.formatted_start_time);

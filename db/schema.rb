@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120905174047) do
+ActiveRecord::Schema.define(:version => 20120905175131) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(:version => 20120905174047) do
   create_table "events", :force => true do |t|
     t.string   "event_type"
     t.text     "description"
-    t.string   "standard"
     t.integer  "venue_id"
     t.date     "event_date"
     t.time     "start_time"
@@ -98,11 +97,11 @@ ActiveRecord::Schema.define(:version => 20120905174047) do
     t.boolean  "cash",         :default => false
     t.boolean  "cc",           :default => false
     t.boolean  "cheque",       :default => false
+    t.boolean  "voucher",      :default => false
     t.float    "amount",       :default => 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "payment_date"
-    t.boolean  "voucher",      :default => false
   end
 
   create_table "preferences", :force => true do |t|

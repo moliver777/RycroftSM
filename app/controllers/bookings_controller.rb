@@ -304,7 +304,6 @@ class BookingsController < ApplicationController
     @errors = []
     # event validation
     @errors << "Event must have an event type." if fields[:event_type] == "0"
-    @errors << "Event must have a riding standard." if fields[:standard] == "0"
     @errors << "Event must be assigned to a venue." if fields[:master_venue_id] == "0"
     begin
       throw "invalid" unless fields[:event_date].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)

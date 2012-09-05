@@ -6,10 +6,6 @@
 			<td><%= @event.event_type.downcase.capitalize if @event.event_type %></td>
 		</tr>
 		<tr>
-			<th>Standard:</th>
-			<td><%= @event.standard.downcase.capitalize if @event.standard %></td>
-		</tr>
-		<tr>
 			<th>Venue:</th>
 			<td><%= @event.venue.name if @event.venue %></td>
 		</tr>
