@@ -31,6 +31,20 @@ class Event < ActiveRecord::Base
     self.save!
   end
 
+  def rebook old, venue, fields
+    self.description = old.description
+    self.event_type = old.event_type
+    self.standard = old.standard
+    self.venue_id = venue
+    self.master_venue_id = old.master_venue_id
+    self.event_date = fields[:event_date]
+    self.start_time = fields[:start_time]
+    self.end_time = fields[:end_time]
+    self.staff_id = old.staff_id
+
+    self.save!
+  end
+
   def duration
     return "0:00" unless self.start_time && self.end_time
     duration = self.end_time-self.start_time

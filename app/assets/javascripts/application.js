@@ -37,7 +37,7 @@ function confirmation(id,url) {
 				}
 			})
 		}
-	})
+	});
 }
 
 // CONFIRM RESET
@@ -50,7 +50,7 @@ function reset(id,url) {
 				type: "POST"
 			})
 		}
-	})
+	});
 }
 
 // SAVE NEW/EDIT
@@ -74,13 +74,13 @@ function save(root,url) {
 				window.location.replace(root);
 			}
 		}
-	})
+	});
 }
 
 // SAVE BOOKING NEW/EDIT
 function completeBooking(id) {
 	$("ul#form_errors").empty();
-	params = {}
+	params = {};
 	if ($("select#event_mode").val() != 0) {params["event_id"] = $("select#event_mode").val()};
 	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
 	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
@@ -105,7 +105,7 @@ function completeBooking(id) {
 					window.location.replace("/bookings/show/"+json.booking_id);
 				}
 			}
-		})
+		});
 	} else {
 		$.ajax({
 			url: "/bookings/create",
@@ -125,7 +125,7 @@ function completeBooking(id) {
 					
 				}
 			}
-		})
+		});
 	}
 }
 
@@ -133,7 +133,7 @@ function completeBooking(id) {
 function savePayment(id) {
 	var id = id;
 	$("ul#form_errors").empty();
-	params = {}
+	params = {};
 	params["booking_id"] = id;
 	params["amount"] = $("input#amount").val();
 	params["payment_type"] = $('input:radio:checked').val();
@@ -151,13 +151,13 @@ function savePayment(id) {
 				window.location.replace("/bookings/show/"+id);
 			}
 		}
-	})
+	});
 }
 
 // SAVE EVENT EDIT
 function completeEventEdit(id) {
 	$("ul#form_errors").empty();
-	params = {}
+	params = {};
 	if ($("select#event_mode").val() != 0) {params["event_id"] = $("select#event_mode").val()};
 	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
 	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
@@ -197,7 +197,7 @@ function completeEventEdit(id) {
 					
 				}
 			}
-		})
+		});
 	}
 }
 
@@ -214,7 +214,7 @@ function cancelBooking(id,url) {
 				}
 			})
 		}
-	})
+	});
 }
 
 // CANCEL NEW/EDIT
@@ -314,7 +314,7 @@ function nextSeg(seg) {
 function calculateDuration() {
 	var segs = $("td.selected").length;
 	if (segs == 0) {
-		return "0:00"
+		return "0:00";
 	} else {
 		mins = segs*15;
 		hours = Math.floor(mins/60);
@@ -362,7 +362,7 @@ function fancyConfirmAutoAssign() {
 					$.ajax({
 						url: "/assignment/no_more_prompts",
 						type: "POST"
-					})
+					});
 				}
 				jQuery.fancybox.close();
 			})
@@ -451,13 +451,26 @@ function fancyNextWeek(id) {
 						jQuery.fancybox.close();
 					})
 					jQuery("#fancyConfirm_continue").click(function() {
-						// Send fields to server and check if this is ok
-						// $.ajax({
-							// if ok, say so unless show errors and set continue button to save booking and forward to booking show
-						// })
+						$("ul#rebook_errors").empty();
+						params = {};
+						$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+						$.ajax({
+							url: "/rebook_status/"+id,
+							type: "POST",
+							data: params,
+							success: function(json) {
+								if (json.errors[0]) {
+									$.each(json.errors, function(i,error) {
+										$("ul#rebook_errors").append("<li>"+error+"</li>");
+									})
+								} else {
+									window.location.href = "/bookings/show/"+json.booking_id;
+								}
+							}
+						});
 					})
 				}
-			})
+			});
 		}
 	});
 }

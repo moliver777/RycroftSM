@@ -67,6 +67,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("select#master_venue_id").val("<%= @event.master_venue_id %>");
 		$("select#master_venue_id").unbind("change").change(function() {
 			if ($("input#event_date").val().length == 0) {
 				var date = new Date();

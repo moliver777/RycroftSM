@@ -21,7 +21,6 @@
 		$("select#event_mode").val("<%= @event.id ? @event.id : 0 %>");
 		$("select#event_type").val("<%= @event.event_type ? @event.event_type : 0 %>");
 		$("select#standard").val("<%= @event.standard ? @event.standard : 0 %>");
-		$("select#venue_id").val("<%= @event.venue_id ? @event.venue_id : 0 %>");
 		$("select#staff_id").val("<%= @event.staff_id ? @event.staff_id : 0 %>");
 		$("select#horse_id").val("<%= @booking.horse_id ? @booking.horse_id : 0 %>");
 		$("input#event_date").datepicker({dateFormat: "yy-mm-dd"});

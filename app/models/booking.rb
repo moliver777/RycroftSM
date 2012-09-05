@@ -14,6 +14,15 @@ class Booking < ActiveRecord::Base
     self.save!
   end
 
+  def rebook old, event, fields
+    self.event_id = event.id
+    self.client_id = old.client_id
+    self.cost = fields[:cost]
+    self.horse_id = nil
+
+    self.save!
+  end
+
   def balance
     self.cost - self.payments.sum("amount")
   end
