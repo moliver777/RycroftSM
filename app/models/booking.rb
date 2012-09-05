@@ -30,7 +30,9 @@ class Booking < ActiveRecord::Base
   def self.status
     issues = []
     Booking.includes(:event).all.select{|booking| booking.event.event_date == Date.today}.each do |booking|
-      issues << {:link => "/bookings/edit/"+booking.id.to_s, :text => booking.client.first_name+" "+booking.client.last_name+"'s booking for at "+booking.event.start_time.strftime("%H:%M")+" has no horse assigned to it"} unless booking.horse
+      if booking.client
+        issues << {:link => "/bookings/edit/"+booking.id.to_s, :text => booking.client.first_name+" "+booking.client.last_name+"'s booking for at "+booking.event.start_time.strftime("%H:%M")+" has no horse assigned to it"} unless booking.horse
+      end
     end
     issues.uniq
   end

@@ -5,7 +5,6 @@
 			<td><%= text_field_tag "first_name", @client.first_name, :placeholder => "First Name", :class => "long field" %></td>
 			<td><%= text_field_tag "last_name", @client.last_name, :placeholder => "Last Name", :class => "long field" %></td>
 			<td><%= text_field_tag "date_of_birth", @client.date_of_birth, :placeholder => "YYYY-MM-DD", :class => "field" %></td>
-			<td><%= select_tag "standard", "<option value='0'>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "field" %></td>
 		</tr>
 	</table>
 </div>
@@ -18,20 +17,49 @@
 			<td><%= text_field_tag "city", @client.city, :placeholder => "City", :class => "field" %></td>
 			<td><%= text_field_tag "county", @client.county, :placeholder => "County", :class => "field" %></td>
 			<td><%= text_field_tag "country", @client.country, :placeholder => "Country", :class => "field" %></td>
-			<td><%= text_field_tag "post_code", @client.post_code, :placeholder => "Post Code", :class => "field" %></td>
 		</tr>
 		<tr>
 			<td>Home: <%= text_field_tag "home_phone", @client.home_phone, :placeholder => "Home Phone", :class => "field" %></td>
 			<td>Mobile: <%= text_field_tag "mobile_phone", @client.mobile_phone, :placeholder => "Mobile Phone", :class => "field" %></td>
+			<td><%= text_field_tag "height", @client.height, :placeholder => "Height", :class => "field" %></td>
+			<td><%= text_field_tag "weight", @client.weight, :placeholder => "Weight", :class => "field" %></td>
+			<td><%= text_field_tag "post_code", @client.post_code, :placeholder => "Post Code", :class => "field" %></td>
 		</tr>
-	</table class="form_table">
+	</table>
 </div>
 <div class="form_section">
 	<h3>Emergency</h3>
 	<table class="form_table">
 		<tr>
+			<td style="vertical-align:middle;">Serious injury from riding ever?: <%= check_box_tag "injury", "", @client.injury, :class => "field" %></td>
+			<td colspan="3"><%= text_area_tag "injury_details", @client.injury_details, :placeholder => "Please describe", :size => "70x3", :class => "field" %></td>
+			<td><%= text_area_tag "medical_notes", @client.medical_notes, :placeholder => "Any disability, medical condition or medication that may affect riding ability or instructor should be aware of in case of emergency", :size => "70x3", :class => "field" %></td>
+		</tr>
+		<tr>
+			<td><%= text_field_tag "doctor", @client.doctor, :placeholder => "Doctor Name", :class => "long field" %></td>
+			<td><%= text_field_tag "doctor_contact", @client.doctor_contact, :placeholder => "Doctor Contact Phone", :class => "long field" %></td>
+			<td><%= text_field_tag "tetanus_date", @client.tetanus_date, :placeholder => "Last Tetanus Injection", :class => "field" %></td>
+		</tr>
+		<tr>
 			<td><%= text_field_tag "emergency_contact_name", @client.emergency_contact_name, :placeholder => "Emergency Contact Name", :class => "long field" %></td>
 			<td><%= text_field_tag "emergency_contact_phone", @client.emergency_contact_phone, :placeholder => "Emergency Contact Phone", :class => "long field" %></td>
+		</tr>
+	</table>
+</div>
+<div class="form_section">
+	<h3>History & Ability</h3>
+	<table class="form_table">
+		<tr>
+			<td><%= text_field_tag "times_ridden", @client.times_ridden, :placeholder => "Times ridden in last 12months", :class => "long field" %></td>
+			<td><%= select_tag "standard", "<option>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "field" %></td>
+		</tr>
+		<tr>
+			<td><%= text_field_tag "heard_about_us", @client.heard_about_us, :placeholder => "Heard About Us", :class => "long field" %></td>
+			<td colspan="4">
+				Client can:<br/>
+				Walk:<%= check_box_tag "walk", "", @client.walk, :class => "field break_right" %>Trot with Stirrups:<%= check_box_tag "trot_with", "", @client.trot_with, :class => "field break_right" %>Trot without Stirrups:<%= check_box_tag "trot_without", "", @client.trot_without, :class => "field break_right" %>Canter:<%= check_box_tag "canter", "", @client.canter, :class => "field break_right" %><br/>
+				Hack: <%= check_box_tag "hack", "", @client.hack, :class => "field break_right" %>Jump up to 0.5m:<%= check_box_tag "jump_5_meter", "", @client.jump_5_meter, :class => "field break_right" %>Jump up to 0.75m:<%= check_box_tag "jump_75_meter", "", @client.jump_75_meter, :class => "field break_right" %>Cross-Country:<%= check_box_tag "x_country", "", @client.x_country, :class => "field break_right" %>
+			</td>
 		</tr>
 	</table>
 </div>

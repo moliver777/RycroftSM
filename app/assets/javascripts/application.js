@@ -89,7 +89,9 @@ function completeBooking(id) {
 	client = {};
 	if ($("input#client_id").val() != 0) {client["client_id"] = $("input#client_id").val()};
 	$.each($("input.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
+	$.each($("input.client_field[type='checkbox']"), function(i,field) {client[$(field).attr("id")] = $(field).is(":checked")});
 	$.each($("select.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
+	$.each($("textarea.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
 	params["client"] = client;
 	if (id) {
 		$.ajax({

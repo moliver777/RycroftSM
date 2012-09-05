@@ -21,7 +21,6 @@ class Client < ActiveRecord::Base
     self.first_name = fields[:first_name]
     self.last_name = fields[:last_name]
     self.date_of_birth = fields[:date_of_birth]
-    self.standard = fields[:standard]
     self.last_reminder = Date.today
 
     self.address_line_1 = fields[:address_line_1]
@@ -32,9 +31,29 @@ class Client < ActiveRecord::Base
     self.post_code = fields[:post_code]
     self.home_phone = fields[:home_phone]
     self.mobile_phone = fields[:mobile_phone]
+    self.height = fields[:height]
+    self.weight = fields[:weight]
 
+    self.injury = fields[:injury] == "true" ? true : false
+    self.injury_details = fields[:injury_details]
+    self.medical_notes = fields[:medical_notes]
+    self.doctor = fields[:doctor]
+    self.doctor_contact = fields[:doctor_contact]
+    self.tetanus_date = fields[:tetanus_date]
     self.emergency_contact_name = fields[:emergency_contact_name]
     self.emergency_contact_phone = fields[:emergency_contact_phone]
+
+    self.times_ridden = fields[:times_ridden]
+    self.standard = fields[:standard]
+    self.heard_about_us = fields[:heard_about_us]
+    self.walk = fields[:walk] == "true" ? true : false
+    self.trot_with = fields[:trot_with] == "true" ? true : false
+    self.trot_without = fields[:trot_without] == "true" ? true : false
+    self.canter = fields[:canter] == "true" ? true : false
+    self.hack = fields[:hack] == "true" ? true : false
+    self.jump_5_meter = fields[:jump_5_meter] == "true" ? true : false
+    self.jump_75_meter = fields[:jump_75_meter] == "true" ? true : false
+    self.x_country = fields[:x_country] == "true" ? true : false
 
     self.save!
   end
@@ -42,6 +61,19 @@ class Client < ActiveRecord::Base
   def age
     now = Time.now.utc.to_date
     now.year - self.date_of_birth.year - ((now.month > self.date_of_birth.month || (now.month == self.date_of_birth.month && now.day >= self.date_of_birth.day)) ? 0 : 1)
+  end
+
+  def abilities
+    ability = ""
+    ability += "Walk, " if self.walk
+    ability += "Trot with Stirrups, " if self.trot_with
+    ability += "Trot without Stirrups, " if self.trot_without
+    ability += "Canter, " if self.canter
+    ability += "Hack, " if self.hack
+    ability += "Jump 0.5m, " if self.jump_5_meter
+    ability += "Jump 0.75m, " if self.jump_75_meter
+    ability += "Cross-Country, " if self.x_country
+    ability.length > 0 ? ability[0..-3] : "None"
   end
 
 end

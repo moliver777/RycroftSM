@@ -7,6 +7,14 @@
 			<td><%= @client.date_of_birth %></td>
 		</tr>
 		<tr>
+			<th>Height:</th>
+			<td><%= @client.height %></td>
+		</tr>
+		<tr>
+			<th>Weight:</th>
+			<td><%= @client.weight %></td>
+		</tr>
+		<tr>
 			<th>Standard:</th>
 			<td><%= @client.standard.downcase.capitalize if @client.standard %></td>
 		</tr>
@@ -19,8 +27,32 @@
 			<td>Home: <%= @client.home_phone %><br/>Mobile: <%= @client.mobile_phone %></td>
 		</tr>
 		<tr>
+			<th>Previous Injury:</th>
+			<td><%= @client.injury ? @client.injury_details : "None" %></td>
+		</tr>
+		<tr>
+			<th>Medical Notes:</th>
+			<td><%= @client.medical_notes %></td>
+		</tr>
+		<tr>
+			<th>Doctor:</th>
+			<td><%= @client.doctor %><br/><%= @client.doctor_contact %></td>
+		</tr>
+		<tr>
 			<th>Emergency Contact:</th>
 			<td><%= @client.emergency_contact_name %><br/><%= @client.emergency_contact_phone %></td>
+		</tr>
+		<tr>
+			<th>Times ridden<br/>last 12 months:</th>
+			<td><%= @client.times_ridden %></td>
+		</tr>
+		<tr>
+			<th>Client can:</th>
+			<td><%= @client.abilities %></td>
+		</tr>
+		<tr>
+			<th>Heard About Us:</th>
+			<td><%= @client.heard_about_us %></td>
 		</tr>
 	</table>
 </div>
