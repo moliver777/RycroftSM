@@ -3,9 +3,10 @@ class Payment < ActiveRecord::Base
 
   def set_fields fields
     self.booking_id = fields[:booking_id]
-    self.cash = true if fields[:payment_type] = "cash"
-    self.cc = true if fields[:payment_type] = "card"
-    self.cheque = true if fields[:payment_type] = "cheque"
+    self.cash = true if fields[:payment_type] == "cash"
+    self.cc = true if fields[:payment_type] == "card"
+    self.cheque = true if fields[:payment_type] == "cheque"
+    self.voucher = true if fields[:payment_type] == "voucher"
     self.amount = fields[:amount]
     self.payment_date = Date.today
 
@@ -20,6 +21,8 @@ class Payment < ActiveRecord::Base
       text = "Card"
     elsif self.cheque
       text = "Cheque"
+    elsif self.voucher
+      text = "Voucher"
     end
     text
   end

@@ -225,7 +225,7 @@ class BookingsController < ApplicationController
 
   def cash_up
     @date = params[:date] ? params[:date] : Date.today
-    @totals = {"cash" => 0.00, "card" => 0.00, "cheque" => 0.00, "total" => 0.00}
+    @totals = {"cash" => 0.00, "card" => 0.00, "cheque" => 0.00, "voucher" => 0.00, "total" => 0.00}
     @payments = Payment.where(:payment_date => @date).group_by{|p| p.friendly_type.downcase}
     @payments.each do |type,payments|
       payments.each do |p|
@@ -241,7 +241,42 @@ class BookingsController < ApplicationController
     render :json => data.to_json
   end
 
-  def check_rebook
+  def rebook_status
+    # validate rebook
+    json = {}
+    json[:errors] = []
+    venue_id = nil
+    old_booking = Booking.find(params[:booking_id])
+    old_event = old_booking.event
+    Venue.where(:name => old_event.venue.name).order("id DESC").each do |venue|
+      venue_id = venue.id unless Event.where("event_date = ? AND venue_id = ? AND start_time < ? AND end_time > ?", params[:event_date], venue.id, params[:end_time], params[:start_time]).first
+    end
+    valid = true
+    if params[:cost].to_f < 0.00
+      json[:errors] << "Cost cannot be less than 0." 
+      valid = false
+    end
+    if venue_id && valid
+      new_event = Event.new
+      new_event.rebook old_event, venue_id, params
+      new_booking = Booking.new
+      new_booking.rebook old_booking, new_event, params
+      json[:booking_id] = new_booking.id
+    else
+      json[:errors] << "Could not rebook at this time."
+      hr = 7
+      min = 0
+      splits = []
+      while hr < 23 || min < 15
+        current = "#{0 if hr < 10}#{hr}:#{0 if min < 10}#{min}"
+        splits << current unless Event.where("event_date = ? AND venue_id IN (?) AND start_time < ? AND end_time > ?", params[:event_date], Venue.where(:name => old_event.venue.name).map{|v| v.id}, current, current).first
+        min == 45 ? min = 0 : min += 15
+        hr += 1 if min == 0
+      end
+      json[:errors] << (splits[0] ? "Available times for #{old_event.venue.name}: "+available_times(splits) : "No available times!")
+      json[:errors] << "If you are having problems, try opening the schedule for the desired day in a new window to see if the event is trying to book across different rows, or go to the new booking form and attempt to make the booking manually."
+    end
+    render :json => json
   end
 
   private
@@ -321,6 +356,45 @@ class BookingsController < ApplicationController
       @search += char if char.match(/\w|\s|\"|\'|\-/)
     end
     @search
+  end
+
+  def available_times splits
+    result = ""
+    prev = ""
+    hr = splits[0].split(":")[0].to_i
+    min = splits[0].split(":")[1].to_i
+    first = true
+    splits.each do |s|
+      if s == splits.first
+        result += s
+      elsif s == splits.last
+        if first
+          result += "-#{s}"
+        else
+          result += s
+        end
+      else
+        if s == "#{0 if hr < 10}#{hr}:#{0 if min < 10}#{min}"
+          if first
+            first = false
+            result += "-"
+          end
+        else
+          if first
+            result += ", #{s}"
+          else
+            result += "#{prev}, #{s}"
+            first = true
+          end
+          hr = s.split(":")[0].to_i
+          min = s.split(":")[1].to_i
+        end
+      end
+      prev = s
+      min == 45 ? min = 0 : min += 15
+      hr += 1 if min == 0
+    end
+    result
   end
 
 end
