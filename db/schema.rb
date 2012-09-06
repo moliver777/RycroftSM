@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120906154710) do
+ActiveRecord::Schema.define(:version => 20120906155006) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -80,6 +80,26 @@ ActiveRecord::Schema.define(:version => 20120906154710) do
     t.boolean  "availability"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "feed"
+    t.string   "feed_extras"
+    t.float    "hay_weight",        :default => 0.0
+    t.text     "description"
+    t.string   "height"
+    t.string   "colour"
+    t.string   "max_weight"
+    t.string   "owner"
+    t.string   "owner_email"
+    t.string   "heart_check"
+    t.string   "eyes_check"
+    t.string   "trot_up_check"
+    t.string   "tack_check_bridle"
+    t.string   "tack_check_saddle"
+    t.text     "tack_check_notes"
+    t.string   "physio_frequency"
+    t.string   "temp"
+    t.string   "pulse"
+    t.string   "respiration"
+    t.integer  "turnout_group",     :default => 0
   end
 
   create_table "notes", :force => true do |t|
