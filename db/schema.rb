@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120906112624) do
+ActiveRecord::Schema.define(:version => 20120906154710) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -78,18 +78,6 @@ ActiveRecord::Schema.define(:version => 20120906112624) do
     t.string   "standard"
     t.integer  "max_day_workload"
     t.boolean  "availability"
-    t.boolean  "farrier"
-    t.date     "farrier_date"
-    t.integer  "farrier_freq"
-    t.boolean  "worming"
-    t.date     "worming_date"
-    t.string   "worming_freq"
-    t.boolean  "vet"
-    t.date     "vet_date"
-    t.string   "vet_freq"
-    t.boolean  "medication"
-    t.date     "medication_date"
-    t.string   "medication_freq"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -152,13 +140,13 @@ ActiveRecord::Schema.define(:version => 20120906112624) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "date_of_birth"
-    t.boolean  "monday"
-    t.boolean  "tuesday"
-    t.boolean  "wednesday"
-    t.boolean  "thursday"
-    t.boolean  "friday"
-    t.boolean  "saturday"
-    t.boolean  "sunday"
+    t.boolean  "monday",         :default => false
+    t.boolean  "tuesday",        :default => false
+    t.boolean  "wednesday",      :default => false
+    t.boolean  "thursday",       :default => false
+    t.boolean  "friday",         :default => false
+    t.boolean  "saturday",       :default => false
+    t.boolean  "sunday",         :default => false
   end
 
   create_table "users", :force => true do |t|

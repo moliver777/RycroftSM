@@ -11,10 +11,6 @@
 					<input class="availability" type="checkbox" horse_id="<%= horse.id %>"></input>
 				<% end %>
 			</td>
-			<td><%= horse.farrier_due %></td>
-			<td><%= horse.worming_due %></td>
-			<td><%= horse.vet_due %></td>
-			<td><%= horse.medication_due %></td>
 			<td style="vertical-align:middle;">
 				<a href="/horses/show/<%= horse.id %>">Details</a> | <a href="/notes/HORSE/<%= horse.id %>">Notes</a> 
 				<% if current_user.user_level != User::BASE %>

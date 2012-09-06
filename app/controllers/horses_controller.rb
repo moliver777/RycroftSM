@@ -71,58 +71,6 @@ class HorsesController < ApplicationController
     @errors << "Horse must have a name." unless fields[:name].length > 0
     @errors << "Horse must have a riding standard." if fields[:standard] == "0"
     @errors << "Max day workload must be between 1 and 24 hours." unless fields[:max_day_workload].to_i > 0 && fields[:max_day_workload].to_i < 25
-    if fields[:farrier] == "true"
-      if fields[:farrier_date].length > 0
-        begin
-          throw "date error" unless fields[:farrier_date].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
-          Date.parse(fields[:farrier_date])
-        rescue
-          @errors << "Farrier start date is invalid."
-        end
-      else
-        @errors << "No start date for farrier."
-      end
-      @errors << "Farrier frequency weeks must be a number greater than 0." unless fields[:farrier_freq].to_i > 0
-    end
-    if fields[:worming] == "true"
-      if fields[:worming_date].length > 0
-        begin
-          throw "date error" unless fields[:worming_date].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
-          Date.parse(fields[:worming_date])
-        rescue
-          @errors << "Worming start date is invalid."
-        end
-      else
-        @errors << "No start date for worming."
-      end
-      @errors << "Worming frequency weeks must be a number greater than 0." unless fields[:worming_freq].to_i > 0
-    end
-    if fields[:vet] == "true"
-      if fields[:vet_date].length > 0
-        begin
-          throw "date error" unless fields[:vet_date].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
-          Date.parse(fields[:vet_date])
-        rescue
-          @errors << "Vet start date is invalid."
-        end
-      else
-        @errors << "No start date for vet."
-      end
-      @errors << "Vet frequency weeks must be a number greater than 0." unless fields[:vet_freq].to_i > 0
-    end
-    if fields[:medication] == "true"
-      if fields[:medication_date].length > 0
-        begin
-          throw "date error" unless fields[:medication_date].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
-          Date.parse(fields[:medication_date])
-        rescue
-          @errors << "Medication start date is invalid."
-        end
-      else
-        @errors << "No start date for medication."
-      end
-      @errors << "Medication frequency weeks must be a number greater than 0." unless fields[:medication_freq].to_i > 0
-    end
     @validated = @errors.length > 0 ? false : true
   end
 end
