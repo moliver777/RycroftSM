@@ -39,8 +39,8 @@ class ApplicationController < ActionController::Base
       session[:issues] = issues.flatten.uniq # save issues to session
       session[:notes] = notes # save notes to session
     end
-    @status_issues = session[:issues] rescue [] # make session issues available to views
-    @status_notes = session[:notes] rescue [] # make session notes available to views
+    @status_issues = session[:issues] ? session[:issues] : [] rescue [] # make session issues available to views
+    @status_notes = session[:notes] ? session[:notes] : [] rescue [] # make session notes available to views
   end
 
   def setup

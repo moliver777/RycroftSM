@@ -26,3 +26,19 @@
 		</tr>
 	</table class="form_table">
 </div>
+<div class="form_section">
+	<h3>Available</h3>
+	<table class="form_table">
+		<tr>
+			<td>
+				Monday: <%= check_box_tag "monday", "", @staff.monday, :class => "break_right_small field" %>
+				Tuesday: <%= check_box_tag "tuesday", "", @staff.tuesday, :class => "break_right_small field" %>
+				Wednesday: <%= check_box_tag "wednesday", "", @staff.wednesday, :class => "break_right_small field" %>
+				Thursday: <%= check_box_tag "thursday", "", @staff.thursday, :class => "break_right_small field" %>
+				Friday: <%= check_box_tag "friday", "", @staff.friday, :class => "break_right_small field" %>
+				Saturday: <%= check_box_tag "saturday", "", @staff.saturday, :class => "break_right_small field" %>
+				Sunday: <%= check_box_tag "sunday", "", @staff.sunday, :class => "break_right_small field" %>
+			</td>
+		</tr>
+	</table>
+</div>

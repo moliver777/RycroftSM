@@ -26,7 +26,27 @@ class Staff < ActiveRecord::Base
     self.home_phone = fields[:home_phone]
     self.mobile_phone = fields[:mobile_phone]
 
+    self.monday = fields[:monday] == "true" ? true : false
+    self.tuesday = fields[:tuesday] == "true" ? true : false
+    self.wednesday = fields[:wednesday] == "true" ? true : false
+    self.thursday = fields[:thursday] == "true" ? true : false
+    self.friday = fields[:friday] == "true" ? true : false
+    self.saturday = fields[:saturday] == "true" ? true : false
+    self.sunday = fields[:sunday] == "true" ? true : false
+
     self.save!
+  end
+
+  def available
+    available = ""
+    available += "Monday, " if self.monday
+    available += "Tuesday, " if self.tuesday
+    available += "Wednesday, " if self.wednesday
+    available += "Thursday, " if self.thursday
+    available += "Friday, " if self.friday
+    available += "Saturday, " if self.saturday
+    available += "Sunday, " if self.sunday
+    available.length > 0 ? available[0..-3] : ""
   end
 
   def self.status

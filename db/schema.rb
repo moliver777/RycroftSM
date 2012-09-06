@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120905180009) do
+ActiveRecord::Schema.define(:version => 20120906112624) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -152,6 +152,13 @@ ActiveRecord::Schema.define(:version => 20120905180009) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "date_of_birth"
+    t.boolean  "monday"
+    t.boolean  "tuesday"
+    t.boolean  "wednesday"
+    t.boolean  "thursday"
+    t.boolean  "friday"
+    t.boolean  "saturday"
+    t.boolean  "sunday"
   end
 
   create_table "users", :force => true do |t|
