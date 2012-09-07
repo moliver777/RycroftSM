@@ -204,7 +204,9 @@ class BookingsController < ApplicationController
 
   def available_now_fields
     start_time = get_start_time
+    prev_time = get_prev_time start_time
     puts start_time
+    puts prev_time
     # get available venues
     # get avilable horses
     # get avilable staff
@@ -416,8 +418,15 @@ class BookingsController < ApplicationController
     new_hour+":"+new_mins
   end
 
-  def get_prev_time
-    
+  def get_prev_time start_time
+    hour = start_time.split(":")[0].to_i
+    mins = start_time.split(":")[1].to_i
+    mins -= 15
+    mins = 45 if mins == -15
+    hour -= 1 if mins == 45
+    new_hour = hour < 10 ? "0#{hour}" : "#{hour}"
+    new_mins = mins == 0 ? "00" : "#{mins}"
+    new_hour+":"+new_mins
   end
 
 end
