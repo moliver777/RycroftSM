@@ -204,9 +204,11 @@ class BookingsController < ApplicationController
 
   def available_now_fields
     start_time = get_start_time
-    prev_time = get_prev_time start_time
-    puts start_time
-    puts prev_time
+    end_time = get_end_time start_time, params[:duration].to_i
+    required = get_required start_time, end_time
+    p start_time
+    p end_time
+    p required
     # get available venues
     # get avilable horses
     # get avilable staff
@@ -418,15 +420,39 @@ class BookingsController < ApplicationController
     new_hour+":"+new_mins
   end
 
-  def get_prev_time start_time
+  def get_end_time start_time, duration
     hour = start_time.split(":")[0].to_i
     mins = start_time.split(":")[1].to_i
-    mins -= 15
-    mins = 45 if mins == -15
-    hour -= 1 if mins == 45
+    (duration/15).times do |i|
+      mins += 15
+      mins = 0 if mins == 60
+      hour += 1 if mins == 0
+    end
     new_hour = hour < 10 ? "0#{hour}" : "#{hour}"
     new_mins = mins == 0 ? "00" : "#{mins}"
     new_hour+":"+new_mins
+  end
+
+  def get_required start_time, end_time
+    splits = []
+    hour = start_time.split(":")[0].to_i
+    mins = start_time.split(":")[1].to_i
+    mins += 15
+    mins = 0 if mins == 60
+    hour += 1 if mins == 0
+    new_hour = hour < 10 ? "0#{hour}" : "#{hour}"
+    new_mins = mins == 0 ? "00" : "#{mins}"
+    new_time = new_hour+":"+new_mins
+    while new_time != end_time
+      splits << new_time
+      mins += 15
+      mins = 0 if mins == 60
+      hour += 1 if mins == 0
+      new_hour = hour < 10 ? "0#{hour}" : "#{hour}"
+      new_mins = mins == 0 ? "00" : "#{mins}"
+      new_time = new_hour+":"+new_mins
+    end
+    splits
   end
 
 end
