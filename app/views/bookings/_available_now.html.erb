@@ -1,0 +1,25 @@
+<h3>AVAILABLE NOW</h3>
+<div id="inner_available_now_wrapper" style="width:400px;">
+	<div id="available_durations">
+		<table>
+			<tr>
+				<td><button class="available_duration" value="30">30mins</button></td>
+				<td><button class="available_duration" value="45">45mins</button></td>
+				<td><button class="available_duration" value="60">60mins</button></td>
+			</tr>
+		</table>
+	</div>
+	<div id="available_fields"></div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("button.available_duration"), function(i,duration) {
+			$(duration).unbind("click").click(function() {
+				$("div#available_fields").load("/available_now/"+$(this).val()+"/"+(new Date().getHours())+"/"+(new Date().getMinutes()), function() {
+					// setup fields
+				})
+			})
+		})
+	})
+</script>

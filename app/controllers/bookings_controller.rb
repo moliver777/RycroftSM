@@ -202,6 +202,15 @@ class BookingsController < ApplicationController
     render :partial => "available_now"
   end
 
+  def available_now_fields
+    start_time = get_start_time
+    puts start_time
+    # get available venues
+    # get avilable horses
+    # get avilable staff
+    render :partial => "available_now_fields"
+  end
+
   def payment
     @booking = Booking.find(params[:booking_id]) rescue nil
     @event = @booking.event if @booking
@@ -394,6 +403,21 @@ class BookingsController < ApplicationController
       hr += 1 if min == 0
     end
     result
+  end
+
+  def get_start_time
+    hour = params[:hour].to_i
+    mins = params[:mins].to_i
+    mins += 1 while mins%15 != 0
+    mins = 0 if mins == 60
+    hour += 1 if mins == 0
+    new_hour = hour < 10 ? "0#{hour}" : "#{hour}"
+    new_mins = mins == 0 ? "00" : "#{mins}"
+    new_hour+":"+new_mins
+  end
+
+  def get_prev_time
+    
   end
 
 end

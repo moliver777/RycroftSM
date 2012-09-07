@@ -80,6 +80,23 @@ class Event < ActiveRecord::Base
     self.horses.map{|c| c.name}.join(", ") rescue ""
   end
 
+  def get_splits
+    splits = [self.start_time.strftime("%H:%M")]
+    hour = self.start_time.strftime("%H").to_i
+    mins = self.start_time.strftime("%M").to_i
+    time = nil
+    while time != self.end_time.strftime("%H:%M")
+      mins += 15
+      mins = 0 if mins == 60
+      hour += 1 if mins == 0
+      new_hour = hour < 10 ? "0#{hour}" : "#{hour}"
+      new_mins = mins == 0 ? "00" : "#{mins}"
+      time = new_hour+":"+new_mins
+      splits << time
+    end
+    splits
+  end
+
   def self.status
     issues = []
     Event.where(:event_date => Date.today).each do |event|

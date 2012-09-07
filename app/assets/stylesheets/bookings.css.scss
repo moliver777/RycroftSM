@@ -111,3 +111,15 @@ table#rebook_table {
 table#rebook_table tr td {
   border: 0;
 }
+
+
+/* AVAILABLE NOW */
+div#inner_available_now_wrapper table {
+  width: 100%;
+  border: 0;
+}
+
+div#inner_available_now_wrapper table td {
+  text-align: center;
+  border: 0;
+}

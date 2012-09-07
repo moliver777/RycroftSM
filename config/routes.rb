@@ -33,6 +33,7 @@ RycroftSM::Application.routes.draw do
   get "/bookings/search_results" => "bookings#search_results"
   get "/bookings/search/:horse_id" => "bookings#auto_search"
   get "/available_now" => "bookings#available_now"
+  get "/available_now/:duration/:hour/:mins" => "bookings#available_now_fields"
   get "/rebook/:booking_id" => "bookings#rebook"
   post "/rebook_status/:booking_id" => "bookings#rebook_status"
 
