@@ -56,7 +56,8 @@ class HomeController < ApplicationController
         "duration" => event.segment_duration,
         "event_type" => event.event_type.downcase.capitalize,
         "clients" => event.client_list,
-        "horses" => event.horse_list
+        "horses" => event.horse_list,
+        "staff" => event.staff_list
       }
       formatted_events << formatted_event
     end

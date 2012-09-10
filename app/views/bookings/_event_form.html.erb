@@ -28,22 +28,38 @@
 			</select>
 			<%= hidden_field_tag "venue_id", @event.venue_id, :class => "field" %>
 		</td>
-		<td>
-			<select id="staff_id" class="field">
-				<option value="0">Staff</option>
-				<% Staff.order("last_name").each do |staff| %>
-					<option value="<%= staff.id %>"><%= staff.last_name %>, <%= staff.first_name %></option>
-				<% end %>
-			</select>
-		</td>
+		<td><%= text_field_tag "event_date", @event.event_date, :placeholder => "Date", :class => "field" %></td>
 	</tr>
 	<tr>
-		<td colspan="3"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "70x3", :class => "field" %></td>
-		<td><%= text_field_tag "event_date", @event.event_date, :placeholder => "Date", :class => "field" %></td>
+		<td colspan="4"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "70x3", :class => "field" %></td>
 	</tr>
 	<tr>
 		<td>Start time:<%= text_field_tag "start_time", (@event.start_time.strftime("%H:%M") rescue nil), :disabled => true, :class => "field short" %>
 		Duration:<%= text_field_tag "duration", @event.duration, :disabled => true, :class => "short" %></td>
+		<td>
+			<select id="staff_id" class="field">
+				<option value="0">Staff</option>
+				<% Staff.order("last_name").each do |staff| %>
+					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
+				<% end %>
+			</select>
+		</td>
+		<td>
+			<select id="staff_id2" class="field">
+				<option value="0">Staff</option>
+				<% Staff.order("last_name").each do |staff| %>
+					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
+				<% end %>
+			</select>
+		</td>
+		<td>
+			<select id="staff_id3" class="field">
+				<option value="0">Staff</option>
+				<% Staff.order("last_name").each do |staff| %>
+					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
+				<% end %>
+			</select>
+		</td>
 	</tr>
 </table>
 <%= hidden_field_tag "end_time", (@event.end_time.strftime("%H:%M") rescue nil), :class => "field" %>
@@ -103,6 +119,8 @@
 				$("select#horse_id").val("0");
 				$("select#master_venue_id").val("0").trigger("change");
 				$("select#staff_id").val("0");
+				$("select#staff_id2").val("0");
+				$("select#staff_id3").val("0");
 				$("input#event_date").val("");
 			} else {
 				$.ajax({
@@ -118,6 +136,8 @@
 						window.blockWipeout = true;
 						$("select#master_venue_id").val(evt.master_venue_id).trigger("change");
 						$("select#staff_id").val(evt.staff_id);
+						$("select#staff_id2").val(evt.staff_id2);
+						$("select#staff_id3").val(evt.staff_id3);
 					}
 				})
 			}

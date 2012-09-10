@@ -350,14 +350,15 @@ function fancyConfirmOKCancel(msg,callback) {
 	});
 }
 
-function fancyConfirmAutoAssign() {
+function fancyConfirmAutoAssign(date) {
 	var ret;
 	var data;
+	var date = date;
 	jQuery.fancybox({
 		'overlayShow' : true,
 		'padding' : 0,
 		modal : true,
-		content : "<div class='popup_wrapper' id='confirm_popup'><h3>AUTO-ASSIGN</h3><div class='popup_content reduced_height'><p>There are bookings today with no horses currently assigned to them.</p><p>Would you like the system to try and auto-assign available horses to each booking?</p><p>WARNING: If suitable horses could not be found, some issues may appear on the home screen.</p><p style='margin-top:10px;'><input type='checkbox' id='no_more_prompts' />Don't show this again today (Auto-assign can be accessed from the bookings page)</p></div><div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Assign\" style=\"width:66px;\"></div></div>",
+		content : "<div class='popup_wrapper' id='confirm_popup'><h3>AUTO-ASSIGN</h3><div class='popup_content reduced_height'><p>There are bookings for "+date+" with no horses currently assigned to them.</p><p>Would you like the system to try and auto-assign available horses to each booking?</p><p>WARNING: If suitable horses could not be found, some issues may appear on the home screen.</p><p style='margin-top:10px;'><input type='checkbox' id='no_more_prompts' />Don't show this again today (Auto-assign can be accessed from the bookings page)</p></div><div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Assign\" style=\"width:66px;\"></div></div>",
 		onComplete : function() {
 			jQuery("#fancyConfirm_cancel").click(function() {
 				if ($("input#no_more_prompts").is(":checked")) {
@@ -379,7 +380,7 @@ function fancyConfirmAutoAssign() {
 				$("#fancyConfirm_cancel").attr("disabled",true);
 				$("div.popup_content").empty().append("<p>Please wait...</p>");
 				$.ajax({
-					url: "/assignment/auto_assign",
+					url: "/assignment/auto_assign/"+date,
 					type: "POST",
 					success: function(json) {
 						var data = json;

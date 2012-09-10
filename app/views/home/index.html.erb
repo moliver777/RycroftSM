@@ -28,7 +28,7 @@
 	$(document).ready(function() {
 		var prompt = ("<%= @prompt %>"=="true") ? true : false;
 		if (prompt) {
-			fancyConfirmAutoAssign();
+			fancyConfirmAutoAssign("<%= Date.today.strftime('%Y-%m-%d') %>");
 		}
 	})
 </script>

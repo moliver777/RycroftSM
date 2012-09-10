@@ -11,12 +11,12 @@ class AssignmentController < ApplicationController
 
   def auto_assign
     json = {}
-    bookings = Event.where(:event_date => Date.today).order("start_time").map{|e| e.bookings}.flatten.select{|b| !b.horse}
+    bookings = Event.where(:event_date => params[:date]).order("start_time").map{|e| e.bookings}.flatten.select{|b| !b.horse}
     bookings.each do |booking|
       horses = get_suitable_horses(booking.client)
       horses.each do |horse|
         if !booking.horse
-          if !horse.over_workload(Date.today, booking.event.duration_mins)
+          if !horse.over_workload(params[:date], booking.event.duration_mins)
             if validate_assignment(booking, horse)
               booking.horse_id = horse.id
             end
@@ -50,9 +50,10 @@ class AssignmentController < ApplicationController
 
   def get_suitable_horses client
     horses = []
-    beg_horses = Horse.where(:standard => Horse::BEGINNER, :availability => true).order("max_day_workload DESC").sort_by{|h| h.current_mins(Date.today)}
-    int_horses = Horse.where(:standard => Horse::INTERMEDIATE, :availability => true).order("max_day_workload DESC").sort_by{|h| h.current_mins(Date.today)}
-    adv_horses = Horse.where(:standard => Horse::ADVANCED, :availability => true).order("max_day_workload DESC").sort_by{|h| h.current_mins(Date.today)}
+    results = []
+    beg_horses = Horse.where(:standard => Horse::BEGINNER, :availability => true).shuffle.sort_by{|h| h.current_mins(Date.today)}
+    int_horses = Horse.where(:standard => Horse::INTERMEDIATE, :availability => true).shuffle.sort_by{|h| h.current_mins(Date.today)}
+    adv_horses = Horse.where(:standard => Horse::ADVANCED, :availability => true).shuffle.sort_by{|h| h.current_mins(Date.today)}
     case client.standard
     when Client::INTERMEDIATE
       horses << int_horses
@@ -61,7 +62,21 @@ class AssignmentController < ApplicationController
       horses << int_horses
     end
     horses << beg_horses
-    horses.flatten!
+    p horses
+    horses.flatten.each do |horse|
+      suitable = true
+      suitable = false if client.weight > horse.max_weight
+      suitable = false if client.walk && !horse.walk
+      suitable = false if client.trot_with && !horse.trot_with
+      suitable = false if client.trot_without && !horse.trot_without
+      suitable = false if client.canter && !horse.canter
+      suitable = false if client.hack && !horse.hack
+      suitable = false if client.jump_5_meter && !horse.jump_5_meter
+      suitable = false if client.jump_75_meter && !horse.jump_75_meter
+      suitable = false if client.x_country && !horse.x_country
+      results << horse if suitable
+    end
+    results
   end
 
   def get_splits horse, evt

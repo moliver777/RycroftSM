@@ -17,6 +17,7 @@
 		<th>Horse</th>
 		<th>Client</th>
 		<th>Type</th>
+		<th>Staff</th>
 		<th>Venue</th>
 		<th>Links</th>
 	</tr>
@@ -26,6 +27,7 @@
 				<td><%= event.start_time.strftime("%H:%M") if event.start_time %></td>
 				<td colspan="2"></td>
 				<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
+				<td><%= event.staff_list %></td>
 				<td><%= event.venue.name if event.venue rescue nil %></td>
 				<td><a href="/bookings/show_event/<%= event.id %>">Details</a> | <a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a></td>
 			</tr>
@@ -33,8 +35,8 @@
 				<tr>
 					<% if i==0 %><td rowspan="<%= event.bookings.count %>"></td><% end %>
 					<td><a href="/horses/show/<%= booking.horse_id %>"><%= booking.horse.name if booking.horse rescue nil %></a></td>
-					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.last_name if booking.client rescue nil %>, <%= booking.client.first_name if booking.client rescue nil %></a></td>
-					<% if i==0 %><td colspan="2" rowspan="<%= event.bookings.count %>"></td><% end %>
+					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.first_name if booking.client rescue nil %> <%= booking.client.last_name if booking.client rescue nil %></a></td>
+					<% if i==0 %><td colspan="3" rowspan="<%= event.bookings.count %>"></td><% end %>
 					<td>
 						<a href="/bookings/show/<%= booking.id %>">Details</a> | 
 						<% if current_user.user_level != User::BASE %>
@@ -54,6 +56,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("#auto_assign").attr("date", "<%= @date.strftime('%Y-%m-%d') %>");
+
 		$.each($("a.change_date"), function(i,date) {
 			$(date).unbind("click").click(function() {
 				$("div#upcoming_bookings").load("/bookings/upcoming/"+$(this).attr("date"));

@@ -74,7 +74,7 @@ class Staff < ActiveRecord::Base
     issues = []
     Staff.all.each do |staff|
       event_splits = []
-      staff.events.where(:event_date => Date.today).each do |event|
+      staff.all_events.each do |event|
         splits = []
         splits << event.start_time.strftime("%H:%M")
         hour = event.start_time.strftime("%H")
@@ -104,5 +104,9 @@ class Staff < ActiveRecord::Base
       end
     end
     issues.uniq
+  end
+
+  def all_events
+    Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.today, self.id, self.id, self.id)
   end
 end

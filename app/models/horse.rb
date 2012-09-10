@@ -95,8 +95,11 @@ class Horse < ActiveRecord::Base
   def self.status
     issues = []
     Horse.all.each do |horse|
-      issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is overworked today - Current workload: "+horse.workload(Date.today)+"hrs"} if horse.over_workload Date.today
+      issues << {:link => "/bookings/search/#{horse.id}", :text => horse.name+" is overworked today - Current workload: "+horse.workload(Date.today)+"hrs"} if horse.over_workload Date.today
       event_splits = []
+      horse.bookings.includes(:event).where("events.event_date = ?", Date.today).each do |booking|
+        issues << {:link => "/bookings/search/#{horse.id}", :text => horse.name+" is assigned to an over weight rider today at "+booking.event.start_time.strftime("%H:%M")+" - Max weight: #{horse.max_weight}st. Rider: #{booking.client.weight}st."} if booking.client.weight > horse.max_weight
+      end
       horse.events.where(:event_date => Date.today).each do |event|
         splits = []
         splits << event.start_time.strftime("%H:%M")
