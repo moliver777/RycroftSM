@@ -49,6 +49,27 @@ class Staff < ActiveRecord::Base
     available.length > 0 ? available[0..-3] : ""
   end
 
+  def is_available day
+    result = true
+    case day
+    when "Mon"
+      result = self.monday
+    when "Tue"
+      result - self.tuesday
+    when "Wed"
+      result = self.wednesday
+    when "Thu"
+      result = self.thursday
+    when "Fri"
+      result = self.friday
+    when "Sat"
+      result = self.saturday
+    when "Sun"
+      result = self.sunday
+    end
+    result
+  end
+
   def self.status
     issues = []
     Staff.all.each do |staff|

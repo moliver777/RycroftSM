@@ -13,6 +13,16 @@ class Horse < ActiveRecord::Base
     self.standard = fields[:standard]
     self.availability = fields[:availability] == "true" ? true : false
     self.max_day_workload = fields[:max_day_workload]
+    self.max_weight = fields[:max_weight]
+
+    self.walk = fields[:walk] == "true" ? true : false
+    self.trot_with = fields[:trot_with] == "true" ? true : false
+    self.trot_without = fields[:trot_without] == "true" ? true : false
+    self.canter = fields[:canter] == "true" ? true : false
+    self.hack = fields[:hack] == "true" ? true : false
+    self.jump_5_meter = fields[:jump_5_meter] == "true" ? true : false
+    self.jump_75_meter = fields[:jump_75_meter] == "true" ? true : false
+    self.x_country = fields[:x_country] == "true" ? true : false
 
     self.save!
   end
@@ -67,6 +77,19 @@ class Horse < ActiveRecord::Base
       mins += duration[1].to_i
     end
     (hours*60)+mins
+  end
+
+  def abilities
+    ability = ""
+    ability += "Walk, " if self.walk
+    ability += "Trot with Stirrups, " if self.trot_with
+    ability += "Trot without Stirrups, " if self.trot_without
+    ability += "Canter, " if self.canter
+    ability += "Hack, " if self.hack
+    ability += "Jump 0.5m, " if self.jump_5_meter
+    ability += "Jump 0.75m, " if self.jump_75_meter
+    ability += "Cross-Country, " if self.x_country
+    ability.length > 0 ? ability[0..-3] : "None"
   end
 
   def self.status

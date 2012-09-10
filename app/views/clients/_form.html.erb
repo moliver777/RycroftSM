@@ -21,8 +21,8 @@
 		<tr>
 			<td>Home: <%= text_field_tag "home_phone", @client.home_phone, :placeholder => "Home Phone", :class => "field" %></td>
 			<td>Mobile: <%= text_field_tag "mobile_phone", @client.mobile_phone, :placeholder => "Mobile Phone", :class => "field" %></td>
-			<td><%= text_field_tag "height", @client.height, :placeholder => "Height", :class => "field" %></td>
-			<td><%= text_field_tag "weight", @client.weight, :placeholder => "Weight", :class => "field" %></td>
+			<td><%= text_field_tag "height", @client.height, :placeholder => "Height (feet & inches)", :class => "field" %></td>
+			<td><%= number_field_tag "weight", @client.weight, :placeholder => "Weight (stones)", :step => 1, :min => 0, :class => "field" %></td>
 			<td><%= text_field_tag "post_code", @client.post_code, :placeholder => "Post Code", :class => "field" %></td>
 		</tr>
 	</table>
@@ -33,7 +33,9 @@
 		<tr>
 			<td style="vertical-align:middle;">Serious injury from riding ever?: <%= check_box_tag "injury", "", @client.injury, :class => "field" %></td>
 			<td colspan="3"><%= text_area_tag "injury_details", @client.injury_details, :placeholder => "Please describe", :size => "70x3", :class => "field" %></td>
-			<td><%= text_area_tag "medical_notes", @client.medical_notes, :placeholder => "Any disability, medical condition or medication that may affect riding ability or instructor should be aware of in case of emergency", :size => "70x3", :class => "field" %></td>
+		</tr>
+		<tr>
+			<td colspan="3"><%= text_area_tag "medical_notes", @client.medical_notes, :placeholder => "Any disability, medical condition or medication that may affect riding ability or instructor should be aware of in case of emergency", :size => "70x3", :class => "field" %></td>
 		</tr>
 		<tr>
 			<td><%= text_field_tag "doctor", @client.doctor, :placeholder => "Doctor Name", :class => "long field" %></td>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120906155006) do
+ActiveRecord::Schema.define(:version => 20120910090602) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(:version => 20120906155006) do
     t.date     "date_of_birth"
     t.date     "last_reminder"
     t.string   "height"
-    t.string   "weight"
+    t.integer  "weight"
     t.boolean  "injury"
     t.text     "injury_details"
     t.text     "medical_notes"
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(:version => 20120906155006) do
     t.text     "description"
     t.string   "height"
     t.string   "colour"
-    t.string   "max_weight"
+    t.integer  "max_weight"
     t.string   "owner"
     t.string   "owner_email"
     t.string   "heart_check"
@@ -100,6 +100,14 @@ ActiveRecord::Schema.define(:version => 20120906155006) do
     t.string   "pulse"
     t.string   "respiration"
     t.integer  "turnout_group",     :default => 0
+    t.boolean  "walk"
+    t.boolean  "trot_with"
+    t.boolean  "trot_without"
+    t.boolean  "canter"
+    t.boolean  "hack"
+    t.boolean  "jump_5_meter"
+    t.boolean  "jump_75_meter"
+    t.boolean  "x_country"
   end
 
   create_table "notes", :force => true do |t|

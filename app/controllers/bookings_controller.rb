@@ -206,12 +206,37 @@ class BookingsController < ApplicationController
     start_time = get_start_time
     end_time = get_end_time start_time, params[:duration].to_i
     required = get_required start_time, end_time
-    p start_time
-    p end_time
-    p required
+    @clients = Client.order("last_name")
+    @venues = []
+    @staff = []
+    @horses = []
     # get available venues
-    # get avilable horses
-    # get avilable staff
+    Venue.all.each do |v|
+      splits = []
+      available = true
+      v.events.each{|e| splits << e.get_splits}
+      required.each{|r| available = false if splits.flatten.include? r}
+      @venues << v if available
+    end
+    # unique venues (one for each master name)
+    # get available staff
+    Staff.all.each do |s|
+      splits = []
+      available = true
+      if s.is_available Date.today.strftime("%a")
+        s.events.each{|e| splits << e.get_splits}
+        required.each{|r| available = false if splits.flatten.include? r}
+        @staff << s if available
+      end
+    end
+    # get available horses
+    Horse.where(:availability => true).each do |h|
+      splits = []
+      available = true
+      h.events.each{|e| splits << e.get_splits}
+      [required,start_time,end_time].flatten.each{|r| available = false if splits.flatten.include? r}
+      @horses << h if available
+    end
     render :partial => "available_now_fields"
   end
 

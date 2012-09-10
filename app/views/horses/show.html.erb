@@ -14,6 +14,14 @@
 			<th>Available:</th>
 			<td><%= @horse.availability ? 'Yes' : 'No' %></td>
 		</tr>
+		<tr>
+			<th>Max Weight (stones):</th>
+			<td><%= @horse.max_weight %></td>
+		</tr>
+		<tr>
+			<th>Horse can:</th>
+			<td><%= @horse.abilities %></td>
+		</tr>
 	</table>
 </div>
 <div class="show_section">

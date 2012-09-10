@@ -2,7 +2,6 @@
 <table class="form_table">
 	<tr class="spaced">
 		<td>
-			New or existing event:
 			<select id="event_mode">
 				<option value="0">New</option>
 				<% @events.each do |event| %>
@@ -10,6 +9,8 @@
 				<% end %>
 			</select>
 		</td>
+	</tr>
+	<tr>
 		<td>
 			<select id="event_type" class="field">
 				<option value="0">Event Type</option>
@@ -39,8 +40,10 @@
 	<tr>
 		<td colspan="3"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "70x3", :class => "field" %></td>
 		<td><%= text_field_tag "event_date", @event.event_date, :placeholder => "Date", :class => "field" %></td>
-		<td>Start time:<%= text_field_tag "start_time", (@event.start_time.strftime("%H:%M") rescue nil), :disabled => true, :class => "field short" %></td>
-		<td>Duration:<%= text_field_tag "duration", @event.duration, :disabled => true, :class => "short" %></td>
+	</tr>
+	<tr>
+		<td>Start time:<%= text_field_tag "start_time", (@event.start_time.strftime("%H:%M") rescue nil), :disabled => true, :class => "field short" %>
+		Duration:<%= text_field_tag "duration", @event.duration, :disabled => true, :class => "short" %></td>
 	</tr>
 </table>
 <%= hidden_field_tag "end_time", (@event.end_time.strftime("%H:%M") rescue nil), :class => "field" %>

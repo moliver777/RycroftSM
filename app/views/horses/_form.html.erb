@@ -5,7 +5,22 @@
 			<td><%= text_field_tag "name", @horse.name, :placeholder => "Name", :class => "long field" %></td>
 			<td><%= select_tag "standard", "<option value='0'>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "field" %></td>
 			<td style="padding-left:10px;padding-right:10px;">Availability: <%= check_box_tag "availability", "", @horse.availability, :class => "field" %></td>
+		</tr>
+		<tr>
 			<td><%= text_field_tag "max_day_workload", @horse.max_day_workload, :placeholder => "Max Day Workload (hrs)", :class => "long field" %></td>
+			<td><%= number_field_tag "max_weight", @horse.max_weight, :placeholder => "Max Weight (stones)", :step => 1, :min => 0, :class => "long field" %></td>
+		</tr>
+	</table>
+</div>
+<div class="form_section">
+	<h3>Abilities</h3>
+	<table class="form_table">
+		<tr>
+			<td>
+				Horse can:<br/>
+				Walk:<%= check_box_tag "walk", "", @horse.walk, :class => "field break_right" %>Trot with Stirrups:<%= check_box_tag "trot_with", "", @horse.trot_with, :class => "field break_right" %>Trot without Stirrups:<%= check_box_tag "trot_without", "", @horse.trot_without, :class => "field break_right" %>Canter:<%= check_box_tag "canter", "", @horse.canter, :class => "field break_right" %><br/>
+				Hack: <%= check_box_tag "hack", "", @horse.hack, :class => "field break_right" %>Jump up to 0.5m:<%= check_box_tag "jump_5_meter", "", @horse.jump_5_meter, :class => "field break_right" %>Jump up to 0.75m:<%= check_box_tag "jump_75_meter", "", @horse.jump_75_meter, :class => "field break_right" %>Cross-Country:<%= check_box_tag "x_country", "", @horse.x_country, :class => "field break_right" %>
+			</td>
 		</tr>
 	</table>
 </div>
