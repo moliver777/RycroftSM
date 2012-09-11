@@ -1,7 +1,7 @@
 class AddFieldsToClients < ActiveRecord::Migration
   def change
     add_column :clients, :height, :string
-    add_column :clients, :weight, :string
+    add_column :clients, :weight, :integer
     add_column :clients, :injury, :boolean
     add_column :clients, :injury_details, :text
     add_column :clients, :medical_notes, :text

@@ -6,7 +6,7 @@ class AddFieldsToHorses < ActiveRecord::Migration
     add_column :horses, :description, :text
     add_column :horses, :height, :string
     add_column :horses, :colour, :string
-    add_column :horses, :max_weight, :string
+    add_column :horses, :max_weight, :integer
     add_column :horses, :owner, :string
     add_column :horses, :owner_email, :string
     add_column :horses, :heart_check, :string
