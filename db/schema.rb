@@ -65,13 +65,13 @@ ActiveRecord::Schema.define(:version => 20120911160419) do
     t.string   "event_type"
     t.text     "description"
     t.integer  "venue_id"
-    t.integer  "master_venue_id"
-    t.integer  "staff_id"
     t.date     "event_date"
     t.time     "start_time"
     t.time     "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "staff_id"
+    t.integer  "master_venue_id"
     t.integer  "staff_id2"
     t.integer  "staff_id3"
   end
@@ -136,11 +136,11 @@ ActiveRecord::Schema.define(:version => 20120911160419) do
     t.boolean  "cash",         :default => false
     t.boolean  "cc",           :default => false
     t.boolean  "cheque",       :default => false
-    t.boolean  "voucher",      :default => false
     t.float    "amount",       :default => 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "payment_date"
+    t.boolean  "voucher",      :default => false
   end
 
   create_table "preferences", :force => true do |t|
