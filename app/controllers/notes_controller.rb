@@ -2,51 +2,51 @@ class NotesController < ApplicationController
   skip_before_filter :user_permission?, :except => [:new,:edit,:create,:update,:destroy]
 
   def index
-    @notes = Note.order("urgent DESC, end_date DESC")
+    @notes = Note.where(:repeated => false).order("urgent DESC, end_date DESC")
   end
 
   def general
-    @notes = Note.where(:category => Note::GENERAL).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:category => Note::GENERAL, :repeated => false).order("urgent DESC, end_date DESC")
   end
 
   def bookings
-    @notes = Note.where(:category => Note::BOOKING).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:category => Note::BOOKING, :repeated => false).order("urgent DESC, end_date DESC")
   end
 
   def show_booking
     @booking = Booking.find(params[:booking_id])
     @event = @booking.event
-    @notes = Note.where(:booking_id => params[:booking_id]).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:booking_id => params[:booking_id], :repeated => false).order("urgent DESC, end_date DESC")
     render "bookings"
   end
 
   def clients
-    @notes = Note.where(:category => Note::CLIENT).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:category => Note::CLIENT, :repeated => false).order("urgent DESC, end_date DESC")
   end
 
   def show_client
     @client = Client.find(params[:client_id])
-    @notes = Note.where(:client_id => params[:client_id]).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:client_id => params[:client_id], :repeated => false).order("urgent DESC, end_date DESC")
     render "clients"
   end
 
   def horses
-    @notes = Note.where(:category => Note::HORSE).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:category => Note::HORSE, :repeated => false).order("urgent DESC, end_date DESC")
   end
 
   def show_horse
     @horse = Horse.find(params[:horse_id])
-    @notes = Note.where(:horse_id => params[:horse_id]).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:horse_id => params[:horse_id], :repeated => false).order("urgent DESC, end_date DESC")
     render "horses"
   end
 
   def staff
-    @notes = Note.where(:category => Note::STAFF).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:category => Note::STAFF, :repeated => false).order("urgent DESC, end_date DESC")
   end
 
   def show_staff
     @staff = Staff.find(params[:staff_id])
-    @notes = Note.where(:staff_id => params[:staff_id]).order("urgent DESC, end_date DESC")
+    @notes = Note.where(:staff_id => params[:staff_id], :repeated => false).order("urgent DESC, end_date DESC")
     render "staff"
   end
 
@@ -133,7 +133,6 @@ class NotesController < ApplicationController
     when Note::BOOKING
       @errors << "Booking category must be linked to a booking." if fields[:booking_id] == "0"
     when Note::CLIENT
-      p "HERE!"
       @errors << "Client category must be linked to a client." if fields[:client_id] == "0"
     when Note::HORSE
       @errors << "Horse category must be linked to a horse." if fields[:horse_id] == "0"

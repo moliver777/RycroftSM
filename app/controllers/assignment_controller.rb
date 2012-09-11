@@ -62,7 +62,6 @@ class AssignmentController < ApplicationController
       horses << int_horses
     end
     horses << beg_horses
-    p horses
     horses.flatten.each do |horse|
       suitable = true
       suitable = false if client.weight > horse.max_weight

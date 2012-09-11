@@ -61,6 +61,9 @@
 			<td>
 				To: <%= text_field_tag :end_date, (@note.end_date || Date.today.advance(:days => 7)), :placeholder => "YYYY-MM-DD", :class => "field" %>
 			</td>
+			<td>
+				Repeat every week: <%= check_box_tag "weekly", "", @note.weekly, :class => "field" %>
+			</td>
 		</tr>
 	</table>
 </div>

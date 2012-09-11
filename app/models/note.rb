@@ -18,6 +18,7 @@ class Note < ActiveRecord::Base
     self.category = fields[:category]
     self.start_date = fields[:start_date]
     self.end_date = fields[:end_date]
+    self.weekly = fields[:weekly] == "true" ? true : false
     case self.category
     when BOOKING
       self.booking_id = fields[:booking_id]
@@ -28,7 +29,24 @@ class Note < ActiveRecord::Base
     when STAFF
       self.staff_id = fields[:staff_id]
     end
+    self.save!
+  end
 
+  def repeat
+    note = Note.new
+    note.title = self.title
+    note.content = self.content
+    note.urgent = self.urgent
+    note.category = self.category
+    note.booking_id = self.booking_id
+    note.client_id = self.client_id
+    note.horse_id = self.horse_id
+    note.staff_id = self.staff_id
+    note.start_date = self.start_date.advance(:days => 7)
+    note.end_date = self.end_date.advance(:days => 7)
+    note.weekly = true
+    note.save!
+    self.repeated = true
     self.save!
   end
 

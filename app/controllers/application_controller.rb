@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
     end
     @status_issues = session[:issues] ? session[:issues] : [] rescue [] # make session issues available to views
     @status_notes = session[:notes] ? session[:notes] : [] rescue [] # make session notes available to views
+    Note.where("end_date < ? and weekly = ? and repeated = ?", Date.today, true, false).each{|note| note.repeat}
   end
 
   def setup
