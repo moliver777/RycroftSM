@@ -6,6 +6,7 @@ class BookingsController < ApplicationController
       @date = Date.today
     end
     load_upcoming
+    @unconfirmed = Booking.includes(:event).where("confirmed = ? and events.event_date >= ? and events.event_date < ?", false, Date.today, Date.today.advance(:days => 7))
     @prompt = auto_assign(true)
   end
 
@@ -160,6 +161,13 @@ class BookingsController < ApplicationController
     event.bookings.each{|b| b.notes.destroy_all}
     event.bookings.destroy_all
     event.destroy
+    render :nothing => true
+  end
+
+  def status
+    booking = Booking.find(params[:booking_id])
+    booking.confirmed = params[:status] == "true" ? true : false
+    booking.save!
     render :nothing => true
   end
 

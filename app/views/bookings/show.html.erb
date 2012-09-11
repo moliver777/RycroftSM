@@ -49,6 +49,14 @@
 	</table>
 </div>
 <div class="show_section">
+	<h3>Confirmed?</h3>
+	<table>
+		<tr>
+			<td><%= check_box_tag "confirmed", "", @booking.confirmed %></td>
+		</tr>
+	</table>
+</div>
+<div class="show_section">
 	<h3>Payment</h3>
 	<table>
 		<tr>
@@ -101,6 +109,13 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("input#confirmed").unbind("click").click(function() {
+			$.ajax({
+				url: "/bookings/status/<%= @booking.id %>/"+$(this).is(":checked"),
+				type: "POST"
+			})
+		})
+
 		$.each($("a.delete_payment"), function(i,link) {
 			$(link).unbind("click").click(function() {
 				$.ajax({
