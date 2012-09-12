@@ -1,0 +1,81 @@
+<table style="width:100%;">
+	<tr>
+		<td>Start: <span id="start_time" class="field"><%= @start_time %></span></td>
+		<td>End: <span id="end_time" class="field"><%= @end_time %></span></td>
+		<td>
+			<select id="event_type" class="field">
+				<option value="0">Type</option>
+				<% @event_types.each do |t| %>
+					<option value="<%= t %>"><%= t.downcase.capitalize %></option>
+				<% end %>
+			</select>
+		</td>
+		<td>
+			<select id="venue_id" class="field">
+				<option value="0">Venue</option>
+				<% @venues.each do |v| %>
+					<option value="<%= v.id %>"><%= v.name %></option>
+				<% end %>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<select id="client_id" class="field">
+				<option value="0">Client</option>
+				<% @clients.each do |c| %>
+					<option value="<%= c.id %>"><%= c.first_name %> <%= c.last_name %> (<%= c.standard.downcase.capitalize %>)</option>
+				<% end %>
+			</select>
+		</td>
+		<td>
+			<select id="horse_id" class="field">
+				<option value="0">Horse</option>
+				<% @horses.each do |h| %>
+					<option value="<%= h.id %>"><%= h.name %> (<%= h.standard.downcase.capitalize %>)</option>
+				<% end %>
+			</select>
+		</td>
+		<td>
+			<select id="staff_id" class="field">
+				<option value="0">Staff</option>
+				<% @staff.each do |s| %>
+					<option value="<%= s.id %>"><%= s.first_name %> <%= s.last_name %></option>
+				<% end %>
+			</select>
+		</td>
+		<td>
+			Cost: <%= number_field_tag "cost", 0, :step => 0.01, :min => 0, :class => "field", :style => "width:50px;" %>
+		</td>
+	</tr>
+</table>
+<div style="text-align:center;">
+	<ul class="error" id="form_errors"></ul>
+	<button id="book_now">Book Now</button>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("button#book_now").click(function() {
+			$("ul#form_errors").empty();
+			params = {}
+			$.each($("span.field"), function(i,field) {params[$(field).attr("id")] = $(field).html()});
+			$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+			$.each($("select.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+			$.ajax({
+				url: "/book_now",
+				type: "POST",
+				data: {fields: params},
+				success: function(json) {
+					if (json.errors[0]) {
+						$.each(json.errors, function(i,error) {
+							$("ul#form_errors").append("<li>"+error+"</li>");
+						})
+					} else {
+						window.location.replace("/bookings/show/"+json.booking_id);
+					}
+				}
+			});
+		})
+	})
+</script>

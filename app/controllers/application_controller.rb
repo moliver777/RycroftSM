@@ -42,6 +42,7 @@ class ApplicationController < ActionController::Base
     @status_issues = session[:issues] ? session[:issues] : [] rescue [] # make session issues available to views
     @status_notes = session[:notes] ? session[:notes] : [] rescue [] # make session notes available to views
     Note.where("end_date < ? and weekly = ? and repeated = ?", Date.today, true, false).each{|note| note.repeat}
+    Note.where("end_date < ?", Date.today.advance(:months => -1)).destroy_all
   end
 
   def setup
@@ -130,15 +131,15 @@ class ApplicationController < ActionController::Base
   end
 
   def event_types
-    @event_types = []
+    event_types = []
     Event::TYPES.each do |type|
       count = 0
       Event.where(:event_type => type, :event_date => @from..@to).each do |evt|
         count += evt.bookings.count
       end
-      @event_types << {:name => type.downcase.capitalize, :count => count}
+      event_types << {:name => type.downcase.capitalize, :count => count}
     end
-    @event_types
+    @event_types = event_types.length > 5 ? event_types.slice(0,5) : event_types
   end
 
   def bookings_by_day

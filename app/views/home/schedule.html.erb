@@ -2,7 +2,6 @@
 <a href="/schedule/<%= @date.advance(:days => -1) %>" style="float:left;"><< <%= @date.advance(:days => -1) %></a>
 <a href="/schedule/<%= @date.advance(:days => 1) %>" style="float:right;"><%= @date.advance(:days => 1) %> >></a>
 <h2>Schedule: <%= @date == Date.today ? "Today" : @date %></h2>
-
 <div id="schedule_container">
 	<table id="schedule">
 		<tr id="header">

@@ -1,7 +1,7 @@
 <% if !@staff.empty? %>
 	<% @staff.each do |staff| %>
 		<tr>
-			<td><%= staff.last_name if staff.last_name %>, <%= staff.first_name if staff.first_name %></td>
+			<td><%= staff.first_name if staff.first_name %> <%= staff.last_name if staff.last_name %></td>
 			<td><%= staff.date_of_birth if staff.date_of_birth %></td>
 			<td><%= staff.role if staff.role %></td>
 			<td><%= staff.address %><br/><%= staff.post_code if staff.post_code %></td>

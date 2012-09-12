@@ -49,6 +49,11 @@ div#schedule div.home_footer {
   text-align: center;
 }
 
+div#schedule tr.today_hover {
+  background-color: #CCC!important;
+  cursor: pointer;
+}
+
 div.home_title {
   font-size: 20px;
   height: 25px;

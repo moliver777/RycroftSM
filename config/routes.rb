@@ -35,6 +35,7 @@ RycroftSM::Application.routes.draw do
   get "/bookings/search/:horse_id" => "bookings#auto_search"
   get "/available_now" => "bookings#available_now"
   get "/available_now/:duration/:hour/:mins" => "bookings#available_now_fields"
+  post "/book_now" => "bookings#available_now_complete"
   get "/rebook/:booking_id" => "bookings#rebook"
   post "/rebook_status/:booking_id" => "bookings#rebook_status"
 
@@ -125,8 +126,13 @@ RycroftSM::Application.routes.draw do
   post "/assignment/no_more_prompts" => "assignment#block"
 
   # SESSION
-  post "/issue/:drop_id" => "application#drop_issue"
   get "/login" => "session#login"
   post "/login" => "session#create"
   get "/logout" => "session#destroy"
+
+  # PRINTING
+  get "/print/schedule" => "printing#schedule"
+  get "/print/cash_up/:date" => "printing#cash_up"
+  get "/print/client/:client_id" => "printing#client"
+  get "/print/booking/:booking_id" => "printing#booking"
 end

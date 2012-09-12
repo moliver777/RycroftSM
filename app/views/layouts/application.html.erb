@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Rycroft Stable Manager</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+	<head>
+		<title>Rycroft Stable Manager</title>
+		<%= stylesheet_link_tag    "application" %>
+		<%= javascript_include_tag "application" %>
+		<%= csrf_meta_tags %>
+	</head>
+	<body>
 
-<div id="main">
-	<div id="header"><%= render :partial => "/shared/header" %></div>
-	<div id="appcontent">
-		<%= yield %>
+	<div id="main">
+		<div id="header"><%= render :partial => "/shared/header" %></div>
+		<div id="appcontent">
+			<%= yield %>
+		</div>
+		<div id="footer"><%= render :partial => "/shared/footer" %></div>
 	</div>
-	<div id="footer"><%= render :partial => "/shared/footer" %></div>
-</div>
 
-</body>
+	</body>
 </html>

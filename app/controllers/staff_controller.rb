@@ -2,11 +2,11 @@ class StaffController < ApplicationController
   skip_before_filter :user_permission?, :only => [:index,:show]
 
   def index
-    @staff = Staff.order("last_name")
+    @staff = Staff.order("first_name, last_name")
   end
 
   def sort
-    @staff = Staff.order(params[:sort]+" "+params[:mod]+", last_name")
+    @staff = Staff.order(params[:sort]+" "+params[:mod]+", first_name, last_name")
     view = render_to_string(:partial => "table_contents")
     render :json => view.to_json
   end

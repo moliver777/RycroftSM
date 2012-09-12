@@ -19,8 +19,10 @@ class Booking < ActiveRecord::Base
     self.client_id = old.client_id
     self.cost = fields[:cost]
     self.horse_id = nil
+    old.rebooked = true
 
     self.save!
+    old.save!
   end
 
   def balance

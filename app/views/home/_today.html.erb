@@ -1,14 +1,14 @@
 <% if !@events.empty? %>
 	<table id="next_up" style="width:100%;">
 		<% @events.each_with_index do |event,i| %>
-			<tr class="<%= 'odd' if i%2==0 %>">
+			<tr class="event <%= 'odd' if i%2==0 %>" event_id="<%= event.id %>">
 				<td><%= event.start_time.strftime("%H:%M") %>-<%= event.end_time.strftime("%H:%M") %></td>
 				<td><strong><%= event.event_type.downcase.capitalize %></strong></td>
-				<td><strong>Staff:</strong> <%= event.staff.first_name if event.staff %> <%= event.staff.last_name if event.staff %></td>
+				<td><strong>Staff:</strong> <%= event.staff_list %></td>
 				<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
 			</tr>
 			<% event.bookings.each do |booking| %>
-				<tr class="<%= 'odd' if i%2==0 %>" style="<%= 'border-bottom:1px solid #5F5F5F;' if booking==event.bookings.last %>">
+				<tr class="booking <%= 'odd' if i%2==0 %>" booking_id="<%= booking.id %>" style="<%= 'border-bottom:1px solid #5F5F5F;' if booking==event.bookings.last %>">
 					<td colspan="2"></td>
 					<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
 					<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
@@ -19,3 +19,28 @@
 <% else %>
 	<div class="nothing_to_display">No events today</div>
 <% end %>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("tr.event"), function(i,evt) {
+			$(evt).unbind("hover").hover(function() {
+				$(this).addClass("today_hover");
+			}, function() {
+				$(this).removeClass("today_hover");
+			})
+			$(evt).unbind("click").click(function() {
+				window.location.href = "/bookings/show_event/"+$(this).attr("event_id");
+			})
+		})
+		$.each($("tr.booking"), function(i,bkg) {
+			$(bkg).unbind("hover").hover(function() {
+				$(this).addClass("today_hover");
+			}, function() {
+				$(this).removeClass("today_hover");
+			})
+			$(bkg).unbind("click").click(function() {
+				window.location.href = "/bookings/show/"+$(this).attr("booking_id");
+			})
+		})
+	})
+</script>

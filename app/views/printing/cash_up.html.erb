@@ -1,0 +1,132 @@
+<html>
+	<head>
+		<style type="text/css">
+			h1 {
+				font-size: 18px;
+				font-weight: bold;
+				text-decoration: underline;
+			}
+			
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+			
+			table td, table th {
+				border: 1px solid black;
+			}
+			
+			table th {
+				font-weight: bold;
+				font-size: 1.1em;
+			}
+		</style>
+	</head>
+	<body>
+		<% @date = Date.parse(@date) %>
+		<h1>CASH UP - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h1>
+		<table>
+			<tr>
+				<th>Time</th>
+				<th>Booking</th>
+				<th>Client</th>
+				<th>Amount</th>
+			</tr>
+			<tr>
+				<th colspan="4" style="text-align:center;">CASH</th>
+			</tr>
+			<% if @payments["cash"] %>
+				<% @payments["cash"].each do |payment| %>
+					<tr>
+						<td><%= payment.created_at.localtime.strftime("%H:%M") %></td>
+						<td><%= payment.booking.event.event_date.strftime("%Y-%m-%d") %> <%= payment.booking.event.start_time.strftime("%H:%M") %></td>
+						<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+						<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+					</tr>
+				<% end %>
+			<% else %>
+				<tr>
+					<td colspan="4" style="text-align:center;">No cash payments</td>
+				</tr>
+			<% end %>
+			<tr>
+				<th colspan="4" style="text-align:center;">CARD</th>
+			</tr>
+			<% if @payments["card"] %>
+				<% @payments["card"].each do |payment| %>
+					<tr>
+						<td><%= payment.created_at.localtime.strftime("%H:%M") %></td>
+						<td><%= payment.booking.event.event_date.strftime("%Y-%m-%d") %> <%= payment.booking.event.start_time.strftime("%H:%M") %></td>
+						<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+						<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+					</tr>
+				<% end %>
+			<% else %>
+				<tr>
+					<td colspan="4" style="text-align:center;">No card payments</td>
+				</tr>
+			<% end %>
+			<tr>
+				<th colspan="4" style="text-align:center;">CHEQUE</th>
+			</tr>
+			<% if @payments["cheque"] %>
+				<% @payments["cheque"].each do |payment| %>
+					<tr>
+						<td><%= payment.created_at.localtime.strftime("%H:%M") %></td>
+						<td><%= payment.booking.event.event_date.strftime("%Y-%m-%d") %> <%= payment.booking.event.start_time.strftime("%H:%M") %></td>
+						<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+						<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+					</tr>
+				<% end %>
+			<% else %>
+				<tr>
+					<td colspan="4" style="text-align:center;">No cheque payments</td>
+				</tr>
+			<% end %>
+			<tr>
+				<th colspan="4" style="text-align:center;">VOUCHER</th>
+			</tr>
+			<% if @payments["voucher"] %>
+				<% @payments["voucher"].each do |payment| %>
+					<tr>
+						<td><%= payment.created_at.localtime.strftime("%H:%M") %></td>
+						<td><%= payment.booking.event.event_date.strftime("%Y-%m-%d") %> <%= payment.booking.event.start_time.strftime("%H:%M") %></td>
+						<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+						<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+					</tr>
+				<% end %>
+			<% else %>
+				<tr>
+					<td colspan="4" style="text-align:center;">No voucher payments</td>
+				</tr>
+			<% end %>
+			<tr>
+				<th colspan="4" style="text-align:center;">TOTALS</th>
+			</tr>
+			<tr>
+				<th colspan="3" style="text-align:right;">Cash:</th>
+				<td><%= number_to_currency(@totals["cash"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+			</tr>
+			<tr>
+				<th colspan="3" style="text-align:right;">Card:</th>
+				<td><%= number_to_currency(@totals["card"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+			</tr>
+			<tr>
+				<th colspan="3" style="text-align:right;">Cheque:</th>
+				<td><%= number_to_currency(@totals["cheque"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+			</tr>
+			<tr>
+				<th colspan="3" style="text-align:right;">Voucher:</th>
+				<td><%= number_to_currency(@totals["voucher"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+			</tr>
+			<tr>
+				<th colspan="3" style="text-align:right;">Total:</th>
+				<td><%= number_to_currency(@totals["total"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+			</tr>
+		</table>
+	</body>
+</html>
+
+<script type="text/javascript">
+	window.print();
+</script>

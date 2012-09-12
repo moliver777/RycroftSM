@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<style type="text/css">
+			h1 {
+				font-size: 18px;
+				font-weight: bold;
+				text-decoration: underline;
+			}
+			
+			table {
+				width: 100%;
+				margin-bottom: 10px;
+				border-collapse: collapse;
+			}
+			
+			table td, table th {
+				border: 1px solid black;
+			}
+			
+			table th {
+				font-weight: bold;
+				font-size: 1.1em;
+			}
+		</style>
+	</head>
+	<body>
+			<h1>BOOKING (ID: <%= @booking.id %>)</h1>
+			<table>
+				<tr>
+					<th>Type:</th>
+					<td><%= @event.event_type.downcase.capitalize if @event.event_type %></td>
+				</tr>
+				<tr>
+					<th>Description:</th>
+					<td><%= @event.description if @event.description %></td>
+				</tr>
+				<tr>
+					<th>Venue:</th>
+					<td><%= @event.venue.name if @event.venue %></td>
+				</tr>
+				<tr>
+					<th>Date:</th>
+					<td><%= @event.event_date %></td>
+				</tr>
+				<tr>
+					<th>Start Time:</th>
+					<td><%= @event.start_time.strftime("%H:%M") if @event.start_time %></td>
+				</tr>
+				<tr>
+					<th>End Time:</th>
+					<td><%= @event.end_time.strftime("%H:%M") if @event.end_time %></td>
+				</tr>
+				<tr>
+					<th>Staff:</th>
+					<td><%= @event.staff_list %></td>
+				</tr>
+			</table>
+			<h3>Participant</h3>
+			<table>
+				<tr>
+					<th>Name:</th>
+					<td><%= @booking.client.first_name+" "+@booking.client.last_name if @booking.client %></td>
+				</tr>
+				<tr>
+					<th>Date of Birth:</th>
+					<td><%= @booking.client.date_of_birth if @booking.client %></td>
+				</tr>
+				<tr>
+					<th>Horse:</th>
+					<td><%= @booking.horse.name if @booking.horse %></td>
+				</tr>
+			</table>
+			<h3>Confirmed?</h3>
+			<table>
+				<tr>
+					<td><%= check_box_tag "confirmed", "", @booking.confirmed %></td>
+				</tr>
+			</table>
+			<h3>Rebooked?</h3>
+			<table>
+				<tr>
+					<td><%= @booking.rebooked ? "Yes" : "No" %></td>
+				</tr>
+			</table>
+			<h3>Payment</h3>
+			<table>
+				<tr>
+					<th colspan="2">Cost (Total)</th>
+					<td><%= number_to_currency(@booking.cost, :unit => "£", :precision => 2) %></td>
+				</tr>
+				<tr>
+					<th colspan="2">Balance (Owed)</th>
+					<td><%= number_to_currency(@booking.balance, :unit => "£", :precision => 2) %></td>
+				</tr>
+				<% if @booking.payments.count > 0 %>
+					<tr>
+						<th colspan="3" style="text-align:center;">Payments</th>
+					</tr>
+					<% @booking.payments.each do |payment| %>
+						<tr>
+							<td><%= payment.created_at.localtime.strftime("%Y-%m-%d %H:%M") if payment.created_at %></td>
+							<td><%= payment.friendly_type %></td>
+							<td><%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %></td>
+						</tr>
+					<% end %>
+				<% end %>
+			</table>
+		</div>
+	</body>
+</html>
+
+<script type="text/javascript">
+	window.print();
+</script>

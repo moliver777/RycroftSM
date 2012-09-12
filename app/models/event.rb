@@ -27,7 +27,7 @@ class Event < ActiveRecord::Base
     staff2 = Staff.where(:id => fields[:staff_id2]).first
     staff3 = Staff.where(:id => fields[:staff_id3]).first
 
-    self.description = fields[:description]
+    self.description = fields[:description] rescue ""
     self.event_type = fields[:event_type]
     self.venue_id = fields[:venue_id]
     self.master_venue_id = fields[:master_venue_id]
@@ -35,8 +35,8 @@ class Event < ActiveRecord::Base
     self.start_time = fields[:start_time]
     self.end_time = fields[:end_time]
     self.staff_id = staff ? staff.id : nil
-    self.staff_id2 = staff2 ? staff2.id: nil
-    self.staff_id3 = staff3 ? staff3.id: nil
+    self.staff_id2 = staff2 ? staff2.id : nil
+    self.staff_id3 = staff3 ? staff3.id : nil
 
     self.save!
   end

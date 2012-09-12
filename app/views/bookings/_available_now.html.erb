@@ -1,5 +1,5 @@
 <h3>AVAILABLE NOW</h3>
-<div id="inner_available_now_wrapper" style="width:400px;">
+<div id="inner_available_now_wrapper" style="width:700px;">
 	<div id="available_durations">
 		<table>
 			<tr>
@@ -16,9 +16,7 @@
 	$(document).ready(function() {
 		$.each($("button.available_duration"), function(i,duration) {
 			$(duration).unbind("click").click(function() {
-				$("div#available_fields").load("/available_now/"+$(this).val()+"/"+(new Date().getHours())+"/"+(new Date().getMinutes()), function() {
-					// setup fields
-				})
+				$("div#available_fields").load("/available_now/"+$(this).val()+"/"+(new Date().getHours())+"/"+(new Date().getMinutes()))
 			})
 		})
 	})

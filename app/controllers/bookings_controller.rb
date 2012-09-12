@@ -33,7 +33,7 @@ class BookingsController < ApplicationController
 
   def client_search
     if params[:search] == "ALL"
-      @results = Client.order("last_name")
+      @results = Client.order("first_name, last_name")
     else
       results = []
       parse_search(params[:search]).split(" ").each do |term|
@@ -172,12 +172,12 @@ class BookingsController < ApplicationController
   end
 
   def search
-    @clients = Client.order("last_name")
+    @clients = Client.order("first_name, last_name")
     @horses = Horse.order("name")
   end
 
   def auto_search
-    @clients = Client.order("last_name")
+    @clients = Client.order("first_name, last_name")
     @horses = Horse.order("name")
     @results = []
     horse = Horse.find(params[:horse_id]) if params[:horse_id] rescue nil
@@ -211,10 +211,13 @@ class BookingsController < ApplicationController
   end
 
   def available_now_fields
-    start_time = get_start_time
-    end_time = get_end_time start_time, params[:duration].to_i
-    required = get_required start_time, end_time
-    @clients = Client.order("last_name")
+    @start_time = get_start_time
+    @end_time = get_end_time @start_time, params[:duration].to_i
+    @event_types = Event::TYPES
+    required = get_required @start_time, @end_time
+    temp_venues = []
+    v_unique = []
+    @clients = Client.order("first_name, last_name")
     @venues = []
     @staff = []
     @horses = []
@@ -224,9 +227,15 @@ class BookingsController < ApplicationController
       available = true
       v.events.each{|e| splits << e.get_splits}
       required.each{|r| available = false if splits.flatten.include? r}
-      @venues << v if available
+      temp_venues << v if available
     end
     # unique venues (one for each master name)
+    temp_venues.each do |v|
+      if !v_unique.include? v.name
+        v_unique << v.name
+        @venues << v
+      end
+    end
     # get available staff
     Staff.all.each do |s|
       splits = []
@@ -242,10 +251,31 @@ class BookingsController < ApplicationController
       splits = []
       available = true
       h.events.each{|e| splits << e.get_splits}
-      [required,start_time,end_time].flatten.each{|r| available = false if splits.flatten.include? r}
+      [required,@start_time,@end_time].flatten.each{|r| available = false if splits.flatten.include? r}
+      available = false if h.over_workload(Date.today, params[:duration].to_i)
       @horses << h if available
     end
     render :partial => "available_now_fields"
+  end
+
+  def available_now_complete
+    errors = []
+    booking_id = nil
+    if params[:fields][:event_type] == "0" || params[:fields][:venue_id] == "0" || params[:fields][:client_id] =="0" || params[:fields][:horse_id] == "0" || params[:fields][:staff_id] == "0"
+      errors << "You must make a selection for ALL fields"
+    else
+      event = Event.new
+      actual = Venue.find(params[:fields][:venue_id])
+      master = Venue.where(:name => actual.name, :master => true).first
+      params[:fields][:master_venue_id] = master.id
+      params[:fields][:event_date] = Date.today
+      event.set_fields params[:fields]
+      booking = Booking.new
+      booking.confirmed = true
+      booking.set_fields event.id, params[:fields][:client_id], params[:fields][:cost], params[:fields][:horse_id]
+      booking_id = booking.id
+    end
+    render :json => {:errors => errors, :booking_id => booking_id}
   end
 
   def payment

@@ -11,7 +11,7 @@
 	<% if !@results.empty? %>
 		<% @results.each do |client| %>
 			<tr class="result" client_id="<%= client.id %>">
-				<td><%= client.last_name if client.last_name %>, <%= client.first_name if client.first_name %></td>
+				<td><%= client.first_name if client.first_name %> <%= client.last_name if client.last_name %></td>
 				<td><%= client.date_of_birth if client.date_of_birth %></td>
 				<td><%= client.standard.downcase.capitalize if client.standard %></td>
 				<td><%= client.address %><br/><%= client.post_code if client.post_code %></td>

@@ -27,7 +27,7 @@
 		</tr>
 		<tr>
 			<th>Staff:</th>
-			<td><%= @event.staff.first_name+" "+@event.staff.last_name if @event.staff %></td>
+			<td><%= @event.staff_list %></td>
 		</tr>
 	</table>
 </div>
@@ -53,6 +53,12 @@
 	<table>
 		<tr>
 			<td><%= check_box_tag "confirmed", "", @booking.confirmed %></td>
+		</tr>
+	</table>
+	<h3>Rebooked?</h3>
+	<table>
+		<tr>
+			<td><%= @booking.rebooked ? "Yes" : "No" %></td>
 		</tr>
 	</table>
 </div>
