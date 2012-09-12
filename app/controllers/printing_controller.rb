@@ -19,6 +19,10 @@ class PrintingController < ApplicationController
     @client = Client.find(params[:client_id])
   end
 
+  def event
+    @event = Event.find(params[:event_id])
+  end
+
   def booking
     @booking = Booking.find(params[:booking_id])
     @event = @booking.event

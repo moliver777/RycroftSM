@@ -1,7 +1,8 @@
 <h2>Cash Up - <%= @date == Date.today ? "Today" : @date %></h2>
 <div style="text-align:center;margin-bottom:20px;">
 	<%= text_field_tag "date", @date, :placeholder => "Date" %><br/>
-	<button id="change_date">Change Date</button>
+	<button id="change_date">Change Date</button><br/>
+	<a href="/print/cash_up/<%= @date.strftime("%Y-%m-%d") %>" target="_blank">Print</a>
 </div>
 <table style="margin:auto;width:60%;">
 	<tr>
