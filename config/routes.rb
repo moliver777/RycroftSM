@@ -116,6 +116,7 @@ RycroftSM::Application.routes.draw do
   get "/admin/venues/new" => "venues#new"
   post "/admin/venues/create" => "venues#create"
   post "/admin/venues/delete/:venue_id" => "venues#destroy"
+  post "/admin/clean_database" => "admin#clean_database"
 
   # ACCOUNT
   get "/account" => "account#index"
