@@ -56,10 +56,14 @@
 							<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
 						</tr>
 						<% event.bookings.each do |booking| %>
-							<tr class="<%= 'bottom' if booking==event.bookings.last && event != staff[1].last %>">
+							<tr>
 								<td></td>
 								<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
 								<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
+							</tr>
+							<tr class="<%= 'bottom' if booking==event.bookings.last && event != staff[1].last %>">
+								<td></td>
+								<td colspan="2"><strong>Notes:</strong> <%= booking.description if booking.description %></td>
 							</tr>
 						<% end %>
 					<% end %>
