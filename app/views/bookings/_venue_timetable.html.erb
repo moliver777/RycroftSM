@@ -25,7 +25,6 @@
 			$.each(venue_events, function(i,evt) {
 				var count = -1;
 				var current = (evt.id == parseInt("<%= @event.id if @event %>"));
-				console.log(evt.venue_id)
 				$.each($("tr#"+evt.venue_id+" td.seg"), function(j,seg) {
 					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
 						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");

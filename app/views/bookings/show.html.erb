@@ -98,8 +98,8 @@
 			<th style="width:45%">Contents</th>
 			<th style="width:5%;">Priority</th>
 		</tr>
-		<% if !@booking.notes.empty? %>
-			<% @booking.notes.each do |note| %>
+		<% if !@booking.notes.where("start_date <= ? AND end_date >= ?", Date.today, Date.today).empty? %>
+			<% @booking.notes.where("start_date <= ? AND end_date >= ?", Date.today, Date.today).each do |note| %>
 				<tr>
 					<td><%= note.title %></td>
 					<td><%= note.content %></td>
