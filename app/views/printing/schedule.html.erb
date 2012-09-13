@@ -50,20 +50,20 @@
 				<h1><%= staff[0] %> - <%= Date.today.strftime("%A") %> <%= Date.today.strftime("%d").to_i.ordinalize %> <%= Date.today.strftime("%B %Y") %></h1>
 				<table class="<%= 'break' unless i==@staff.count-1 %>">
 					<% staff[1].each do |event| %>
-						<tr class="">
+						<tr>
 							<td><%= event.start_time.strftime("%H:%M") %>-<%= event.end_time.strftime("%H:%M") %></td>
 							<td><strong><%= event.event_type.downcase.capitalize %></strong></td>
 							<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
 						</tr>
+						<tr>
+							<td></td>
+							<td colspan="2"><strong>Notes:</strong> <%= event.description if event.description %></td>
+						</tr>
 						<% event.bookings.each do |booking| %>
-							<tr>
+							<tr class="<%= 'bottom' if booking==event.bookings.last && event != staff[1].last %>">
 								<td></td>
 								<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
 								<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
-							</tr>
-							<tr class="<%= 'bottom' if booking==event.bookings.last && event != staff[1].last %>">
-								<td></td>
-								<td colspan="2"><strong>Notes:</strong> <%= booking.description if booking.description %></td>
 							</tr>
 						<% end %>
 					<% end %>
