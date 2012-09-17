@@ -6,7 +6,7 @@ class BookingsController < ApplicationController
       @date = Date.today
     end
     load_upcoming
-    @unconfirmed = Booking.includes(:event).where("confirmed = ? and events.event_date >= ? and events.event_date < ?", false, Date.today, Date.today.advance(:days => 7))
+    @unconfirmed = Booking.includes(:event).where("confirmed = ? and events.event_date >= ? and events.event_date < ?", false, Date.today, Date.today.advance(:days => 7)).order("events.event_date, events.start_time")
     @prompt = auto_assign(true)
   end
 

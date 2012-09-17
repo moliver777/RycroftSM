@@ -24,7 +24,7 @@
 	<% if !@upcoming.empty? %>
 		<% @upcoming.each do |event| %>
 			<tr style="border-top:3px solid #5F5F5F;">
-				<td><%= event.start_time.strftime("%H:%M") if event.start_time %></td>
+				<td><%= event.start_time.strftime("%l:%M %P") if event.start_time %></td>
 				<td colspan="2"></td>
 				<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
 				<td><%= event.staff_list %></td>

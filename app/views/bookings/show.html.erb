@@ -20,11 +20,11 @@
 		</tr>
 		<tr>
 			<th>Start Time:</th>
-			<td><%= @event.start_time.strftime("%H:%M") if @event.start_time %></td>
+			<td><%= @event.start_time.strftime("%l:%M %P") if @event.start_time %></td>
 		</tr>
 		<tr>
 			<th>End Time:</th>
-			<td><%= @event.end_time.strftime("%H:%M") if @event.end_time %></td>
+			<td><%= @event.end_time.strftime("%l:%M %P") if @event.end_time %></td>
 		</tr>
 		<tr>
 			<th>Staff:</th>
@@ -80,7 +80,7 @@
 			</tr>
 			<% @booking.payments.each do |payment| %>
 				<tr>
-					<td><%= payment.created_at.localtime.strftime("%Y-%m-%d %H:%M") if payment.created_at %></td>
+					<td><%= payment.created_at.localtime.strftime("%Y-%m-%d %l:%M %P") if payment.created_at %></td>
 					<td><%= payment.friendly_type %></td>
 					<td><%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %></td>
 					<td><a onclick="confirmation('<%= payment.friendly_type %> - <%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %>','/bookings/delete_payment/<%= payment.id %>')">Delete</a></td>

@@ -12,7 +12,7 @@
 			<tr>
 				<td><%= booking.event.event_type.downcase.capitalize %></td>
 				<td><%= booking.event.event_date %></td>
-				<td><%= booking.event.start_time.strftime("%H:%M") %></td>
+				<td><%= booking.event.start_time.strftime("%l:%M %P") %></td>
 				<td><%= booking.client.first_name+" "+booking.client.last_name rescue nil %></td>
 				<td><%= booking.horse.name if booking.horse rescue nil %></td>
 				<td><a href="/bookings/show/<%= booking.id %>">View</a></td>

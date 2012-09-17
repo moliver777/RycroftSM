@@ -8,7 +8,8 @@
 			<th class="first">Venue</th>
 			<% 15.times do |hr| %>
 				<% hr += 7 %>
-				<th class="<%= 'last' if hr==21 %>" colspan="4"><%= (hr<10 ? "0"+hr.to_s : hr.to_s)+":00" %></th>
+				<% ahr = hr > 12 ? hr-12 : hr %>
+				<th class="<%= 'last' if hr==21 %>" colspan="4"><%= "#{ahr}:00" %> <%= hr < 12 ? 'am' : 'pm' %></th>
 			<% end %>
 		</tr>
 		<% @venues.each do |name,venues| %>

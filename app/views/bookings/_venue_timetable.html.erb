@@ -1,7 +1,8 @@
 <tr>
 	<% 15.times do |hr| %>
 		<% hr += 7 %>
-		<td colspan="4"><%= (hr<10 ? "0"+hr.to_s : hr.to_s)+":00" %></td>
+		<% ahr = hr > 12 ? hr-12 : hr %>
+		<td colspan="4"><%= "#{ahr}:00" %> <%= hr < 12 ? 'am' : 'pm' %></td>
 	<% end %>
 </tr>
 <% if !@venue %>

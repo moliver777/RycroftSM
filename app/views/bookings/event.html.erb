@@ -20,11 +20,11 @@
 		</tr>
 		<tr>
 			<th>Start Time:</th>
-			<td><%= @event.start_time.strftime("%H:%M") if @event.start_time %></td>
+			<td><%= @event.start_time.strftime("%l:%M %P") if @event.start_time %></td>
 		</tr>
 		<tr>
 			<th>End Time:</th>
-			<td><%= @event.end_time.strftime("%H:%M") if @event.end_time %></td>
+			<td><%= @event.end_time.strftime("%l:%M %P") if @event.end_time %></td>
 		</tr>
 		<tr>
 			<th>Staff:</th>
