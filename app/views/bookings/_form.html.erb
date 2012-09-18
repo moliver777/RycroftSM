@@ -3,16 +3,16 @@
 </div>
 
 <% if !@event_edit_flag %>
+	<div id="horse_form_container" class="form_section">
+		<%= render :partial => "horse_form" %>
+	</div>
+
 	<div class="form_section">
 		<%= render :partial => "cost_form" %>
 	</div>
 
 	<div class="form_section">
 		<%= render :partial => "client_form" %>
-	</div>
-
-	<div id="horse_form_container" class="form_section">
-		<%= render :partial => "horse_form" %>
 	</div>
 <% end %>
 
