@@ -45,7 +45,7 @@
 
 			$("button#clear").unbind("click").click(function() {
 				$("#venue_timetable td.selected").removeClass("selected first last");
-				$("input#start_time").val("");
+				$("input#start_time").val("").trigger("change");
 				$("input#end_time").val("");
 				$("input#duration").val("0:00");
 				$("#set_time").removeClass().addClass("start").attr("disabled", false).html("Set Start Time");

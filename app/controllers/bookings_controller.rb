@@ -213,6 +213,8 @@ class BookingsController < ApplicationController
   def available_now_fields
     @start_time = get_start_time
     @end_time = get_end_time @start_time, params[:duration].to_i
+    @formatted_start_time = format_time @start_time
+    @formatted_end_time = format_time @end_time
     @event_types = Event::TYPES
     required = get_required @start_time, @end_time
     temp_venues = []

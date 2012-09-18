@@ -1,7 +1,7 @@
 <table style="width:100%;">
 	<tr>
-		<td>Start: <span id="start_time" class="field"><%= @start_time %></span></td>
-		<td>End: <span id="end_time" class="field"><%= @end_time %></span></td>
+		<td>Start: <span id="formatted_start_time"><%= @formatted_start_time %></span><span id="start_time" class="field" style="display:none;"><%= @start_time %></span></td>
+		<td>End: <span id="formatted_end_time"><%= @formatted_end_time %></span><span id="end_time" class="field" style="display:none;"><%= @end_time %></span></td>
 		<td>
 			<select id="event_type" class="field">
 				<option value="0">Type</option>

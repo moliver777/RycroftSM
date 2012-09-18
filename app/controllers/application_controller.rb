@@ -199,4 +199,10 @@ class ApplicationController < ActionController::Base
     return false
   end
 
+  def format_time time
+    hr = time.split(":")[0].to_i
+    "#{(hr > 12 ? hr-12 : hr)}:#{time.split(":")[1]} #{hr < 12 ? 'am' : 'pm'}"
+  end
+  helper_method :format_time
+
 end

@@ -5,7 +5,7 @@
 			<select id="event_mode">
 				<option value="0">New</option>
 				<% @events.each do |event| %>
-					<option value="<%= event.id %>"><%= event.event_date == Date.today ? "Today" : event.event_date %> <%= event.start_time.strftime("%H:%M") %> (<%= event.event_type.downcase.capitalize %>)</option>
+					<option value="<%= event.id %>"><%= event.event_date == Date.today ? "Today" : event.event_date %> <%= event.start_time.strftime("%l:%M %P") %> (<%= event.event_type.downcase.capitalize %>)</option>
 				<% end %>
 			</select>
 		</td>
@@ -34,7 +34,8 @@
 		<td colspan="4"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "70x3", :class => "field" %></td>
 	</tr>
 	<tr>
-		<td>Start time:<%= text_field_tag "start_time", (@event.start_time.strftime("%H:%M") rescue nil), :disabled => true, :class => "field short" %>
+		<td>Start time:<%= text_field_tag "formatted_start_time", (@event.start_time.strftime("%l:%M %P") rescue nil), :disabled => true, :class => "short" %>
+		<%= hidden_field_tag "start_time", (@event.start_time.strftime("%H:%M") rescue nil), :disabled => true, :class => "field short" %>
 		Duration:<%= text_field_tag "duration", @event.duration, :disabled => true, :class => "short" %></td>
 		<td>
 			<select id="staff_id" class="field">
@@ -87,7 +88,7 @@
 			}
 			$("table#venue_timetable").load("/bookings/reload_timetable/"+$("input#event_date").val()+"/"+$(this).val()+"/"+$("select#event_mode").val(), function() {
 				if (!window.blockWipeout) {
-					$("input#start_time").val("");
+					$("input#start_time").val("").trigger("change");
 					$("input#end_time").val("");
 					$("input#duration").val("0:00");
 					$("td.selected").removeClass("selected first last");
@@ -107,13 +108,16 @@
 		$("input#event_date").unbind("change").change(function() {
 			$("select#master_venue_id").trigger("change");
 		})
+		$("input#start_time").unbind("change").change(function() {
+			$("input#formatted_start_time").val(formatTime($(this).val()));
+		});
 
 		$("select#event_mode").unbind("change").change(function() {
 			if ($(this).val() == "0") {
 				$("input#event_name").val("");
 				$("select#event_type").val("0");
 				$("textarea#description").val("");
-				$("input#start_time").val("");
+				$("input#start_time").val("").trigger("change");
 				$("input#end_time").val("");
 				$("input#duration").val("0:00");
 				$("select#horse_id").val("0");
@@ -131,7 +135,7 @@
 						$("select#event_type").val(evt.event_type);
 						$("textarea#description").val(evt.description);
 						$("input#event_date").val(evt.date);
-						$("input#start_time").val(evt.formatted_start_time);
+						$("input#start_time").val(evt.formatted_start_time).trigger("change");
 						$("input#end_time").val(evt.formatted_end_time);
 						window.blockWipeout = true;
 						$("select#master_venue_id").val(evt.master_venue_id).trigger("change");

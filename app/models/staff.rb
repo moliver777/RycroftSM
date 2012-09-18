@@ -55,7 +55,7 @@ class Staff < ActiveRecord::Base
     when "Mon"
       result = self.monday
     when "Tue"
-      result - self.tuesday
+      result = self.tuesday
     when "Wed"
       result = self.wednesday
     when "Thu"

@@ -8,8 +8,36 @@
 		<tr>
 			<td><input type="radio" name="rebook_option" value="custom" /> Custom</td>
 			<td><%= text_field_tag :event_date, @booking.event.event_date.advance(:days => 7), :placeholder => "Date", :class => "field", :disabled => true %></td>
-			<td>From <%= text_field_tag :start_time, @booking.event.start_time.strftime("%H:%M"), :class => "field", :disabled => true %></td>
-			<td>To <%= text_field_tag :end_time, @booking.event.end_time.strftime("%H:%M"), :class => "field", :disabled => true %></td>
+			<td>
+				From 
+				<select id="start_time" class="field" disabled="true">
+					<% 15.times do |hr| %>
+						<% hr += 7 %>
+						<% fhr = hr > 12 ? hr-12 : hr %>
+						<% ap = hr < 12 ? 'am' : 'pm' %>
+						<% hr = hr < 10 ? "0#{hr}" : "#{hr}" %>
+						<option value="<%= hr %>:00"><%= fhr %>:00 <%= ap %></option>
+						<option value="<%= hr %>:15"><%= fhr %>:15</option>
+						<option value="<%= hr %>:30"><%= fhr %>:30</option>
+						<option value="<%= hr %>:45"><%= fhr %>:45</option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				From 
+				<select id="end_time" class="field" disabled="true">
+					<% 15.times do |hr| %>
+						<% hr += 7 %>
+						<% fhr = hr > 12 ? hr-12 : hr %>
+						<% ap = hr < 12 ? 'am' : 'pm' %>
+						<% hr = hr < 10 ? "0#{hr}" : "#{hr}" %>
+						<option value="<%= hr %>:00"><%= fhr %>:00 <%= ap %></option>
+						<option value="<%= hr %>:15"><%= fhr %>:15</option>
+						<option value="<%= hr %>:30"><%= fhr %>:30</option>
+						<option value="<%= hr %>:45"><%= fhr %>:45</option>
+					<% end %>
+				</select>
+			</td>
 			<td>Cost <%= number_field_tag :cost, @booking.cost.to_f, :step => 0.01, :min => 0, :class => "field" %></td>
 		</tr>
 	</table>
@@ -18,18 +46,20 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("select#start_time").val("<%= @booking.event.start_time.strftime('%H:%M') %>");
+		$("select#end_time").val("<%= @booking.event.end_time.strftime('%H:%M') %>");
 		$("input#event_date").datepicker({dateFormat: "yy-mm-dd"});
 		$(".ui-datepicker").hide();
 
 		$("input[type='radio']").unbind("click").click(function() {
 			if ($(this).val() == "next_week") {
 				$("input#event_date").val("<%= @booking.event.event_date.advance(:days => 7) %>").attr("disabled", true);
-				$("input#start_time").val("<%= @booking.event.start_time.strftime('%H:%M') %>").attr("disabled", true);
-				$("input#end_time").val("<%= @booking.event.end_time.strftime('%H:%M') %>").attr("disabled", true);
+				$("select#start_time").val("<%= @booking.event.start_time.strftime('%H:%M') %>").attr("disabled", true);
+				$("select#end_time").val("<%= @booking.event.end_time.strftime('%H:%M') %>").attr("disabled", true);
 			} else {
 				$("input#event_date").attr("disabled", false);
-				$("input#start_time").attr("disabled", false);
-				$("input#end_time").attr("disabled", false);
+				$("select#start_time").attr("disabled", false);
+				$("select#end_time").attr("disabled", false);
 			}
 		})
 	})

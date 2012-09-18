@@ -246,7 +246,7 @@ function timetableInteraction() {
 					if ($(this).hasClass("used")) {
 						$(self).removeClass("on");
 					} else {
-						$("input#start_time").val($(this).attr("hour")+":"+$(this).attr("mins"));
+						$("input#start_time").val($(this).attr("hour")+":"+$(this).attr("mins")).trigger("change");
 						$(this).addClass("selected first");
 						$(self).removeClass().addClass("end on").html("Set End Time");
 						$("input#venue_id").val($(this).parent().attr("id"));
@@ -263,7 +263,7 @@ function timetableInteraction() {
 					$("#set_time").removeClass("on");
 					$("td.selected").removeClass("selected first")
 					$("#set_time").removeClass().addClass("start").html("Set Start Time");
-					$("input#start_time").val("");
+					$("input#start_time").val("").trigger("change");
 					$("input#end_time").val("");
 				} else {
 					$("input#end_time").val(nextSeg(this));
@@ -274,7 +274,7 @@ function timetableInteraction() {
 							$("#set_time").removeClass("on");
 							$("td.selected").removeClass("selected first last");
 							$("#set_time").removeClass().addClass("start").html("Set Start Time");
-							$("input#start_time").val("");
+							$("input#start_time").val("").trigger("change");
 							$("input#end_time").val("");
 						}
 						if (first) {
@@ -282,7 +282,7 @@ function timetableInteraction() {
 								$("#set_time").removeClass("on");
 								$("td.selected").removeClass("selected first last")
 								$("#set_time").removeClass().addClass("start").html("Set Start Time");
-								$("input#start_time").val("");
+								$("input#start_time").val("").trigger("change");
 								$("input#end_time").val("");
 								first = false;
 							} else if ($(seg2).hasClass("selected last")) {
@@ -457,6 +457,7 @@ function fancyNextWeek(id) {
 						$("ul#rebook_errors").empty();
 						params = {};
 						$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+						$.each($("select.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
 						$.ajax({
 							url: "/rebook_status/"+id,
 							type: "POST",
@@ -476,5 +477,16 @@ function fancyNextWeek(id) {
 			});
 		}
 	});
+}
+
+function formatTime(time) {
+	if (time.length>0) {
+		var hr = parseInt(time.split(":")[0]);
+		var fhr = (hr > 12) ? hr-12 : hr;
+		var ap = (hr < 12) ? 'am' : 'pm';
+		return fhr+":"+time.split(":")[1]+ap;
+	} else {
+		return ""
+	}
 }
 
