@@ -32,7 +32,7 @@ jQuery.extend(Schedule.prototype, {
 						}
 					}
 					$(seg).mouseover(function(e) {
-						$("#schTooltip").html("<strong style='font-size:15px;'>"+evt.event_type+"</strong><br/><strong>Clients:</strong> "+evt.clients+"<br/><strong>Horses:</strong> "+evt.horses+"<br/><strong>Staff:</strong> "+evt.staff);
+						$("#schTooltip").html("<strong style='font-size:15px;'>"+evt.event_type+"</strong><br/><strong>Clients:</strong> "+evt.clients+"<br/><strong>Horses:</strong> "+evt.horses+"<br/><strong>Instructors:</strong> "+evt.staff);
 						$("#schTooltip").css({left:e.pageX+15, top:e.pageY+10});
 						$("#schTooltip").show();
 					}).mousemove(function(e) {
