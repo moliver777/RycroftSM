@@ -27,9 +27,9 @@
 			<table class="<%= 'break' unless @staff.empty? %>">
 				<% @events.each do |event| %>
 					<tr class="">
-						<td><%= event.start_time.strftime("%l:%M %P") %>-<%= event.end_time.strftime("%l:%M %P") %></td>
+						<td><%= event.start_time.strftime("%l:%M%P") %>-<%= event.end_time.strftime("%l:%M%P") %></td>
 						<td><strong><%= event.event_type.downcase.capitalize %></strong></td>
-						<td><strong>Staff:</strong> <%= event.staff.first_name if event.staff %> <%= event.staff.last_name if event.staff %></td>
+						<td><strong>Instructor:</strong> <%= event.staff_list %></td>
 						<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
 					</tr>
 					<% event.bookings.each do |booking| %>
@@ -51,7 +51,7 @@
 				<table class="<%= 'break' unless i==@staff.count-1 %>">
 					<% staff[1].each do |event| %>
 						<tr>
-							<td><%= event.start_time.strftime("%l:%M %P") %>-<%= event.end_time.strftime("%l:%M %P") %></td>
+							<td><%= event.start_time.strftime("%l:%M%P") %>-<%= event.end_time.strftime("%l:%M%P") %></td>
 							<td><strong><%= event.event_type.downcase.capitalize %></strong></td>
 							<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
 						</tr>

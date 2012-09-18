@@ -39,7 +39,7 @@
 		Duration:<%= text_field_tag "duration", @event.duration, :disabled => true, :class => "short" %></td>
 		<td>
 			<select id="staff_id" class="field">
-				<option value="0">Staff</option>
+				<option value="0">Instructor</option>
 				<% Staff.order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
 				<% end %>
@@ -47,7 +47,7 @@
 		</td>
 		<td>
 			<select id="staff_id2" class="field">
-				<option value="0">Staff</option>
+				<option value="0">Instructor</option>
 				<% Staff.order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
 				<% end %>
@@ -55,7 +55,7 @@
 		</td>
 		<td>
 			<select id="staff_id3" class="field">
-				<option value="0">Staff</option>
+				<option value="0">Instructor</option>
 				<% Staff.order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
 				<% end %>

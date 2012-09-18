@@ -137,7 +137,7 @@ class NotesController < ApplicationController
     when Note::HORSE
       @errors << "Horse category must be linked to a horse." if fields[:horse_id] == "0"
     when Note::STAFF
-      @errors << "Staff category must be linked to staff." if fields[:staff_id] == "0"
+      @errors << "Instructor category must be linked to an instructor." if fields[:staff_id] == "0"
     end
     @validated = @errors.length > 0 ? false : true
   end

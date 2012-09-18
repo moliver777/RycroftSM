@@ -52,8 +52,8 @@ class StaffController < ApplicationController
 
   def validation fields, id
     @errors = []
-    @errors << "Staff must have a first name." unless fields[:first_name].length > 0
-    @errors << "Staff must have a last name." unless fields[:last_name].length > 0
+    @errors << "Instructor must have a first name." unless fields[:first_name].length > 0
+    @errors << "Instructor must have a last name." unless fields[:last_name].length > 0
     if fields[:date_of_birth].length > 0
       begin
         throw "dob error" unless fields[:date_of_birth].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)

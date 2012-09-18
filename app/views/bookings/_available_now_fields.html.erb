@@ -38,7 +38,7 @@
 		</td>
 		<td>
 			<select id="staff_id" class="field">
-				<option value="0">Staff</option>
+				<option value="0">Instructor</option>
 				<% @staff.each do |s| %>
 					<option value="<%= s.id %>"><%= s.first_name %> <%= s.last_name %></option>
 				<% end %>

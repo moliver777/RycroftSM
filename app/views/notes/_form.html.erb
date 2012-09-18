@@ -18,7 +18,7 @@
 				<select id="category" class="field">
 					<option value="0">Select a Category</option>
 					<% Note::CATEGORIES.each do |category| %>
-						<option value="<%= category %>"><%= category.downcase.capitalize %></option>
+						<option value="<%= category %>"><%= category==Note::STAFF ? "Instructor" : category.downcase.capitalize %></option>
 					<% end %>
 				</select>
 			</td>
@@ -42,7 +42,7 @@
 					<% end %>
 				</select>
 				<select id="staff_id" class="subject_select field" style="display:none;">
-					<option value="0">Select Staff</option>
+					<option value="0">Select Instructor</option>
 					<%= @staff.each do |staff| %>
 						<option value="<%= staff.id %>"><%= staff.first_name+" "+staff.last_name %></option>
 					<% end %>

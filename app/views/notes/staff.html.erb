@@ -1,11 +1,11 @@
-<h2>Notes: Staff<%= " : "+@staff.first_name+" "+@staff.last_name if @staff %></h2>
+<h2>Notes: Instructor<%= " : "+@staff.first_name+" "+@staff.last_name if @staff %></h2>
 <div id="note_categories">
 	<a href="/notes">All</a>
 	<a href="/notes/GENERAL">General</a>
 	<a href="/notes/BOOKING">Bookings</a>
 	<a href="/notes/CLIENT">Clients</a>
 	<a href="/notes/HORSE">Horses</a>
-	<a class="current" href="/notes/STAFF">Staff</a>
+	<a class="current" href="/notes/STAFF">Instructor</a>
 </div>
 <a href="/notes/new/STAFF<%= '/'+@staff.id.to_s if @staff %>" style="float:right;padding:5px;">Create New Note</a>
 <%= render :partial => "table" %>
