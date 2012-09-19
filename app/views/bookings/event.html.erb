@@ -16,15 +16,15 @@
 		</tr>
 		<tr>
 			<th>Date:</th>
-			<td><%= @event.event_date %></td>
+			<td><%= @event.event_date.strftime("%a") %> <%= @event.event_date.strftime("%d").to_i.ordinalize %> <%= @event.event_date.strftime("%b %Y") %></td>
 		</tr>
 		<tr>
 			<th>Start Time:</th>
-			<td><%= @event.start_time.strftime("%l:%M %P") if @event.start_time %></td>
+			<td><%= @event.start_time.strftime("%l:%M%P") if @event.start_time %></td>
 		</tr>
 		<tr>
 			<th>End Time:</th>
-			<td><%= @event.end_time.strftime("%l:%M %P") if @event.end_time %></td>
+			<td><%= @event.end_time.strftime("%l:%M%P") if @event.end_time %></td>
 		</tr>
 		<tr>
 			<th>Instructor:</th>
@@ -37,7 +37,7 @@
 	<table>
 		<tr>
 			<th>Name</th>
-			<th>Date of Birth</th>
+			<th>Standard</th>
 			<th>Horse</th>
 			<th></th>
 		</tr>
@@ -45,7 +45,7 @@
 			<% @event.bookings.each do |booking| %>
 				<tr>
 					<td><%= booking.client.first_name+" "+booking.client.last_name if booking.client %></td>
-					<td><%= booking.client.date_of_birth if booking.client %></td>
+					<td><%= booking.client.standard.downcase.capitalize if booking.client %></td>
 					<td><%= booking.horse.name if booking.horse %></td>
 					<td><a href="/bookings/edit/<%= booking.id %>">Edit</td>
 				</tr>

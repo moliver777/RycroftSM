@@ -40,7 +40,7 @@
 			</tr>
 			<tr>
 				<th>Date:</th>
-				<td><%= @event.event_date %></td>
+				<td><%= @event.event_date.strftime("%a") %> <%= @event.event_date.strftime("%d").to_i.ordinalize %> <%= @event.event_date.strftime("%b %Y") %></td>
 			</tr>
 			<tr>
 				<th>Start Time:</th>
@@ -62,8 +62,8 @@
 				<td><%= @booking.client.first_name+" "+@booking.client.last_name if @booking.client %></td>
 			</tr>
 			<tr>
-				<th>Date of Birth:</th>
-				<td><%= @booking.client.date_of_birth if @booking.client %></td>
+				<th>Standard:</th>
+				<td><%= @booking.client.standard.downcase.capitalize if @booking.client %></td>
 			</tr>
 			<tr>
 				<th>Horse:</th>

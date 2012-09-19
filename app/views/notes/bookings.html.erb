@@ -1,4 +1,4 @@
-<h2>Notes: Bookings<%= " : "+@event.event_date.strftime("%Y-%m-%d")+" "+@event.event_type.downcase.cpailtaize+" "+@event.start_time.strftime("%H:%M")+" : "+@booking.client.first_name+" "+@booking.client.last_name if @booking && @event %></h2>
+<h2>Notes: Bookings<%= " : "+@event.event_date.strftime("%a")+" "+@event.event_date.strftime("%d").to_i.ordinalize+" "+@event.event_date.strftime("%b %Y")+" - "+@event.event_type.downcase.capitalize+" - "+@event.start_time.strftime("%l:%M%P")+" : "+@booking.client.first_name+" "+@booking.client.last_name if @booking && @event %></h2>
 <div id="note_categories">
 	<a href="/notes">All</a>
 	<a href="/notes/GENERAL">General</a>

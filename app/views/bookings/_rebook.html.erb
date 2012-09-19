@@ -1,5 +1,5 @@
 <div class="rebook_panel" id="step1">
-	<h3>Re-Book <%= @booking.event.event_date.strftime("%Y-%m-%d") %> <%= @booking.event.event_type.downcase.capitalize %> <%= @booking.event.start_time.strftime("%H:%M") %> - <%= @booking.client.first_name %> <%= @booking.client.last_name %></h3>
+	<h3>Re-Book - <%= @booking.event.event_date.strftime("%a") %> <%= @booking.event.event_date.strftime("%d").to_i.ordinalize %> <%= @booking.event.event_date.strftime("%b %Y") %> - <%= @booking.event.event_type.downcase.capitalize %> - <%= @booking.event.start_time.strftime("%l:%M%P") %> - <%= @booking.client.first_name %> <%= @booking.client.last_name %></h3>
 	<!-- OPTIONS FOR WHEN -->
 	<table id="rebook_table">
 		<tr>
@@ -7,7 +7,7 @@
 		</tr>
 		<tr>
 			<td><input type="radio" name="rebook_option" value="custom" /> Custom</td>
-			<td><%= text_field_tag :event_date, @booking.event.event_date.advance(:days => 7), :placeholder => "Date", :class => "field", :disabled => true %></td>
+			<td><%= text_field_tag :event_date, @booking.event.event_date.advance(:days => 7).strftime("%d-%m-%Y"), :placeholder => "Date", :class => "field", :disabled => true %></td>
 			<td>
 				From 
 				<select id="start_time" class="field" disabled="true">
@@ -24,7 +24,7 @@
 				</select>
 			</td>
 			<td>
-				From 
+				To 
 				<select id="end_time" class="field" disabled="true">
 					<% 15.times do |hr| %>
 						<% hr += 7 %>
@@ -48,12 +48,12 @@
 	$(document).ready(function() {
 		$("select#start_time").val("<%= @booking.event.start_time.strftime('%H:%M') %>");
 		$("select#end_time").val("<%= @booking.event.end_time.strftime('%H:%M') %>");
-		$("input#event_date").datepicker({dateFormat: "yy-mm-dd"});
+		$("input#event_date").datepicker({dateFormat: "dd-mm-yy"});
 		$(".ui-datepicker").hide();
 
 		$("input[type='radio']").unbind("click").click(function() {
 			if ($(this).val() == "next_week") {
-				$("input#event_date").val("<%= @booking.event.event_date.advance(:days => 7) %>").attr("disabled", true);
+				$("input#event_date").val("<%= @booking.event.event_date.advance(:days => 7).strftime('%d-%m-%Y') %>").attr("disabled", true);
 				$("select#start_time").val("<%= @booking.event.start_time.strftime('%H:%M') %>").attr("disabled", true);
 				$("select#end_time").val("<%= @booking.event.end_time.strftime('%H:%M') %>").attr("disabled", true);
 			} else {

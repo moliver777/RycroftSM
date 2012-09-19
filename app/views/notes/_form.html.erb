@@ -56,10 +56,10 @@
 	<table class="form_table">
 		<tr>
 			<td>
-				From: <%= text_field_tag :start_date, (@note.start_date || Date.today), :placeholder => "YYYY-MM-DD", :class => "field" %>
+				From: <%= text_field_tag :start_date, (@note.start_date || Date.today).strftime("%d-%m-%Y"), :placeholder => "DD-MM-YYYY", :class => "field" %>
 			</td>
 			<td>
-				To: <%= text_field_tag :end_date, (@note.end_date || Date.today.advance(:days => 7)), :placeholder => "YYYY-MM-DD", :class => "field" %>
+				To: <%= text_field_tag :end_date, (@note.end_date || Date.today.advance(:days => 7)).strftime("%d-%m-%Y"), :placeholder => "DD-MM-YYYY", :class => "field" %>
 			</td>
 			<td>
 				Repeat every week: <%= check_box_tag "weekly", "", @note.weekly, :class => "field" %>
@@ -78,8 +78,8 @@
 		try {$("select#category").val("<%= @category %>").trigger("change")} catch(e) {}
 		try {$("select#<%= @category.downcase if @category %>_id").val("<%= @subject.id if @subject %>")} catch(e) {}
 
-		$("input#start_date").datepicker({dateFormat: "yy-mm-dd"});
-		$("input#end_date").datepicker({dateFormat: "yy-mm-dd"});
+		$("input#start_date").datepicker({dateFormat: "dd-mm-yy"});
+		$("input#end_date").datepicker({dateFormat: "dd-mm-yy"});
 		$(".ui-datepicker").hide();
 	})
 </script>

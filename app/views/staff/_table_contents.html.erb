@@ -2,7 +2,7 @@
 	<% @staff.each do |staff| %>
 		<tr>
 			<td><%= staff.first_name if staff.first_name %> <%= staff.last_name if staff.last_name %></td>
-			<td><%= staff.date_of_birth if staff.date_of_birth %></td>
+			<td><%= staff.date_of_birth.strftime("%d-%m-%Y") if staff.date_of_birth %></td>
 			<td><%= staff.role if staff.role %></td>
 			<td><%= staff.address %><br/><%= staff.post_code if staff.post_code %></td>
 			<td>Home: <%= staff.home_phone if staff.home_phone %><br/>Mobile: <%= staff.mobile_phone if staff.mobile_phone %></td>

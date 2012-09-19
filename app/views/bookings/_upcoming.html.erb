@@ -1,14 +1,14 @@
 <h3 id="upcoming_title">
-	<a class="change_date" date="<%= @date.advance(:days => -1).strftime("%Y-%m-%d") %>" style="float:left;"><< &nbsp;<%= @date.advance(:days => -1).strftime("%Y-%m-%d") %></a>
+	<a class="change_date" date="<%= @date.advance(:days => -1).strftime("%d-%m-%Y") %>" style="float:left;"><< &nbsp;<%= @date.advance(:days => -1).strftime("%d-%m-%Y") %></a>
 	<% if @date == Date.today %>
 		Todays Bookings
 	<% else %>
-		<%= @date < Date.today ? "Past" : "Future" %> Bookings : <%= @date.strftime("%Y-%m-%d") %>
+		<%= @date < Date.today ? "Past" : "Future" %> Bookings : <%= @date.strftime("%a") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%b %Y") %>
 	<% end %>
-	<a class="change_date" date="<%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>" style="float:right;"><%= @date.advance(:days => 1).strftime("%Y-%m-%d") %>&nbsp; >></a>
+	<a class="change_date" date="<%= @date.advance(:days => 1).strftime("%d-%m-%Y") %>" style="float:right;"><%= @date.advance(:days => 1).strftime("%d-%m-%Y") %>&nbsp; >></a>
 </h3>
 <% if @date != Date.today %>
-	<div style="text-align:center;text-decoration:underline;"><a class="change_date" date="<%= Date.today.strftime("%Y-%m-%d") %>">Go to Today</a></div>
+	<div style="text-align:center;text-decoration:underline;"><a class="change_date" date="<%= Date.today.strftime("%d-%m-%Y") %>">Go to Today</a></div>
 <% end %>
 <br/>
 <table id="upcoming" style="width:100%">
@@ -34,7 +34,7 @@
 			<% event.bookings.includes(:client).sort{|a,b| a.client.last_name <=> b.client.last_name}.each_with_index do |booking,i| %>
 				<tr>
 					<% if i==0 %>
-						<td><%= event.start_time.strftime("%l:%M %P") if event.start_time %></td>
+						<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %></td>
 					<% elsif i==1 %>
 						<td rowspan="<%= event.bookings.count-1 %>"></td>
 					<% end %>
@@ -66,7 +66,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#auto_assign").attr("date", "<%= @date.strftime('%Y-%m-%d') %>");
+		$("#auto_assign").attr("date", "<%= @date.strftime('%d-%m-%Y') %>");
 
 		$.each($("a.change_date"), function(i,date) {
 			$(date).unbind("click").click(function() {

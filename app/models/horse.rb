@@ -98,7 +98,7 @@ class Horse < ActiveRecord::Base
       issues << {:link => "/bookings/search/#{horse.id}", :text => horse.name+" is overworked today - Current workload: "+horse.workload(Date.today)+"hrs"} if horse.over_workload Date.today
       event_splits = []
       horse.bookings.includes(:event).where("events.event_date = ?", Date.today).each do |booking|
-        issues << {:link => "/bookings/search/#{horse.id}", :text => horse.name+" is assigned to an over weight rider today at "+booking.event.start_time.strftime("%H:%M")+" - Max weight: #{horse.max_weight}st. Rider: #{booking.client.weight}st."} if booking.client.weight > horse.max_weight
+        issues << {:link => "/bookings/search/#{horse.id}", :text => horse.name+" is assigned to an over weight rider today at "+booking.event.start_time.strftime("%l:%M%P")+" - Max weight: #{horse.max_weight}st. Rider: #{booking.client.weight}st."} if booking.client.weight > horse.max_weight
       end
       horse.events.where(:event_date => Date.today).each do |event|
         splits = []
@@ -142,7 +142,7 @@ class Horse < ActiveRecord::Base
       bookings.each_with_index do |booking,i|
         bookings.each_with_index do |booking2,j|
           if i != j
-            issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is double-booked for the "+booking.event.event_type.downcase.capitalize+" event at "+booking.event.start_time.strftime("%H:%M")} if booking.event == booking2.event
+            issues << {:link => "/bookings/search/"+horse.id.to_s, :text => horse.name+" is double-booked for the "+booking.event.event_type.downcase.capitalize+" event at "+booking.event.start_time.strftime("%l:%M%P")} if booking.event == booking2.event
           end
         end
       end

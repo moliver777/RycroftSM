@@ -19,8 +19,8 @@
 					<% end %>
 				</select>
 			</td>
-			<td>From: <%= text_field_tag "from_date", Date.today, :class => "field" %></td>
-			<td>To: <%= text_field_tag "to_date", Date.today, :class => "field" %></td>
+			<td>From: <%= text_field_tag "from_date", Date.today.strftime("%d-%m-%Y"), :class => "field" %></td>
+			<td>To: <%= text_field_tag "to_date", Date.today.strftime("%d-%m-%Y"), :class => "field" %></td>
 			<td><button id="search">Search</button></td>
 		</tr>
 	</table>
@@ -45,8 +45,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("input#from_date").datepicker({dateFormat: "yy-mm-dd"});
-		$("input#to_date").datepicker({dateFormat: "yy-mm-dd"});
+		$("input#from_date").datepicker({dateFormat: "dd-mm-yy"});
+		$("input#to_date").datepicker({dateFormat: "dd-mm-yy"});
 		$(".ui-datepicker").hide();
 
 		$("button#search").unbind("click").click(function() {

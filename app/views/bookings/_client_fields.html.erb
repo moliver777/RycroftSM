@@ -1,7 +1,7 @@
 <tr>
 	<td><%= text_field_tag "first_name", @client.first_name, :placeholder => "First Name", :class => "long client_field" %><%= hidden_field_tag "client_id", (@client.id || 0) %></td>
 	<td><%= text_field_tag "last_name", @client.last_name, :placeholder => "Last Name", :class => "long client_field" %></td>
-	<td><%= text_field_tag "date_of_birth", @client.date_of_birth, :placeholder => "YYYY-MM-DD", :class => "client_field" %></td>
+	<td><%= text_field_tag "date_of_birth", (@client.date_of_birth.strftime("%d-%m-%Y") rescue nil), :placeholder => "DD-MM-YYYY", :class => "client_field" %></td>
 </tr>
 <tr>
 	<td><%= text_field_tag "address_line_1", @client.address_line_1, :placeholder => "Address Line 1", :class => "long client_field" %></td>

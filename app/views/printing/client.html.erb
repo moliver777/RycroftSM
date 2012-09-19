@@ -27,7 +27,7 @@
 		<table>
 			<tr>
 				<th>Date of Birth:</th>
-				<td><%= @client.date_of_birth %></td>
+				<td><%= @client.date_of_birth.strftime("%d-%m-%Y") %></td>
 			</tr>
 			<tr>
 				<th>Height:</th>

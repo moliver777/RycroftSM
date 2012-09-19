@@ -2,7 +2,7 @@ class ReportsController < ApplicationController
   skip_before_filter :user_permission?
 
   def index
-    @from = Date.today.to_time.advance(:days => -6).to_date
+    @from = Date.today.advance(:days => -7)
     @to = Date.today
     horse_workloads
     horse_events

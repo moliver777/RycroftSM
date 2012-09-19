@@ -18,8 +18,8 @@
 				<td><%= note.urgent ? "High" : "Normal" %></td>
 				<td><%= note.category==Note::STAFF ? "Instructor" : note.category.downcase.capitalize %></td>
 				<td><a href="<%= note.subject_link %>"><%= note.subject_title %></a></td>
-				<td><%= note.start_date %></td>
-				<td><%= note.end_date %></td>
+				<td><%= note.start_date.strftime("%d-%m-%Y") %></td>
+				<td><%= note.end_date.strftime("%d-%m-%Y") %></td>
 				<td><%= note.weekly %></td>
 				<td>
 					<a href="/notes/edit/<%= note.id %>">Edit</a> | <a onclick="confirmation('<%= note.title %>','/notes/delete/<%= note.id %>')">Delete</a>

@@ -5,7 +5,7 @@
 			<select id="event_mode">
 				<option value="0">New</option>
 				<% @events.each do |event| %>
-					<option value="<%= event.id %>"><%= event.event_date == Date.today ? "Today" : event.event_date %> <%= event.start_time.strftime("%l:%M %P") %> (<%= event.event_type.downcase.capitalize %>)</option>
+					<option value="<%= event.id %>"><%= event.event_date == Date.today ? "Today" : event.event_date.strftime("%d-%m-%Y") %> <%= event.start_time.strftime("%l:%M %P") %> (<%= event.event_type.downcase.capitalize %>)</option>
 				<% end %>
 			</select>
 		</td>
@@ -28,7 +28,7 @@
 			</select>
 			<%= hidden_field_tag "venue_id", @event.venue_id, :class => "field" %>
 		</td>
-		<td><%= text_field_tag "event_date", @event.event_date, :placeholder => "Date", :class => "field" %></td>
+		<td><%= text_field_tag "event_date", (@event.event_date.strftime("%d-%m-%Y") rescue nil), :placeholder => "Date", :class => "field" %></td>
 	</tr>
 	<tr>
 		<td colspan="4"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "70x3", :class => "field" %></td>
@@ -83,7 +83,7 @@
 		$("select#master_venue_id").unbind("change").change(function() {
 			if ($("input#event_date").val().length == 0) {
 				var date = new Date();
-				var today = date.getFullYear()+"-"+((date.getMonth()+1 < 10) ? "0"+(date.getMonth()+1) : (date.getMonth()+1))+"-"+((date.getDate() < 10) ? "0"+date.getDate() : date.getDate());
+				var today = ((date.getDate() < 10) ? "0"+date.getDate() : date.getDate())+"-"+((date.getMonth()+1 < 10) ? "0"+(date.getMonth()+1) : (date.getMonth()+1))+"-"+date.getFullYear();
 				$("input#event_date").val(today);
 			}
 			$("table#venue_timetable").load("/bookings/reload_timetable/"+$("input#event_date").val()+"/"+$(this).val()+"/"+$("select#event_mode").val(), function() {
@@ -134,7 +134,8 @@
 						$("input#name").val(evt.name);
 						$("select#event_type").val(evt.event_type);
 						$("textarea#description").val(evt.description);
-						$("input#event_date").val(evt.date);
+						date_parts = evt.date.split("-")
+						$("input#event_date").val(date_parts[2]+"-"+date_parts[1]+"-"+date_parts[0]);
 						$("input#start_time").val(evt.formatted_start_time).trigger("change");
 						$("input#end_time").val(evt.formatted_end_time);
 						window.blockWipeout = true;

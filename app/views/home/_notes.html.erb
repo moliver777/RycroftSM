@@ -3,7 +3,7 @@
 		<ul class="home_list">
 			<% @all_notes.each_with_index do |note,i| %>
 				<li class="<%= 'odd' if i%2==0 %>" style="<%= 'border-top:1px solid #5F5F5F;' if i==0 %>">
-					<div style="float:left;"><a href="<%= note.subject_link %>"><strong><%= note.title %></strong></a></div><div style="float:right;"><%= note.urgent ? '<strong>High</strong>'.html_safe+' ('+note.end_date.strftime("%Y-%m-%d")+')' : 'Normal ('+note.end_date.strftime("%Y-%m-%d")+')' %> <a href="/notes/hide/<%= note.id %>">HIDE</a></div>
+					<div style="float:left;"><a href="<%= note.subject_link %>"><strong><%= note.title %></strong></a></div><div style="float:right;"><%= note.urgent ? '<strong>High</strong>'.html_safe+' ('+note.end_date.strftime("%d-%m-%Y")+')' : 'Normal ('+note.end_date.strftime("%d-%m-%Y")+')' %> <a href="/notes/hide/<%= note.id %>">HIDE</a></div>
 					<div style="clear:both;"><%= note.subject_title %></div>
 					<div style="clear:both;"><%= note.content %></div>
 				</li>

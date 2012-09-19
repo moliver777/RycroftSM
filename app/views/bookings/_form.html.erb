@@ -24,7 +24,7 @@
 		$("select#staff_id2").val("<%= @event.staff_id2 ? @event.staff_id2 : 0 %>");
 		$("select#staff_id3").val("<%= @event.staff_id3 ? @event.staff_id3 : 0 %>");
 		$("select#horse_id").val("<%= @booking.horse_id ? @booking.horse_id : 0 %>");
-		$("input#event_date").datepicker({dateFormat: "yy-mm-dd"});
+		$("input#event_date").datepicker({dateFormat: "dd-mm-yy"});
 		$(".ui-datepicker").hide();
 	})
 </script>

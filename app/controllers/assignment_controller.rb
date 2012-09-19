@@ -23,7 +23,7 @@ class AssignmentController < ApplicationController
           end
         end
       end
-      key = "#{booking.event.start_time.strftime("%H:%M")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
+      key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
       json[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
       booking.save!
     end

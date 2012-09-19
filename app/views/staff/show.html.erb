@@ -4,7 +4,7 @@
 	<table>
 		<tr>
 			<th>Date of Birth:</th>
-			<td><%= @staff.date_of_birth %></td>
+			<td><%= @staff.date_of_birth.strftime("%d-%m-%Y") %></td>
 		</tr>
 		<tr>
 			<th>Role:</th>

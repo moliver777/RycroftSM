@@ -3,7 +3,7 @@
 		<% @unconfirmed.each do |booking| %>
 			<% event = booking.event %>
 			<tr style="border-top:3px solid #5F5F5F;">
-				<td><%= event.event_date %></td>
+				<td><%= event.event_date.strftime("%d-%m-%Y") %></td>
 				<td><%= event.start_time.strftime("%l:%M %P") %></td>
 				<td><%= event.event_type.downcase.capitalize %></td>
 			</tr>

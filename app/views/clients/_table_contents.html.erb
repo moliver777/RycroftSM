@@ -2,7 +2,7 @@
 	<% @clients.each do |client| %>
 		<tr>
 			<td><%= client.first_name if client.first_name %> <%= client.last_name if client.last_name %></td>
-			<td><%= client.date_of_birth if client.date_of_birth %></td>
+			<td><%= client.date_of_birth.strftime("%d-%m-%Y") if client.date_of_birth %></td>
 			<td><%= client.standard.downcase.capitalize if client.standard %></td>
 			<td><%= client.address %><br/><%= client.post_code if client.post_code %></td>
 			<td>Home: <%= client.home_phone if client.home_phone %><br/>Mobile: <%= client.mobile_phone if client.mobile_phone %></td>

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :user_permission?
   before_filter :application_status
   before_filter :setup
+  before_filter :format_date
 
   def authenticated_user?
     if !session[:username]
@@ -204,5 +205,34 @@ class ApplicationController < ActionController::Base
     "#{(hr > 12 ? hr-12 : hr)}:#{time.split(":")[1]} #{hr < 12 ? 'am' : 'pm'}"
   end
   helper_method :format_time
+
+  def format_date
+    if params.include? :date
+      date = params[:date].split("-")
+      params[:date] = "#{date[2]}-#{date[1]}-#{date[0]}"
+    end
+    if params.include? :from_date
+      date = params[:from_date].split("-")
+      params[:from_date] = "#{date[2]}-#{date[1]}-#{date[0]}"
+    end
+    if params.include? :to_date
+      date = params[:to_date].split("-")
+      params[:to_date] = "#{date[2]}-#{date[1]}-#{date[0]}"
+    end
+    if params.include? :fields
+      if params[:fields].include? :event_date
+        date = params[:fields][:event_date].split("-")
+        params[:fields][:event_date] = "#{date[2]}-#{date[1]}-#{date[0]}"
+      end
+      if params[:fields].include? :from_date
+        date = params[:fields][:from_date].split("-")
+        params[:fields][:from_date] = "#{date[2]}-#{date[1]}-#{date[0]}"
+      end
+      if params[:fields].include? :to_date
+        date = params[:fields][:to_date].split("-")
+        params[:fields][:to_date] = "#{date[2]}-#{date[1]}-#{date[0]}"
+      end
+    end
+  end
 
 end

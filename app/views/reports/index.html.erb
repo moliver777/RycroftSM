@@ -1,6 +1,6 @@
 <h2>Reports</h2>
 <div id="report_controls">
-	<%= text_field_tag "from_date", Date.today.to_time.advance(:days => -7).to_date, :class => "date" %> to <%= text_field_tag "to_date", Date.today, :class => "date" %>
+	<%= text_field_tag "from_date", Date.today.advance(:days => -7).strftime("%d-%m-%Y"), :class => "date" %> to <%= text_field_tag "to_date", Date.today.strftime("%d-%m-%Y"), :class => "date" %>
 	<button id="update">Update</button>
 </div>
 <div id="report_contents">
@@ -9,8 +9,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("input#from_date").datepicker({dateFormat: "yy-mm-dd"});
-		$("input#to_date").datepicker({dateFormat: "yy-mm-dd"});
+		$("input#from_date").datepicker({dateFormat: "dd-mm-yy"});
+		$("input#to_date").datepicker({dateFormat: "dd-mm-yy"});
 		$(".ui-datepicker").hide();
 
 		$("button#update").click(function() {

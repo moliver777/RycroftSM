@@ -11,7 +11,7 @@
 		<% @results.each do |booking| %>
 			<tr>
 				<td><%= booking.event.event_type.downcase.capitalize %></td>
-				<td><%= booking.event.event_date %></td>
+				<td><%= booking.event.event_date.strftime("%a") %> <%= booking.event.event_date.strftime("%d").to_i.ordinalize %> <%= booking.event.event_date.strftime("%b %Y") %></td>
 				<td><%= booking.event.start_time.strftime("%l:%M %P") %></td>
 				<td><%= booking.client.first_name+" "+booking.client.last_name rescue nil %></td>
 				<td><%= booking.horse.name if booking.horse rescue nil %></td>

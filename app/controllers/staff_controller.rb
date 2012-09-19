@@ -56,7 +56,6 @@ class StaffController < ApplicationController
     @errors << "Instructor must have a last name." unless fields[:last_name].length > 0
     if fields[:date_of_birth].length > 0
       begin
-        throw "dob error" unless fields[:date_of_birth].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
         Date.parse(fields[:date_of_birth])
       rescue
         @errors << "Date of birth is invalid."

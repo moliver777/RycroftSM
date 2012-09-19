@@ -109,7 +109,7 @@ class Event < ActiveRecord::Base
   def self.status
     issues = []
     Event.where(:event_date => Date.today).each do |event|
-      issues << {:link => "/bookings/edit_event/"+event.id.to_s, :text => "Event at "+event.start_time.strftime("%H:%M")+" has no instructor assigned to it"} if !event.staff
+      issues << {:link => "/bookings/edit_event/"+event.id.to_s, :text => "Event at "+event.start_time.strftime("%l:%M%P")+" has no instructor assigned to it"} if !event.staff
     end
     issues.uniq
   end

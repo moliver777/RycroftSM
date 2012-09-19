@@ -192,7 +192,7 @@ class BookingsController < ApplicationController
     @results = []
     client = Client.find(params[:fields][:client]) if params[:fields][:client]
     horse = Horse.find(params[:fields][:horse]) if params[:fields][:horse]
-    Event.where("event_date BETWEEN ? AND ?", params[:fields][:from_date], params[:fields][:to_date]).each do |event|
+    Event.where("event_date BETWEEN ? AND ?", params[:fields][:from_date], params[:fields][:to_date]).order("event_date DESC, start_time DESC").each do |event|
       if client && horse
         event.bookings.where(:client_id => client.id, :horse_id => horse.id).each{|b| @results << b}
       elsif client
@@ -302,7 +302,7 @@ class BookingsController < ApplicationController
   end
 
   def cash_up
-    @date = params[:date] ? params[:date] : Date.today
+    @date = params[:date] ? (Date.parse(params[:date]) rescue nil) : Date.today
     @totals = {"cash" => 0.00, "card" => 0.00, "cheque" => 0.00, "voucher" => 0.00, "total" => 0.00}
     @payments = Payment.where(:payment_date => @date).group_by{|p| p.friendly_type.downcase}
     @payments.each do |type,payments|
@@ -384,7 +384,6 @@ class BookingsController < ApplicationController
     @errors << "Event must have an event type." if fields[:event_type] == "0"
     @errors << "Event must be assigned to a venue." if fields[:master_venue_id] == "0"
     begin
-      throw "invalid" unless fields[:event_date].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
       Date.parse(fields[:event_date])
     rescue
       @errors << "Event date is invalid."
@@ -402,7 +401,6 @@ class BookingsController < ApplicationController
       @errors << "Client must have a last name." unless fields[:last_name].length > 0
       if fields[:date_of_birth].length > 0
         begin
-          throw "dob error" unless fields[:date_of_birth].match(/[0-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]/)
           Date.parse(fields[:date_of_birth])
         rescue
           @errors << "Date of birth is invalid."
