@@ -1,7 +1,7 @@
 <% @date = Date.parse(@date) rescue @date %>
 <a href="/schedule/<%= @date.advance(:days => -1).strftime("%d-%m-%Y") %>" style="float:left;"><< <%= @date.advance(:days => -1).strftime("%d-%m-%Y") %></a>
 <a href="/schedule/<%= @date.advance(:days => 1).strftime("%d-%m-%Y") %>" style="float:right;"><%= @date.advance(:days => 1).strftime("%d-%m-%Y") %> >></a>
-<h2>Schedule: <%= @date == Date.today ? "Today" : @event.event_date.strftime("%a")+" "+@event.event_date.strftime("%d").to_i.ordinalize+" "+@event.event_date.strftime("%b %Y") %></h2>
+<h2>Schedule: <%= @date == Date.today ? "Today" : @date.strftime("%a")+" "+@date.strftime("%d").to_i.ordinalize+" "+@date.strftime("%b %Y") %></h2>
 <div id="schedule_container">
 	<table id="schedule">
 		<tr id="header">
