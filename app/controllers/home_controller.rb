@@ -1,11 +1,6 @@
 class HomeController < ApplicationController
   skip_before_filter :user_permission?
 
-  def notification
-    p "NOTIFICATION"
-    p params
-  end
-
   def index
     p "INDEX"
     @prompt = current_user.user_level == User::BASE ? false : auto_assign(false)

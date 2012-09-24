@@ -137,6 +137,4 @@ RycroftSM::Application.routes.draw do
   get "/print/client/:client_id" => "printing#client"
   get "/print/event/:event_id" => "printing#event"
   get "/print/booking/:booking_id" => "printing#booking"
-
-  post "/notification" => "home#notification"
 end
