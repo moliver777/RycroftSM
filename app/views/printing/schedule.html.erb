@@ -22,11 +22,11 @@
 		</style>
 	</head>
 	<body>
-		<h1>SCHEDULE - </h1>
+		<h1>SCHEDULE - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h1>
 		<% if !@events.empty? %>
 			<table class="<%= 'break' unless @staff.empty? %>">
 				<% @events.each do |event| %>
-					<tr class="">
+					<tr class="<%= 'bottom' unless event.bookings.first %>">
 						<td><%= event.start_time.strftime("%l:%M%P") %>-<%= event.end_time.strftime("%l:%M%P") %></td>
 						<td><strong><%= event.event_type.downcase.capitalize %></strong></td>
 						<td><strong>Instructor:</strong> <%= event.staff_list %></td>
@@ -55,7 +55,7 @@
 							<td><strong><%= event.event_type.downcase.capitalize %></strong></td>
 							<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
 						</tr>
-						<tr>
+						<tr class="<%= 'bottom' unless event.bookings.first %>">
 							<td></td>
 							<td colspan="2"><strong>Notes:</strong> <%= event.description if event.description %></td>
 						</tr>
