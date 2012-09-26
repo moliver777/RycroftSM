@@ -22,7 +22,7 @@
 		</style>
 	</head>
 	<body>
-		<h1>SCHEDULE - <%= Date.today.strftime("%A") %> <%= Date.today.strftime("%d").to_i.ordinalize %> <%= Date.today.strftime("%B %Y") %></h1>
+		<h1>SCHEDULE - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h1>
 		<% if !@events.empty? %>
 			<table class="<%= 'break' unless @staff.empty? %>">
 				<% @events.each do |event| %>
@@ -47,7 +47,7 @@
 
 		<% if !@staff.empty? %>
 			<% @staff.each_with_index do |staff,i| %>
-				<h1><%= staff[0] %> - <%= Date.today.strftime("%A") %> <%= Date.today.strftime("%d").to_i.ordinalize %> <%= Date.today.strftime("%B %Y") %></h1>
+				<h1><%= staff[0] %> - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h1>
 				<table class="<%= 'break' unless i==@staff.count-1 %>">
 					<% staff[1].each do |event| %>
 						<tr>

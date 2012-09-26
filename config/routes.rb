@@ -136,6 +136,7 @@ RycroftSM::Application.routes.draw do
 
   # PRINTING
   get "/print/schedule" => "printing#schedule"
+  get "/print/schedule/:date" => "printing#schedule"
   get "/print/cash_up/:date" => "printing#cash_up"
   get "/print/client/:client_id" => "printing#client"
   get "/print/event/:event_id" => "printing#event"

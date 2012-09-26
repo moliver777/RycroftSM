@@ -3,7 +3,13 @@ class PrintingController < ApplicationController
   layout false
 
   def schedule
-    @events = Event.where(:event_date => Date.today).order("start_time")
+    if params.include? :date
+      @events = Event.where(:event_date => params[:date]).order("start_time")
+      @date = Date.parse(params[:date])
+    else
+      @events = Event.where(:event_date => Date.today).order("start_time")
+      @date = Date.today
+    end
     @staff = {}
     Staff.order("first_name, last_name").each do |s|
       @events.each do |e|
