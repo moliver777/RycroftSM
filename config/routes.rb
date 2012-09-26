@@ -55,6 +55,8 @@ RycroftSM::Application.routes.draw do
   get "/clients/edit/:client_id" => "clients#edit"
   post "/clients/update/:client_id" => "clients#update"
   post "/clients/delete/:client_id" => "clients#destroy"
+  get "/clients/horses/:client_id" => "clients#horses"
+  post "/clients/set_horses/:client_id" => "clients#set_horses"
 
   # HORSES
   get "/horses" => "horses#index"
