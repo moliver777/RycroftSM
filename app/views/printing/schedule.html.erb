@@ -22,7 +22,7 @@
 		</style>
 	</head>
 	<body>
-		<h1>SCHEDULE - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h1>
+		<h1>SCHEDULE - </h1>
 		<% if !@events.empty? %>
 			<table class="<%= 'break' unless @staff.empty? %>">
 				<% @events.each do |event| %>
