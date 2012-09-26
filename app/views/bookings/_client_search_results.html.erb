@@ -22,7 +22,9 @@
 					success: function(json) {
 						$("table.client_search").hide();
 						$("table.client_fields").show();
-						$("table.client_fields").html(json);
+						$("table.client_notes").show();
+						$("table.client_fields").html(json.fields);
+						$("table.client_notes").html(json.notes);
 					}
 				})
 			})

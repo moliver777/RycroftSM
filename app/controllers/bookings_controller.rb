@@ -50,7 +50,11 @@ class BookingsController < ApplicationController
   def client
     @client = Client.where(:id => params[:client_id]).first
     @client = Client.new unless @client
-    render :partial => "client_fields"
+    json = {
+      :fields => render_to_string(:partial => "client_fields"),
+      :notes => render_to_string(:partial => "client_notes")
+    }
+    render :json => json
   end
 
   def horses

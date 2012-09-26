@@ -8,6 +8,9 @@
 		</tr>
 	</table>
 	<table id="client_search_results" class="form_table client_search" style="display:none;"></table>
+	<table class="client_notes" style="border:1px solid #5F5F5F;margin-bottom:10px;width:100%;">
+		<%= render :partial => "client_notes" %>
+	</table>
 	<table class="form_table client_fields">
 		<%= render :partial => "client_fields" %>
 	</table>
@@ -19,6 +22,7 @@
 		</tr>
 	</table>
 	<table id="client_search_results" class="form_table client_search"></table>
+	<table class="form_table client_notes" style="display:none;border:1px solid #5F5F5F;margin-bottom:10px;width:100%;"></table>
 	<table class="form_table client_fields" style="display:none;"></table>
 <% end %>
 
@@ -31,7 +35,9 @@
 				success: function(json) {
 					$("table.client_search").hide();
 					$("table.client_fields").show();
-					$("table.client_fields").html(json);
+					$("table.client_notes").show();
+					$("table.client_fields").html(json.fields);
+					$("table.client_notes").html(json.notes);
 				}
 			})
 		})
