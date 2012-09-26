@@ -41,7 +41,7 @@
 		</tr>
 		<tr>
 			<th>Date of Birth:</th>
-			<td><%= @booking.client.standard.downcase.capitalize if @booking.client %></td>
+			<td><%= @booking.client.standard.downcase.capitalize if @booking.client rescue nil %></td>
 		</tr>
 		<tr>
 			<th>Horse:</th>
@@ -82,7 +82,11 @@
 				<tr>
 					<td><%= payment.created_at.localtime.strftime("%d-%m-%Y %l:%M%P") if payment.created_at %></td>
 					<td><%= payment.friendly_type %></td>
-					<td><%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %></td>
+					<% if payment.voucher %>
+						<td><%= payment.amount %></td>
+					<% else %>
+						<td><%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %></td>
+					<% end %>
 					<td><a onclick="confirmation('<%= payment.friendly_type %> - <%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %>','/bookings/delete_payment/<%= payment.id %>')">Delete</a></td>
 				</tr>
 			<% end %>

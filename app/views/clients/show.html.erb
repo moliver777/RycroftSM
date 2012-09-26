@@ -17,7 +17,7 @@
 		</tr>
 		<tr>
 			<th>Standard:</th>
-			<td><%= @client.standard.downcase.capitalize if @client.standard %></td>
+			<td><%= @client.standard.downcase.capitalize if @client.standard rescue nil %></td>
 		</tr>
 		<tr>
 			<th>Address:</th>

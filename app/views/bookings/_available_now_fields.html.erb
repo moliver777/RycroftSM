@@ -24,7 +24,7 @@
 			<select id="client_id" class="field">
 				<option value="0">Client</option>
 				<% @clients.each do |c| %>
-					<option value="<%= c.id %>"><%= c.first_name %> <%= c.last_name %> (<%= c.standard.downcase.capitalize %>)</option>
+					<option value="<%= c.id %>"><%= c.first_name %> <%= c.last_name %></option>
 				<% end %>
 			</select>
 		</td>
@@ -32,7 +32,7 @@
 			<select id="horse_id" class="field">
 				<option value="0">Horse</option>
 				<% @horses.each do |h| %>
-					<option value="<%= h.id %>"><%= h.name %> (<%= h.standard.downcase.capitalize %>)</option>
+					<option value="<%= h.id %>"><%= h.name %></option>
 				<% end %>
 			</select>
 		</td>
