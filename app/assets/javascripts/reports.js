@@ -505,7 +505,14 @@ var REPORTS = {
 				.attr("class","cstandards_arc")
 				.attr("transform","translate("+((width/2)+(radius/2))+","+(radius+5)+")")
 				.append("svg:path")
-				.attr("fill",function(d,i){return (i==0) ? '#EEEEEE': ((i==1) ? '#CCCCCC' : '#5F5F5F')})
+				.attr("fill",function(d,i){
+					switch (i) {
+						case 0: return '#EEEEEE';
+						case 1: return '#CCCCCC';
+						case 2: return '#5F5F5F';
+						default: return '#000000';
+					}
+				})
 				.attr("d",arc)
 				.attr("id",function(d,i){return i});
 
@@ -520,16 +527,27 @@ var REPORTS = {
 			chart.append("svg:text")
 				.attr("x",(width/6)+22)
 				.attr("y",height+20)
-				.text("Beginner");
+				.text("Lead-reign");
 			chart.append("svg:rect")
-				.attr("x",((width/6)*3)+10)
+				.attr("x",((width/6)*2.5)+10)
 				.attr("y",height+10)
 				.attr("width","10px")
 				.attr("height","10px")
 				.attr("stroke","#000000")
 				.attr("fill","#CCCCCC");
 			chart.append("svg:text")
-				.attr("x",((width/6)*3)+22)
+				.attr("x",((width/6)*2.5)+22)
+				.attr("y",height+20)
+				.text("Beginner");
+			chart.append("svg:rect")
+				.attr("x",((width/6)*4)+10)
+				.attr("y",height+10)
+				.attr("width","10px")
+				.attr("height","10px")
+				.attr("stroke","#000000")
+				.attr("fill","#5F5F5F");
+			chart.append("svg:text")
+				.attr("x",((width/6)*4)+22)
 				.attr("y",height+20)
 				.text("Inter");
 			chart.append("svg:rect")
@@ -538,7 +556,7 @@ var REPORTS = {
 				.attr("width","10px")
 				.attr("height","10px")
 				.attr("stroke","#000000")
-				.attr("fill","#5F5F5F");
+				.attr("fill","#000000");
 			chart.append("svg:text")
 				.attr("x",((width/6)*5)+22)
 				.attr("y",height+20)

@@ -1,4 +1,4 @@
-<div style="height:1350px">
+<div style="height:1050px">
 	<div class="report_panel">
 		<h3>Horse Workloads</h3>
 		<div id="horse_workloads_container"></div>
@@ -6,10 +6,6 @@
 	<div class="report_panel">
 		<h3>Horse Events</h3>
 		<div id="horse_events_container"></div>
-	</div>
-	<div class="report_panel">
-		<h3>Horse Standards</h3>
-		<div id="horse_standards_container"></div>
 	</div>
 	<div class="report_panel">
 		<h3>Client Ages</h3>
@@ -51,12 +47,6 @@
 				data: JSON.parse('<%= @horse_events.to_json.html_safe if @horse_events %>'),
 				mini: false,
 				container: $("#horse_events_container")
-			});
-			REPORTS.create({
-				name: "horse_standards",
-				data: JSON.parse('<%= @horse_standards.to_json.html_safe if @horse_standards %>'),
-				mini: false,
-				container: $("#horse_standards_container")
 			});
 			REPORTS.create({
 				name: "client_ages",

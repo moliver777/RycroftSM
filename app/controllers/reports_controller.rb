@@ -6,7 +6,6 @@ class ReportsController < ApplicationController
     @to = Date.today
     horse_workloads
     horse_events
-    horse_standards
     client_ages
     client_events
     client_standards
@@ -20,7 +19,6 @@ class ReportsController < ApplicationController
     @to = params[:to_date]
     horse_workloads
     horse_events
-    horse_standards
     client_ages
     client_events
     client_standards

@@ -196,7 +196,6 @@ function completeEventEdit(id) {
 					} else {
 						window.location.replace("/bookings/show_event/"+json.event_id);
 					}
-					
 				}
 			}
 		});

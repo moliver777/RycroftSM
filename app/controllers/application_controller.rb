@@ -77,14 +77,6 @@ class ApplicationController < ActionController::Base
     @horse_events = horse_events.length > 5 ? horse_events.slice(0,5) : horse_events
   end
 
-  def horse_standards
-    @horse_standards = [
-      {:name => "Beginner", :count => Horse.where(:standard => Horse::BEGINNER).count},
-      {:name => "Inter", :count => Horse.where(:standard => Horse::INTERMEDIATE).count},
-      {:name => "Advanced", :count => Horse.where(:standard => Horse::ADVANCED).count}
-    ]
-  end
-
   def client_ages
     @client_ages = [
       {:name => "0-18", :count => 0},
@@ -125,9 +117,10 @@ class ApplicationController < ActionController::Base
 
   def client_standards
     @client_standards = [
-      {:name => "Beginner", :count => Client.where(:standard => Horse::BEGINNER).count},
-      {:name => "Inter", :count => Client.where(:standard => Horse::INTERMEDIATE).count},
-      {:name => "Advanced", :count => Client.where(:standard => Horse::ADVANCED).count}
+      {:name => "Lead-reign", :count => Client.where(:standard => Client::LEADREIGN).count},
+      {:name => "Beginner", :count => Client.where(:standard => Client::BEGINNER).count},
+      {:name => "Inter", :count => Client.where(:standard => Client::INTERMEDIATE).count},
+      {:name => "Advanced", :count => Client.where(:standard => Client::ADVANCED).count}
     ]
   end
 
