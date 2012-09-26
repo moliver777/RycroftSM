@@ -134,7 +134,7 @@
 						$("input#name").val(evt.name);
 						$("select#event_type").val(evt.event_type);
 						$("textarea#description").val(evt.description);
-						date_parts = evt.date.split("-")
+						date_parts = evt.event_date.split("-")
 						$("input#event_date").val(date_parts[2]+"-"+date_parts[1]+"-"+date_parts[0]);
 						$("input#start_time").val(evt.formatted_start_time).trigger("change");
 						$("input#end_time").val(evt.formatted_end_time);
