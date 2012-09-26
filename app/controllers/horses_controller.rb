@@ -42,7 +42,7 @@ class HorsesController < ApplicationController
       note.category = "HORSE"
       note.horse_id = horse.id
       note.start_date = Date.today
-      note.end_date = Date.today.advance(:days => 7)
+      note.end_date = Date.today.advance(:years => 1)
       note.save!
     end
     render :json => @errors.to_json

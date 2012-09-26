@@ -6,7 +6,7 @@
 			<td colspan="5"><input type="radio" name="rebook_option" value="next_week" checked="checked" /> Next Week</td>
 		</tr>
 		<tr>
-			<td><input type="radio" name="rebook_option" value="custom" /> Custom</td>
+			<td style="width:100px;"><input type="radio" name="rebook_option" value="custom" /> Custom</td>
 			<td><%= text_field_tag :event_date, @booking.event.event_date.advance(:days => 7).strftime("%d-%m-%Y"), :placeholder => "Date", :class => "field", :disabled => true %></td>
 			<td>
 				From 
@@ -38,7 +38,6 @@
 					<% end %>
 				</select>
 			</td>
-			<td>Cost <%= number_field_tag :cost, @booking.cost.to_f, :step => 0.01, :min => 0, :class => "field" %></td>
 		</tr>
 	</table>
 </div>
