@@ -85,8 +85,10 @@ button.on {
 }
 
 #header #menu .menu_link {
-  width: 8%;
+  width: 7%;
   float: left;
+  text-align: center;
+  border-right: 1px solid #5F5F5F;
 }
 
 #header #menu .menu_link a {
@@ -95,7 +97,7 @@ button.on {
 
 #header #menu .menu_link .sub_links {
   position: absolute;
-  width: 7%;
+  width: 6%;
   margin-top: 2px;
   padding-top: 5px;
   padding-bottom: 5px;
