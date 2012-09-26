@@ -5,7 +5,7 @@
 	<table>
 		<tr>
 			<th>Date of Birth:</th>
-			<td><%= @client.date_of_birth.strftime("%d-%m-%Y") %></td>
+			<td><%= @client.date_of_birth.strftime("%d-%m-%Y") if @client.date_of_birth %></td>
 		</tr>
 		<tr>
 			<th>Height:</th>
