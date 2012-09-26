@@ -4,12 +4,11 @@ class PrintingController < ApplicationController
 
   def schedule
     if params.include? :date
-      @events = Event.where(:event_date => params[:date]).order("start_time")
-      # @date = Date.parse(params[:date])
+      @date = Date.parse(params[:date])
     else
-      @events = Event.where(:event_date => Date.today).order("start_time")
-      # @date = Date.today
+      @date = Date.today
     end
+    @events = Event.where(:event_date => @date).order("start_time")
     @staff = {}
     Staff.order("first_name, last_name").each do |s|
       @events.each do |e|
