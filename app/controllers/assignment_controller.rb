@@ -51,30 +51,13 @@ class AssignmentController < ApplicationController
   def get_suitable_horses client
     horses = []
     results = []
-    beg_horses = Horse.where(:standard => Horse::BEGINNER, :availability => true).shuffle.sort_by{|h| h.current_mins(Date.today)}
-    int_horses = Horse.where(:standard => Horse::INTERMEDIATE, :availability => true).shuffle.sort_by{|h| h.current_mins(Date.today)}
-    adv_horses = Horse.where(:standard => Horse::ADVANCED, :availability => true).shuffle.sort_by{|h| h.current_mins(Date.today)}
-    case client.standard
-    when Client::INTERMEDIATE
-      horses << int_horses
-    when Client::ADVANCED
-      horses << adv_horses
-      horses << int_horses
+    horses = client.horses ? Horse.where("availability = true AND id IN (?)", client.horses.split(";")).shuffle.sort_by{|h| h.current_mins(Date.today)} : []
+    begin
+      results << Horse.where(:id => client.leasing).first if client.leasing
+    rescue StandardError => e
+      puts e.message
     end
-    horses << beg_horses
-    horses.flatten.each do |horse|
-      suitable = true
-      suitable = false if client.weight > horse.max_weight
-      suitable = false if client.walk && !horse.walk
-      suitable = false if client.trot_with && !horse.trot_with
-      suitable = false if client.trot_without && !horse.trot_without
-      suitable = false if client.canter && !horse.canter
-      suitable = false if client.hack && !horse.hack
-      suitable = false if client.jump_5_meter && !horse.jump_5_meter
-      suitable = false if client.jump_75_meter && !horse.jump_75_meter
-      suitable = false if client.x_country && !horse.x_country
-      results << horse if suitable
-    end
+    horses.each{|h| results << h}
     results
   end
 
@@ -134,6 +117,14 @@ class AssignmentController < ApplicationController
     # test for double booking
     horse.bookings.each do |booking2|
       valid = false if booking.event == booking2.event
+    end
+    # test for group status
+    if Event::GROUP_TYPES.include?(booking.event.event_type) || booking.event.bookings.count > 1
+      valid = false unless horse.group
+    end
+    # test for bhs stage
+    if Event::BHS_TYPES.include? booking.event.event_type
+      valid = false unless horse.bhs >= booking.event.event_type.split(" ")[1].to_i
     end
     valid
   end

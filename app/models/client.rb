@@ -61,7 +61,7 @@ class Client < ActiveRecord::Base
 
   def set_horses fields
     self.leasing = fields[:leasing] == "0" ? nil : fields[:leasing]
-    self.horses = fields[:horses].join(";")
+    self.horses = fields[:horses].join(";") rescue nil
     self.save!
   end
 

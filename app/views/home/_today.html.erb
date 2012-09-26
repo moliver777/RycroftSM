@@ -2,7 +2,7 @@
 	<table id="next_up" style="width:100%;">
 		<% @events.each_with_index do |event,i| %>
 			<tr class="event <%= 'odd' if i%2==0 %>" event_id="<%= event.id %>">
-				<td><%= event.start_time.strftime("%l:%M %P") %>-<%= event.end_time.strftime("%l:%M %P") %></td>
+				<td><%= event.start_time.strftime("%l:%M%P") %>- <%= event.end_time.strftime("%l:%M%P") %></td>
 				<td><strong><%= event.event_type.downcase.capitalize %></strong></td>
 				<td><strong>Instructor:</strong> <%= event.staff_list %></td>
 				<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>

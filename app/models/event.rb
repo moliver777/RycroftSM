@@ -10,8 +10,8 @@ class Event < ActiveRecord::Base
   BHS3 = "STAGE 3"
   BHS4 = "STAGE 4"
   TYPES = [INTRODUCTORY,WALKOUT,PRIVATE,SEMIPRIVATE,GROUP,GROUPHACK,BHS1,BHS2,BHS3,BHS4]
-  GROUP = [GROUP,GROUPHACK]
-  BHS = [BHS1,BHS2,BHS3,BHS4]
+  GROUP_TYPES = [GROUP,GROUPHACK]
+  BHS_TYPES = [BHS1,BHS2,BHS3,BHS4]
 
   has_many :bookings
   has_many :clients, :through => :bookings
