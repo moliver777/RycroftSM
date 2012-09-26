@@ -410,14 +410,13 @@ class BookingsController < ApplicationController
       fields = fields[:client]
       @errors << "Client must have a first name." unless fields[:first_name].length > 0
       @errors << "Client must have a last name." unless fields[:last_name].length > 0
-      if fields[:day].length > 0
+      if fields[:day] != "0" && fields[:month] != "0" && fields[:year] != "0"
         begin
           Date.parse(fields[:year]+"-"+fields[:month]+"-"+fields[:day])
         rescue
           @errors << "Date of birth is invalid."
         end
       end
-      @errors << "Client must have a riding standard." if fields[:standard] == "0"
       if fields[:home_phone].length > 0
         @errors << "Home phone number is invalid." unless fields[:home_phone].match(/[0-9]{6,}/)
         @errors << "Home phone number is invalid." if fields[:home_phone].match(/\D/)
