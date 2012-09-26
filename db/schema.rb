@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120912191345) do
+ActiveRecord::Schema.define(:version => 20120926094213) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -60,6 +60,8 @@ ActiveRecord::Schema.define(:version => 20120912191345) do
     t.boolean  "jump_75_meter"
     t.boolean  "x_country"
     t.string   "heard_about_us"
+    t.integer  "leasing"
+    t.string   "horses"
   end
 
   create_table "events", :force => true do |t|
@@ -112,6 +114,9 @@ ActiveRecord::Schema.define(:version => 20120912191345) do
     t.boolean  "jump_5_meter"
     t.boolean  "jump_75_meter"
     t.boolean  "x_country"
+    t.boolean  "group",             :default => true
+    t.integer  "bhs",               :default => 1
+    t.boolean  "livery",            :default => false
   end
 
   create_table "notes", :force => true do |t|
