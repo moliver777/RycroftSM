@@ -415,7 +415,7 @@ function fancyConfirmAutoAssign(date) {
 						$("#fancyConfirm_cancel").hide();
 						$("#fancyConfirm_ok").val("Close").attr("disabled",false).unbind("click").click(function() {
 							jQuery.fancybox.close();
-							window.location.href = "/schedule";
+							window.location.href = "/bookings/date/"+date;
 						});
 					}
 				})

@@ -2,12 +2,12 @@
 	<table style="width:100%;">
 		<% @unconfirmed.each do |booking| %>
 			<% event = booking.event %>
-			<tr style="border-top:3px solid #5F5F5F;">
+			<tr style="border-top:3px solid #5F5F5F;cursor:pointer;" onclick="window.location.href='/bookings/show/<%= booking.id %>'">
 				<td><%= event.event_date.strftime("%d-%m-%Y") %></td>
 				<td><%= event.start_time.strftime("%l:%M %P") %></td>
 				<td><%= event.event_type.downcase.capitalize %></td>
 			</tr>
-			<tr style="border-bottom:3px solid #5F5F5F;">
+			<tr style="border-bottom:3px solid #5F5F5F;cursor:pointer;" onclick="window.location.href='/bookings/show/<%= booking.id %>'">
 				<td colspan="2"><%= booking.client.first_name %> <%= booking.client.last_name %></td>
 				<td><%= booking.client.home_phone %></td>
 			</tr>
