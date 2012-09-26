@@ -1,7 +1,30 @@
 <tr>
 	<td><%= text_field_tag "first_name", @client.first_name, :placeholder => "First Name", :class => "long client_field" %><%= hidden_field_tag "client_id", (@client.id || 0) %></td>
 	<td><%= text_field_tag "last_name", @client.last_name, :placeholder => "Last Name", :class => "long client_field" %></td>
-	<td><%= text_field_tag "date_of_birth", (@client.date_of_birth.strftime("%d-%m-%Y") rescue nil), :placeholder => "DD-MM-YYYY", :class => "client_field" %></td>
+	<td>
+		Date of Birth:
+		<select id="day" class="client_field">
+			<option value="0">DD</option>
+			<% 31.times do |d| %>
+				<% d+=1 %>
+				<option value="<%= d<10 ? "0#{d}" : d %>"><%= d %></option>
+			<% end %>
+		</select>
+		<select id="month" class="client_field">
+			<option value="0">MM</option>
+			<% 12.times do |m| %>
+				<% m+=1 %>
+				<option value="<%= m<10 ? "0#{m}" : m %>"><%= Date::MONTHNAMES[m] %></option>
+			<% end %>
+		</select>
+		<select id="year" class="client_field">
+			<option value="0">YYYY</option>
+			<% 100.times do |y| %>
+				<% y+=1 %>
+				<option value="<%= Date.today.year - y %>"><%= Date.today.year - y %></option>
+			<% end %>
+		</select>
+	</td>
 </tr>
 <tr>
 	<td><%= text_field_tag "address_line_1", @client.address_line_1, :placeholder => "Address Line 1", :class => "long client_field" %></td>
@@ -50,7 +73,12 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		try {$("select#standard.client_field").val("<%= @client.standard %>")} catch(e) {}
+		try {
+			$("select#standard.client_field").val("<%= @client.standard %>");
+			$("select#day").val("<%= @client.date_of_birth.strftime("%d") if @client.date_of_birth %>");
+			$("select#month").val("<%= @client.date_of_birth.strftime("%m") if @client.date_of_birth %>");
+			$("select#year").val("<%= @client.date_of_birth.strftime("%Y") if @client.date_of_birth %>");
+		} catch(e) {}
 
 		$("button#clear_booking_client").unbind("click").click(function() {
 			$("table.client_search").show();

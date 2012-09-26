@@ -21,7 +21,7 @@ class Client < ActiveRecord::Base
   def set_fields fields
     self.first_name = fields[:first_name]
     self.last_name = fields[:last_name]
-    self.date_of_birth = fields[:date_of_birth]
+    self.date_of_birth = fields[:day]+"-"+fields[:month]+"-"+fields[:year]
     self.last_reminder = Date.today
 
     self.address_line_1 = fields[:address_line_1]
@@ -45,7 +45,7 @@ class Client < ActiveRecord::Base
     self.emergency_contact_phone = fields[:emergency_contact_phone]
 
     self.times_ridden = fields[:times_ridden]
-    self.standard = fields[:standard]
+    self.standard = fields[:standard] unless fields[:standard]=="0"
     self.heard_about_us = fields[:heard_about_us]
     self.walk = fields[:walk] == "true" ? true : false
     self.trot_with = fields[:trot_with] == "true" ? true : false
