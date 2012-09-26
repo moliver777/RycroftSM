@@ -2,12 +2,16 @@
 	<th style="width:25%;">Title</th>
 	<th style="width:75%">Contents</th>
 </tr>
-<% if !@client.notes.where("start_date <= ? AND end_date >= ?", Date.today, Date.today).empty? %>
-	<% @client.notes.where("start_date <= ? AND end_date >= ?", Date.today, Date.today).each do |note| %>
-		<tr>
-			<td style="font-weight:bold;"><%= note.title %></td>
-			<td><%= note.content %></td>
-		</tr>
+<% if @client.id %>
+	<% if !@client.notes.where("start_date <= ? AND end_date >= ?", Date.today, Date.today).empty? %>
+		<% @client.notes.where("start_date <= ? AND end_date >= ?", Date.today, Date.today).each do |note| %>
+			<tr>
+				<td style="font-weight:bold;"><%= note.title %></td>
+				<td><%= note.content %></td>
+			</tr>
+		<% end %>
+	<% else %>
+		<tr><td colspan="2" style="text-align:center;">No notes found</td></tr>
 	<% end %>
 <% else %>
 	<tr><td colspan="2" style="text-align:center;">No notes found</td></tr>

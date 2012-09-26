@@ -116,7 +116,7 @@ class BookingsController < ApplicationController
       # create booking
       if client
         booking = Booking.new
-        booking.set_fields event.id, client.id, params[:fields][:cost], params[:fields][:horse_id]
+        booking.set_fields event.id, client.id, params[:fields][:horse_id]
         json[:booking_id] = booking.id
       end
     end
@@ -136,7 +136,7 @@ class BookingsController < ApplicationController
       event.set_fields params[:fields]
       # create booking
       booking = Booking.find(params[:booking_id])
-      booking.set_fields event.id, client.id, params[:fields][:cost], params[:fields][:horse_id]
+      booking.set_fields event.id, client.id, params[:fields][:horse_id]
       json[:booking_id] = booking.id
     end
     render :json => json
@@ -281,7 +281,7 @@ class BookingsController < ApplicationController
       event.set_fields params[:fields]
       booking = Booking.new
       booking.confirmed = true
-      booking.set_fields event.id, params[:fields][:client_id], params[:fields][:cost], params[:fields][:horse_id]
+      booking.set_fields event.id, params[:fields][:client_id], params[:fields][:horse_id]
       booking_id = booking.id
     end
     render :json => {:errors => errors, :booking_id => booking_id}
@@ -401,10 +401,6 @@ class BookingsController < ApplicationController
     end
     @errors << "Must select a start time." unless fields[:start_time].length > 0
     @errors << "Must select an end time." unless fields[:end_time].length > 0
-    # cost validation
-    if fields[:cost]
-      @errors << "Cost cannot be less than 0." if fields[:cost].to_f < 0.00
-    end
     # client validation
     if fields[:client]
       fields = fields[:client]

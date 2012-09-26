@@ -1,6 +1,5 @@
 <h2>Payment - <%= @event.event_date.strftime("%a") %> <%= @event.event_date.strftime("%d").to_i.ordinalize %> <%= @event.event_date.strftime("%b %Y") %> - <%= @event.start_time.strftime("%H:%M") %> - <%= @booking.client.first_name %> <%= @booking.client.last_name %></h2>
 <div class="form_section" style="text-align:center;">
-	Current Balance Owed: <%= number_to_currency(@booking.balance, :unit => "£", :precision => 2) %><br/>
 	<br/>
 	<table style="margin:auto;">
 		<tr>

@@ -5,10 +5,9 @@ class Booking < ActiveRecord::Base
   has_many :notes
   has_many :payments
 
-  def set_fields event, client, cost, horse
+  def set_fields event, client, horse
     self.event_id = event if event
     self.client_id = client if client
-    self.cost = cost.to_f if cost
     self.horse_id = horse && Horse.where(:id => horse).first ? horse : nil
 
     self.save!
