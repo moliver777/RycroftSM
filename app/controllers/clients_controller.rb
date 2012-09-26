@@ -5,6 +5,18 @@ class ClientsController < ApplicationController
     @clients = Client.order("first_name, last_name")
   end
 
+  def horses
+    @client = Client.find(params[:client_id])
+    @mapping = @client.horses ? @client.horses.split(";") : []
+    @horses = Horse.order("name")
+  end
+
+  def set_horses
+    client = Client.find(params[:client_id])
+    client.set_horses params[:fields]
+    render :nothing => true
+  end
+
   def sort
     @clients = Client.order(params[:sort]+" "+params[:mod]+", first_name, last_name")
     view = render_to_string(:partial => "table_contents")

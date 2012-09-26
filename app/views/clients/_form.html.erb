@@ -53,14 +53,14 @@
 	<table class="form_table">
 		<tr>
 			<td><%= text_field_tag "times_ridden", @client.times_ridden, :placeholder => "Times ridden in last 12months", :class => "long field" %></td>
-			<td><%= select_tag "standard", "<option>Select Riding Standard</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "field" %></td>
+			<td><%= select_tag "standard", "<option value='0'>Select Riding Standard</option><options value='LEAD-REIGN'>Lead-reign</option><option value='BEGINNER'>Beginner</option><option value='INTERMEDIATE'>Intermediate</option><option value='ADVANCED'>Advanced</option>".html_safe, :class => "field" %></td>
 		</tr>
 		<tr>
 			<td><%= text_field_tag "heard_about_us", @client.heard_about_us, :placeholder => "Heard About Us", :class => "long field" %></td>
 			<td colspan="4">
 				Client can:<br/>
 				Walk:<%= check_box_tag "walk", "", @client.walk, :class => "field break_right" %>Trot with Stirrups:<%= check_box_tag "trot_with", "", @client.trot_with, :class => "field break_right" %>Trot without Stirrups:<%= check_box_tag "trot_without", "", @client.trot_without, :class => "field break_right" %>Canter:<%= check_box_tag "canter", "", @client.canter, :class => "field break_right" %><br/>
-				Hack: <%= check_box_tag "hack", "", @client.hack, :class => "field break_right" %>Jump up to 0.5m:<%= check_box_tag "jump_5_meter", "", @client.jump_5_meter, :class => "field break_right" %>Jump up to 0.75m:<%= check_box_tag "jump_75_meter", "", @client.jump_75_meter, :class => "field break_right" %>Cross-Country:<%= check_box_tag "x_country", "", @client.x_country, :class => "field break_right" %>
+				Hack:<%= check_box_tag "hack", "", @client.hack, :class => "field break_right" %>Jump up to 0.5m:<%= check_box_tag "jump_5_meter", "", @client.jump_5_meter, :class => "field break_right" %>Jump up to 0.75m:<%= check_box_tag "jump_75_meter", "", @client.jump_75_meter, :class => "field break_right" %>Cross-Country:<%= check_box_tag "x_country", "", @client.x_country, :class => "field break_right" %>&nbsp;
 			</td>
 		</tr>
 	</table>

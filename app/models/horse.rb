@@ -1,16 +1,10 @@
 class Horse < ActiveRecord::Base
-  BEGINNER = "BEGINNER"
-  INTERMEDIATE = "INTERMEDIATE"
-  ADVANCED = "ADVANCED"
-  STANDARDS = [BEGINNER,INTERMEDIATE,ADVANCED]
-
   has_many :bookings
   has_many :notes
   has_many :events, :through => :bookings
 
   def set_fields fields
     self.name = fields[:name]
-    self.standard = fields[:standard]
     self.availability = fields[:availability] == "true" ? true : false
     self.max_day_workload = fields[:max_day_workload]
     self.max_weight = fields[:max_weight]

@@ -1,8 +1,9 @@
 class Client < ActiveRecord::Base
+  LEADREIGN = "LEAD-REIGN"
   BEGINNER = "BEGINNER"
   INTERMEDIATE = "INTERMEDIATE"
   ADVANCED = "ADVANCED"
-  STANDARDS = [BEGINNER,INTERMEDIATE,ADVANCED]
+  STANDARDS = [LEADREIGN,BEGINNER,INTERMEDIATE,ADVANCED]
 
   has_many :bookings
   has_many :notes
@@ -55,6 +56,12 @@ class Client < ActiveRecord::Base
     self.jump_75_meter = fields[:jump_75_meter] == "true" ? true : false
     self.x_country = fields[:x_country] == "true" ? true : false
 
+    self.save!
+  end
+
+  def set_horses fields
+    self.leasing = fields[:leasing] == "0" ? nil : fields[:leasing]
+    self.horses = fields[:horses].join(";")
     self.save!
   end
 

@@ -1,0 +1,48 @@
+<h2><%= @client.first_name %> <%= @client.last_name %> Horses</h2>
+<br/>
+<div class="center">
+	Leasing: 
+	<select id="leased">
+		<option value="0"></option>
+		<% @horses.each do |h| %>
+			<option value="<%= h.id %>"><%= h.name %></option>
+		<% end %>
+	</select>
+</div>
+<br/>
+<table id="horse_map">
+	<tr>
+		<% @horses.each_with_index do |h,i| %>
+			<td><%= check_box_tag h.id, "", (@mapping.include? "#{h.id}"), :class => "field" %><%= h.name %></td>
+			<% if i%5==0 && i>0 %>
+				</tr>
+				<tr>
+			<% end %>
+		<% end %>
+	</tr>
+</table>
+<div class="center">
+	<button id="save">Save</button>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("select#leased").val("<%= @client.leasing %>");
+
+		$("button#save").unbind("click").click(function() {
+			var params = {"horses" : []}
+			params["leasing"] = $("select#leased").val();
+			$.each($("input.field:checked"), function(i,h) {
+				params["horses"].push($(h).attr("id"));
+			})
+			$.ajax({
+				url: "/clients/set_horses/<%= @client.id %>",
+				type: "POST",
+				data: {fields: params},
+				success: function() {
+					window.location.replace("/clients");
+				}
+			});
+		})
+	})
+</script>
