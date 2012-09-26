@@ -3,10 +3,6 @@
 	<h3>Details</h3>
 	<table>
 		<tr>
-			<th>Standard:</th>
-			<td><%= @horse.standard %></td>
-		</tr>
-		<tr>
 			<th>Maximum Day Workload:</th>
 			<td><%= @horse.max_day_workload %></td>
 		</tr>
@@ -17,6 +13,14 @@
 		<tr>
 			<th>Max Weight (stones):</th>
 			<td><%= @horse.max_weight %></td>
+		</tr>
+		<tr>
+			<th>Group Lessons:</th>
+			<td><%= @horse.group ? 'Yes' : 'No' %></td>
+		</tr>
+		<tr>
+			<th>BHS Stage:</th>
+			<td>Stage <%= @horse.bhs %></td>
 		</tr>
 		<tr>
 			<th>Horse can:</th>

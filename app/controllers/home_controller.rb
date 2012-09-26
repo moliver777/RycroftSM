@@ -2,7 +2,6 @@ class HomeController < ApplicationController
   skip_before_filter :user_permission?
 
   def index
-    p "INDEX"
     @prompt = current_user.user_level == User::BASE ? false : auto_assign(false)
     @all_notes = Note.where("start_date <= ? AND end_date >= ? AND hidden = false", Date.today, Date.today).order("urgent DESC, end_date ASC")
     @date = Date.today

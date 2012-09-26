@@ -2,7 +2,6 @@
 	<% @horses.each do |horse| %>
 		<tr>
 			<td><%= horse.name if horse.name %></td>
-			<td><%= horse.standard.downcase.capitalize if horse.standard %></td>
 			<td><%= horse.max_day_workload if horse.max_day_workload %></td>
 			<td class="center">
 				<% if horse.availability %>
@@ -21,7 +20,7 @@
 	<% end %>
 <% else %>
 	<tr>
-		<td colspan="9" class="center"><strong>No horses found</strong></td>
+		<td colspan="4" class="center"><strong>No horses found</strong></td>
 	</tr>
 <% end %>
 

@@ -69,7 +69,6 @@ class HorsesController < ApplicationController
   def validation fields, id
     @errors = []
     @errors << "Horse must have a name." unless fields[:name].length > 0
-    @errors << "Horse must have a riding standard." if fields[:standard] == "0"
     @errors << "Max day workload must be between 1 and 24 hours." unless fields[:max_day_workload].to_i > 0 && fields[:max_day_workload].to_i < 25
     @validated = @errors.length > 0 ? false : true
   end
