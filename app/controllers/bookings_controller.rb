@@ -308,6 +308,10 @@ class BookingsController < ApplicationController
     render :nothing => true
   end
 
+  def other_payment
+    @payments = Payment.where(:booking_id => nil, :payment_date => Date.today).order("created_at ASC")
+  end
+
   def cash_up
     @date = params[:date] ? (Date.parse(params[:date]) rescue nil) : Date.today
     @totals = {"cash" => 0.00, "card" => 0.00, "cheque" => 0.00, "voucher" => 0.00, "total" => 0.00}
@@ -429,6 +433,9 @@ class BookingsController < ApplicationController
   def validate_payment fields
     @errors = []
     @errors << "Amount must be greater than 0." unless fields[:amount].to_f > 0
+    if !fields.include? :booking_id
+      @errors << "Must have a description." unless fields[:description].length > 0
+    end
     @validated = @errors.length > 0 ? false : true
   end
 

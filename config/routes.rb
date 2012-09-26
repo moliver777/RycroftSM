@@ -43,6 +43,7 @@ RycroftSM::Application.routes.draw do
   get "/bookings/payment/:booking_id" => "bookings#payment"
   post "/bookings/create_payment" => "bookings#create_payment"
   post "/bookings/delete_payment/:payment_id" => "bookings#delete_payment"
+  get "/other_payment" => "bookings#other_payment"
   get "/cash_up" => "bookings#cash_up"
   get "/cash_up/:date" => "bookings#cash_up"
 

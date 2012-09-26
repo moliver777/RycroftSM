@@ -11,7 +11,7 @@
 <table style="margin:auto;width:60%;">
 	<tr>
 		<th>Time</th>
-		<th>Booking</th>
+		<th>Booking/Description</th>
 		<th>Client</th>
 		<th>Amount</th>
 	</tr>
@@ -22,8 +22,13 @@
 		<% @payments["cash"].each do |payment| %>
 			<tr>
 				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
-				<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+				<% if payment.booking %>
+					<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+					<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+				<% else %>
+					<td><%= payment.description %></td>
+					<td><%= payment.reference %></td>
+				<% end %>
 				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
 			</tr>
 		<% end %>
@@ -39,8 +44,13 @@
 		<% @payments["card"].each do |payment| %>
 			<tr>
 				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
-				<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+				<% if payment.booking %>
+					<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+					<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+				<% else %>
+					<td><%= payment.description %></td>
+					<td><%= payment.reference %></td>
+				<% end %>
 				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
 			</tr>
 		<% end %>
@@ -56,8 +66,13 @@
 		<% @payments["cheque"].each do |payment| %>
 			<tr>
 				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
-				<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+				<% if payment.booking %>
+					<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+					<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+				<% else %>
+					<td><%= payment.description %></td>
+					<td><%= payment.reference %></td>
+				<% end %>
 				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
 			</tr>
 		<% end %>
@@ -73,8 +88,13 @@
 		<% @payments["voucher"].each do |payment| %>
 			<tr>
 				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
-				<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+				<% if payment.booking %>
+					<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+					<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
+				<% else %>
+					<td><%= payment.description %></td>
+					<td><%= payment.reference %></td>
+				<% end %>
 				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
 			</tr>
 		<% end %>

@@ -156,6 +156,32 @@ function savePayment(id) {
 	});
 }
 
+// SAVE OTHER PAYMENT
+function saveOtherPayment(id) {
+	var id = id;
+	$("ul#form_errors").empty();
+	params = {};
+	params["amount"] = $("input#amount").val();
+	params["payment_type"] = $('input:radio:checked').val();
+	params["reference"] = $("input#reference").val();
+	params["description"] = $("input#description").val();
+	$.ajax({
+		url: "/bookings/create_payment",
+		type: "POST",
+		data: {fields: params},
+		success: function(json) {
+			var json = json.errors;
+			if (json[0]) {
+				$.each(json, function(i,error) {
+					$("ul#form_errors").append("<li>"+error+"</li>");
+				})
+			} else {
+				window.location.reload();
+			}
+		}
+	});
+}
+
 // SAVE EVENT EDIT
 function completeEventEdit(id) {
 	$("ul#form_errors").empty();

@@ -2,7 +2,12 @@ class Payment < ActiveRecord::Base
   belongs_to :booking
 
   def set_fields fields
-    self.booking_id = fields[:booking_id]
+    if fields.include? :booking_id
+      self.booking_id = fields[:booking_id]
+    else
+      self.reference = fields[:reference]
+      self.description = fields[:description]
+    end
     self.cash = true if fields[:payment_type] == "cash"
     self.cc = true if fields[:payment_type] == "card"
     self.cheque = true if fields[:payment_type] == "cheque"

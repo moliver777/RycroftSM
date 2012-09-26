@@ -1,0 +1,61 @@
+<h2>Payment</h2>
+<div class="form_section" style="text-align:center;">
+	<table style="margin:auto;">
+		<tr>
+			<td>
+				<input type="radio" name="payment_type" value="cash" checked="checked" />
+				Cash
+			</td>
+			<td>
+				<input type="radio" name="payment_type" value="card" />
+				Card
+			</td>
+			<td>
+				<input type="radio" name="payment_type" value="cheque" />
+				Cheque
+			</td>
+			<td>
+				<input type="radio" name="payment_type" value="voucher" />
+				Voucher
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">Amount: <%= number_field_tag :amount, 0, :min => 0, :step => 0.01, :class => "field", :style => "width:150px;" %></td>
+		</tr>
+	</table>
+	<br/>
+	<table class="form_table" style="margin:auto;">
+		<tr>
+			<td>Customer Name: <%= text_field_tag :reference, "", :class => "field", :style => "width:200px;" %></td>
+		</tr>
+		<tr>
+			<td>Description: <%= text_field_tag :description, "", :class => "field", :style => "width:400px;" %></td>
+		</tr>
+	</table>
+</div>
+<div style="text-align:center;">
+	<ul class="error" id="form_errors" style="margin-left:45%;"></ul>
+	<button id="cancel" onclick="window.location.href = '/'">Cancel</button><button id="save" onclick="saveOtherPayment()">Save</button>
+</div>
+<br/><br/>
+<table style="width:100%;">
+	<tr>
+		<th colspan="5" style="text-align:center;">Payments</th>
+	</tr>
+	<% if !@payments.empty? %>
+		<% @payments.each do |payment| %>
+			<tr>
+				<td><%= payment.created_at.localtime.strftime("%d-%m-%Y %l:%M%P") if payment.created_at %></td>
+				<td><%= payment.reference %></td>
+				<td><%= payment.description %></td>
+				<td><%= payment.friendly_type %></td>
+				<td><%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %></td>
+				<td><a onclick="confirmation('<%= payment.friendly_type %> - <%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %>','/bookings/delete_payment/<%= payment.id %>')">Delete</a></td>
+			</tr>
+		<% end %>
+	<% else %>
+		<tr>
+			<td colspan="5">No payments made</td>
+		</tr>
+	<% end %>
+</table>
