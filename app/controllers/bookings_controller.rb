@@ -319,7 +319,7 @@ class BookingsController < ApplicationController
     @payments.each do |type,payments|
       payments.each do |p|
         @totals[type] += p.amount
-        @totals["total"] += p.amount
+        @totals["total"] += p.amount unless type=="voucher"
       end
     end
   end
