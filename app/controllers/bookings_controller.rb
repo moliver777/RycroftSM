@@ -410,7 +410,7 @@ class BookingsController < ApplicationController
       fields = fields[:client]
       @errors << "Client must have a first name." unless fields[:first_name].length > 0
       @errors << "Client must have a last name." unless fields[:last_name].length > 0
-      if fields[:date_of_birth].length > 0
+      if fields[:day].length > 0
         begin
           Date.parse(fields[:year]+"-"+fields[:month]+"-"+fields[:day])
         rescue
