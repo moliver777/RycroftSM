@@ -577,6 +577,17 @@ class BookingsController < ApplicationController
       event_splits << splits
     end
     # check valid with proposed event times
+    # event_splits.each_with_index do |event,i|
+    #   event.each do |split|
+    #     event_splits.each_with_index do |event2,j|
+    #       event2.each do |split2|
+    #         if i != j && split2 != event2.first && split2 != event2.last
+    #           valid = false if split == split2
+    #         end
+    #       end
+    #     end
+    #   end
+    # end
     return valid
   end
 

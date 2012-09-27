@@ -1,6 +1,6 @@
 <h2>Reports</h2>
 <div id="report_controls">
-	<%= text_field_tag "from_date", Date.today.advance(:days => -7).strftime("%d-%m-%Y"), :class => "date" %> to <%= text_field_tag "to_date", Date.today.strftime("%d-%m-%Y"), :class => "date" %>
+	<%= text_field_tag "from_date", Date.today.advance(:days => -7).strftime("%d-%m-%Y"), :class => "date" %> to <%= text_field_tag "to_date", Date.today.advance(:days => 7).strftime("%d-%m-%Y"), :class => "date" %>
 	<button id="update">Update</button>
 </div>
 <div id="report_contents">
