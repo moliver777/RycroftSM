@@ -1,7 +1,7 @@
 <% if !@results.empty? %>
 	<tr>
 		<% @results.each_with_index do |client,i| %>
-			<% if i==7 %>
+			<% if i%7==0 && i>0 %>
 				</tr>
 				<tr>
 			<% end %>
