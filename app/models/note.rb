@@ -55,13 +55,13 @@ class Note < ActiveRecord::Base
     when "GENERAL"
       title = ""
     when "BOOKING"
-      title = self.booking.event.event_type.downcase.capitalize+" "+event.start_time.strftime("%H:%M")+" : "+self.booking.client.first_name+" "+self.booking.client.last_name
+      title = self.booking.event.event_type.downcase.capitalize+" "+event.start_time.strftime("%H:%M")+" : "+self.booking.client.first_name+" "+self.booking.client.last_name if self.booking rescue "Booking"
     when "CLIENT"
-      title = self.client.first_name+" "+self.client.last_name
+      title = self.client.first_name+" "+self.client.last_name if self.client
     when "HORSE"
-      title = self.horse.name
+      title = self.horse.name if self.horse
     when "STAFF"
-      title = self.staff.first_name+" "+self.staff.last_name
+      title = self.staff.first_name+" "+self.staff.last_name if self.staff
     end
     title
   end
@@ -71,13 +71,13 @@ class Note < ActiveRecord::Base
     when "GENERAL"
       link = ""
     when "BOOKING"
-      link = "/bookings/show/"+self.booking.id.to_s
+      link = "/bookings/show/"+self.booking.id.to_s if self.booking
     when "CLIENT"
-      link = "/clients/show/"+self.client.id.to_s
+      link = "/clients/show/"+self.client.id.to_s if self.client
     when "HORSE"
-      link = "/horses/show/"+self.horse.id.to_s
+      link = "/horses/show/"+self.horse.id.to_s if self.horse
     when "STAFF"
-      link = "/staff/show/"+self.staff.id.to_s
+      link = "/staff/show/"+self.staff.id.to_s if self.staff
     end
     link
   end
