@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
 
   def index
     @from = Date.today.advance(:days => -7)
-    @to = Date.today
+    @to = Date.today.advance(:days => 7)
     horse_workloads
     horse_events
     client_ages

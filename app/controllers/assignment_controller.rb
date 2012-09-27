@@ -11,7 +11,7 @@ class AssignmentController < ApplicationController
 
   def auto_assign
     json = {}
-    bookings = Event.where(:event_date => params[:date]).order("start_time").map{|e| e.bookings}.flatten.select{|b| !b.horse}
+    bookings = Event.where("event_date = ? AND event_type IN (?)", params[:date], Event::HORSE).order("start_time").map{|e| e.bookings}.flatten.select{|b| !b.horse}
     bookings.each do |booking|
       horses = get_suitable_horses(booking.client)
       horses.each do |horse|
