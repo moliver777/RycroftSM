@@ -40,9 +40,7 @@
 	<td><%= text_field_tag "weight", @client.weight, :placeholder => "Weight (stones)", :class => "client_field" %></td>
 	<td><%= text_field_tag "post_code", @client.post_code, :placeholder => "Post Code", :class => "client_field" %></td>
 </tr>
-<tr>
-	<td><%= text_field_tag "email_address", @client.email_address, :placeholder => "Email", :class => "long client_field" %></td>
-</tr>
+
 <tr>
 	<td style="vertical-align:middle;">Serious injury from riding ever?: <%= check_box_tag "injury", "", @client.injury, :class => "client_field" %></td>
 	<td colspan="3"><%= text_area_tag "injury_details", @client.injury_details, :placeholder => "Please describe", :size => "70x3", :class => "client_field" %></td>
