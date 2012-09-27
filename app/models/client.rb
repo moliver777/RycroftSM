@@ -32,7 +32,7 @@ class Client < ActiveRecord::Base
     self.post_code = fields[:post_code]
     self.home_phone = fields[:home_phone]
     self.mobile_phone = fields[:mobile_phone]
-    self.email = fields[:email]
+    # self.email = fields[:email]
     self.height = fields[:height]
     self.weight = fields[:weight]
 
