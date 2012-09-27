@@ -67,6 +67,7 @@ class Client < ActiveRecord::Base
   end
 
   def age
+    return 0 unless self.date_of_birth
     now = Time.now.utc.to_date
     now.year - self.date_of_birth.year - ((now.month > self.date_of_birth.month || (now.month == self.date_of_birth.month && now.day >= self.date_of_birth.day)) ? 0 : 1)
   end
