@@ -10,7 +10,7 @@
 <% end %>
 <% if @staff1 %>
 	<tr id="st<%= @staff1.id %>">
-		<td class="tag"><%= @staff1.first_name %></td>
+		<td class="tag"><%= @staff1.first_name %> <%= @staff1.last_name[0] %></td>
 		<% 15.times do |hr| %>
 			<% hr += 7 %>
 			<% 4.times do |min| %>
@@ -47,7 +47,7 @@
 <% end %>
 <% if @staff2 %>
 	<tr id="st<%= @staff2.id %>">
-		<td class="tag"><%= @staff2.first_name %></td>
+		<td class="tag"><%= @staff2.first_name %> <%= @staff2.last_name[0] %></td>
 		<% 15.times do |hr| %>
 			<% hr += 7 %>
 			<% 4.times do |min| %>
@@ -84,7 +84,7 @@
 <% end %>
 <% if @staff3 %>
 	<tr id="st<%= @staff3.id %>">
-		<td class="tag"><%= @staff3.first_name %></td>
+		<td class="tag"><%= @staff3.first_name %> <%= @staff3.last_name[0] %></td>
 		<% 15.times do |hr| %>
 			<% hr += 7 %>
 			<% 4.times do |min| %>

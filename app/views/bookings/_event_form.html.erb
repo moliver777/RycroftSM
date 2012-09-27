@@ -89,6 +89,9 @@
 				var today = ((date.getDate() < 10) ? "0"+date.getDate() : date.getDate())+"-"+((date.getMonth()+1 < 10) ? "0"+(date.getMonth()+1) : (date.getMonth()+1))+"-"+date.getFullYear();
 				$("input#event_date").val(today);
 			}
+			$("select.staff_select").unbind("change").change(function() {
+				$("table#staff_timetable").load("/bookings/reload_staff/"+$("input#event_date").val()+"/"+$("select#staff_id").val()+"/"+$("select#staff_id2").val()+"/"+$("select#staff_id3").val()+"/"+$("select#event_mode").val())
+			})
 			$("table#venue_timetable").load("/bookings/reload_timetable/"+$("input#event_date").val()+"/"+$(this).val()+"/"+$("select#event_mode").val(), function() {
 				if (!window.blockWipeout) {
 					$("input#start_time").val("").trigger("change");
@@ -106,10 +109,8 @@
 					$("#set_time").removeClass().addClass("start").attr("disabled", true).html("Finished Setting Time");
 				}
 				$("div#horse_form_container").load("/bookings/refresh_horses/"+$("input#event_date").val());
+				$("select#staff_id").trigger("change");
 			});
-		})
-		$("select.staff_select").unbind("change").change(function() {
-			$("table#staff_timetable").load("/bookings/reload_staff/"+$("input#event_date").val()+"/"+$("select#staff_id").val()+"/"+$("select#staff_id2").val()+"/"+$("select#staff_id3").val()+"/"+$("select#event_mode").val())
 		})
 		$("input#event_date").unbind("change").change(function() {
 			$("select#master_venue_id").trigger("change");

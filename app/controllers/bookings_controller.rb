@@ -115,6 +115,7 @@ class BookingsController < ApplicationController
   end
 
   def create
+    @evt = params[:fields][:event_id] ? Event.find(params[:fields][:event_id]) : Event.new
     validation params[:fields], 0
     json = {}
     json[:errors] = @errors
@@ -139,6 +140,7 @@ class BookingsController < ApplicationController
   end
 
   def update
+    @evt = params[:fields][:event_id] ? Event.find(params[:fields][:event_id]) : Event.new
     validation params[:fields], params[:booking_id]
     json = {}
     json[:errors] = @errors
@@ -158,6 +160,7 @@ class BookingsController < ApplicationController
   end
 
   def update_event
+    @evt = params[:fields][:event_id] ? Event.find(params[:fields][:event_id]) : Event.new
     validation params[:fields], params[:event_id]
     json = {}
     json[:errors] = @errors
@@ -416,6 +419,16 @@ class BookingsController < ApplicationController
     end
     @errors << "Must select a start time." unless fields[:start_time].length > 0
     @errors << "Must select an end time." unless fields[:end_time].length > 0
+    # staff double booking validation
+    staff1 = Staff.where(:id => fields[:staff_id]).first
+    staff2 = Staff.where(:id => fields[:staff_id2]).first
+    staff3 = Staff.where(:id => fields[:staff_id2]).first
+    valid = staff1 ? validate_staff(staff1) : true
+    @errors << "#{staff1.first_name} #{staff1.last_name} is double booked at the selected times." unless valid
+    valid = staff2 ? validate_staff(staff2) : true
+    @errors << "#{staff2.first_name} #{staff2.last_name} is double booked at the selected times." unless valid
+    valid = staff3 ? validate_staff(staff3) : true
+    @errors << "#{staff3.first_name} #{staff3.last_name} is double booked at the selected times." unless valid
     # client validation
     if fields[:client]
       fields = fields[:client]
@@ -540,6 +553,31 @@ class BookingsController < ApplicationController
       new_time = new_hour+":"+new_mins
     end
     splits
+  end
+
+  def validate_staff staff
+    valid = true
+    event_splits = []
+    staff.all_events.each do |event|
+      splits = []
+      if event.id != @evt.id
+        splits << event.start_time.strftime("%H:%M")
+        hour = event.start_time.strftime("%H")
+        mins = event.start_time.strftime("%M")
+        while hour.to_s+":"+mins.to_s != event.end_time.strftime("%H:%M")
+          mins = mins.to_i+15
+          if mins == 60
+            mins = "00"
+            hour = hour.to_i+1
+            hour = "0"+hour.to_s if hour < 10
+          end
+          splits << hour.to_s+":"+mins.to_s
+        end
+      end
+      event_splits << splits
+    end
+    # check valid with proposed event times
+    return valid
   end
 
 end
