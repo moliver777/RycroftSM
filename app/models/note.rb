@@ -55,7 +55,7 @@ class Note < ActiveRecord::Base
     when "GENERAL"
       title = ""
     when "BOOKING"
-      title = self.booking.event.event_type.downcase.capitalize+" "+event.start_time.strftime("%H:%M")+" : "+self.booking.client.first_name+" "+self.booking.client.last_name if self.booking rescue "Booking"
+      title = self.booking.event.event_type.downcase.capitalize+" "+self.booking.event.start_time.strftime("%l:%M%P")+" : "+self.booking.client.first_name+" "+self.booking.client.last_name if self.booking
     when "CLIENT"
       title = self.client.first_name+" "+self.client.last_name if self.client
     when "HORSE"
