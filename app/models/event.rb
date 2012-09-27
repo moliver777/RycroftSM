@@ -64,6 +64,21 @@ class Event < ActiveRecord::Base
     hours.to_s+":"+(mins == 0 ? "00" : mins.to_s)
   end
 
+  def payment_duration
+    return "N/A" unless self.start_time && self.end_time
+    duration = self.end_time-self.start_time
+    hours = (duration/3600).to_i
+    mins = (duration/60 - hours*60).to_i
+    result = ""
+    if hours > 0
+      result += hours.to_s
+      result += hours > 1 ? " hours" : " hour"
+      result += " " if mins > 0
+    end
+    result += mins.to_s+" mins" if mins > 0
+    result
+  end
+
   def duration_mins
     return 0 unless self.start_time && self.end_time
     duration = self.end_time-self.start_time
