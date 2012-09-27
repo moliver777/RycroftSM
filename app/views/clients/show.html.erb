@@ -27,7 +27,10 @@
 			<th>Telephone:</th>
 			<td>Home: <%= @client.home_phone %><br/>Mobile: <%= @client.mobile_phone %></td>
 		</tr>
-
+		<tr>
+			<th>Email:</th>
+			<td><%= @client.email_address %></td>
+		</tr>
 		<tr>
 			<th>Previous Injury:</th>
 			<td><%= @client.injury ? @client.injury_details : "None" %></td>
