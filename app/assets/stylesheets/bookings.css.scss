@@ -59,25 +59,21 @@ tr.spaced td {
 }
 
 /* VENUE TIMETABLE */
+table td.arch {
+  width: 6%;
+}
+
 #venue_timetable {
   margin-top: 10px;
   width: 100%;
 }
 
-#venue_timetable td.selected {
+#venue_timetable td.selected, #staff_timetable td.selected {
   background-color: yellow;
 }
 
-#venue_timetable td.used {
+#venue_timetable td.used, #staff_timetable td.used {
   background-color: red;
-}
-
-#venue_timetable td.first {
-  border-left-width: 3px;
-}
-
-#venue_timetable td.last {
-  border-right-width: 3px;
 }
 
 #client_search_results td.result {

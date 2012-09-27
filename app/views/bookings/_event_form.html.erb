@@ -38,7 +38,7 @@
 		<%= hidden_field_tag "start_time", (@event.start_time.strftime("%H:%M") rescue nil), :disabled => true, :class => "field short" %>
 		Duration:<%= text_field_tag "duration", @event.duration, :disabled => true, :class => "short" %></td>
 		<td>
-			<select id="staff_id" class="field">
+			<select id="staff_id" class="staff_select field">
 				<option value="0">Instructor</option>
 				<% Staff.order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
@@ -46,7 +46,7 @@
 			</select>
 		</td>
 		<td>
-			<select id="staff_id2" class="field">
+			<select id="staff_id2" class="staff_select field">
 				<option value="0">Instructor</option>
 				<% Staff.order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
@@ -54,7 +54,7 @@
 			</select>
 		</td>
 		<td>
-			<select id="staff_id3" class="field">
+			<select id="staff_id3" class="staff_select field">
 				<option value="0">Instructor</option>
 				<% Staff.order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
@@ -76,6 +76,9 @@
 	<% end %>
 	<button id="clear">Clear</button>
 </div>
+<table id="staff_timetable" style="width:100%">
+	<%= render :partial => "staff_timetable" %>
+</table>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -105,8 +108,12 @@
 				$("div#horse_form_container").load("/bookings/refresh_horses/"+$("input#event_date").val());
 			});
 		})
+		$("select.staff_select").unbind("change").change(function() {
+			$("table#staff_timetable").load("/bookings/reload_staff/"+$("input#event_date").val()+"/"+$("select#staff_id").val()+"/"+$("select#staff_id2").val()+"/"+$("select#staff_id3").val()+"/"+$("select#event_mode").val())
+		})
 		$("input#event_date").unbind("change").change(function() {
 			$("select#master_venue_id").trigger("change");
+			$("select#staff_id").trigger("change");
 		})
 		$("input#start_time").unbind("change").change(function() {
 			$("input#formatted_start_time").val(formatTime($(this).val()));

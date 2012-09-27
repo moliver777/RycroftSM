@@ -82,11 +82,26 @@ class BookingsController < ApplicationController
   end
 
   def reload_timetable
-    @event = Event.where(:id => params[:event_id]).first
-    @venue = Venue.where(:id => params[:venue_id]).first
-    @venues = Venue.where(:name => @venue.name)
-    @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id IN (?)", Date.parse(params[:date]), @venues.map{|v| v.id})) if @venues
+    begin
+      @event = Event.where(:id => params[:event_id]).first
+      @venue = Venue.where(:id => params[:venue_id]).first
+      @venues = Venue.where(:name => @venue.name)
+      @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id IN (?)", Date.parse(params[:date]), @venues.map{|v| v.id})) if @venues
+    rescue
+      puts "No venue selected"
+    end
     render :partial => "venue_timetable"
+  end
+
+  def reload_staff
+    @event = Event.where(:id => params[:event_id]).first
+    @staff1 = Staff.where(:id => params[:staff_id]).first
+    @staff2 = Staff.where(:id => params[:staff_id2]).first
+    @staff3 = Staff.where(:id => params[:staff_id3]).first
+    @staff1_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? || staff_id2 = ? || staff_id3 = ?)", Date.parse(params[:date]), @staff1.id, @staff1.id, @staff1.id)) if @staff1
+    @staff2_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? || staff_id2 = ? || staff_id3 = ?)", Date.parse(params[:date]), @staff2.id, @staff2.id, @staff2.id)) if @staff2
+    @staff3_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? || staff_id2 = ? || staff_id3 = ?)", Date.parse(params[:date]), @staff3.id, @staff3.id, @staff3.id)) if @staff3
+    render :partial => "staff_timetable"
   end
 
   def show

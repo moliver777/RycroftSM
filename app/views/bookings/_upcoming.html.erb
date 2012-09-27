@@ -13,7 +13,7 @@
 <br/>
 <table id="upcoming" style="width:100%">
 	<tr class="header">
-		<th>Start Time</th>
+		<th>Time</th>
 		<th>Horse</th>
 		<th>Client</th>
 		<th>Type</th>
@@ -25,7 +25,7 @@
 		<% @upcoming.each do |event| %>
 			<% if event.bookings.empty? %>
 					<tr>
-						<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %></td>
+						<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %>-<%= event.end_time.strftime("%l:%M%P") if event.end_time %></td>
 						<td colspan="2"></td>
 						<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
 						<td><%= event.staff_list %></td>
@@ -36,7 +36,7 @@
 			<% event.bookings.includes(:client).sort{|a,b| a.client.last_name <=> b.client.last_name}.each_with_index do |booking,i| %>
 				<tr>
 					<% if i==0 %>
-						<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %></td>
+						<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %>-<%= event.end_time.strftime("%l:%M%P") if event.end_time %></td>
 					<% elsif i==1 %>
 						<td rowspan="<%= event.bookings.count-1 %>"></td>
 					<% end %>

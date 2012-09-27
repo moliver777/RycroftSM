@@ -1,0 +1,121 @@
+<% if @staff1 || @staff2 || @staff3 %>
+	<tr>
+		<td class="tag"></td>
+		<% 15.times do |hr| %>
+			<% hr += 7 %>
+			<% ahr = hr > 12 ? hr-12 : hr %>
+			<td class="arch" colspan="4"><%= "#{ahr}:00" %><%= hr < 12 ? 'am' : 'pm' %></td>
+		<% end %>
+	</tr>
+<% end %>
+<% if @staff1 %>
+	<tr id="st<%= @staff1.id %>">
+		<td class="tag"><%= @staff1.first_name %></td>
+		<% 15.times do |hr| %>
+			<% hr += 7 %>
+			<% 4.times do |min| %>
+				<% min = min*15 %>
+				<td class="iseg" style="height:20px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+			<% end %>
+		<% end %>
+	</tr>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var staff_events = JSON.parse('<%= @staff1_events.to_json.html_safe %>');
+			$.each(staff_events, function(i,evt) {
+				var count = -1;
+				var current = (evt.id == parseInt("<%= @event.id if @event %>"));
+				$.each($("tr#st<%= @staff1.id %> td.iseg"), function(j,seg) {
+					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
+						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");
+						count = 1;
+					}
+					if (count != -1) {
+						if (count < evt.duration) {
+							count++;
+							current ? $(seg).addClass("selected") : $(seg).addClass("used");
+						} else {
+							count = -1;
+							current ? $(seg).addClass("selected last") : $(seg).addClass("used last");
+						}
+					}
+				})
+			})
+		})
+	</script>
+<% end %>
+<% if @staff2 %>
+	<tr id="st<%= @staff2.id %>">
+		<td class="tag"><%= @staff2.first_name %></td>
+		<% 15.times do |hr| %>
+			<% hr += 7 %>
+			<% 4.times do |min| %>
+				<% min = min*15 %>
+				<td class="iseg" style="height:20px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+			<% end %>
+		<% end %>
+	</tr>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var staff_events = JSON.parse('<%= @staff2_events.to_json.html_safe %>');
+			$.each(staff_events, function(i,evt) {
+				var count = -1;
+				var current = (evt.id == parseInt("<%= @event.id if @event %>"));
+				$.each($("tr#st<%= @staff2.id %> td.iseg"), function(j,seg) {
+					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
+						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");
+						count = 1;
+					}
+					if (count != -1) {
+						if (count < evt.duration) {
+							count++;
+							current ? $(seg).addClass("selected") : $(seg).addClass("used");
+						} else {
+							count = -1;
+							current ? $(seg).addClass("selected last") : $(seg).addClass("used last");
+						}
+					}
+				})
+			})
+		})
+	</script>
+<% end %>
+<% if @staff3 %>
+	<tr id="st<%= @staff3.id %>">
+		<td class="tag"><%= @staff3.first_name %></td>
+		<% 15.times do |hr| %>
+			<% hr += 7 %>
+			<% 4.times do |min| %>
+				<% min = min*15 %>
+				<td class="iseg" style="height:20px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+			<% end %>
+		<% end %>
+	</tr>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var staff_events = JSON.parse('<%= @staff3_events.to_json.html_safe %>');
+			$.each(staff_events, function(i,evt) {
+				var count = -1;
+				var current = (evt.id == parseInt("<%= @event.id if @event %>"));
+				$.each($("tr#st<%= @staff3.id %> td.iseg"), function(j,seg) {
+					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
+						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");
+						count = 1;
+					}
+					if (count != -1) {
+						if (count < evt.duration) {
+							count++;
+							current ? $(seg).addClass("selected") : $(seg).addClass("used");
+						} else {
+							count = -1;
+							current ? $(seg).addClass("selected last") : $(seg).addClass("used last");
+						}
+					}
+				})
+			})
+		})
+	</script>
+<% end %>

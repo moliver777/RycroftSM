@@ -26,6 +26,7 @@ RycroftSM::Application.routes.draw do
   post "/bookings/cancel/:booking_id" => "bookings#destroy"
   post "/bookings/cancel_event/:event_id" => "bookings#destroy_event"
   get "/bookings/reload_timetable/:date/:venue_id/:event_id" => "bookings#reload_timetable"
+  get "/bookings/reload_staff/:date/:staff_id/:staff_id2/:staff_id3/:event_id" => "bookings#reload_staff"
   get "/bookings/get_event/:event_id" => "bookings#event"
   get "/bookings/get_client/:client_id" => "bookings#client"
   get "/bookings/refresh_horses/:date" => "bookings#horses"
