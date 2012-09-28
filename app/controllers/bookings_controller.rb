@@ -72,6 +72,12 @@ class BookingsController < ApplicationController
       @booking = Booking.new
       @event_edit_flag = true
     end
+    @staff1 = Staff.where(:id => @event.staff_id).first
+    @staff2 = Staff.where(:id => @event.staff_id2).first
+    @staff3 = Staff.where(:id => @event.staff_id3).first
+    @staff1_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff1.id, @staff1.id, @staff1.id)) if @staff1
+    @staff2_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff2.id, @staff2.id, @staff2.id)) if @staff2
+    @staff3_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff3.id, @staff3.id, @staff3.id)) if @staff3
     @events = [@event]
     Event.where("event_date >= ? AND id != ?", Date.today, @event.id).order("event_date, start_time").each{|evt| @events << evt}
     @venue = Venue.where(:id => @event.master_venue_id).first
@@ -423,11 +429,11 @@ class BookingsController < ApplicationController
     staff1 = Staff.where(:id => fields[:staff_id]).first
     staff2 = Staff.where(:id => fields[:staff_id2]).first
     staff3 = Staff.where(:id => fields[:staff_id2]).first
-    valid = staff1 ? validate_staff(staff1) : true
+    valid = staff1 ? validate_staff(staff1, fields) : true
     @errors << "#{staff1.first_name} #{staff1.last_name} is double booked at the selected times." unless valid
-    valid = staff2 ? validate_staff(staff2) : true
+    valid = staff2 ? validate_staff(staff2, fields) : true
     @errors << "#{staff2.first_name} #{staff2.last_name} is double booked at the selected times." unless valid
-    valid = staff3 ? validate_staff(staff3) : true
+    valid = staff3 ? validate_staff(staff3, fields) : true
     @errors << "#{staff3.first_name} #{staff3.last_name} is double booked at the selected times." unless valid
     # client validation
     if fields[:client]
@@ -450,6 +456,7 @@ class BookingsController < ApplicationController
         @errors << "Mobile phone number is invalid." if fields[:mobile_phone].match(/\D/)
       end
     end
+    @errors = @errors.uniq
     @validated = @errors.length > 0 ? false : true
   end
 
@@ -555,7 +562,7 @@ class BookingsController < ApplicationController
     splits
   end
 
-  def validate_staff staff
+  def validate_staff staff, fields
     valid = true
     event_splits = []
     staff.all_events.each do |event|
@@ -577,17 +584,15 @@ class BookingsController < ApplicationController
       event_splits << splits
     end
     # check valid with proposed event times
-    # event_splits.each_with_index do |event,i|
-    #   event.each do |split|
-    #     event_splits.each_with_index do |event2,j|
-    #       event2.each do |split2|
-    #         if i != j && split2 != event2.first && split2 != event2.last
-    #           valid = false if split == split2
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
+    event_splits.each_with_index do |event,i|
+      event.each do |split|
+        Event.get_splits_times(Time.parse(fields[:start_time]),Time.parse(fields[:end_time])).each do |split2|
+          if split != event.first && split != event.last
+            valid = false if split == split2
+          end
+        end
+      end
+    end
     return valid
   end
 

@@ -83,15 +83,15 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("select#master_venue_id").val("<%= @event.master_venue_id %>");
+		$("select.staff_select").unbind("change").change(function() {
+			$("table#staff_timetable").load("/bookings/reload_staff/"+$("input#event_date").val()+"/"+$("select#staff_id").val()+"/"+$("select#staff_id2").val()+"/"+$("select#staff_id3").val()+"/"+$("select#event_mode").val())
+		})
 		$("select#master_venue_id").unbind("change").change(function() {
 			if ($("input#event_date").val().length == 0) {
 				var date = new Date();
 				var today = ((date.getDate() < 10) ? "0"+date.getDate() : date.getDate())+"-"+((date.getMonth()+1 < 10) ? "0"+(date.getMonth()+1) : (date.getMonth()+1))+"-"+date.getFullYear();
 				$("input#event_date").val(today);
 			}
-			$("select.staff_select").unbind("change").change(function() {
-				$("table#staff_timetable").load("/bookings/reload_staff/"+$("input#event_date").val()+"/"+$("select#staff_id").val()+"/"+$("select#staff_id2").val()+"/"+$("select#staff_id3").val()+"/"+$("select#event_mode").val())
-			})
 			$("table#venue_timetable").load("/bookings/reload_timetable/"+$("input#event_date").val()+"/"+$(this).val()+"/"+$("select#event_mode").val(), function() {
 				if (!window.blockWipeout) {
 					$("input#start_time").val("").trigger("change");

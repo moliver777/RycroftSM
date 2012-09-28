@@ -123,6 +123,23 @@ class Event < ActiveRecord::Base
     splits
   end
 
+  def self.get_splits_times start_time, end_time
+    splits = [start_time.strftime("%H:%M")]
+    hour = start_time.strftime("%H").to_i
+    mins = start_time.strftime("%M").to_i
+    time = nil
+    while time != end_time.strftime("%H:%M")
+      mins += 15
+      mins = 0 if mins == 60
+      hour += 1 if mins == 0
+      new_hour = hour < 10 ? "0#{hour}" : "#{hour}"
+      new_mins = mins == 0 ? "00" : "#{mins}"
+      time = new_hour+":"+new_mins
+      splits << time
+    end
+    splits
+  end
+
   def self.status
     issues = []
     Event.where(:event_date => Date.today).each do |event|
