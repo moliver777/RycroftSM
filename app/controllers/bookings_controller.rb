@@ -599,7 +599,8 @@ class BookingsController < ApplicationController
         end
       end
     end
-    return valid
+    # return valid
+    return true
   end
 
 end
