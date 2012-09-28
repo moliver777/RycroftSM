@@ -74,7 +74,7 @@
 				<tr>
 					<td><%= payment.created_at.localtime.strftime("%d-%m-%Y %l:%M%P") if payment.created_at %></td>
 					<td><%= payment.friendly_type %></td>
-					<% if payment.voucher || payment.hours %>
+					<% if payment.voucher || payment.hours || payment.foc %>
 						<td><%= payment.amount %></td>
 					<% else %>
 						<td><%= number_to_currency(payment.amount, :unit => "£", :precision => 2) %></td>

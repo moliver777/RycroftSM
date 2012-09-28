@@ -118,8 +118,8 @@
 	<tr>
 		<th colspan="4" style="text-align:center;">FREE OF CHARGE</th>
 	</tr>
-	<% if @payments["hours"] %>
-		<% @payments["hours"].each do |payment| %>
+	<% if @payments["foc"] %>
+		<% @payments["foc"].each do |payment| %>
 			<tr>
 				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 				<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
