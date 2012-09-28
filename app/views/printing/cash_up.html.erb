@@ -25,7 +25,7 @@
 	<body>
 		<% @date = Date.parse(@date) %>
 		<h1>CASH UP - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h1>
-		<table style="margin:auto;width:60%;">
+		<table style="width:100%;">
 			<tr>
 				<th>Time</th>
 				<th>Booking/Description</th>
