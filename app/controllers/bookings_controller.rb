@@ -361,33 +361,40 @@ class BookingsController < ApplicationController
     venue_id = nil
     old_booking = Booking.find(params[:booking_id])
     old_event = old_booking.event
-    Venue.where(:name => old_event.venue.name).order("id DESC").each do |venue|
-      venue_id = venue.id unless Event.where("event_date = ? AND venue_id = ? AND start_time < ? AND end_time > ?", params[:event_date], venue.id, params[:end_time], params[:start_time]).first
-    end
-    valid = true
-    if params[:cost].to_f < 0.00
-      json[:errors] << "Cost cannot be less than 0." 
-      valid = false
-    end
-    if venue_id && valid
-      new_event = Event.new
-      new_event.rebook old_event, venue_id, params
-      new_booking = Booking.new
-      new_booking.rebook old_booking, new_event, params
-      json[:booking_id] = new_booking.id
-    else
-      json[:errors] << "Could not rebook at this time."
-      hr = 7
-      min = 0
-      splits = []
-      while hr < 23 || min < 15
-        current = "#{0 if hr < 10}#{hr}:#{0 if min < 10}#{min}"
-        splits << current unless Event.where("event_date = ? AND venue_id IN (?) AND start_time < ? AND end_time > ?", params[:event_date], Venue.where(:name => old_event.venue.name).map{|v| v.id}, current, current).first
-        min == 45 ? min = 0 : min += 15
-        hr += 1 if min == 0
+    if Event.where(:id => old_event.rebook_id, :event_date => Date.parse(params[:event_date]), :start_time => params[:start_time], :end_time => params[:end_time]).first
+      rebooked_event = Event.where(:id => old_event.rebook_id).first
+      json[:errors] << "There was an error. Please contact support" unless rebooked_event
+      if rebooked_event
+        new_booking = Booking.new
+        new_booking.rebook old_booking, rebooked_event, params
+        json[:booking_id] = new_booking.id
       end
-      json[:errors] << (splits[0] ? "Available times for #{old_event.venue.name}: "+available_times(splits) : "No available times!")
-      json[:errors] << "If you are having problems, try opening the schedule for the desired day in a new window to see if the event is trying to book across different rows, or go to the new booking form and attempt to make the booking manually."
+    else
+      Venue.where(:name => old_event.venue.name).order("id DESC").each do |venue|
+        venue_id = venue.id unless Event.where("event_date = ? AND venue_id = ? AND start_time < ? AND end_time > ?", Date.parse(params[:event_date]), venue.id, params[:end_time], params[:start_time]).first
+      end
+      if venue_id
+        new_event = Event.new
+        new_event.rebook old_event, venue_id, params
+        old_event.rebook_id = new_event.id
+        old_event.save!
+        new_booking = Booking.new
+        new_booking.rebook old_booking, new_event, params
+        json[:booking_id] = new_booking.id
+      else
+        json[:errors] << "Could not rebook at this time."
+        hr = 7
+        min = 0
+        splits = []
+        while hr < 23 || min < 15
+          current = "#{0 if hr < 10}#{hr}:#{0 if min < 10}#{min}"
+          splits << current unless Event.where("event_date = ? AND venue_id IN (?) AND start_time < ? AND end_time > ?", params[:event_date], Venue.where(:name => old_event.venue.name).map{|v| v.id}, current, current).first
+          min == 45 ? min = 0 : min += 15
+          hr += 1 if min == 0
+        end
+        json[:errors] << (splits[0] ? "Available times for #{old_event.venue.name}: "+available_times(splits) : "No available times!")
+        json[:errors] << "If you are having problems, try opening the schedule for the desired day in a new window to see if the event is trying to book across different rows, or go to the new booking form and attempt to make the booking manually."
+      end
     end
     render :json => json
   end
