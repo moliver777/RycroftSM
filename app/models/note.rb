@@ -102,4 +102,19 @@ class Note < ActiveRecord::Base
     end
     Note.where("urgent = ? AND start_date <= ? AND end_date >= ? AND hidden = false", true, Date.today, Date.today)
   end
+
+  def self.birthday_notes
+    # if its a clients brithday
+      # if birthday_note = false
+        # create a birthday note showing just today
+        # set birthday_note = true
+        # save client
+      # end
+    # else
+      # if birthday_note = true
+        # set_birthday_note = false
+        # save client
+      # end
+    # end
+  end
 end

@@ -68,7 +68,7 @@
 								<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
 							</tr>
 						<% end %>
-						<tr class="bottom">
+						<tr>
 							<% if duration %>
 								<td></td>
 							<% else %>
@@ -76,6 +76,9 @@
 								<td><%= event.payment_duration %></td>
 							<% end %>
 							<td colspan="2"><strong>Notes:</strong> <%= event.description if event.description %></td>
+						</tr>
+						<tr class="bottom">
+							<td colspan="3">&nbsp;</td>
 						</tr>
 					<% end %>
 				</table>
