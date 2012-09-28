@@ -37,7 +37,6 @@
 	<table>
 		<tr>
 			<th>Name</th>
-			<th>Standard</th>
 			<th>Horse</th>
 			<th></th>
 		</tr>
@@ -45,7 +44,6 @@
 			<% @event.bookings.each do |booking| %>
 				<tr>
 					<td><%= booking.client.first_name+" "+booking.client.last_name if booking.client %></td>
-					<td><%= booking.client.standard.downcase.capitalize if booking.client %></td>
 					<td><%= booking.horse.name if booking.horse %></td>
 					<td><a href="/bookings/edit/<%= booking.id %>">Edit</td>
 				</tr>
