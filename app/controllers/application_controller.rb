@@ -185,7 +185,7 @@ class ApplicationController < ActionController::Base
       block = Date.parse(SiteSetting.where(:name => "block_auto_assign_prompt").first.value)
       return false if Date.today == block
     end
-    Event.where(:event_date => Date.today).each do |evt|
+    Event.where("event_date = ? AND event_type IN (?)", Date.today, Event::HORSE).each do |evt|
       evt.bookings.each do |booking|
         return true unless booking.horse
       end
