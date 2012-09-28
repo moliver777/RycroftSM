@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120928112413) do
+ActiveRecord::Schema.define(:version => 20120928144400) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(:version => 20120928112413) do
     t.string   "description"
     t.string   "reference"
     t.boolean  "hours",        :default => false
+    t.boolean  "foc",          :default => false
   end
 
   create_table "preferences", :force => true do |t|

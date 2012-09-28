@@ -338,12 +338,12 @@ class BookingsController < ApplicationController
 
   def cash_up
     @date = params[:date] ? (Date.parse(params[:date]) rescue nil) : Date.today
-    @totals = {"cash" => 0.00, "card" => 0.00, "cheque" => 0.00, "voucher" => 0.00, "hours" => 0.00, "total" => 0.00}
+    @totals = {"cash" => 0.00, "card" => 0.00, "cheque" => 0.00, "voucher" => 0.00, "hours" => 0.00, "foc" => 0.00, "total" => 0.00}
     @payments = Payment.where(:payment_date => @date).group_by{|p| p.friendly_type.downcase}
     @payments.each do |type,payments|
       payments.each do |p|
         @totals[type] += p.amount
-        @totals["total"] += p.amount unless type=="voucher" || type=="hours"
+        @totals["total"] += p.amount unless type=="voucher" || type=="hours" || type=="foc"
       end
     end
   end

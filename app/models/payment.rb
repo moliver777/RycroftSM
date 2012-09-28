@@ -13,6 +13,7 @@ class Payment < ActiveRecord::Base
     self.cheque = true if fields[:payment_type] == "cheque"
     self.voucher = true if fields[:payment_type] == "voucher"
     self.hours = true if fields[:payment_type] == "hours"
+    self.foc = true if fields[:payment_type] == "foc"
     self.amount = fields[:amount]
     self.payment_date = Date.today
 
@@ -31,6 +32,8 @@ class Payment < ActiveRecord::Base
       text = "Voucher"
     elsif self.hours
       text = "Hours"
+    elsif self.foc
+      text = "FOC"
     end
     text
   end
