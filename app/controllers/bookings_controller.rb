@@ -422,7 +422,8 @@ class BookingsController < ApplicationController
         "hour" => event.start_time.strftime("%H"),
         "mins" => event.start_time.strftime("%M"),
         "duration" => event.segment_duration,
-        "venue_id" => event.venue_id
+        "venue_id" => event.venue_id,
+        "desc" => "CLIENTS: "+event.client_list+" --- HORSES: "+event.horse_list+" --- INSTRUCTORS: "+event.staff_list
       }
       formatted_events << formatted_event
     end

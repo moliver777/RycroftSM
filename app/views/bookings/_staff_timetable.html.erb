@@ -29,15 +29,18 @@
 				$.each($("tr#st<%= @staff1.id %> td.iseg"), function(j,seg) {
 					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
 						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");
+						$(seg).attr("title",evt.desc);
 						count = 1;
 					}
 					if (count != -1) {
 						if (count < evt.duration) {
 							count++;
 							current ? $(seg).addClass("selected") : $(seg).addClass("used");
+							$(seg).attr("title",evt.desc);
 						} else {
 							count = -1;
 							current ? $(seg).addClass("selected last") : $(seg).addClass("used last");
+							$(seg).attr("title",evt.desc);
 						}
 					}
 				})
@@ -66,15 +69,18 @@
 				$.each($("tr#st<%= @staff2.id %> td.iseg"), function(j,seg) {
 					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
 						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");
+						$(seg).attr("title",evt.desc);
 						count = 1;
 					}
 					if (count != -1) {
 						if (count < evt.duration) {
 							count++;
 							current ? $(seg).addClass("selected") : $(seg).addClass("used");
+							$(seg).attr("title",evt.desc);
 						} else {
 							count = -1;
 							current ? $(seg).addClass("selected last") : $(seg).addClass("used last");
+							$(seg).attr("title",evt.desc);
 						}
 					}
 				})
@@ -103,15 +109,18 @@
 				$.each($("tr#st<%= @staff3.id %> td.iseg"), function(j,seg) {
 					if ($(seg).attr("hour") == evt.hour && $(seg).attr("mins") == evt.mins) {
 						current ? $(seg).addClass("selected first") : $(seg).addClass("used first");
+						$(seg).attr("title",evt.desc);
 						count = 1;
 					}
 					if (count != -1) {
 						if (count < evt.duration) {
 							count++;
 							current ? $(seg).addClass("selected") : $(seg).addClass("used");
+							$(seg).attr("title",evt.desc);
 						} else {
 							count = -1;
 							current ? $(seg).addClass("selected last") : $(seg).addClass("used last");
+							$(seg).attr("title",evt.desc);
 						}
 					}
 				})
