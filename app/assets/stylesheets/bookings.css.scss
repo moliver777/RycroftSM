@@ -68,11 +68,11 @@ table td.arch {
   width: 100%;
 }
 
-#venue_timetable td.selected, #staff_timetable td.selected {
+#venue_timetable td.selected, #staff_timetable td.selected, #horse_timetable td.selected {
   background-color: yellow;
 }
 
-#venue_timetable td.used, #staff_timetable td.used {
+#venue_timetable td.used, #staff_timetable td.used, #horse_timetable td.used {
   background-color: red;
 }
 

@@ -12,3 +12,17 @@
 		<td>Leave blank if a horse is to be allocated by the system.</td>
 	</tr>
 </table>
+
+<table id="horse_timetable" style="width:100%">
+	<%= render :partial => "horse_timetable" %>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("select#horse_id").unbind("change").change(function() {
+			if ($("input#event_date").val().length > 0) {
+				$("table#horse_timetable").load("/bookings/reload_horse/"+$("input#event_date").val()+"/"+$("select#horse_id").val()+"/"+$("select#event_mode").val())
+			}
+		})
+	})
+</script>

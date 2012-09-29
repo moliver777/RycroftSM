@@ -78,6 +78,8 @@ class BookingsController < ApplicationController
     @staff1_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff1.id, @staff1.id, @staff1.id)) if @staff1
     @staff2_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff2.id, @staff2.id, @staff2.id)) if @staff2
     @staff3_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff3.id, @staff3.id, @staff3.id)) if @staff3
+    @horse = Horse.where(:id => @booking.horse).first
+    @horse_events = format_timetable_events(Event.includes(:bookings).where("event_date = ? AND bookings.horse_id = ?", @event.event_date, @horse.id)) if @horse
     @events = [@event]
     Event.where("event_date >= ? AND id != ?", Date.today, @event.id).order("event_date, start_time").each{|evt| @events << evt}
     @venue = Venue.where(:id => @event.master_venue_id).first
@@ -108,6 +110,13 @@ class BookingsController < ApplicationController
     @staff2_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.parse(params[:date]), @staff2.id, @staff2.id, @staff2.id)) if @staff2
     @staff3_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.parse(params[:date]), @staff3.id, @staff3.id, @staff3.id)) if @staff3
     render :partial => "staff_timetable"
+  end
+
+  def reload_horse
+    @event = Event.where(:id => params[:event_id]).first
+    @horse = Horse.where(:id => params[:horse_id]).first
+    @horse_events = format_timetable_events(Event.includes(:bookings).where("event_date = ? AND bookings.horse_id = ?", Date.parse(params[:date]), @horse.id)) if @horse
+    render :partial => "horse_timetable"
   end
 
   def show
