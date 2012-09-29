@@ -30,6 +30,7 @@ class Event < ActiveRecord::Base
     staff3 = Staff.where(:id => fields[:staff_id3]).first
 
     self.description = fields[:description] rescue ""
+    self.staff_notes = fields[:staff_notes] rescue ""
     self.event_type = fields[:event_type]
     self.venue_id = fields[:venue_id]
     self.master_venue_id = fields[:master_venue_id]

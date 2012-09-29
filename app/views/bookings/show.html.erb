@@ -11,6 +11,10 @@
 			<td><%= @event.description if @event.description %></td>
 		</tr>
 		<tr>
+			<th>Instructor Notes:</th>
+			<td><%= @event.staff_notes if @event.staff_notes %></td>
+		</tr>
+		<tr>
 			<th>Venue:</th>
 			<td><%= @event.venue.name if @event.venue %></td>
 		</tr>
