@@ -139,6 +139,7 @@ function savePayment(id) {
 	params["booking_id"] = id;
 	params["amount"] = $("input#amount").val();
 	params["payment_type"] = $('input:radio:checked').val();
+	params["description"] = $("input#description").val();
 	$.ajax({
 		url: "/bookings/create_payment",
 		type: "POST",
