@@ -34,7 +34,7 @@
 		<td colspan="4"><%= text_area_tag "description", @event.description, :placeholder => "Description", :size => "70x2", :class => "field" %></td>
 	</tr>
 	<tr>
-		<td colspan="4"><%= text_area_tag "staff_notes", @event.description, :placeholder => "Instructor Notes", :size => "70x2", :class => "field" %></td>
+		<td colspan="4"><%= text_area_tag "staff_notes", @event.staff_notes, :placeholder => "Instructor Notes", :size => "70x2", :class => "field" %></td>
 	</tr>
 	<tr>
 		<td>Start time:<%= text_field_tag "formatted_start_time", (@event.start_time.strftime("%l:%M %P") rescue nil), :disabled => true, :class => "short" %>
