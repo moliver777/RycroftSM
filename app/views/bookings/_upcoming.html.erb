@@ -19,6 +19,8 @@
 		<th>Type</th>
 		<th>Instructor</th>
 		<th>Venue</th>
+		<th>Rebooked</th>
+		<th>Payment</th>
 		<th>Links</th>
 	</tr>
 	<% if !@upcoming.empty? %>
@@ -30,6 +32,7 @@
 						<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
 						<td><%= event.staff_list %></td>
 						<td><%= event.venue.name if event.venue rescue nil %></td>
+						<td colspan="2"></td>
 						<td><a href="/bookings/show_event/<%= event.id %>">Details</a> | <a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a></td>
 					</tr>
 			<% end %>
@@ -49,6 +52,8 @@
 					<% elsif i==1 %>
 						<td colspan="3" rowspan="<%= event.bookings.count-1 %>"></td>
 					<% end %>
+					<td style="text-align:center;"><%= check_box_tag "rb#{booking.id}", "", booking.rebooked, :disabled => true %></td>
+					<td style="text-align:center;"><%= check_box_tag "py#{booking.id}", "", booking.payments.first, :disabled => true %></td>
 					<td>
 						<a href="/bookings/show/<%= booking.id %>">Details</a> | 
 						<% if current_user.user_level != User::BASE %>
