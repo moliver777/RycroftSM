@@ -26,7 +26,7 @@
 		<% if !@events.empty? %>
 			<table class="<%= 'break' unless @staff.empty? %>">
 				<% @events.each do |event| %>
-					<tr class="<%= 'bottom' unless event.bookings.first %>">
+					<tr>
 						<td><%= event.start_time.strftime("%l:%M%P") %>-<%= event.end_time.strftime("%l:%M%P") %></td>
 						<td><strong><%= event.event_type %></strong></td>
 						<td><strong>Instructor:</strong> <%= event.staff_list %></td>
