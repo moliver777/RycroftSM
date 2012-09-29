@@ -4,6 +4,7 @@ class Payment < ActiveRecord::Base
   def set_fields fields
     if fields.include? :booking_id
       self.booking_id = fields[:booking_id]
+      self.description = fields[:description] if fields[:description].length > 0
     else
       self.reference = fields[:reference]
       self.description = fields[:description]

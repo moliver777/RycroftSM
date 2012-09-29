@@ -40,7 +40,7 @@
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 						<% if payment.booking %>
-							<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+							<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %><%= " - "+payment.description if payment.description %></td>
 							<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 						<% else %>
 							<td><%= payment.description %></td>
@@ -62,7 +62,7 @@
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 						<% if payment.booking %>
-							<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+							<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %><%= " - "+payment.description if payment.description %></td>
 							<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 						<% else %>
 							<td><%= payment.description %></td>
@@ -84,7 +84,7 @@
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 						<% if payment.booking %>
-							<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+							<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %><%= " - "+payment.description if payment.description %></td>
 							<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 						<% else %>
 							<td><%= payment.description %></td>
@@ -105,7 +105,7 @@
 				<% @payments["voucher"].each do |payment| %>
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-						<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+						<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %><%= " - "+payment.description if payment.description %></td>
 						<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 						<td><%= payment.amount %></td>
 					</tr>
@@ -122,7 +122,7 @@
 				<% @payments["hours"].each do |payment| %>
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-						<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+						<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %><%= " - "+payment.description if payment.description %></td>
 						<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 						<td><%= payment.amount %></td>
 					</tr>
@@ -139,7 +139,7 @@
 				<% @payments["foc"].each do |payment| %>
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-						<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %></td>
+						<td><%= payment.booking.event.event_date.strftime("%d-%m-%Y") %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") %><%= " - "+payment.description if payment.description %></td>
 						<td><%= payment.booking.client.first_name %> <%= payment.booking.client.last_name %></td>
 						<td><%= payment.amount %></td>
 					</tr>
