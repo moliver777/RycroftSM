@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
     Note.where("end_date < ? and weekly = ? and repeated = ?", Date.today, true, false).each{|note| note.repeat}
     Note.where("end_date < ?", Date.today.advance(:months => -1)).destroy_all
     Note.birthday_notes
-    # Session.where("created_at < ?", Date.today.advance(:days => -7)).destroy_all
+    Session.where("created_at < ?", Date.today).destroy_all
   end
 
   def setup
