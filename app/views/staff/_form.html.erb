@@ -8,7 +8,7 @@
 		</tr>
 		<tr>
 			<td><%= text_field_tag "role", @staff.role, :placeholder => "Role", :class => "field" %></td>
-			<td>Skip Issues:<%= check_box_tag "skip_issues", "", @horse.skip_issues, :class => "field" %></td>
+			<td>Skip Issues:<%= check_box_tag "skip_issues", "", @staff.skip_issues, :class => "field" %></td>
 		</tr>
 	</table>
 </div>
@@ -42,7 +42,7 @@
 				Thursday: <%= check_box_tag "thursday", "", @staff.thursday, :class => "break_right_small field" %>
 				Friday: <%= check_box_tag "friday", "", @staff.friday, :class => "break_right_small field" %>
 				Saturday: <%= check_box_tag "saturday", "", @staff.saturday, :class => "break_right_small field" %>
-				Sunday: <%= check_box_tag "sunday", "", @staff.sunday, :class => "break_right_small field" %>
+				Sunday: <%= check_box_tag "sunday", "", @staff.sunday, :class => "break_right_small field" %>&nbsp;
 			</td>
 		</tr>
 	</table>
