@@ -602,22 +602,15 @@ class BookingsController < ApplicationController
     end
     # check valid with proposed event times
     event_splits.each_with_index do |event,i|
-      p "***************************"
-      p event
       event.each do |split|
         Event.get_splits_times(Time.parse(fields[:start_time]),Time.parse(fields[:end_time])).each do |split2|
           if split != event.first && split != event.last
-            p "-------------------------------"
-            p split
-            p split2
             valid = false if split == split2
-            p valid
           end
         end
       end
     end
-    # return valid
-    return true
+    return valid
   end
 
 end
