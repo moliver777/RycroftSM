@@ -1,10 +1,11 @@
 <div id="home_col_left">
 	<div class="home_panel home_left" id="schedule">
-		<div class="home_content">
+		<div class="home_content" id="today_container">
 			<%= render :partial => "today" %>
 		</div>
 		<div class="home_footer">
-			<a href="/print/schedule" target="_blank" style="float:right;margin-right:5px;margin-top:8px;">Print</a>
+			<%= text_field_tag :home_date, @date.strftime("%d-%m-%Y"), :style => "float:left;width:70px;margin-left:5px;" %>
+			<a id="print_link" href="/print/schedule/<%= @date.strftime("%d-%m-%Y") %>" target="_blank" style="float:right;margin-right:5px;margin-top:8px;">Print</a>
 			<button id="available_now" style="margin-top:6px;" onclick="fancyAvailableNow();">AVAILABLE NOW</button>
 		</div>
 	</div>
@@ -27,9 +28,15 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("input#home_date").datepicker({dateFormat: "dd-mm-yy"});
+		$(".ui-datepicker").hide();
 		var prompt = ("<%= @prompt %>"=="true") ? true : false;
 		if (prompt) {
 			fancyConfirmAutoAssign("<%= Date.today.strftime('%d-%m-%Y') %>");
 		}
+		$("input#home_date").unbind("change").change(function() {
+			$("div#today_container").load("/home_schedule/"+$(this).val());
+			$("a#print_link").attr("href","/print/schedule/"+$(this).val());
+		})
 	})
 </script>

@@ -8,6 +8,12 @@ class HomeController < ApplicationController
     @events = Event.where(:event_date => @date).order("start_time")
   end
 
+  def home_schedule
+    @date = Date.parse(params[:date])
+    @events = Event.where(:event_date => @date).order("start_time")
+    render :partial => "today"
+  end
+
   def search
     results = []
     clients = Client.all

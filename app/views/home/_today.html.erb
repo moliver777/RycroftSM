@@ -1,5 +1,8 @@
 <% if !@events.empty? %>
 	<table id="next_up" style="width:100%;">
+		<tr>
+			<td colspan="4" style="text-align:center;font-size:14px;"><strong><%= @date==Date.today ? "TODAY" : @date.strftime("%A #{@date.strftime("%e").to_i.ordinalize} %B").upcase %></strong></td>
+		</tr>
 		<% @events.each_with_index do |event,i| %>
 			<tr class="event <%= 'odd' if i%2==0 %>" event_id="<%= event.id %>">
 				<td><%= event.start_time.strftime("%l:%M%P") %>- <%= event.end_time.strftime("%l:%M%P") %></td>
@@ -17,7 +20,7 @@
 		<% end %>
 	</table>
 <% else %>
-	<div class="nothing_to_display">No events today</div>
+	<div class="nothing_to_display">No events <%= @date==Date.today ? "today" : "on "+@date.strftime("%A #{@date.strftime("%e").to_i.ordinalize} %B") %></div>
 <% end %>
 
 <script type="text/javascript">
