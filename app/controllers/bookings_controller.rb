@@ -582,30 +582,32 @@ class BookingsController < ApplicationController
   def validate_staff staff, fields
     valid = true
     event_splits = []
-    staff.all_events(fields[:event_date]).each do |event|
-      splits = []
-      if event.id != @evt.id
-        splits << event.start_time.strftime("%H:%M")
-        hour = event.start_time.strftime("%H")
-        mins = event.start_time.strftime("%M")
-        while hour.to_s+":"+mins.to_s != event.end_time.strftime("%H:%M")
-          mins = mins.to_i+15
-          if mins == 60
-            mins = "00"
-            hour = hour.to_i+1
-            hour = "0"+hour.to_s if hour < 10
+    if !staff.skip_issues
+      staff.all_events(fields[:event_date]).each do |event|
+        splits = []
+        if event.id != @evt.id
+          splits << event.start_time.strftime("%H:%M")
+          hour = event.start_time.strftime("%H")
+          mins = event.start_time.strftime("%M")
+          while hour.to_s+":"+mins.to_s != event.end_time.strftime("%H:%M")
+            mins = mins.to_i+15
+            if mins == 60
+              mins = "00"
+              hour = hour.to_i+1
+              hour = "0"+hour.to_s if hour < 10
+            end
+            splits << hour.to_s+":"+mins.to_s
           end
-          splits << hour.to_s+":"+mins.to_s
         end
+        event_splits << splits
       end
-      event_splits << splits
-    end
-    # check valid with proposed event times
-    event_splits.each_with_index do |event,i|
-      event.each do |split|
-        Event.get_splits_times(Time.parse(fields[:start_time]),Time.parse(fields[:end_time])).each do |split2|
-          if split != event.first && split != event.last
-            valid = false if split == split2
+      # check valid with proposed event times
+      event_splits.each_with_index do |event,i|
+        event.each do |split|
+          Event.get_splits_times(Time.parse(fields[:start_time]),Time.parse(fields[:end_time])).each do |split2|
+            if split != event.first && split != event.last
+              valid = false if split == split2
+            end
           end
         end
       end
