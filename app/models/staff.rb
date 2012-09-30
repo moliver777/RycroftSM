@@ -16,6 +16,7 @@ class Staff < ActiveRecord::Base
     self.last_name = fields[:last_name]
     self.date_of_birth = fields[:date_of_birth]
     self.role = fields[:role]
+    self.skip_issues = fields[:skip_issues] == "true" ? true : false
 
     self.address_line_1 = fields[:address_line_1]
     self.address_line_2 = fields[:address_line_2]
@@ -72,7 +73,7 @@ class Staff < ActiveRecord::Base
 
   def self.status
     issues = []
-    Staff.all.each do |staff|
+    Staff.where(:skip_issues => false).each do |staff|
       date = Date.today
       30.times do |i|
         event_splits = []

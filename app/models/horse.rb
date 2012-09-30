@@ -8,6 +8,7 @@ class Horse < ActiveRecord::Base
     self.availability = fields[:availability] == "true" ? true : false
     self.max_day_workload = fields[:max_day_workload]
     self.max_weight = fields[:max_weight]
+    self.skip_issues = fields[:skip_issues] == "true" ? true : false
 
     self.walk = fields[:walk] == "true" ? true : false
     self.trot_with = fields[:trot_with] == "true" ? true : false
@@ -88,7 +89,7 @@ class Horse < ActiveRecord::Base
 
   def self.status
     issues = []
-    Horse.all.each do |horse|
+    Horse.where(:skip_issues => false).each do |horse|
       issues << {:link => "/bookings/search/#{horse.id}", :text => horse.name+" is overworked today - Current workload: "+horse.workload(Date.today)+"hrs"} if horse.over_workload Date.today      
       date = Date.today
       30.times do |i|

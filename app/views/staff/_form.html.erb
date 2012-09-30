@@ -5,7 +5,10 @@
 			<td><%= text_field_tag "first_name", @staff.first_name, :placeholder => "First Name", :class => "long field" %></td>
 			<td><%= text_field_tag "last_name", @staff.last_name, :placeholder => "Last Name", :class => "long field" %></td>
 			<td><%= text_field_tag "date_of_birth", (@staff.date_of_birth.strftime("%d-%m-%Y") rescue nil), :placeholder => "DD-MM-YYYY", :class => "field" %></td>
+		</tr>
+		<tr>
 			<td><%= text_field_tag "role", @staff.role, :placeholder => "Role", :class => "field" %></td>
+			<td>Skip Issues:<%= check_box_tag "skip_issues", "", @horse.skip_issues, :class => "field" %></td>
 		</tr>
 	</table>
 </div>

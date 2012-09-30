@@ -15,6 +15,7 @@
 	<h3>Other</h3>
 	<table class="form_table">
 		<tr>
+			<td>Skip Issues:<%= check_box_tag "skip_issues", "", @horse.skip_issues, :class => "field" %></td>
 			<td>Group Lessons:<%= check_box_tag "group", "", @horse.group, :class => "field" %></td>
 			<td>Livery:<%= check_box_tag "livery", "", @horse.livery, :class => "field" %></td>
 			<td>BHS Stage:<%= text_field_tag "bhs", @horse.bhs, :placeholder => "BHS Stage", :class => "field" %></td>
