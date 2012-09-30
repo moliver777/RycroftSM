@@ -582,7 +582,7 @@ class BookingsController < ApplicationController
   def validate_staff staff, fields
     valid = true
     event_splits = []
-    staff.all_events.each do |event|
+    staff.all_events(fields[:event_date]).each do |event|
       splits = []
       if event.id != @evt.id
         splits << event.start_time.strftime("%H:%M")

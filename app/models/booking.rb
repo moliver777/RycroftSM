@@ -32,7 +32,7 @@ class Booking < ActiveRecord::Base
     issues = []
     Booking.includes(:event).where("events.event_type IN (?)", Event::HORSE).select{|booking| booking.event.event_date == Date.today}.each do |booking|
       if booking.client
-        issues << {:link => "/bookings/edit/"+booking.id.to_s, :text => booking.client.first_name+" "+booking.client.last_name+"'s booking for at "+booking.event.start_time.strftime("%l:%M%P")+" has no horse assigned to it"} unless booking.horse
+        issues << {:link => "/bookings/edit/"+booking.id.to_s, :text => booking.client.first_name+" "+booking.client.last_name+"'s booking for today at "+booking.event.start_time.strftime("%l:%M%P")+" has no horse assigned to it"} unless booking.horse
       end
     end
     issues.uniq
