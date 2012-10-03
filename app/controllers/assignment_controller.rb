@@ -15,9 +15,9 @@ class AssignmentController < ApplicationController
     bookings.each do |booking|
       leased = Horse.where(:id => booking.client.leasing).first
       if leased
-        if !horse.over_workload(params[:date], booking.event.duration_mins)
-          if validate_assignment(booking, horse)
-            booking.horse_id = horse.id
+        if !leased.over_workload(params[:date], booking.event.duration_mins)
+          if validate_assignment(booking, leased)
+            booking.horse_id = leased.id
           end
         end
         key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
