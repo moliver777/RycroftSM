@@ -16,7 +16,7 @@ class AssignmentController < ApplicationController
       leased = Horse.where(:id => booking.client.leasing).first
       if leased
         if !leased.over_workload(params[:date], booking.event.duration_mins)
-          if validate_assignment(booking, leased)
+          if validate_assignment(booking, leased, false)
             booking.horse_id = leased.id
           end
         end
@@ -100,14 +100,16 @@ class AssignmentController < ApplicationController
     [event_splits, booking_splits]
   end
 
-  def validate_assignment booking, horse
+  def validate_assignment booking, horse, full_check=true
     valid = true
     # test for consecutive lessons (first of any splits array == last of any splits array)
     splits = get_splits(horse, booking.event)
     event_splits = splits[0]
     booking_splits = splits[1]
-    event_splits.each do |event|
-      valid = false if booking_splits.first == event.last || booking_splits.last == event.first
+    if full_check
+      event_splits.each do |event|
+        valid = false if booking_splits.first == event.last || booking_splits.last == event.first
+      end
     end
     # test for overlap of lessons
     booking_splits.each do |split|
@@ -123,13 +125,15 @@ class AssignmentController < ApplicationController
     horse.bookings.each do |booking2|
       valid = false if booking.event == booking2.event
     end
-    # test for group status
-    if Event::GROUP_TYPES.include?(booking.event.event_type) || booking.event.bookings.count > 1
-      valid = false unless horse.group
-    end
-    # test for bhs stage
-    if Event::BHS_TYPES.include? booking.event.event_type
-      valid = false unless horse.bhs >= booking.event.event_type.split(" ")[1].to_i
+    if full_check
+      # test for group status
+      if Event::GROUP_TYPES.include?(booking.event.event_type) || booking.event.bookings.count > 1
+        valid = false unless horse.group
+      end
+      # test for bhs stage
+      if Event::BHS_TYPES.include? booking.event.event_type
+        valid = false unless horse.bhs >= booking.event.event_type.split(" ")[1].to_i
+      end
     end
     valid
   end
