@@ -13,7 +13,7 @@ class AssignmentController < ApplicationController
     json = {}
     bookings = Event.where("event_date = ? AND event_type IN (?)", params[:date], Event::HORSE).order("start_time").map{|e| e.bookings}.flatten.select{|b| !b.horse}
     bookings.each do |booking|
-      leased = Horse.where(:horse_id => booking.client.leasing).first
+      leased = Horse.where(:id => booking.client.leasing).first
       if leased
         if !horse.over_workload(params[:date], booking.event.duration_mins)
           if validate_assignment(booking, horse)
