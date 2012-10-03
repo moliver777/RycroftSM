@@ -63,7 +63,7 @@ class AssignmentController < ApplicationController
   end
 
   def get_suitable_horses client
-    Horse.where("availability = true AND id IN (?)", client.horses.split(";")).shuffle.sort_by{|h| h.current_mins(Date.today)} rescue []
+    Horse.where("availability = true AND id IN (?)", client.horses.split(";")).shuffle.sort_by{|h| h.current_mins(params[:date])} rescue []
   end
 
   def get_splits horse, evt
