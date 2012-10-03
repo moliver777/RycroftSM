@@ -81,7 +81,7 @@ class AssignmentController < ApplicationController
       end
       booking_splits << hour.to_s+":"+mins.to_s
     end
-    horse.events.where(:event_date => Date.today).each do |event|
+    horse.events.where(:event_date => params[:date]).each do |event|
       splits = []
       splits << event.start_time.strftime("%H:%M")
       hour = event.start_time.strftime("%H")
