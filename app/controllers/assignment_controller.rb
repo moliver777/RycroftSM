@@ -13,15 +13,11 @@ class AssignmentController < ApplicationController
     json = {}
     bookings = Event.where("event_date = ? AND event_type IN (?)", params[:date], Event::HORSE).order("start_time").map{|e| e.bookings}.flatten.select{|b| !b.horse}
     bookings.each do |booking|
-      if booking.client.leasing
-        horses = get_suitable_horses(booking.client)
-        horses.each do |horse|
-          if !booking.horse
-            if !horse.over_workload(params[:date], booking.event.duration_mins)
-              if validate_assignment(booking, horse)
-                booking.horse_id = horse.id
-              end
-            end
+      leased = Horse.where(:horse_id => booking.client.leasing).first
+      if leased
+        if !horse.over_workload(params[:date], booking.event.duration_mins)
+          if validate_assignment(booking, horse)
+            booking.horse_id = horse.id
           end
         end
         key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
@@ -67,16 +63,7 @@ class AssignmentController < ApplicationController
   end
 
   def get_suitable_horses client
-    horses = []
-    results = []
-    horses = client.horses ? Horse.where("availability = true AND id IN (?)", client.horses.split(";")).shuffle.sort_by{|h| h.current_mins(Date.today)} : []
-    begin
-      results << Horse.where(:id => client.leasing).first if client.leasing
-    rescue StandardError => e
-      puts e.message
-    end
-    horses.each{|h| results << h}
-    results
+    Horse.where("availability = true AND id IN (?)", client.horses.split(";")).shuffle.sort_by{|h| h.current_mins(Date.today)} rescue []
   end
 
   def get_splits horse, evt
