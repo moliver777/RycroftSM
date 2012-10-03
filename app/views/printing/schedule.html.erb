@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
 		<style type="text/css">
 			h1 {
 				font-size: 18px;
@@ -34,7 +35,12 @@
 					</tr>
 					<% event.bookings.each do |booking| %>
 						<tr>
-							<td colspan="2"></td>
+							<% if @date > Date.today %>
+								<td colspan="2"></td>
+							<% else %>
+								<td></td>
+								<td>Rebooked: <%= check_box_tag "rb-#{booking.id}", "", booking.rebooked %></td>
+							<% end %>
 							<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
 							<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
 						</tr>
@@ -93,4 +99,7 @@
 
 <script type="text/javascript">
 	window.print();
+	$("input").click(function() {
+		$(this).attr("checked","checked");
+	})
 </script>
