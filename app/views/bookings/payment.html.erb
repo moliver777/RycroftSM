@@ -38,9 +38,19 @@
 		<tr>
 			<td>Description: <%= text_field_tag :description, "", :class => "field", :style => "width:400px;" %></td>
 		</tr>
+		<tr>
+			<td>Cash-Up Date: <%= text_field_tag :payment_date, Date.today.strftime("%d-%m-%Y"), :class => "field", :style => "width:100px;" %></td>
+		</tr>
 	</table>
 </div>
 <div style="text-align:center;">
 	<ul class="error" id="form_errors" style="margin-left:45%;"></ul>
 	<button id="cancel" onclick="window.location.replace('/bookings/show/<%= @booking.id %>')">Cancel</button><button id="save" onclick="savePayment('<%= @booking.id %>')">Save</button>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input#payment_date").datepicker({dateFormat: "dd-mm-yy"});
+		$(".ui-datepicker").hide();
+	})
+</script>

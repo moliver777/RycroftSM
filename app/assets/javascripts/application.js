@@ -140,6 +140,7 @@ function savePayment(id) {
 	params["amount"] = $("input#amount").val();
 	params["payment_type"] = $('input:radio:checked').val();
 	params["description"] = $("input#description").val();
+	params["payment_date"] = $("input#payment_date").val();
 	$.ajax({
 		url: "/bookings/create_payment",
 		type: "POST",
@@ -166,6 +167,7 @@ function saveOtherPayment(id) {
 	params["payment_type"] = $('input:radio:checked').val();
 	params["reference"] = $("input#reference").val();
 	params["description"] = $("input#description").val();
+	params["payment_date"] = $("input#payment_date").val();
 	$.ajax({
 		url: "/bookings/create_payment",
 		type: "POST",

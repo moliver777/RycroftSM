@@ -27,6 +27,9 @@
 		<tr>
 			<td>Description: <%= text_field_tag :description, "", :class => "field", :style => "width:400px;" %></td>
 		</tr>
+		<tr>
+			<td>Cash-Up Date: <%= text_field_tag :payment_date, Date.today.strftime("%d-%m-%Y"), :class => "field", :style => "width:100px;" %></td>
+		</tr>
 	</table>
 </div>
 <div style="text-align:center;">
@@ -55,3 +58,10 @@
 		</tr>
 	<% end %>
 </table>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input#payment_date").datepicker({dateFormat: "dd-mm-yy"});
+		$(".ui-datepicker").hide();
+	})
+</script>

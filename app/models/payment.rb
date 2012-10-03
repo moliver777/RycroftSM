@@ -2,6 +2,7 @@ class Payment < ActiveRecord::Base
   belongs_to :booking
 
   def set_fields fields
+    p fields
     if fields.include? :booking_id
       self.booking_id = fields[:booking_id]
       self.description = fields[:description] if fields[:description].length > 0
@@ -16,7 +17,7 @@ class Payment < ActiveRecord::Base
     self.hours = true if fields[:payment_type] == "hours"
     self.foc = true if fields[:payment_type] == "foc"
     self.amount = fields[:amount]
-    self.payment_date = Date.today
+    self.payment_date = Date.parse(fields[:payment_date])
 
     self.save!
   end
