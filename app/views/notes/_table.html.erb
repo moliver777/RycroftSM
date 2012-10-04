@@ -1,13 +1,11 @@
 <table id="notes" style="width:100%;">
 	<tr class="header">
 		<th style="width:20%;">Title</th>
-		<th style="width:35%">Contents</th>
-		<th style="width:5%;">Priority</th>
-		<th style="width:5%;">Category</th>
+		<th style="width:45%">Contents</th>
+		<th style="width:7%;">Priority</th>
+		<th style="width:7%;">Category</th>
 		<th style="width:8%;">Subject</th>
-		<th style="width:7%;">Starts</th>
-		<th style="width:7%;">Expires</th>
-		<th style="width:5%;">Weekly</th>
+		<th style="width:5%;">Hidden</th>
 		<th>Links</th>
 	</tr>
 	<% if !@notes.empty? %>
@@ -18,9 +16,7 @@
 				<td><%= note.urgent ? "High" : "Normal" %></td>
 				<td><%= note.category==Note::STAFF ? "Instructor" : note.category.downcase.capitalize %></td>
 				<td><a href="<%= note.subject_link %>"><%= note.subject_title %></a></td>
-				<td><%= note.start_date.strftime("%d-%m-%Y") %></td>
-				<td><%= note.end_date.strftime("%d-%m-%Y") %></td>
-				<td><%= note.weekly %></td>
+				<td><%= note.hidden ? "Yes" : "No" %></td>
 				<td>
 					<a href="/notes/edit/<%= note.id %>">Edit</a> | <a onclick="confirmation('<%= note.title %>','/notes/delete/<%= note.id %>')">Delete</a>
 				</td>

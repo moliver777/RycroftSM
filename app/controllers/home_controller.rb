@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   def index
     @prompt = current_user.user_level == User::BASE ? false : auto_assign(false)
-    @all_notes = Note.where("start_date <= ? AND end_date >= ? AND hidden = false", Date.today, Date.today).order("urgent DESC, end_date ASC")
+    @all_notes = Note.where(:hidden => false).order("urgent DESC, end_date ASC")
     @date = Date.today
     @events = Event.where(:event_date => @date, :cancelled => false).order("start_time")
   end

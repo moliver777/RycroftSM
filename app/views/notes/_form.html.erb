@@ -51,22 +51,22 @@
 		</tr>
 	</table>
 </div>
-<div class="form_section">
-	<h3>Dates</h3>
+<!-- <div class="form_section"> -->
+	<!-- <h3>Dates</h3> -->
 	<table class="form_table">
 		<tr>
 			<td>
-				From: <%= text_field_tag :start_date, (@note.start_date || Date.today).strftime("%d-%m-%Y"), :placeholder => "DD-MM-YYYY", :class => "field" %>
+				<%= hidden_field_tag :start_date, (@note.start_date || Date.today).strftime("%d-%m-%Y"), :placeholder => "DD-MM-YYYY", :class => "field" %>
 			</td>
 			<td>
-				To: <%= text_field_tag :end_date, (@note.end_date || Date.today.advance(:days => 7)).strftime("%d-%m-%Y"), :placeholder => "DD-MM-YYYY", :class => "field" %>
+				<%= hidden_field_tag :end_date, (@note.end_date || Date.today.advance(:days => 7)).strftime("%d-%m-%Y"), :placeholder => "DD-MM-YYYY", :class => "field" %>
 			</td>
 			<td>
-				Repeat every week: <%= check_box_tag "weekly", "", @note.weekly, :class => "field" %>
+				<%= check_box_tag "weekly", "", @note.weekly, :class => "field", :style => "display:none;" %>
 			</td>
 		</tr>
 	</table>
-</div>
+<!-- </div> -->
 
 <script type="text/javascript">
 	$(document).ready(function() {

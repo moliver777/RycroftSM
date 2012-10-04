@@ -42,8 +42,8 @@ class ApplicationController < ActionController::Base
     end
     @status_issues = session[:issues] ? session[:issues] : [] rescue [] # make session issues available to views
     @status_notes = session[:notes] ? session[:notes] : [] rescue [] # make session notes available to views
-    Note.where("end_date < ? and weekly = ? and repeated = ?", Date.today, true, false).each{|note| note.repeat}
-    Note.where("end_date < ?", Date.today.advance(:months => -1)).destroy_all
+    # Note.where("end_date < ? and weekly = ? and repeated = ?", Date.today, true, false).each{|note| note.repeat}
+    Note.where("updated_at < ? AND hidden = ?", Time.now.advance(:months => -1), true).destroy_all
     Note.birthday_notes
     Session.where("created_at < ?", Date.today).destroy_all
   end
