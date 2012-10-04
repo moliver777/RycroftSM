@@ -109,12 +109,40 @@ button.on {
   display: none;
 }
 
-/* CONTENT */
+/* BACKGROUNDS */
 #appcontent {
   min-height: 460px;
   padding: 20px;
   background-color: white;
   background-image: url("logo3.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#horse_right {
+  position: relative;
+  top: 2px;
+  float: right;
+  height: 24px;
+  width: 34px;
+  margin-right: 10px;
+  background-color: white;
+  background-image: url("horse_r.jpeg");
+  background-size: 28px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#horse_left {
+  position: relative;
+  top: 2px;
+  float: left;
+  height: 24px;
+  width: 34px;
+  margin-left: 10px;
+  background-color: white;
+  background-image: url("horse_l.jpeg");
+  background-size: 28px 20px;
   background-repeat: no-repeat;
   background-position: center;
 }
