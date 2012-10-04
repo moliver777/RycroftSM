@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
   def horse_events
     horse_events = []
     Horse.all.each do |horse|
-      horse_events << {:name => horse.name, :events => horse.events.where(:event_date => @from..@to).count}
+      horse_events << {:name => horse.name, :events => horse.events.where(:event_date => @from..@to, :cancelled => false).count}
     end
     horse_events = horse_events.sort_by{|h| h[:events]}.reverse
     @horse_events = horse_events.length > 5 ? horse_events.slice(0,5) : horse_events
@@ -111,7 +111,7 @@ class ApplicationController < ActionController::Base
   def client_events
     client_events = []
     Client.all.each do |client|
-      client_events << {:name => client.first_name+" "+client.last_name, :events => client.events.where(:event_date => @from..@to).count}
+      client_events << {:name => client.first_name+" "+client.last_name, :events => client.events.where(:event_date => @from..@to, :cancelled => false).count}
     end
     client_events = client_events.sort_by{|h| h[:events]}.reverse
     @client_events = client_events.length > 5 ? client_events.slice(0,5) : client_events
@@ -130,8 +130,8 @@ class ApplicationController < ActionController::Base
     event_types = []
     Event::TYPES.each do |type|
       count = 0
-      Event.where(:event_type => type, :event_date => @from..@to).each do |evt|
-        count += evt.bookings.count
+      Event.where(:event_type => type, :event_date => @from..@to, :cancelled => false).each do |evt|
+        count += evt.bookings.where(:cancelled => false).count
       end
       event_types << {:name => type.downcase.capitalize, :count => count}
     end
@@ -148,8 +148,8 @@ class ApplicationController < ActionController::Base
       {:name => "Fri", :count => 0},
       {:name => "Sat", :count => 0}
     ]
-    Event.where(:event_date => @from..@to).each do |evt|
-      @day_bookings[evt.event_date.strftime("%w").to_i][:count] = @day_bookings[evt.event_date.strftime("%w").to_i][:count] += evt.bookings.count
+    Event.where(:event_date => @from..@to, :cancelled => false).each do |evt|
+      @day_bookings[evt.event_date.strftime("%w").to_i][:count] = @day_bookings[evt.event_date.strftime("%w").to_i][:count] += evt.bookings.where(:cancelled => false).count
     end
     @day_bookings
   end
@@ -172,10 +172,10 @@ class ApplicationController < ActionController::Base
       {:name => "20", :count => 0},
       {:name => "21", :count => 0}
     ]
-    Event.where(:event_date => @from..@to).each do |evt|
+    Event.where(:event_date => @from..@to, :cancelled => false).each do |evt|
       @hour_bookings.each_with_index do |hour,i|
         if hour[:name] == evt.start_time.strftime("%H")
-          @hour_bookings[i][:count] = @hour_bookings[i][:count] += evt.bookings.count
+          @hour_bookings[i][:count] = @hour_bookings[i][:count] += evt.bookings.where(:cancelled => false).count
         end
       end
     end
@@ -187,8 +187,8 @@ class ApplicationController < ActionController::Base
       block = Date.parse(SiteSetting.where(:name => "block_auto_assign_prompt").first.value)
       return false if Date.today == block
     end
-    Event.where("event_date = ? AND event_type IN (?)", Date.today, Event::HORSE).each do |evt|
-      evt.bookings.each do |booking|
+    Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", Date.today, Event::HORSE, false).each do |evt|
+      evt.bookings.where(:cancelled => false).each do |booking|
         return true unless booking.horse
       end
     end

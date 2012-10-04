@@ -42,7 +42,7 @@
 		</tr>
 		<% if @event.bookings.first %>
 			<% @event.bookings.each do |booking| %>
-				<tr>
+				<tr class="<%= 'cancelled' if booking.cancelled %>">
 					<td><%= booking.client.first_name+" "+booking.client.last_name if booking.client %></td>
 					<td><%= booking.horse.name if booking.horse %></td>
 					<td><a href="/bookings/edit/<%= booking.id %>">Edit</td>
@@ -55,4 +55,4 @@
 		<% end %>
 	</table>
 </div>
-<div style="text-align:center;"><button class="link" link="/bookings/edit_event/<%= @event.id %>">Edit Event</button><button class="link" link="/bookings">Close</button></div>
+<div style="text-align:center;"><button class="link" link="/bookings/edit_event/<%= @event.id %>" style="<%= 'display:none;' if @event.cancelled %>">Edit Event</button><button class="link" link="/bookings">Close</button></div>

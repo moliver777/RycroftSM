@@ -116,7 +116,7 @@
 	</table>
 	<button class="link" link="/notes/new/BOOKING/<%= @booking.id %>">Create Note</button>
 </div>
-<div style="text-align:center;"><button id="next_week" onclick="fancyNextWeek('<%= @booking.id %>');">Repeat Booking</button><button class="link" link="/bookings/edit/<%= @booking.id %>">Edit</button><button class="link" link="/bookings/date/<%= @event.event_date.strftime('%d-%m-%Y') %>">Close</button></div>
+<div style="text-align:center;"><button id="next_week" onclick="fancyNextWeek('<%= @booking.id %>');">Repeat Booking</button><button class="link" link="/bookings/edit/<%= @booking.id %>" style="<%= 'display:none;' if @booking.cancelled %>">Edit</button><button class="link" link="/bookings/date/<%= @event.event_date.strftime('%d-%m-%Y') %>">Close</button></div>
 
 <script type="text/javascript">
 	$(document).ready(function() {

@@ -6,7 +6,7 @@ class BookingsController < ApplicationController
       @date = Date.today
     end
     load_upcoming
-    @unconfirmed = Booking.includes(:event).where("confirmed = ? and events.event_date >= ? and events.event_date < ?", false, Date.today, Date.today.advance(:days => 7)).order("events.event_date, events.start_time")
+    @unconfirmed = Booking.includes(:event).where("confirmed = ? AND bookings.cancelled = ? AND events.event_date >= ? AND events.event_date < ?", false, false, Date.today, Date.today.advance(:days => 7)).order("events.event_date, events.start_time")
     @prompt = auto_assign(true)
   end
 
@@ -19,7 +19,7 @@ class BookingsController < ApplicationController
   def new
     @event = params[:event_id] ? Event.find(params[:event_id]) : Event.new
     @booking = Booking.new
-    @events = Event.where("event_date >= ?", Date.today).order("event_date, start_time")
+    @events = Event.where("event_date >= ? AND cancelled = ?", Date.today, false).order("event_date, start_time")
     @venue_events = {}
     @horses = Horse.where(:availability => true).order("name")
   end
@@ -75,16 +75,16 @@ class BookingsController < ApplicationController
     @staff1 = Staff.where(:id => @event.staff_id).first
     @staff2 = Staff.where(:id => @event.staff_id2).first
     @staff3 = Staff.where(:id => @event.staff_id3).first
-    @staff1_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff1.id, @staff1.id, @staff1.id)) if @staff1
-    @staff2_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff2.id, @staff2.id, @staff2.id)) if @staff2
-    @staff3_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, @staff3.id, @staff3.id, @staff3.id)) if @staff3
+    @staff1_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, false, @staff1.id, @staff1.id, @staff1.id)) if @staff1
+    @staff2_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, false, @staff2.id, @staff2.id, @staff2.id)) if @staff2
+    @staff3_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, false, @staff3.id, @staff3.id, @staff3.id)) if @staff3
     @horse = Horse.where(:id => @booking.horse).first
-    @horse_events = format_timetable_events(Event.includes(:bookings).where("event_date = ? AND bookings.horse_id = ?", @event.event_date, @horse.id)) if @horse
+    @horse_events = format_timetable_events(Event.includes(:bookings).where("event_date = ? AND cancelled = ? AND bookings.horse_id = ?", @event.event_date, false, @horse.id)) if @horse
     @events = [@event]
-    Event.where("event_date >= ? AND id != ?", Date.today, @event.id).order("event_date, start_time").each{|evt| @events << evt}
+    Event.where("event_date >= ? AND cancelled = ? AND id != ?", Date.today, false, @event.id).order("event_date, start_time").each{|evt| @events << evt}
     @venue = Venue.where(:id => @event.master_venue_id).first
     @venues = Venue.where(:name => @venue.name) if @venue
-    @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id IN (?)", @event.event_date, @venues.map{|v| v.id})) if @venues
+    @venue_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND venue_id IN (?)", @event.event_date, false, @venues.map{|v| v.id})) if @venues
     @horses = Horse.where(:availability => true).order("name")
     @date = @event.event_date
   end
@@ -94,7 +94,7 @@ class BookingsController < ApplicationController
       @event = Event.where(:id => params[:event_id]).first
       @venue = Venue.where(:id => params[:venue_id]).first
       @venues = Venue.where(:name => @venue.name)
-      @venue_events = format_timetable_events(Event.where("event_date = ? AND venue_id IN (?)", Date.parse(params[:date]), @venues.map{|v| v.id})) if @venues
+      @venue_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND venue_id IN (?)", Date.parse(params[:date]), false, @venues.map{|v| v.id})) if @venues
     rescue
       puts "No venue selected"
     end
@@ -106,16 +106,16 @@ class BookingsController < ApplicationController
     @staff1 = Staff.where(:id => params[:staff_id]).first
     @staff2 = Staff.where(:id => params[:staff_id2]).first
     @staff3 = Staff.where(:id => params[:staff_id3]).first
-    @staff1_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.parse(params[:date]), @staff1.id, @staff1.id, @staff1.id)) if @staff1
-    @staff2_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.parse(params[:date]), @staff2.id, @staff2.id, @staff2.id)) if @staff2
-    @staff3_events = format_timetable_events(Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.parse(params[:date]), @staff3.id, @staff3.id, @staff3.id)) if @staff3
+    @staff1_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.parse(params[:date]), false, @staff1.id, @staff1.id, @staff1.id)) if @staff1
+    @staff2_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.parse(params[:date]), false, @staff2.id, @staff2.id, @staff2.id)) if @staff2
+    @staff3_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", Date.parse(params[:date]), false, @staff3.id, @staff3.id, @staff3.id)) if @staff3
     render :partial => "staff_timetable"
   end
 
   def reload_horse
     @event = Event.where(:id => params[:event_id]).first
     @horse = Horse.where(:id => params[:horse_id]).first
-    @horse_events = format_timetable_events(Event.includes(:bookings).where("event_date = ? AND bookings.horse_id = ?", Date.parse(params[:date]), @horse.id)) if @horse
+    @horse_events = format_timetable_events(Event.includes(:bookings).where("event_date = ? AND events.cancelled = ? AND bookings.cancelled = ? AND bookings.horse_id = ?", Date.parse(params[:date]), false, false, @horse.id)) if @horse
     render :partial => "horse_timetable"
   end
 
@@ -188,19 +188,58 @@ class BookingsController < ApplicationController
   end
 
   def destroy
+      booking = Booking.find(params[:booking_id])
+      event = booking.event
+      booking.notes.destroy_all
+      booking.destroy
+      event.destroy unless event.bookings.first
+      render :nothing => true
+    end
+
+    def destroy_event
+      event = Event.find(params[:event_id])
+      event.bookings.each{|b| b.notes.destroy_all}
+      event.bookings.destroy_all
+      event.destroy
+      render :nothing => true
+    end
+
+  def cancel
     booking = Booking.find(params[:booking_id])
     event = booking.event
-    booking.notes.destroy_all
-    booking.destroy
-    event.destroy unless event.bookings.first
+    booking.notes.each do |n|
+      n.hidden = true
+      n.save!
+    end
+    booking.cancelled = true
+    booking.horse_id = nil
+    booking.save!
+    unless event.bookings.where(:cancelled => false).first
+      event.cancelled = true
+      event.staff_id = true
+      event.staff_id2 = true
+      event.staff_id3 = true
+      event.save!
+    end
     render :nothing => true
   end
 
-  def destroy_event
+  def cancel_event
     event = Event.find(params[:event_id])
-    event.bookings.each{|b| b.notes.destroy_all}
-    event.bookings.destroy_all
-    event.destroy
+    event.bookings.each do |b|
+      b.cancelled = true
+      b.horse_id = nil
+      b.save!
+      b.notes.each do |n|
+        n.hidden = true
+        n.save!
+      end
+    end
+    event.cancelled = true
+    event.staff_id = true
+    event.staff_id2 = true
+    event.staff_id3 = true
+    event.save!
     render :nothing => true
   end
 
@@ -222,8 +261,8 @@ class BookingsController < ApplicationController
     @results = []
     horse = Horse.find(params[:horse_id]) if params[:horse_id] rescue nil
     @horse_id = horse.id if horse
-    Event.where(:event_date => Date.today).each do |event|
-       event.bookings.where(:horse_id => horse.id).each{|b| @results << b} if horse
+    Event.where(:event_date => Date.today, :cancelled => false).each do |event|
+       event.bookings.where(:horse_id => horse.id, :cancelled => false).each{|b| @results << b} if horse
     end
     render "search"
   end
@@ -232,15 +271,15 @@ class BookingsController < ApplicationController
     @results = []
     client = Client.find(params[:fields][:client]) if params[:fields][:client]
     horse = Horse.find(params[:fields][:horse]) if params[:fields][:horse]
-    Event.where("event_date BETWEEN ? AND ?", params[:fields][:from_date], params[:fields][:to_date]).order("event_date DESC, start_time DESC").each do |event|
+    Event.where("cancelled = ? AND event_date BETWEEN ? AND ?", false, params[:fields][:from_date], params[:fields][:to_date]).order("event_date DESC, start_time DESC").each do |event|
       if client && horse
-        event.bookings.where(:client_id => client.id, :horse_id => horse.id).each{|b| @results << b}
+        event.bookings.where(:client_id => client.id, :horse_id => horse.id, :cancelled => false).each{|b| @results << b}
       elsif client
-        event.bookings.where(:client_id => client.id).each{|b| @results << b}
+        event.bookings.where(:client_id => client.id, :cancelled => false).each{|b| @results << b}
       elsif horse
-        event.bookings.where(:horse_id => horse.id).each{|b| @results << b}
+        event.bookings.where(:horse_id => horse.id, :cancelled => false).each{|b| @results << b}
       else
-        event.bookings.each{|b| @results << b}
+        event.bookings.where(:cancelled => false).each{|b| @results << b}
       end
     end
     render :json => {:view => render_to_string(:partial => "booking_search_results")}.to_json
@@ -267,7 +306,7 @@ class BookingsController < ApplicationController
     Venue.all.each do |v|
       splits = []
       available = true
-      v.events.each{|e| splits << e.get_splits}
+      v.events.where(:cancelled => false).each{|e| splits << e.get_splits}
       required.each{|r| available = false if splits.flatten.include? r}
       temp_venues << v if available
     end
@@ -283,7 +322,7 @@ class BookingsController < ApplicationController
       splits = []
       available = true
       if s.is_available Date.today.strftime("%a")
-        s.events.each{|e| splits << e.get_splits}
+        s.events.where(:cancelled => false).each{|e| splits << e.get_splits}
         required.each{|r| available = false if splits.flatten.include? r}
         @staff << s if available
       end
@@ -292,7 +331,7 @@ class BookingsController < ApplicationController
     Horse.where(:availability => true).each do |h|
       splits = []
       available = true
-      h.events.each{|e| splits << e.get_splits}
+      h.events.where(:cancelled => false).each{|e| splits << e.get_splits}
       [required,@start_time,@end_time].flatten.each{|r| available = false if splits.flatten.include? r}
       available = false if h.over_workload(Date.today, params[:duration].to_i)
       @horses << h if available
@@ -370,7 +409,7 @@ class BookingsController < ApplicationController
     venue_id = nil
     old_booking = Booking.find(params[:booking_id])
     old_event = old_booking.event
-    if Event.where(:id => old_event.rebook_id, :event_date => Date.parse(params[:event_date]), :start_time => params[:start_time], :end_time => params[:end_time]).first
+    if Event.where(:id => old_event.rebook_id, :event_date => Date.parse(params[:event_date]), :start_time => params[:start_time], :end_time => params[:end_time], :cancelled => false).first
       rebooked_event = Event.where(:id => old_event.rebook_id).first
       json[:errors] << "There was an error. Please contact support" unless rebooked_event
       if rebooked_event
@@ -380,7 +419,7 @@ class BookingsController < ApplicationController
       end
     else
       Venue.where(:name => old_event.venue.name).order("id DESC").each do |venue|
-        venue_id = venue.id unless Event.where("event_date = ? AND venue_id = ? AND start_time < ? AND end_time > ?", Date.parse(params[:event_date]), venue.id, params[:end_time], params[:start_time]).first
+        venue_id = venue.id unless Event.where("event_date = ? AND venue_id = ? AND start_time < ? AND end_time > ? AND cancelled = ?", Date.parse(params[:event_date]), venue.id, params[:end_time], params[:start_time], false).first
       end
       if venue_id
         new_event = Event.new
@@ -397,7 +436,7 @@ class BookingsController < ApplicationController
         splits = []
         while hr < 23 || min < 15
           current = "#{0 if hr < 10}#{hr}:#{0 if min < 10}#{min}"
-          splits << current unless Event.where("event_date = ? AND venue_id IN (?) AND start_time < ? AND end_time > ?", params[:event_date], Venue.where(:name => old_event.venue.name).map{|v| v.id}, current, current).first
+          splits << current unless Event.where("event_date = ? AND venue_id IN (?) AND start_time < ? AND end_time > ? AND cancelled = ?", params[:event_date], Venue.where(:name => old_event.venue.name).map{|v| v.id}, current, current, false).first
           min == 45 ? min = 0 : min += 15
           hr += 1 if min == 0
         end

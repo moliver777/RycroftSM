@@ -8,7 +8,7 @@ class PrintingController < ApplicationController
     else
       @date = Date.today
     end
-    @events = Event.where(:event_date => @date).order("start_time")
+    @events = Event.where(:event_date => @date, :cancelled => false).order("start_time")
     @staff = {}
     Staff.order("first_name, last_name").each do |s|
       @events.each do |e|

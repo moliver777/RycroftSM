@@ -167,6 +167,11 @@ table.form_table, table.form_table td {
   border: 0;
 }
 
+tr.cancelled, tr.cancelled a {
+  color: red!important;
+  text-decoration: line-through;
+}
+
 th {
   background-color: #5f5f5f;
   color: white;

@@ -5,12 +5,12 @@ class HomeController < ApplicationController
     @prompt = current_user.user_level == User::BASE ? false : auto_assign(false)
     @all_notes = Note.where("start_date <= ? AND end_date >= ? AND hidden = false", Date.today, Date.today).order("urgent DESC, end_date ASC")
     @date = Date.today
-    @events = Event.where(:event_date => @date).order("start_time")
+    @events = Event.where(:event_date => @date, :cancelled => false).order("start_time")
   end
 
   def home_schedule
     @date = Date.parse(params[:date])
-    @events = Event.where(:event_date => @date).order("start_time")
+    @events = Event.where(:event_date => @date, :cancelled => false).order("start_time")
     render :partial => "today"
   end
 
@@ -32,7 +32,7 @@ class HomeController < ApplicationController
 
   def schedule
     @date = params[:date] ? params[:date] : Date.today
-    @events = format_schedule_events Event.where(:event_date => @date).order("start_time")
+    @events = format_schedule_events Event.where(:event_date => @date, :cancelled => false).order("start_time")
     @venues = Venue.all.group_by{|v| v.name}
   end
 

@@ -10,8 +10,8 @@
 				<td><strong>Instructor:</strong> <%= event.staff_list %></td>
 				<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
 			</tr>
-			<% event.bookings.each do |booking| %>
-				<tr class="booking <%= 'odd' if i%2==0 %>" booking_id="<%= booking.id %>" style="<%= 'border-bottom:1px solid #5F5F5F;' if booking==event.bookings.last %>">
+			<% event.bookings.where(:cancelled => false).each do |booking| %>
+				<tr class="booking <%= 'odd' if i%2==0 %>" booking_id="<%= booking.id %>" style="<%= 'border-bottom:1px solid #5F5F5F;' if booking==event.bookings.where(:cancelled => false).last %>">
 					<td colspan="2"></td>
 					<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
 					<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>

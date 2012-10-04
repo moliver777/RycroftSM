@@ -26,18 +26,18 @@
 	<% if !@upcoming.empty? %>
 		<% @upcoming.each do |event| %>
 			<% if event.bookings.empty? %>
-					<tr>
+					<tr class="<%= 'cancelled' if event.cancelled %>">
 						<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %>-<%= event.end_time.strftime("%l:%M%P") if event.end_time %></td>
 						<td colspan="2"></td>
 						<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
 						<td><%= event.staff_list %></td>
 						<td><%= event.venue.name if event.venue rescue nil %></td>
 						<td colspan="2"></td>
-						<td><a href="/bookings/show_event/<%= event.id %>">Details</a> | <a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a></td>
+						<td><a href="/bookings/show_event/<%= event.id %>">Details</a> | <a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a> | <a onclick="deleteBooking('<%= event.event_type %>','/bookings/delete_event/<%= event.id %>')">Delete</a></td>
 					</tr>
 			<% end %>
-			<% event.bookings.includes(:client).sort{|a,b| a.client.last_name <=> b.client.last_name}.each_with_index do |booking,i| %>
-				<tr>
+			<% event.bookings.order(:cancelled).includes(:client).each_with_index do |booking,i| %>
+				<tr class="<%= 'cancelled' if booking.cancelled %>">
 					<% if i==0 %>
 						<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %>-<%= event.end_time.strftime("%l:%M%P") if event.end_time %></td>
 					<% elsif i==1 %>
@@ -56,10 +56,10 @@
 					<td style="text-align:center;"><%= check_box_tag "py#{booking.id}", "", booking.payments.first, :disabled => true %></td>
 					<td>
 						<a href="/bookings/show/<%= booking.id %>">Details</a> | 
-						<% if current_user.user_level != User::BASE %>
+						<% if current_user.user_level != User::BASE && !booking.cancelled %>
 							<a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/cancel/<%= booking.id %>')">Cancel</a> | 
 						<% end %>
-						<a href="/notes/BOOKING/<%= booking.id %>">Notes</a>
+						<a onclick="deleteBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/delete/<%= booking.id %>')">Delete</a> | <a href="/notes/BOOKING/<%= booking.id %>">Notes</a>
 					</td>
 				</tr>
 			<% end %>

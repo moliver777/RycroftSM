@@ -247,6 +247,22 @@ function cancelBooking(id,url) {
 	});
 }
 
+// DELETE BOOKING
+function deleteBooking(id,url) {
+	var popup_msg = "<h3>DELETE</h3><div class='popup_content reduced_height'><p>Delete "+id+".</p><p>Are you sure?</p></div>";
+	fancyConfirmOKCancel(popup_msg, function(result) {
+		if (result) {
+			$.ajax({
+				url: url,
+				type: "POST",
+				success: function() {
+					window.location.reload()
+				}
+			})
+		}
+	});
+}
+
 // CANCEL NEW/EDIT
 function cancel(url) {
 	window.location.replace(url)

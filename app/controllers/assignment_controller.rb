@@ -11,7 +11,7 @@ class AssignmentController < ApplicationController
 
   def auto_assign
     json = {}
-    bookings = Event.where("event_date = ? AND event_type IN (?)", params[:date], Event::HORSE).order("start_time").map{|e| e.bookings}.flatten.select{|b| !b.horse}
+    bookings = Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", params[:date], Event::HORSE, false).order("start_time").map{|e| e.bookings.where(:cancelled => false)}.flatten.select{|b| !b.horse}
     bookings.each do |booking|
       leased = Horse.where(:id => booking.client.leasing).first
       if leased
@@ -25,7 +25,7 @@ class AssignmentController < ApplicationController
         booking.save!
       end
     end
-    bookings = Event.where("event_date = ? AND event_type IN (?)", params[:date], Event::HORSE).order("start_time").map{|e| e.bookings}.flatten.select{|b| !b.horse}
+    bookings = Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", params[:date], Event::HORSE, false).order("start_time").map{|e| e.bookings.where(:cancelled => false)}.flatten.select{|b| !b.horse}
     bookings.each do |booking|
       horses = get_suitable_horses(booking.client)
       horses.each do |horse|
@@ -81,7 +81,7 @@ class AssignmentController < ApplicationController
       end
       booking_splits << hour.to_s+":"+mins.to_s
     end
-    horse.events.where(:event_date => params[:date]).each do |event|
+    horse.events.where(:event_date => params[:date], :cancelled => false).each do |event|
       splits = []
       splits << event.start_time.strftime("%H:%M")
       hour = event.start_time.strftime("%H")
@@ -122,7 +122,7 @@ class AssignmentController < ApplicationController
       end
     end
     # test for double booking
-    horse.bookings.each do |booking2|
+    horse.bookings.where(:cancelled => false).each do |booking2|
       valid = false if booking.event == booking2.event
     end
     if full_check

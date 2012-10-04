@@ -112,6 +112,6 @@ class Staff < ActiveRecord::Base
   end
 
   def all_events date
-    Event.where("event_date = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", date, self.id, self.id, self.id)
+    Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", date, false, self.id, self.id, self.id)
   end
 end

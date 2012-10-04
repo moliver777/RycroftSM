@@ -59,6 +59,10 @@ class HorsesController < ApplicationController
 
   def destroy
     horse = Horse.find(params[:horse_id])
+    horse.bookings.each do |b|
+      b.horse_id = nil
+      b.save!
+    end
     horse.notes.destroy_all
     horse.destroy
     render :nothing => true

@@ -26,7 +26,7 @@ class Horse < ActiveRecord::Base
     return "n/a" unless date
     hours = 0
     mins = 0
-    self.events.where(:event_date => date).each do |event|
+    self.events.where(:event_date => date, :cancelled => false).each do |event|
       duration = event.duration.split(":")
       hours += duration[0].to_i
       mins += duration[1].to_i
@@ -40,7 +40,7 @@ class Horse < ActiveRecord::Base
   def workload_period from, to
     hours = 0
     mins = 0
-    self.events.where(:event_date => from..to).each do |event|
+    self.events.where(:event_date => from..to, :cancelled => false).each do |event|
       duration = event.duration.split(":")
       hours += duration[0].to_i
       mins += duration[1].to_i
@@ -54,7 +54,7 @@ class Horse < ActiveRecord::Base
     return nil unless date
     hours = 0
     mins = 0
-    self.events.where(:event_date => date).each do |event|
+    self.events.where(:event_date => date, :cancelled => false).each do |event|
       duration = event.duration.split(":")
       hours += duration[0].to_i
       mins += duration[1].to_i
@@ -66,7 +66,7 @@ class Horse < ActiveRecord::Base
     return 0 unless date
     hours = 0
     mins = 0
-    self.events.where(:event_date => date).each do |event|
+    self.events.where(:event_date => date, :cancelled => false).each do |event|
       duration = event.duration.split(":")
       hours += duration[0].to_i
       mins += duration[1].to_i
@@ -94,7 +94,7 @@ class Horse < ActiveRecord::Base
       date = Date.today
       30.times do |i|
         event_splits = []
-        horse.events.where(:event_date => date).each do |event|
+        horse.events.where(:event_date => date, :cancelled => false).each do |event|
           splits = []
           splits << event.start_time.strftime("%H:%M")
           hour = event.start_time.strftime("%H")
@@ -132,7 +132,7 @@ class Horse < ActiveRecord::Base
           end
         end
         # test for double booking
-        bookings = horse.bookings
+        bookings = horse.bookings.where(:cancelled => false)
         bookings.each_with_index do |booking,i|
           bookings.each_with_index do |booking2,j|
             if i != j

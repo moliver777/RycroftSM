@@ -2,7 +2,6 @@ class Payment < ActiveRecord::Base
   belongs_to :booking
 
   def set_fields fields
-    p fields
     if fields.include? :booking_id
       self.booking_id = fields[:booking_id]
       self.description = fields[:description] if fields[:description].length > 0
