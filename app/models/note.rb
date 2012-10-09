@@ -100,7 +100,7 @@ class Note < ActiveRecord::Base
         client.save!
       end
     end
-    Note.where("urgent = ? AND start_date <= ? AND end_date >= ? AND hidden = false", true, Date.today, Date.today)
+    Note.where(:urgent => true, :hidden => false)
   end
 
   def self.birthday_notes
