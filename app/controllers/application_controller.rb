@@ -31,6 +31,7 @@ class ApplicationController < ActionController::Base
       issues << Booking.status
       issues << Event.status
       issues << Horse.status
+      issues << Client.status
       issues << Staff.status
       notes = Note.priority
       issues.flatten.each_with_index do |issue,i|

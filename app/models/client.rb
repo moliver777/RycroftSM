@@ -85,4 +85,20 @@ class Client < ActiveRecord::Base
     ability.length > 0 ? ability[0..-3] : "None"
   end
 
+  def self.status
+    issues = []
+    Client.all.each do |client|
+      p "*****"
+      p client.horses
+      if client.horses
+        p client.horses.split(";").length
+        p client.leasing
+        issues << {:link => "/clients/horses/"+client.id.to_s, :text => "#{client.first_name} #{client.last_name} has no horses enabled for auto-assign"} if !client.leasing && client.horses.split(";").length==0
+      else
+        issues << {:link => "/clients/horses/"+client.id.to_s, :text => "#{client.first_name} #{client.last_name} has no horses enabled for auto-assign"}
+      end
+    end
+    issues.uniq
+  end
+
 end
