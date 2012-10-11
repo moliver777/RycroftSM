@@ -1,7 +1,9 @@
 class SessionController < ApplicationController
-
   skip_before_filter :authenticated_user?
   skip_before_filter :user_permission?
+  skip_before_filter :application_status
+  skip_before_filter :setup
+  skip_before_filter :format_date
 
   def login
     session[:username] = nil

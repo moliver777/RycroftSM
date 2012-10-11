@@ -75,7 +75,7 @@ class Staff < ActiveRecord::Base
     issues = []
     Staff.where(:skip_issues => false).each do |staff|
       date = Date.today
-      30.times do |i|
+      14.times do |i|
         event_splits = []
         staff.all_events(date).each do |event|
           splits = []

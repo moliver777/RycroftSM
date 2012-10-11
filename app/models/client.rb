@@ -89,9 +89,11 @@ class Client < ActiveRecord::Base
     issues = []
     Client.all.each do |client|
       if client.horses
-        issues << {:link => "/clients/horses/"+client.id.to_s, :text => "#{client.first_name} #{client.last_name} has no horses enabled for auto-assign"} if !client.leasing && client.horses.split(";").length==0
+        # issues << {:link => "/clients/horse_assignment_list", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"} if !client.leasing && client.horses.split(";").length==0
+        issues << {:link => "/clients", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"} if !client.leasing && client.horses.split(";").length==0
       else
-        issues << {:link => "/clients/horses/"+client.id.to_s, :text => "#{client.first_name} #{client.last_name} has no horses enabled for auto-assign"}
+        # issues << {:link => "/clients/horse_assignment_list", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"}
+        issues << {:link => "/clients", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"}
       end
     end
     issues.uniq

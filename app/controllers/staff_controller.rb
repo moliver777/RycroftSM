@@ -1,5 +1,6 @@
 class StaffController < ApplicationController
   skip_before_filter :user_permission?, :only => [:index,:show]
+  skip_before_filter :application_status, :except => :index
 
   def index
     @staff = Staff.order("first_name, last_name")

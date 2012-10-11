@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticated_user?
   before_filter :user_permission?
   before_filter :application_status
+  before_filter :status_available
   before_filter :setup
   before_filter :format_date
 
@@ -31,8 +32,8 @@ class ApplicationController < ActionController::Base
       issues << Booking.status
       issues << Event.status
       issues << Horse.status
-      issues << Client.status
       issues << Staff.status
+      issues << Client.status
       notes = Note.priority
       issues.flatten.each_with_index do |issue,i|
         issue[:id] = i
@@ -41,12 +42,15 @@ class ApplicationController < ActionController::Base
       session[:issues] = issues.flatten.uniq # save issues to session
       session[:notes] = notes # save notes to session
     end
-    @status_issues = session[:issues] ? session[:issues] : [] rescue [] # make session issues available to views
-    @status_notes = session[:notes] ? session[:notes] : [] rescue [] # make session notes available to views
     # Note.where("end_date < ? and weekly = ? and repeated = ?", Date.today, true, false).each{|note| note.repeat}
     Note.where("updated_at < ? AND hidden = ?", Time.now.advance(:months => -1), true).destroy_all
     Note.birthday_notes
     Session.where("created_at < ?", Date.today).destroy_all
+  end
+
+  def status_available
+    @status_issues = session[:issues] ? session[:issues] : [] rescue [] # make session issues available to views
+    @status_notes = session[:notes] ? session[:notes] : [] rescue [] # make session notes available to views
   end
 
   def setup

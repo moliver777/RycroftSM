@@ -92,7 +92,7 @@ class Horse < ActiveRecord::Base
     Horse.where(:skip_issues => false).each do |horse|
       issues << {:link => "/bookings/search/#{horse.id}", :text => horse.name+" is overworked today - Current workload: "+horse.workload(Date.today)+"hrs"} if horse.over_workload Date.today      
       date = Date.today
-      30.times do |i|
+      14.times do |i|
         event_splits = []
         horse.events.where(:event_date => date, :cancelled => false).each do |event|
           splits = []

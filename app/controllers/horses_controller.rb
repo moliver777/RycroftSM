@@ -1,5 +1,6 @@
 class HorsesController < ApplicationController
   skip_before_filter :user_permission?, :only => [:index,:show,:availability]
+  skip_before_filter :application_status, :except => :index
 
   def index
     @horses = Horse.order("name")

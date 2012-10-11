@@ -1,4 +1,6 @@
 class BookingsController < ApplicationController
+  skip_before_filter :application_status, :except => [:index, :cash_up]
+
   def index
     if params[:date]
       @date = Date.parse(params[:date])

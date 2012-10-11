@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   skip_before_filter :user_permission?, :only => [:index,:show]
+  skip_before_filter :application_status, :except => :index
 
   def index
     @clients = Client.order("first_name, last_name")

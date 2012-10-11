@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
   before_filter :master_only
+  skip_before_filter :application_status
 
   def index
   end

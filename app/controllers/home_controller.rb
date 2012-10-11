@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   skip_before_filter :user_permission?
+  skip_before_filter :application_status, :except => :index
 
   def index
     @prompt = current_user.user_level == User::BASE ? false : auto_assign(false)
