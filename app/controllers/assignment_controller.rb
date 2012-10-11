@@ -28,18 +28,23 @@ class AssignmentController < ApplicationController
     bookings = Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", params[:date], Event::HORSE, false).order("start_time").map{|e| e.bookings.where(:cancelled => false)}.flatten.select{|b| !b.horse}
     bookings.each do |booking|
       horses = get_suitable_horses(booking.client)
-      horses.each do |horse|
-        if !booking.horse
-          if !horse.over_workload(params[:date], booking.event.duration_mins)
-            if validate_assignment(booking, horse)
-              booking.horse_id = horse.id
+      if horses.length > 0
+        horses.each do |horse|
+          if !booking.horse
+            if !horse.over_workload(params[:date], booking.event.duration_mins)
+              if validate_assignment(booking, horse)
+                booking.horse_id = horse.id
+              end
             end
           end
         end
+        key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
+        json[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
+        booking.save!
+      else
+        key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
+        json[key] = "N/A"
       end
-      key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
-      json[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
-      booking.save!
     end
     force_status_check
     render :json => json.to_json
@@ -60,6 +65,9 @@ class AssignmentController < ApplicationController
     end
     session[:issues] = issues.flatten
     session[:notes] = notes
+    timer = SiteSetting.where(:name => "application_status_check").first
+    timer.value = timer.value.to_i == 999 ? 0.to_s : (timer.value.to_i + 1).to_s
+    timer.save!
   end
 
   def get_suitable_horses client
