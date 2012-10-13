@@ -15,7 +15,7 @@ class AssignmentController < ApplicationController
     bookings.each do |booking|
       leased = Horse.where(:id => booking.client.leasing).first
       if leased
-        if !leased.over_workload(params[:date], booking.event.duration_mins)
+        if !leased.over_workload(params[:date], booking.event.duration_mins) && leased.availability
           if validate_assignment(booking, leased, false)
             booking.horse_id = leased.id
           end
