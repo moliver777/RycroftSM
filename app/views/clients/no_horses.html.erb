@@ -1,0 +1,13 @@
+<table style="margin:auto;">
+	<tr>
+		<% @clients.each_with_index do |client,i| %>
+			<% if i%4 == 0 && i > 0 %>
+				</tr>
+				<tr>
+			<% end %>
+			<td>
+				<a href="/clients/horses/<%= client.id %>"><%= client.first_name %> <%= client.last_name %></a>
+			</td>
+		<% end %>
+	</tr>
+</table>

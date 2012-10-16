@@ -88,12 +88,14 @@ class Client < ActiveRecord::Base
   def self.status
     issues = []
     Client.all.each do |client|
-      if client.horses
-        # issues << {:link => "/clients/horse_assignment_list", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"} if !client.leasing && client.horses.split(";").length==0
-        issues << {:link => "/clients", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"} if !client.leasing && client.horses.split(";").length==0
-      else
-        # issues << {:link => "/clients/horse_assignment_list", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"}
-        issues << {:link => "/clients", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"}
+      if !client.leasing
+        if client.horses
+          # issues << {:link => "/clients/horse_assignment_list", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"} if !client.leasing && client.horses.split(";").length==0
+          issues << {:link => "/clients/no_horses", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"} if client.horses.split(";").length==0
+        else
+          # issues << {:link => "/clients/horse_assignment_list", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"}
+          issues << {:link => "/clients/no_horses", :text => "Some clients have no horses enabled for auto-assign. Click here to set horses"}
+        end
       end
     end
     issues.uniq

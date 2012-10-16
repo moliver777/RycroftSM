@@ -63,6 +63,7 @@ RycroftSM::Application.routes.draw do
   post "/clients/delete/:client_id" => "clients#destroy"
   get "/clients/horses/:client_id" => "clients#horses"
   post "/clients/set_horses/:client_id" => "clients#set_horses"
+  get "/clients/no_horses" => "clients#no_horses"
 
   # HORSES
   get "/horses" => "horses#index"

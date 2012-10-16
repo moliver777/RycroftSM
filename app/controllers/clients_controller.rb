@@ -18,6 +18,19 @@ class ClientsController < ApplicationController
     render :nothing => true
   end
 
+  def no_horses
+    @clients = []
+    Client.order(:first_name).each do |client|
+      if !client.leasing
+        if client.horses
+          @clients << client if client.horses.split(";").length==0
+        else
+          @clients << client
+        end
+      end
+    end
+  end
+
   def sort
     @clients = Client.order(params[:sort]+" "+params[:mod]+", first_name, last_name")
     view = render_to_string(:partial => "table_contents")
