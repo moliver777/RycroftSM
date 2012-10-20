@@ -1,0 +1,24 @@
+<h3>REBOOK ALL</h3>
+<div id="inner_available_now_wrapper" style="width:500px;">
+	<div id="rebook_details">
+		<table>
+			<tr>
+				<td>DATE</td>
+				<td>HOUR</td>
+				<td>MINS</td>
+			</tr>
+			<tr>
+				<td>TYPE</td>
+				<td>VENUE</td>
+				<td>COPY HORSES?</td>
+			</tr>
+			<% @event.bookings.each do |booking| %>
+				<tr>
+					<td><%= check_box_tag "booking#{booking.id}", booking.id, :class => "field" %></td>
+					<td colspan="2"><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
+				</tr>
+			<% end %>
+		</table>
+	</div>
+	<div id="error"></div>
+</div>

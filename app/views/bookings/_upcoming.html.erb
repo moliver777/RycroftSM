@@ -59,7 +59,10 @@
 						<% if current_user.user_level != User::BASE && !booking.cancelled %>
 							<a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/cancel/<%= booking.id %>')">Cancel</a> | 
 						<% end %>
-						<a onclick="deleteBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/delete/<%= booking.id %>')">Delete</a> | <a href="/notes/BOOKING/<%= booking.id %>">Notes</a>
+						<a onclick="deleteBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/delete/<%= booking.id %>')">Delete</a>
+						<% if current_user.user_level != User::BASE && i==0 %>
+							 | <a onclick="rebookAll('<%= event.id %>')">Rebook</a>
+						<% end %>
 					</td>
 				</tr>
 			<% end %>

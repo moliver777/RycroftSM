@@ -449,6 +449,14 @@ class BookingsController < ApplicationController
     render :json => json
   end
 
+  def rebook_all
+    @event = Event.find(params[:event_id])
+    render :partial => "rebook_all"
+  end
+
+  def do_rebook_all
+  end
+
   private
 
   def load_upcoming
