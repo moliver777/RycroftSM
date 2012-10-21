@@ -1,24 +1,75 @@
 <h3>REBOOK ALL</h3>
-<div id="inner_available_now_wrapper" style="width:500px;">
+<div id="inner_available_now_wrapper" style="width:400px;">
 	<div id="rebook_details">
 		<table>
 			<tr>
-				<td>DATE</td>
-				<td>HOUR</td>
-				<td>MINS</td>
+				<td><%= text_field_tag :event_date, Date.today.advance(:days => 7), :class => "trig" %></td>
+				<td>
+					<select id="event_type">
+						<% Event::TYPES.each do |type| %>
+							<option value="<%= type %>"><%= type.capitalize %></option>
+						<% end %>
+					</select>
+				</td>
+				<td>
+					<select id="master_venue_id" class="trig">
+						<option value="0">VENUE</option>
+						<% Venue.where(:master => true).each do |venue| %>
+							<option value="<%= venue.id %>"><%= venue.name %></option>
+						<% end %>
+					</select>
+				</td>
 			</tr>
 			<tr>
-				<td>TYPE</td>
-				<td>VENUE</td>
-				<td>COPY HORSES?</td>
+				<td colspan="3">
+					<select id="event_id" disabled="true"><option value="0">New</option></select>
+				</td>
 			</tr>
+			<tr>
+				<td>
+					<select id="duration" class="trig">
+						<option value="0">DURATION</option>
+						<option value="30">30 mins</option>
+						<option value="45">45 mins</option>
+						<option value="60">1 hour</option>
+					</select>
+				</td>
+				<td>
+					<select id="hour" disabled="true"><option>HOUR</option></select>
+				</td>
+				<td>
+					<select id="mins" disabled="true"><option>MINS</option></select>
+				</td>
+			</tr>
+		</table>
+		<table style="width:70%;margin:auto;">
 			<% @event.bookings.each do |booking| %>
 				<tr>
-					<td><%= check_box_tag "booking#{booking.id}", booking.id, :class => "field" %></td>
-					<td colspan="2"><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
+					<td style="text-align:right;width:50%;"><%= check_box_tag "booking#{booking.id}", booking.id, :class => "field" %></td>
+					<td colspan="2" style="text-align:left;width:50%;"><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
 				</tr>
 			<% end %>
 		</table>
 	</div>
 	<div id="error"></div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($(".trig"), function(i,trig) {
+			$(trig).unbind("change").change(function() {
+				buildTimes();
+			})
+		});
+		$("input#event_date").datepicker({dateFormat: "dd-mm-yy"});
+		$(".ui-datepicker").hide();
+
+		function buildTimes() {
+			// are all fields filled?
+				// call server to get hours and mins
+				// rebuild and enable time selectors
+			// else
+				// empty and disable time selectors
+		}
+	});
+</script>
