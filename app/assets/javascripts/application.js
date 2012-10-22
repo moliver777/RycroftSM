@@ -525,7 +525,7 @@ function fancyNextWeek(id) {
 
 function rebookAll(event_id) {
 	$.ajax({
-		url: "rebook_all/"+event_id,
+		url: "/rebook_all/"+event_id,
 		type: "GET",
 		success: function(view) {
 			jQuery.fancybox({
@@ -535,9 +535,9 @@ function rebookAll(event_id) {
 				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"></div></div>",
 				onComplete : function() {
 					jQuery("#fancyConfirm_ok").click(function() {
-						// DO REBOOK
-						// on success go to event view
-						// on error show error
+						// check all fields are valid
+						// send to server
+						// show errors or load event_view
 					})
 					jQuery("#fancyConfirm_cancel").click(function() {
 						jQuery.fancybox.close();

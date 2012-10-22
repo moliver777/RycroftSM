@@ -3,16 +3,16 @@
 	<div id="rebook_details">
 		<table>
 			<tr>
-				<td><%= text_field_tag :event_date, Date.today.advance(:days => 7), :class => "trig" %></td>
+				<td><%= text_field_tag :event_date, @event.event_date.advance(:days => 7), :class => "trig trig1" %></td>
 				<td>
-					<select id="event_type">
+					<select id="event_type" class="trig trig1">
 						<% Event::TYPES.each do |type| %>
 							<option value="<%= type %>"><%= type.capitalize %></option>
 						<% end %>
 					</select>
 				</td>
 				<td>
-					<select id="master_venue_id" class="trig">
+					<select id="master_venue_id" class="trig trig1">
 						<option value="0">VENUE</option>
 						<% Venue.where(:master => true).each do |venue| %>
 							<option value="<%= venue.id %>"><%= venue.name %></option>
@@ -22,23 +22,22 @@
 			</tr>
 			<tr>
 				<td colspan="3">
-					<select id="event_id" disabled="true"><option value="0">New</option></select>
+					<select id="event_id" disabled="true" class="wipeout"><option value="0">EVENT</option></select>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<select id="duration" class="trig">
-						<option value="0">DURATION</option>
+					<select id="duration" disabled="true" class="trig trig2">
 						<option value="30">30 mins</option>
 						<option value="45">45 mins</option>
 						<option value="60">1 hour</option>
 					</select>
 				</td>
 				<td>
-					<select id="hour" disabled="true"><option>HOUR</option></select>
+					<select id="start_time" disabled="true" class="wipeout"><option value="0">START</option></select>
 				</td>
 				<td>
-					<select id="mins" disabled="true"><option>MINS</option></select>
+					COPY HORSES
 				</td>
 			</tr>
 		</table>
@@ -56,20 +55,53 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("select#event_type").val("<%= @event.event_type %>");
+		$("input#event_date").datepicker({dateFormat: "dd-mm-yy"});
+		$(".ui-datepicker").hide();
+
 		$.each($(".trig"), function(i,trig) {
 			$(trig).unbind("change").change(function() {
 				buildTimes();
 			})
 		});
-		$("input#event_date").datepicker({dateFormat: "dd-mm-yy"});
-		$(".ui-datepicker").hide();
 
 		function buildTimes() {
-			// are all fields filled?
-				// call server to get hours and mins
-				// rebuild and enable time selectors
-			// else
-				// empty and disable time selectors
+			var valid = true;
+			$.each($(".trig1"), function(i,trig) {
+				if ($(trig).val() == "0") valid = false;
+			})
+			if (valid) {
+				var params = {
+					event_date: $("input#event_date").val(),
+					event_type: $("select#event_type").val(),
+					master_venue_id: $("select#master_venue_id").val()
+				}
+				$.ajax({
+					url: "/get_rebook_events",
+					type: "GET",
+					data: params,
+					success: function(json) {
+						$("select#event_id").empty().append('<option value="0">EVENT</option><option value="N">New</option>');
+						$.each(json, function(i,evt) {
+							$("select#event_id").append('<option value="'+evt.id+'">'+evt.title+'</option>');
+						})
+						$("select#event_id").val("0").removeAttr("disabled");
+						$("select#event_id").unbind("change").change(function() {
+							if ($(this).val()=="N") {
+								// load times and insert those for selected duration
+							} else {
+								// hide duration and time selects and show existing event info
+							}
+							// on duration change, insert times for that duration
+						})
+					}
+				})
+			} else {
+				$("select.wipeout").empty();
+				$("select#event_id").append('<option value="0">EVENT</option>');
+				$("select#start_time").append('<option value="0">START</option>');
+				$("select.wipeout").val("0").attr("disabled","true");
+			}
 		}
 	});
 </script>

@@ -454,7 +454,20 @@ class BookingsController < ApplicationController
     render :partial => "rebook_all"
   end
 
+  def get_rebook_events
+    @events = []
+    Event.where(:event_date => Date.parse(params[:event_date]), :event_type => params[:event_type], :master_venue_id => params[:master_venue_id]).order("start_time").each do |evt|
+      @events << {:id => evt.id, :title => "#{evt.start_time.strftime("%l:%M%P")} - #{evt.event_type.capitalize}"}
+    end
+    render :json => @events.to_json
+  end
+
+  def get_rebook_times
+    
+  end
+
   def do_rebook_all
+    
   end
 
   private
