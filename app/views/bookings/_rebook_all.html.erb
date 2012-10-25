@@ -3,16 +3,16 @@
 	<div id="rebook_details">
 		<table>
 			<tr>
-				<td><%= text_field_tag :event_date, @event.event_date.advance(:days => 7), :class => "trig" %></td>
+				<td><%= text_field_tag :event_date, @event.event_date.advance(:days => 7).strftime("%d-%m-%Y"), :class => "trig field" %></td>
 				<td>
-					<select id="event_type" class="trig">
+					<select id="event_type" class="trig field">
 						<% Event::TYPES.each do |type| %>
 							<option value="<%= type %>"><%= type.capitalize %></option>
 						<% end %>
 					</select>
 				</td>
 				<td>
-					<select id="master_venue_id" class="trig">
+					<select id="master_venue_id" class="trig field">
 						<option value="0">VENUE</option>
 						<% Venue.where(:master => true).each do |venue| %>
 							<option value="<%= venue.id %>"><%= venue.name %></option>
@@ -22,12 +22,12 @@
 			</tr>
 			<tr>
 				<td colspan="3">
-					Event: <select id="event_id" disabled="true" class="wipeout"><option value="0">New</option></select>
+					Event: <select id="event_id" disabled="true" class="wipeout field"><option value="0">New</option></select>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<select id="duration" class="trig custom">
+					<select id="duration" class="trig custom field">
 						<option value="30">30 mins</option>
 						<option value="45">45 mins</option>
 						<option value="60">1 hour</option>
@@ -35,22 +35,22 @@
 					<input id="fixed_duration" class="fixed" disabled="true" style="display:none;width:90px;"></input>
 				</td>
 				<td>
-					<select id="start_time" disabled="true" class="wipeout custom"><option value="0">START</option></select>
+					<select id="start_time" disabled="true" class="wipeout custom field"><option value="0">START</option></select>
 					<input id="fixed_start_time" class="fixed" disabled="true" style="display:none;width:90px;"></input>
 				</td>
-				<td>Copy horses: <input type="checkbox" id="copy_horses" class="field"></td>
+				<td>Copy horses: <input type="checkbox" id="copy_horses"></td>
 			</tr>
 		</table>
 		<table style="width:70%;margin:auto;">
 			<% @event.bookings.each do |booking| %>
 				<tr>
-					<td style="text-align:right;width:25%;"><%= check_box_tag "booking#{booking.id}", booking.id, :class => "field" %></td>
+					<td style="text-align:right;width:25%;"><%= check_box_tag "booking#{booking.id}", booking.id, "", :class => "booking" %></td>
 					<td colspan="2" style="text-align:left;width:75%;"><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %> <span class="horse" style="display:none;"><%= "(#{booking.horse.name})" rescue "" %></span></td>
 				</tr>
 			<% end %>
 		</table>
 	</div>
-	<div id="error"></div>
+	<ul id="rberrors" style="list-style:none;color:red;font-weight:bold;"></ul>
 </div>
 
 <script type="text/javascript">

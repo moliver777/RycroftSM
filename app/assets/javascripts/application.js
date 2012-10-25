@@ -535,8 +535,32 @@ function rebookAll(event_id) {
 				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"></div></div>",
 				onComplete : function() {
 					jQuery("#fancyConfirm_ok").click(function() {
-						// check all fields are valid
-						// send to server
+						var params = {}
+						$.each($("select.field"), function(i,select) {
+							params[$(select).attr("id")] = $(select).val();
+						})
+						$.each($("input#field"), function(i,input) {
+							params[$(input).attr("id")] = $(input).val();
+						})
+						params["copy_horses"] = $("input#copy_horses").is(":checked");
+						params["bookings"] = []
+						$.each($("input.booking"), function(i,booking) {
+							if ($(booking).is(":checked")) params["bookings"].push($(booking).val());
+						})
+						$.ajax({
+							url: "/do_rebook_all",
+							type: "POST",
+							data: params,
+							success: function(json) {
+								if (json.errors.length > 0) {
+									$.each($(json.errors), function(i,error) {
+										$("ul#rberrors").append("<li style='text-align:center;'>"+error+"</li>");
+									})
+								} else {
+									window.location.href = json.event_id ? "/bookings/show_event/"+json.event_id : "/bookings/show/"+json.booking_id;
+								}
+							}
+						})
 						// show errors or load event_view
 					})
 					jQuery("#fancyConfirm_cancel").click(function() {

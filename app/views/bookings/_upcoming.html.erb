@@ -61,7 +61,7 @@
 						<% end %>
 						<a onclick="deleteBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/delete/<%= booking.id %>')">Delete</a>
 						<% if current_user.user_level != User::BASE && i==0 %>
-							 <!-- | <a onclick="rebookAll('<%= event.id %>')">Rebook</a> -->
+							 | <a onclick="rebookAll('<%= event.id %>')">Rebook</a>
 						<% end %>
 					</td>
 				</tr>
