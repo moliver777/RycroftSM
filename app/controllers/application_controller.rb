@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
     if !session[:username]
       redirect_to "/login"
     end
+  rescue StandardError => e
+    redirect_to "/login"
   end
 
   def user_permission?
@@ -45,7 +47,7 @@ class ApplicationController < ActionController::Base
     # Note.where("end_date < ? and weekly = ? and repeated = ?", Date.today, true, false).each{|note| note.repeat}
     Note.where("updated_at < ? AND hidden = ?", Time.now.advance(:months => -1), true).destroy_all
     Note.birthday_notes
-    Session.where("created_at < ?", Date.today).destroy_all
+    Session.where("created_at < ?", Date.yesterday).destroy_all
   end
 
   def status_available

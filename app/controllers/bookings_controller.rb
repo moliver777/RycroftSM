@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  skip_before_filter :application_status, :except => [:index, :cash_up]
+  skip_before_filter :application_status, :except => :index
 
   def index
     if params[:date]
@@ -454,16 +454,26 @@ class BookingsController < ApplicationController
     render :partial => "rebook_all"
   end
 
-  def get_rebook_events
-    @events = []
+  def get_rebook_details
+    time = Time.parse("07:00")
+    master_venue = Venue.find(params[:master_venue_id])
+    venues = Venue.where(:name => master_venue.name).order("id DESC")
+    data = {
+      :events => [],
+      :times => []
+    }
     Event.where(:event_date => Date.parse(params[:event_date]), :event_type => params[:event_type], :master_venue_id => params[:master_venue_id]).order("start_time").each do |evt|
-      @events << {:id => evt.id, :title => "#{evt.start_time.strftime("%l:%M%P")} - #{evt.event_type.capitalize}"}
+      data[:events] << {:id => evt.id, :title => "#{evt.start_time.strftime("%l:%M%P")} - #{evt.event_type.capitalize}", :duration => "#{evt.duration_mins} mins", :start_time => evt.start_time.strftime("%l:%M%P")}
     end
-    render :json => @events.to_json
-  end
-
-  def get_rebook_times
-    
+    while time <= Time.parse("22:00").advance(:minutes => -(params[:duration].to_i)) do
+      valid = false
+      venues.each do |venue|
+        valid = true unless Event.where("event_date = ? AND venue_id = ? AND start_time < ? AND end_time > ? AND cancelled = ?", Date.parse(params[:event_date]), venue.id, time.advance(:minutes => params[:duration].to_i).strftime("%H:%M"), time.strftime("%H:%M"), false).first
+      end
+      data[:times] << {:raw => time.strftime("%H:%M"), :formatted => time.strftime("%l:%M%P")} if valid
+      time = time.advance(:minutes => 15)
+    end
+    render :json => data.to_json
   end
 
   def do_rebook_all

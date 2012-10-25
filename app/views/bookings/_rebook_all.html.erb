@@ -3,16 +3,16 @@
 	<div id="rebook_details">
 		<table>
 			<tr>
-				<td><%= text_field_tag :event_date, @event.event_date.advance(:days => 7), :class => "trig trig1" %></td>
+				<td><%= text_field_tag :event_date, @event.event_date.advance(:days => 7), :class => "trig" %></td>
 				<td>
-					<select id="event_type" class="trig trig1">
+					<select id="event_type" class="trig">
 						<% Event::TYPES.each do |type| %>
 							<option value="<%= type %>"><%= type.capitalize %></option>
 						<% end %>
 					</select>
 				</td>
 				<td>
-					<select id="master_venue_id" class="trig trig1">
+					<select id="master_venue_id" class="trig">
 						<option value="0">VENUE</option>
 						<% Venue.where(:master => true).each do |venue| %>
 							<option value="<%= venue.id %>"><%= venue.name %></option>
@@ -22,30 +22,30 @@
 			</tr>
 			<tr>
 				<td colspan="3">
-					<select id="event_id" disabled="true" class="wipeout"><option value="0">EVENT</option></select>
+					Event: <select id="event_id" disabled="true" class="wipeout"><option value="0">New</option></select>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<select id="duration" disabled="true" class="trig trig2">
+					<select id="duration" class="trig custom">
 						<option value="30">30 mins</option>
 						<option value="45">45 mins</option>
 						<option value="60">1 hour</option>
 					</select>
+					<input id="fixed_duration" class="fixed" disabled="true" style="display:none;width:90px;"></input>
 				</td>
 				<td>
-					<select id="start_time" disabled="true" class="wipeout"><option value="0">START</option></select>
+					<select id="start_time" disabled="true" class="wipeout custom"><option value="0">START</option></select>
+					<input id="fixed_start_time" class="fixed" disabled="true" style="display:none;width:90px;"></input>
 				</td>
-				<td>
-					COPY HORSES
-				</td>
+				<td>Copy horses: <input type="checkbox" id="copy_horses" class="field"></td>
 			</tr>
 		</table>
 		<table style="width:70%;margin:auto;">
 			<% @event.bookings.each do |booking| %>
 				<tr>
-					<td style="text-align:right;width:50%;"><%= check_box_tag "booking#{booking.id}", booking.id, :class => "field" %></td>
-					<td colspan="2" style="text-align:left;width:50%;"><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
+					<td style="text-align:right;width:25%;"><%= check_box_tag "booking#{booking.id}", booking.id, :class => "field" %></td>
+					<td colspan="2" style="text-align:left;width:75%;"><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %> <span class="horse" style="display:none;"><%= "(#{booking.horse.name})" rescue "" %></span></td>
 				</tr>
 			<% end %>
 		</table>
@@ -56,8 +56,13 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("select#event_type").val("<%= @event.event_type %>");
+		$("select#duration").val("<%= @event.duration_mins %>");
 		$("input#event_date").datepicker({dateFormat: "dd-mm-yy"});
 		$(".ui-datepicker").hide();
+
+		$("input#copy_horses").unbind("click").click(function() {
+			$(this).is(":checked") ? $("span.horse").show() : $("span.horse").hide();
+		})
 
 		$.each($(".trig"), function(i,trig) {
 			$(trig).unbind("change").change(function() {
@@ -67,38 +72,51 @@
 
 		function buildTimes() {
 			var valid = true;
-			$.each($(".trig1"), function(i,trig) {
+			$.each($(".trig"), function(i,trig) {
 				if ($(trig).val() == "0") valid = false;
 			})
 			if (valid) {
 				var params = {
 					event_date: $("input#event_date").val(),
 					event_type: $("select#event_type").val(),
-					master_venue_id: $("select#master_venue_id").val()
+					master_venue_id: $("select#master_venue_id").val(),
+					duration: $("select#duration").val()
 				}
 				$.ajax({
-					url: "/get_rebook_events",
+					url: "/get_rebook_details",
 					type: "GET",
 					data: params,
 					success: function(json) {
-						$("select#event_id").empty().append('<option value="0">EVENT</option><option value="N">New</option>');
-						$.each(json, function(i,evt) {
+						window.json = json;
+						$("select#event_id").empty().append('<option value="0">New</option>');
+						$.each(json.events, function(i,evt) {
 							$("select#event_id").append('<option value="'+evt.id+'">'+evt.title+'</option>');
 						})
+						$.each(json.times, function(i,time) {
+							$("select#start_time").append('<option value="'+time.raw+'">'+time.formatted+'</option>');
+						})
 						$("select#event_id").val("0").removeAttr("disabled");
+						$("select#start_time").val('<%= @event.start_time.strftime("%H:%M") %>').removeAttr("disabled");
 						$("select#event_id").unbind("change").change(function() {
-							if ($(this).val()=="N") {
-								// load times and insert those for selected duration
+							if ($(this).val()=="0") {
+								$("select.custom").show();
+								$("input.fixed").hide();
 							} else {
-								// hide duration and time selects and show existing event info
+								$("select.custom").hide();
+								$("input.fixed").show();
+								$.each(window.json.events, function(i,evt) {
+									if (parseInt(evt.id) == parseInt($("select#event_id").val())) {
+										$("input#fixed_duration").val(evt.duration);
+										$("input#fixed_start_time").val(evt.start_time);
+									}
+								})
 							}
-							// on duration change, insert times for that duration
 						})
 					}
 				})
 			} else {
 				$("select.wipeout").empty();
-				$("select#event_id").append('<option value="0">EVENT</option>');
+				$("select#event_id").append('<option value="0">New</option>');
 				$("select#start_time").append('<option value="0">START</option>');
 				$("select.wipeout").val("0").attr("disabled","true");
 			}
