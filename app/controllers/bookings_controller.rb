@@ -477,16 +477,45 @@ class BookingsController < ApplicationController
   end
 
   def do_rebook_all
-    json = {:errors => ["Test error"]}
+    json = {:errors => []}
+    copy_horses = params[:copy_horses]=="true" ? true : false
+    copy_staff = params[:copy_staff]=="true" ? true : false
     event = (params[:event_id] == "0") ? Event.new : Event.find(params[:event_id])
-    p event
     if params[:event_id] == "0"
-      # create event properly
-      p "NEW"
+      end_time = Time.parse(params[:start_time]).advance(:minutes => params[:duration].to_i).strftime("%H:%M")
+      venue_id = nil
+      master_venue = Venue.find(params[:master_venue_id])
+      Venue.where(:name => master_venue.name).order("id DESC").each do |venue|
+        venue_id = venue.id unless Event.where("event_date = ? AND venue_id = ? AND start_time < ? AND end_time > ? AND cancelled = ?", Date.parse(params[:event_date]), venue.id, end_time, params[:start_time], false).first
+      end
+      old_event = Event.find(params[:old_event_id])
+      staff = Staff.where(:id => old_event.staff_id).first
+      staff2 = Staff.where(:id => old_event.staff_id2).first
+      staff3 = Staff.where(:id => old_event.staff_id3).first
+      event.event_type = params[:event_type]
+      event.venue_id = venue_id
+      event.master_venue_id = params[:master_venue_id]
+      event.event_date = params[:event_date]
+      event.start_time = params[:start_time]
+      event.end_time = end_time
+      if copy_staff
+        event.staff_id = staff.id rescue nil
+        event.staff_id2 = staff2.id rescue nil
+        event.staff_id3 = staff3.id rescue nil
+      end
+      event.save!
     end
-    # do rebook
-    # must check for potential staff double-book!!!
-    # json[:event_id] = event.id
+    params[:bookings].each do |booking_id|
+      old_booking = Booking.where(:id => booking_id).first
+      if old_booking
+        booking = Booking.new
+        booking.event_id = event.id
+        booking.client_id = old_booking.client_id
+        booking.horse_id = old_booking.horse_id if copy_horses
+        booking.save!
+      end
+    end
+    json[:event_id] = event.id
     render :json => json
   end
 

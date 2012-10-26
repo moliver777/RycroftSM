@@ -23,6 +23,7 @@
 			<tr>
 				<td colspan="3">
 					Event: <select id="event_id" disabled="true" class="wipeout field"><option value="0">New</option></select>
+					<%= hidden_field_tag :old_event_id, @event.id, :class => "field" %>
 				</td>
 			</tr>
 			<tr>
@@ -38,7 +39,7 @@
 					<select id="start_time" disabled="true" class="wipeout custom field"><option value="0">START</option></select>
 					<input id="fixed_start_time" class="fixed" disabled="true" style="display:none;width:90px;"></input>
 				</td>
-				<td>Copy horses: <input type="checkbox" id="copy_horses"></td>
+				<td>Copy horses: <input type="checkbox" id="copy_horses"><br/>Copy instructors: <input type="checkbox" id="copy_staff"></td>
 			</tr>
 		</table>
 		<table style="width:70%;margin:auto;">
@@ -89,11 +90,12 @@
 					success: function(json) {
 						window.json = json;
 						$("select#event_id").empty().append('<option value="0">New</option>');
+						$("select#start_time").empty();
 						$.each(json.events, function(i,evt) {
 							$("select#event_id").append('<option value="'+evt.id+'">'+evt.title+'</option>');
 						})
 						$.each(json.times, function(i,time) {
-							$("select#start_time").empty().append('<option value="'+time.raw+'">'+time.formatted+'</option>');
+							$("select#start_time").append('<option value="'+time.raw+'">'+time.formatted+'</option>');
 						})
 						$("select#event_id").val("0").removeAttr("disabled");
 						$("select#start_time").val('<%= @event.start_time.strftime("%H:%M") %>').removeAttr("disabled");

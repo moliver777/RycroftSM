@@ -540,10 +540,11 @@ function rebookAll(event_id) {
 						$.each($("select.field"), function(i,select) {
 							params[$(select).attr("id")] = $(select).val();
 						})
-						$.each($("input#field"), function(i,input) {
+						$.each($("input.field"), function(i,input) {
 							params[$(input).attr("id")] = $(input).val();
 						})
 						params["copy_horses"] = $("input#copy_horses").is(":checked");
+						params["copy_staff"] = $("input#copy_staff").is(":checked");
 						params["bookings"] = []
 						$.each($("input.booking"), function(i,booking) {
 							if ($(booking).is(":checked")) params["bookings"].push($(booking).val());
