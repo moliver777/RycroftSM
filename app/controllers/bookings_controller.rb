@@ -508,6 +508,8 @@ class BookingsController < ApplicationController
     params[:bookings].each do |booking_id|
       old_booking = Booking.where(:id => booking_id).first
       if old_booking
+        old_booking.rebooked = true
+        old_booking.save!
         booking = Booking.new
         booking.event_id = event.id
         booking.client_id = old_booking.client_id
