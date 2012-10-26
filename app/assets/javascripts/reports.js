@@ -77,6 +77,10 @@ var REPORTS = {
 							.attr("x",x(i)+2)
 							.attr("y",y(max)+10)
 							.text((horse.name.length > 6) ? horse.name.substr(0,4)+".." : horse.name);
+						svg.append("svg:text")
+							.attr("x",x(i)+2)
+							.attr("y",((y(max)-y(horse.workload) < 15) ? y(max)-y(horse.workload)+15 : y(max)-y(horse.workload)-3))
+							.text(horse.workload);
 					}
 				})
 			}
