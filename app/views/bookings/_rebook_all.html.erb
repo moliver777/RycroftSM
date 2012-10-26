@@ -93,7 +93,7 @@
 							$("select#event_id").append('<option value="'+evt.id+'">'+evt.title+'</option>');
 						})
 						$.each(json.times, function(i,time) {
-							$("select#start_time").append('<option value="'+time.raw+'">'+time.formatted+'</option>');
+							$("select#start_time").empty().append('<option value="'+time.raw+'">'+time.formatted+'</option>');
 						})
 						$("select#event_id").val("0").removeAttr("disabled");
 						$("select#start_time").val('<%= @event.start_time.strftime("%H:%M") %>').removeAttr("disabled");

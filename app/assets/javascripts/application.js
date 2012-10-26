@@ -535,6 +535,7 @@ function rebookAll(event_id) {
 				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"></div></div>",
 				onComplete : function() {
 					jQuery("#fancyConfirm_ok").click(function() {
+						$("ul#rberrors").empty();
 						var params = {}
 						$.each($("select.field"), function(i,select) {
 							params[$(select).attr("id")] = $(select).val();

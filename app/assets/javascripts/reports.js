@@ -76,7 +76,7 @@ var REPORTS = {
 						svg.append("svg:text")
 							.attr("x",x(i)+2)
 							.attr("y",y(max)+10)
-							.text((horse.name.length > 10) ? horse.name.substr(0,8)+".." : horse.name);
+							.text((horse.name.length > 6) ? horse.name.substr(0,4)+".." : horse.name);
 					}
 				})
 			}

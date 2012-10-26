@@ -73,8 +73,8 @@ class ApplicationController < ActionController::Base
     Horse.all.each do |horse|
       horse_workloads << {:name => horse.name, :workload => horse.workload_period(@from, @to).to_f}
     end
-    horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
-    @horse_workloads = horse_workloads.length > 5 ? horse_workloads.slice(0,5) : horse_workloads
+    @horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
+    # @horse_workloads = horse_workloads.length > 5 ? horse_workloads.slice(0,5) : horse_workloads
   end
 
   def horse_events

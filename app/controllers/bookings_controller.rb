@@ -478,7 +478,12 @@ class BookingsController < ApplicationController
 
   def do_rebook_all
     json = {:errors => ["Test error"]}
-    # event = find-existing or create new
+    event = (params[:event_id] == "0") ? Event.new : Event.find(params[:event_id])
+    p event
+    if params[:event_id] == "0"
+      # create event properly
+      p "NEW"
+    end
     # do rebook
     # must check for potential staff double-book!!!
     # json[:event_id] = event.id
