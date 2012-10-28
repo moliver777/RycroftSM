@@ -67,11 +67,12 @@
 
 		$.each($(".trig"), function(i,trig) {
 			$(trig).unbind("change").change(function() {
-				buildTimes();
+				buildTimes(false);
 			})
 		});
 
-		function buildTimes() {
+		function buildTimes(event_id) {
+			window.linked = event_id;
 			var valid = true;
 			$.each($(".trig"), function(i,trig) {
 				if ($(trig).val() == "0") valid = false;
@@ -114,6 +115,18 @@
 								})
 							}
 						})
+						if (window.linked) {
+							$("select#event_id").val(window.linked);
+							$("select.custom").hide();
+							$("input.fixed").show();
+							$.each(window.json.events, function(i,evt) {
+								if (parseInt(evt.id) == parseInt($("select#event_id").val())) {
+									$("input#fixed_duration").val(evt.duration);
+									$("input#fixed_start_time").val(evt.start_time);
+								}
+							})
+						}
+						window.linked = null;
 					}
 				})
 			} else {
@@ -122,6 +135,15 @@
 				$("select#start_time").append('<option value="0">START</option>');
 				$("select.wipeout").val("0").attr("disabled","true");
 			}
+		}
+
+		var linked = "<%= @linked.id if @linked %>";
+		if (linked.length > 0) {
+			$("input#event_date").val("<%= @linked.event_date.strftime('%d-%m-%Y') if @linked %>");
+			$("select#event_type").val("<%= @linked.event_type if @linked %>");
+			$("select#master_venue_id").val("<%= @linked.master_venue_id if @linked %>");
+			$("select#duration").val("<%= @linked.duration_mins if @linked %>");
+			buildTimes("<%= @linked.id if @linked %>");
 		}
 	});
 </script>

@@ -451,6 +451,7 @@ class BookingsController < ApplicationController
 
   def rebook_all
     @event = Event.find(params[:event_id])
+    @linked = Event.where(:id => @event.rebook_id).first
     render :partial => "rebook_all"
   end
 
@@ -504,6 +505,8 @@ class BookingsController < ApplicationController
         event.staff_id3 = staff3.id rescue nil
       end
       event.save!
+      old_event.rebook_id = event.id
+      old_event.save!
     end
     params[:bookings].each do |booking_id|
       old_booking = Booking.where(:id => booking_id).first
