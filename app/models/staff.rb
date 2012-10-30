@@ -71,6 +71,19 @@ class Staff < ActiveRecord::Base
     result
   end
 
+  def workload_period from, to
+    hours = 0
+    mins = 0
+    self.events.where(:event_date => from..to, :cancelled => false).each do |event|
+      duration = event.duration.split(":")
+      hours += duration[0].to_i
+      mins += duration[1].to_i
+    end
+    hours += mins/60
+    mins = mins%60
+    mins > 0 ? hours.to_s+"."+((mins/15)*25).to_s : hours.to_s
+  end
+
   def self.status
     issues = []
     Staff.where(:skip_issues => false).each do |staff|

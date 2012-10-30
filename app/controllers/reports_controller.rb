@@ -6,10 +6,11 @@ class ReportsController < ApplicationController
     @from = Date.today.advance(:days => -7)
     @to = Date.today.advance(:days => 7)
     horse_workloads
+    staff_workloads
     horse_events
     client_ages
     client_events
-    client_standards
+    # client_standards
     event_types
     bookings_by_day
     bookings_by_hour
@@ -19,10 +20,11 @@ class ReportsController < ApplicationController
     @from = params[:from_date]
     @to = params[:to_date]
     horse_workloads
+    staff_workloads
     horse_events
     client_ages
     client_events
-    client_standards
+    # client_standards
     event_types
     bookings_by_day
     bookings_by_hour

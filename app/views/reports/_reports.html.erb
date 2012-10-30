@@ -3,6 +3,10 @@
 		<h3>Horse Workloads</h3>
 		<div id="horse_workloads_container"></div>
 	</div>
+	<div class="report_panel_2">
+		<h3>Staff Workloads</h3>
+		<div id="staff_workloads_container"></div>
+	</div>
 	<div class="report_panel">
 		<h3>Horse Events</h3>
 		<div id="horse_events_container"></div>
@@ -15,10 +19,10 @@
 		<h3>Client Events</h3>
 		<div id="client_events_container"></div>
 	</div>
-	<div class="report_panel">
+	<!-- <div class="report_panel">
 		<h3>Client Standards</h3>
 		<div id="client_standards_container"></div>
-	</div>
+	</div> -->
 	<div class="report_panel">
 		<h3>Event Types</h3>
 		<div id="event_types_container"></div>
@@ -43,6 +47,12 @@
 				container: "#horse_workloads_container"
 			});
 			REPORTS.create({
+				name: "staff_workloads",
+				data: JSON.parse('<%= @staff_workloads.to_json.html_safe if @staff_workloads %>'),
+				mini: false,
+				container: "#staff_workloads_container"
+			});
+			REPORTS.create({
 				name: "horse_events",
 				data: JSON.parse('<%= @horse_events.to_json.html_safe if @horse_events %>'),
 				mini: false,
@@ -60,12 +70,12 @@
 				mini: false,
 				container: $("#client_events_container")
 			});
-			REPORTS.create({
-				name: "client_standards",
-				data: JSON.parse('<%= @client_standards.to_json.html_safe if @client_standards %>'),
-				mini: false,
-				container: $("#client_standards_container")
-			});
+			// REPORTS.create({
+			// 	name: "client_standards",
+			// 	data: JSON.parse('<%= @client_standards.to_json.html_safe if @client_standards %>'),
+			// 	mini: false,
+			// 	container: $("#client_standards_container")
+			// });
 			REPORTS.create({
 				name: "event_types",
 				data: JSON.parse('<%= @event_types.to_json.html_safe if @event_types %>'),
