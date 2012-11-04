@@ -105,8 +105,13 @@
 				<% @payments["voucher"].each do |payment| %>
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<% if payment.booking %>
+							<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+							<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<% else %>
+							<td><%= payment.description %></td>
+							<td><%= payment.reference %></td>
+						<% end %>
 						<td><%= payment.amount %></td>
 					</tr>
 				<% end %>
@@ -122,8 +127,13 @@
 				<% @payments["hours"].each do |payment| %>
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<% if payment.booking %>
+							<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+							<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<% else %>
+							<td><%= payment.description %></td>
+							<td><%= payment.reference %></td>
+						<% end %>
 						<td><%= payment.amount %></td>
 					</tr>
 				<% end %>
@@ -139,8 +149,13 @@
 				<% @payments["foc"].each do |payment| %>
 					<tr>
 						<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<% if payment.booking %>
+							<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+							<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<% else %>
+							<td><%= payment.description %></td>
+							<td><%= payment.reference %></td>
+						<% end %>
 						<td><%= payment.amount %></td>
 					</tr>
 				<% end %>
