@@ -65,6 +65,11 @@
 		<tr>
 			<td><%= @booking.rebooked ? "Yes" : "No" %></td>
 		</tr>
+		<% if @booking.rebooked %>
+		<tr>
+			<td><%= Event.where(:id => @booking.event.rebook_id).first.event_date.strftime("%d-%m-%Y") %> <%= Event.where(:id => @booking.event.rebook_id).first.start_time.strftime("%l:%M%P") %></td>
+		</tr>
+		<% end %>
 	</table>
 </div>
 <div class="show_section">
