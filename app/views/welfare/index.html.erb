@@ -1,0 +1,49 @@
+<div>
+	<table class="welfare_header">
+		<tr>
+			<td style="width:15%;" class="welfare_link" href="/welfare/calendar">Calendar</td>
+			<td colspan="2" style="width:70%;"><h2>Due this Week</h2></td>
+			<td style="width:15%;" class="welfare_link" href="/welfare/lists">Lists</td>
+		</tr>
+		<tr class="welfare_sep"></tr>
+		<tr>
+			<td colspan="2" style="width:50%;text-align:left;"><< Previous Week</td>
+			<td colspan="2" style="width:50%;text-align:right;">Next Week >></td>
+		</tr>
+	</table>
+</div>
+
+<div>
+	<table id="due_this_week">
+		<tr>
+			<th class="due_title">Farrier</th>
+			<td class="due_data"></td>
+		</tr>
+		<tr>
+			<th class="due_title">Worming</th>
+			<td class="due_data"></td>
+		</tr>
+		<tr>
+			<th class="due_title">Teeth</th>
+			<td class="due_data"></td>
+		</tr>
+		<tr>
+			<th class="due_title">Physio</th>
+			<td class="due_data"></td>
+		</tr>
+		<tr>
+			<th class="due_title">Vaccinations</th>
+			<td class="due_data"></td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("table td.welfare_link"), function(i,link) {
+			$(link).unbind("click").click(function() {
+				window.location.href = $(this).attr("href");
+			})
+		})
+	});
+</script>

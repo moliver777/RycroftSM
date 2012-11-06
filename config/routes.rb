@@ -150,4 +150,9 @@ RycroftSM::Application.routes.draw do
   get "/print/client/:client_id" => "printing#client"
   get "/print/event/:event_id" => "printing#event"
   get "/print/booking/:booking_id" => "printing#booking"
+
+  # WELFARE
+  get "/welfare" => "welfare#index"
+  get "/welfare/calendar" => "welfare#calendar"
+  get "/welfare/lists" => "welfare#lists"
 end

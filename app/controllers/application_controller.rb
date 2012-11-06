@@ -61,6 +61,7 @@ class ApplicationController < ActionController::Base
     @business_address = SiteSetting.where(:name => "business_address").first.value rescue ""
     @business_telephone = SiteSetting.where(:name => "business_telephone").first.value rescue ""
     @business_email = SiteSetting.where(:name => "business_email").first.value rescue ""
+    @welfare_user = SiteSetting.where(:name => "welfare_user").first.value rescue ""
   end
 
   def current_user

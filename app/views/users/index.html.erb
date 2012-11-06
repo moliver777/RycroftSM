@@ -13,7 +13,7 @@
 				<tr>
 					<td><%= user.user_level.downcase.capitalize if user.user_level %></td>
 					<td><%= user.username if user.username %></td>
-					<td><%= user.last_name if user.last_name %>, <%= user.first_name if user.first_name %></td>
+					<td><%= user.first_name if user.first_name %> <%= user.last_name if user.last_name %></td>
 					<td style="vertical-align:middle;">
 						<a onclick="reset('<%= user.username %>','/admin/users/reset_password/<%= user.username %>')">Reset Password</a> | <a href="/admin/users/edit/<%= user.username %>">Edit</a> | <a onclick="confirmation('<%= user.username %>','/admin/users/delete/<%= user.username %>')">Delete</a>
 					</td>

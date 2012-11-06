@@ -1,0 +1,32 @@
+table.welfare_header {
+	width: 100%;
+	border: none;
+}
+
+table.welfare_header td {
+	border: none;
+}
+
+tr.welfare_sep {
+	height: 10px;
+}
+
+td.welfare_link {
+	cursor: pointer;
+	background-color: rgba(0,0,0,0.1);
+	border: 1px solid #5F5F5F!important;
+	text-align: center;
+}
+
+table#due_this_week {
+	width: 100%;
+}
+
+th.due_title {
+	width: 15%;
+	text-align: right;
+}
+
+td.due_data {
+	width: 85%;
+}
