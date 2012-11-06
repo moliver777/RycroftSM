@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121004181726) do
+ActiveRecord::Schema.define(:version => 20121106191744) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -179,7 +179,6 @@ ActiveRecord::Schema.define(:version => 20121004181726) do
   create_table "site_settings", :force => true do |t|
     t.string   "name"
     t.text     "value"
-    t.string   "external"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
