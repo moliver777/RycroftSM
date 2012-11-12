@@ -10,6 +10,7 @@
 <% if @date != Date.today %>
 	<div style="text-align:center;text-decoration:underline;"><a class="change_date" date="<%= Date.today.strftime("%d-%m-%Y") %>">Go to Today</a></div>
 <% end %>
+<input id="upcoming_date" value="<%= @date.strftime("%d-%m-%Y") %>" />
 <br/>
 <table id="upcoming" style="width:100%">
 	<tr class="header">

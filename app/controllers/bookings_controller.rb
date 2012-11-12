@@ -508,7 +508,8 @@ class BookingsController < ApplicationController
       old_event.rebook_id = event.id
       old_event.save!
     end
-    params[:bookings].each do |booking_id|
+    params[:bookings].each do |i,obj|
+      booking_id = obj["id"]
       old_booking = Booking.where(:id => booking_id).first
       if old_booking
         old_booking.rebooked = true
@@ -517,6 +518,7 @@ class BookingsController < ApplicationController
         booking.event_id = event.id
         booking.client_id = old_booking.client_id
         booking.horse_id = old_booking.horse_id if copy_horses
+        booking.confirmed = true if obj["confirm"] == "true"
         booking.save!
       end
     end

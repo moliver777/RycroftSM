@@ -547,7 +547,7 @@ function rebookAll(event_id) {
 						params["copy_staff"] = $("input#copy_staff").is(":checked");
 						params["bookings"] = []
 						$.each($("input.booking"), function(i,booking) {
-							if ($(booking).is(":checked")) params["bookings"].push($(booking).val());
+							if ($(booking).is(":checked")) params["bookings"].push({id:$(booking).val(),confirm:$("input.confirm[value='"+$(booking).val()+"']").is(":checked")});
 						})
 						$.ajax({
 							url: "/do_rebook_all",
@@ -563,7 +563,6 @@ function rebookAll(event_id) {
 								}
 							}
 						})
-						// show errors or load event_view
 					})
 					jQuery("#fancyConfirm_cancel").click(function() {
 						jQuery.fancybox.close();

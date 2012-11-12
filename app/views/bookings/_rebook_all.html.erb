@@ -42,11 +42,17 @@
 				<td>Copy horses: <input type="checkbox" id="copy_horses"><br/>Copy instructors: <input type="checkbox" id="copy_staff"></td>
 			</tr>
 		</table>
-		<table style="width:70%;margin:auto;">
+		<table style="width:80%;margin:auto;">
+			<tr>
+				<th style="text-align:right;">Rebook |</th>
+				<th>Client (Horse)</th>
+				<th>Confirm?</th>
+			</tr>
 			<% @event.bookings.each do |booking| %>
 				<tr>
-					<td style="text-align:right;width:35%;"><%= '(Rebooked) ' if booking.rebooked %><%= check_box_tag "booking#{booking.id}", booking.id, "", :class => "booking" %></td>
-					<td colspan="2" style="text-align:left;width:65%;"><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %> <span class="horse" style="display:none;"><%= "(#{booking.horse.name})" rescue "" %></span></td>
+					<td style="text-align:right;width:22%;padding-right:10px;"><%= '(Rebooked) ' if booking.rebooked %><%= check_box_tag "booking#{booking.id}", booking.id, "", :class => "booking" %></td>
+					<td style="text-align:left;width:56%;"><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %> <span class="horse" style="display:none;"><%= "(#{booking.horse.name})" rescue "" %></span></td>
+					<td style="text-align:right;width:22%;"><%= check_box_tag "confirm#{booking.id}", booking.id, "", :class => "confirm" %></td>
 				</tr>
 			<% end %>
 		</table>
