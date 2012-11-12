@@ -4,6 +4,8 @@ class BookingsController < ApplicationController
   def index
     if params[:date]
       @date = Date.parse(params[:date])
+    elsif session[:upcoming]
+      @date = Date.parse(session[:upcoming])
     else
       @date = Date.today
     end
@@ -529,6 +531,7 @@ class BookingsController < ApplicationController
   private
 
   def load_upcoming
+    session[:upcoming] = @date.strftime("%Y/%m/%d")
     @upcoming = Event.includes(:bookings).where(:event_date => @date).order("start_time")
   end
 

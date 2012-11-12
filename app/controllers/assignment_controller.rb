@@ -10,6 +10,7 @@ class AssignmentController < ApplicationController
   end
 
   def auto_assign
+    session[:upcoming] = params[:date]
     json = {}
     bookings = Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", params[:date], Event::HORSE, false).order("start_time").map{|e| e.bookings.where(:cancelled => false)}.flatten.select{|b| !b.horse}
     bookings.each do |booking|
