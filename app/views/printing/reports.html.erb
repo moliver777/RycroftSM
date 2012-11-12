@@ -1,42 +1,49 @@
-<div style="text-align:center;position:relative;top:-15px;"><a href="/print/reports/<%= @from.strftime("%d-%m-%Y") %>/<%= @to.strftime("%d-%m-%Y") %>" target="_blank" >Print</a></div>
-<div style="height:1350px">
-	<div class="report_panel_2">
-		<h3>Horse Workloads</h3>
-		<div id="horse_workloads_container"></div>
-	</div>
-	<div class="report_panel_2">
-		<h3>Staff Workloads</h3>
-		<div id="staff_workloads_container"></div>
-	</div>
-	<div class="report_panel">
-		<h3>Horse Events</h3>
-		<div id="horse_events_container"></div>
-	</div>
-	<div class="report_panel">
-		<h3>Client Ages</h3>
-		<div id="client_ages_container"></div>
-	</div>
-	<div class="report_panel">
-		<h3>Client Events</h3>
-		<div id="client_events_container"></div>
-	</div>
-	<!-- <div class="report_panel">
-		<h3>Client Standards</h3>
-		<div id="client_standards_container"></div>
-	</div> -->
-	<div class="report_panel">
-		<h3>Event Types</h3>
-		<div id="event_types_container"></div>
-	</div>
-	<div class="report_panel">
-		<h3>Bookings by Day</h3>
-		<div id="day_bookings_container"></div>
-	</div>
-	<div class="report_panel">
-		<h3>Bookings by Hour</h3>
-		<div id="hour_bookings_container"></div>
-	</div>
-</div>
+<html>
+	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+		<%= stylesheet_link_tag    "reports" %>
+		<%= javascript_include_tag "application" %>
+	</head>
+	<body>
+		<h1>REPORTS - <%= @from.strftime("%A") %> <%= @from.strftime("%d").to_i.ordinalize %> <%= @from.strftime("%B %Y") %> to <%= @to.strftime("%A") %> <%= @to.strftime("%d").to_i.ordinalize %> <%= @to.strftime("%B %Y") %></h1>
+		<div class="report_panel_2">
+			<h3>Horse Workloads</h3>
+			<div id="horse_workloads_container"></div>
+		</div>
+		<div class="report_panel_2">
+			<h3>Staff Workloads</h3>
+			<div id="staff_workloads_container"></div>
+		</div>
+		<div class="report_panel">
+			<h3>Horse Events</h3>
+			<div id="horse_events_container"></div>
+		</div>
+		<div class="report_panel">
+			<h3>Client Ages</h3>
+			<div id="client_ages_container"></div>
+		</div>
+		<div class="report_panel">
+			<h3>Client Events</h3>
+			<div id="client_events_container"></div>
+		</div>
+		<!-- <div class="report_panel">
+			<h3>Client Standards</h3>
+			<div id="client_standards_container"></div>
+		</div> -->
+		<div class="report_panel">
+			<h3>Event Types</h3>
+			<div id="event_types_container"></div>
+		</div>
+		<div class="report_panel">
+			<h3>Bookings by Day</h3>
+			<div id="day_bookings_container"></div>
+		</div>
+		<div class="report_panel">
+			<h3>Bookings by Hour</h3>
+			<div id="hour_bookings_container"></div>
+		</div>
+	</body>
+</html>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -98,5 +105,6 @@
 		} catch (e) {
 			// console.log(e);
 		}
+		window.print();
 	});
 </script>
