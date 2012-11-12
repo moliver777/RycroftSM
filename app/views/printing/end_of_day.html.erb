@@ -55,14 +55,19 @@
 					</tr>
 					<% event.bookings.each do |booking| %>
 						<tr>
-							<% if @date > Date.today %>
-								<td colspan="2"></td>
-							<% else %>
-								<td></td>
-								<td>Rebooked: <%= check_box_tag "rb-#{booking.id}", "", booking.rebooked %></td>
-							<% end %>
-							<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
-							<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
+							<td></td>
+							<td colspan="2">
+								Rebooked: <%= check_box_tag "rb-#{booking.id}", "", booking.rebooked %>
+								<% if booking.rebooked %>
+									<% rebook = Event.where(:id => event.rebook_id).first %>
+									<% if rebook %>
+										<%= rebook.event_date.strftime("%A %d/%m/%Y") %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= rebook.start_time.strftime("%l:%M%P") %>-<%= rebook.end_time.strftime("%l:%M%P") %>
+									<% else %>
+										CANCELLED
+									<% end %>
+								<% end %>
+							</td>
+							<td><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %> (<%= booking.horse.name if booking.horse %>)</td>
 						</tr>
 					<% end %>
 					<tr class="bottom">
