@@ -39,6 +39,10 @@
 				font-weight: bold;
 				font-size: 1.1em;
 			}
+
+			text.print_size {
+				font-size: 10px;
+			}
 		</style>
 	</head>
 	<body>
@@ -257,11 +261,11 @@
 		<!-- REPORTS -->
 		<div class="report_panel_2">
 			<h3>Horse Workloads - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h3>
-			<div id="horse_workloads_container"></div>
+			<div id="horse_workloads_container" style="width:1100px;"></div>
 		</div>
 		<div class="report_panel_2">
 			<h3>Staff Workloads - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h3>
-			<div id="staff_workloads_container"></div>
+			<div id="staff_workloads_container" style="width:1100px;"></div>
 		</div>
 	</body>
 </html>

@@ -79,6 +79,7 @@ var REPORTS = {
 						svg.append("svg:text")
 							.attr("x",x(i)+2)
 							.attr("y",y(max)+10)
+							.attr("class","print_size")
 							.text((horse.name.length > 6) ? horse.name.substr(0,4)+".." : horse.name);
 						svg.append("svg:text")
 							.attr("x",x(i)+2)
@@ -168,6 +169,7 @@ var REPORTS = {
 						svg.append("svg:text")
 							.attr("x",x(i)+2)
 							.attr("y",y(max)+10)
+							.attr("class","print_size")
 							.text((staff.name.length > 10) ? staff.name.substr(0,7)+".." : staff.name);
 						svg.append("svg:text")
 							.attr("x",x(i)+2)
