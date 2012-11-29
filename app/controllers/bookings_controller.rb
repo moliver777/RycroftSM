@@ -600,7 +600,8 @@ class BookingsController < ApplicationController
 
   def validate_payment fields
     @errors = []
-    @errors << "Amount must be greater than 0." unless fields[:amount].to_f > 0
+    number = true if Float fields[:amount] rescue false
+    @errors << "Amount must be number." unless number
     if !fields.include? :booking_id
       @errors << "Must have a description." unless fields[:description].length > 0
     end
