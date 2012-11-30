@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
   skip_before_filter :user_permission?
-  skip_before_filter :application_status, :except => :index
 
   def index
+    application_status if params.include? :refresh
     @prompt = current_user.user_level == User::BASE ? false : auto_assign(false)
     @all_notes = Note.where(:hidden => false).order("urgent DESC, end_date ASC")
     @date = Date.today

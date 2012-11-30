@@ -1,5 +1,4 @@
 class AssignmentController < ApplicationController
-  skip_before_filter :application_status
   skip_before_filter :setup
 
   def block

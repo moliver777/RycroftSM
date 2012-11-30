@@ -1,6 +1,5 @@
 class ReportsController < ApplicationController
   skip_before_filter :user_permission?
-  skip_before_filter :application_status
 
   def index
     @from = Date.today.advance(:days => -7)

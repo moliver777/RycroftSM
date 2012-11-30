@@ -1,5 +1,4 @@
 class WelfareController < ApplicationController
-  skip_before_filter :application_status
   before_filter :welfare_user?
 
   def index

@@ -1,9 +1,18 @@
 class HorsesController < ApplicationController
   skip_before_filter :user_permission?, :only => [:index,:show,:availability]
-  skip_before_filter :application_status, :except => :index
 
   def index
     @horses = Horse.order("name")
+  end
+
+  def leased
+    @leases = {}
+    Client.all.each do |client|
+      horse = Horse.where(:id => client.leasing).first
+      if horse
+        @leases[horse.name] = "#{client.first_name if client.first_name} #{client.last_name if client.last_name}"
+      end
+    end
   end
 
   def sort

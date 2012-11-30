@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticated_user?
   before_filter :user_permission?
-  before_filter :application_status
   before_filter :status_available
   before_filter :setup
   before_filter :format_date

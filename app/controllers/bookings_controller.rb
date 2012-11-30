@@ -1,5 +1,4 @@
 class BookingsController < ApplicationController
-  skip_before_filter :application_status, :except => :index
 
   def index
     if params[:date]

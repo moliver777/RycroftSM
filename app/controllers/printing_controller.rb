@@ -1,5 +1,4 @@
 class PrintingController < ApplicationController
-  skip_before_filter :application_status
 
   layout false
 

@@ -71,6 +71,7 @@ RycroftSM::Application.routes.draw do
   # HORSES
   get "/horses" => "horses#index"
   get "/horses/sort/:sort/:mod" => "horses#sort"
+  get "/horses/leased" => "horses#leased"
   get "/horses/new" => "horses#new"
   post "/horses/create" => "horses#create"
   get "/horses/show/:horse_id" => "horses#show"

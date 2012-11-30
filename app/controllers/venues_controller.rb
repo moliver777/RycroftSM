@@ -1,6 +1,5 @@
 class VenuesController < ApplicationController
   before_filter :master_only
-  skip_before_filter :application_status, :except => :index
 
   def index
     @venues = Venue.where(:master => true).order("name")
