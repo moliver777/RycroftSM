@@ -533,15 +533,21 @@ class BookingsController < ApplicationController
     else
       @date = session[:upcoming] ? Date.parse(session[:upcoming]) : Date.today
     end
-    @events = Event.includes(:bookings).where(:event_date => @date).order("start_time")
-  end
-
-  def check_assign
-    
+    @events = Event.includes(:bookings).where("event_date = ? and bookings.cancelled = false", @date).order("start_time")
+    @horses = Horse.where(:availability => true).order("name")
   end
 
   def save_assign
-    
+    params[:changes].each do |booking_id,horse_id|
+      puts booking_id
+      puts horse_id
+      puts "***"
+      booking = Booking.where(:id => booking_id).first
+      booking.horse_id = horse_id
+      booking.save!
+    end
+    application_status if params.include? :check
+    render :nothing => true
   end
 
   private

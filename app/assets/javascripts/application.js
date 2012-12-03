@@ -573,6 +573,40 @@ function rebookAll(event_id) {
 	})
 }
 
+function fancyConfirmAssignEdit() {
+	var ret;
+	jQuery.fancybox({
+		'overlayShow' : true,
+		'padding' : 0,
+		modal : true,
+		content : "<div class='popup_wrapper' id='confirm_popup'><h3>ASSIGNMENTS EDIT</h3><div class='popup_content reduced_height'><p>Are you sure you want to save your changes to the horse assignments for this day?</p><p style='margin-top:10px;'><input type='checkbox' id='do_check' /> Check this box if you want to run the checks for double-bookings and other issues.</p><p>WARNING: This may take 1-2mins to complete.</p></div><div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Assign\" style=\"width:66px;\"></div></div>",
+		onComplete : function() {
+			jQuery("#fancyConfirm_cancel").click(function() {
+				jQuery.fancybox.close();
+			})
+			jQuery("#fancyConfirm_ok").click(function() {
+				// save -> POST "/save_assign"
+				var params = {changes:{}}
+				if ($("input#do_check").is(":checked")) params["check"] = true;
+				$.each($("select.horse_select"), function(i,select) {
+					if ($(select).val() != "0") params["changes"][$(select).attr("booking")] = $(select).val();
+				})
+				$("#fancyConfirm_ok").attr("disabled",true);
+				$("#fancyConfirm_cancel").attr("disabled",true);
+				$("div.popup_content").empty().append("<p>Please wait...</p>");
+				$.ajax({
+					url: "/save_assign",
+					type: "POST",
+					data: params,
+					success: function() {
+						window.location.reload();
+					}
+				})
+			})
+		}
+	});
+}
+
 function formatTime(time) {
 	if (time.length>0) {
 		var hr = parseInt(time.split(":")[0]);

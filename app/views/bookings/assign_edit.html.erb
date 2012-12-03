@@ -1,13 +1,15 @@
 <h2>Edit Horse Assignments - <%= @date.strftime("%a")+" "+@date.strftime("%d").to_i.ordinalize+" "+@date.strftime("%b %Y") %></h2>
-<!-- put calendar here -->
+<div style="text-align:center;padding:5px;">
+	<input id="assign_date" value="<%= @date.strftime("%d-%m-%Y") %>" />
+</div>
 <table style="width:100%;">
 	<tr>
-		<th>Start Time</th>
-		<th>Lesson</th>
-		<th>Instructor</th>
-		<th>Client</th>
-		<th>Horse</th>
-		<th>Leasing?</th>
+		<th style="width:15%;">Time</th>
+		<th style="width:30%;">Lesson</th>
+		<th style="width:15%;">Instructor</th>
+		<th style="width:15%;">Client</th>
+		<th style="width:15%;">Horse</th>
+		<th style="width:10%;">Leasing?</th>
 	</tr>
 	<% if @events.first %>
 		<% @events.each do |event| %>
@@ -15,7 +17,7 @@
 			<% event.bookings.each do |booking| %>
 				<tr>
 					<% if booking == event.bookings.first %>
-						<td><%= event.start_time.strftime("%l:%M%P") %></td>
+						<td><%= event.start_time.strftime("%l:%M%P") %>-<%= event.end_time.strftime("%l:%M%P") %></td>
 						<td><%= event.duration_mins %>mins <%= event.event_type.downcase.capitalize %><%= " (#{event.description})" if event.description.length > 0 rescue "" %><%= " [#{event.staff_notes}]" if event.staff_notes.length > 0 rescue "" %></td>
 						<td><%= event.staff_list %></td>
 					<% elsif !span %>
@@ -24,7 +26,17 @@
 					<% end %>
 					<td><%= booking.client.first_name %> <%= booking.client.last_name %></td>
 					<td>
-						<!-- Horse dropdown list -->
+						<select class="horse_select" booking="<%= booking.id %>">
+							<option value="0"></option>
+							<% @horses.each do |horse| %>
+								<option value="<%= horse.id %>"><%= horse.name %><%= " *" if booking.client.horses.split(";").include?("#{horse.id}") rescue "" %></option>
+							<% end %>
+						</select>
+						<% if booking.horse %>
+							<script type="text/javascript">
+								$("select[booking='<%= booking.id %>']").val("<%= booking.horse_id %>");
+							</script>
+						<% end %>
 					</td>
 					<td>
 						<% if booking.client.leasing %>
@@ -46,10 +58,16 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		// do assignment button stuff and set up dropdowns for bookings with correct horses
-		// check -> POST "/check_assign"
-		// save -> POST "/save_assign"
-		// undo -> window.location.reload ???
-		// add calendar for changing date -> GET /bookings/assign_edit/:date
+		$("input#assign_date").datepicker({dateFormat: "dd-mm-yy"});
+		$(".ui-datepicker").hide();
+		$("input#assign_date").unbind("change").change(function() {
+			window.location.href = "/bookings/assign_edit/"+$("input#assign_date").val();
+		})
+		$("button#assign_undo").unbind("click").click(function() {
+			window.location.reload();
+		})
+		$("button#assign_save").unbind("click").click(function() {
+			fancyConfirmAssignEdit();
+		})
 	})
 </script>
