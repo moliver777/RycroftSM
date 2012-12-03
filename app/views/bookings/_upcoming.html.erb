@@ -80,6 +80,7 @@
 		$("input#upcoming_date").datepicker({dateFormat: "dd-mm-yy"});
 		$(".ui-datepicker").hide();
 		$("#auto_assign").attr("date", "<%= @date.strftime('%d-%m-%Y') %>");
+		$("#assign_edit").attr("date", "<%= @date.strftime('%d-%m-%Y') %>");
 
 		$("input#upcoming_date").unbind("change").change(function() {
 			$("div#upcoming_bookings").load("/bookings/upcoming/"+$(this).val());

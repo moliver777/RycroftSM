@@ -527,6 +527,23 @@ class BookingsController < ApplicationController
     render :json => json
   end
 
+  def assign_edit
+    if params.include? :date
+      @date = Date.parse(params[:date])
+    else
+      @date = session[:upcoming] ? Date.parse(session[:upcoming]) : Date.today
+    end
+    @events = Event.includes(:bookings).where(:event_date => @date).order("start_time")
+  end
+
+  def check_assign
+    
+  end
+
+  def save_assign
+    
+  end
+
   private
 
   def load_upcoming

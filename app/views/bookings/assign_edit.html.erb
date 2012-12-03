@@ -1,0 +1,55 @@
+<h2>Edit Horse Assignments - <%= @date.strftime("%a")+" "+@date.strftime("%d").to_i.ordinalize+" "+@date.strftime("%b %Y") %></h2>
+<!-- put calendar here -->
+<table style="width:100%;">
+	<tr>
+		<th>Start Time</th>
+		<th>Lesson</th>
+		<th>Instructor</th>
+		<th>Client</th>
+		<th>Horse</th>
+		<th>Leasing?</th>
+	</tr>
+	<% if @events.first %>
+		<% @events.each do |event| %>
+			<% span = false %>
+			<% event.bookings.each do |booking| %>
+				<tr>
+					<% if booking == event.bookings.first %>
+						<td><%= event.start_time.strftime("%l:%M%P") %></td>
+						<td><%= event.duration_mins %>mins <%= event.event_type.downcase.capitalize %><%= " (#{event.description})" if event.description.length > 0 rescue "" %><%= " [#{event.staff_notes}]" if event.staff_notes.length > 0 rescue "" %></td>
+						<td><%= event.staff_list %></td>
+					<% elsif !span %>
+						<td colspan="3" rowspan="<%= event.bookings.count - 1 %>"></td>
+						<% span = true%>
+					<% end %>
+					<td><%= booking.client.first_name %> <%= booking.client.last_name %></td>
+					<td>
+						<!-- Horse dropdown list -->
+					</td>
+					<td>
+						<% if booking.client.leasing %>
+							<%= Horse.where(:id => booking.client.leasing).first.name rescue "" %>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		<% end %>
+	<% else %>
+		<tr><td colspan="5" style="text-align:center;font-weight:bold;">No Bookings Found</td></tr>
+	<% end %>
+</table>
+
+<div style="text-align:center;padding:10px;">
+	<button id="assign_undo">Undo</button>
+	<button id="assign_save">Check & Save</button>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		// do assignment button stuff and set up dropdowns for bookings with correct horses
+		// check -> POST "/check_assign"
+		// save -> POST "/save_assign"
+		// undo -> window.location.reload ???
+		// add calendar for changing date -> GET /bookings/assign_edit/:date
+	})
+</script>
