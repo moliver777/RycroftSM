@@ -66,16 +66,18 @@
 	<a href="/reports" class="head_link">Reports</a>
 </div>
 
-<% if current_user.user_level == User::MASTER %>
-	<div class="menu_link">
-		<a href="/admin" class="head_link">Admin</a><br/>
-		<div class="sub_links">
+
+<div class="menu_link">
+	<a href="/admin" class="head_link">Admin</a><br/>
+	<div class="sub_links">
+		<a href="/stock" class="sub_link">Stock</a><br/>
+		<% if current_user.user_level == User::MASTER %>
 			<a href="/admin/users" class="sub_link">Users</a><br/>
 			<a href="/admin/venues" class="sub_link">Venues</a><br/>
 			<a href="/admin/settings" class="sub_link">Settings</a><br/>
-		</div>
+		<% end %>
 	</div>
-<% end %>
+</div>
 
 <% if current_user.username == @welfare_user %>
 	<div class="menu_link">
