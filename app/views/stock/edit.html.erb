@@ -1,0 +1,4 @@
+<h2>Edit <%= @item.name if @client.name %></h2>
+<%= render :partial => "form" %>
+<ul class="error" id="form_errors"></ul>
+<button id="cancel" onclick="window.location.replace('/stock')">Cancel</button><button id="save" onclick="save('/stock','/stock/update/<%= @item.id %>')">Save</button>

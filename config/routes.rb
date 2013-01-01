@@ -118,6 +118,15 @@ RycroftSM::Application.routes.draw do
   post "/notes/delete/:note_id" => "notes#destroy"
   get "/notes/hide/:note_id" => "notes#hide"
 
+  # STOCK
+  get "/stock" => "stock#index"
+  get "/stock/new" => "stock#new"
+  post "/stock/create" => "stock#create"
+  get "/stock/edit/:stock_id" => "stock#edit"
+  post "/stock/update/:stock_id" => "stock#update"
+  post "/stock/delete/:stock_id" => "stock#destroy"
+  post "/stock/quantity/:stock_id" => "stock#quantity"
+
   # ADMIN
   get "/admin" => "admin#index"
   get "/admin/users" => "users#index"
