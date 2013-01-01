@@ -585,7 +585,6 @@ function fancyConfirmAssignEdit() {
 				jQuery.fancybox.close();
 			})
 			jQuery("#fancyConfirm_ok").click(function() {
-				// save -> POST "/save_assign"
 				var params = {changes:{}}
 				if ($("input#do_check").is(":checked")) params["check"] = true;
 				$.each($("select.horse_select"), function(i,select) {

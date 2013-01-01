@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-  before_filter :master_only
+  before_filter :master_only, :except => :index
 
   def index
   end

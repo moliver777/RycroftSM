@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_filter :format_date
 
   def authenticated_user?
-    if !session[:username]
+    unless session.include? :username
       redirect_to "/login"
     end
   rescue StandardError => e
