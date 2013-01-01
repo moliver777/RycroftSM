@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121106191744) do
+ActiveRecord::Schema.define(:version => 20130101182451) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(:version => 20121106191744) do
     t.string   "reference"
     t.boolean  "hours",        :default => false
     t.boolean  "foc",          :default => false
+    t.string   "stock_ids"
   end
 
   create_table "preferences", :force => true do |t|
@@ -206,6 +207,15 @@ ActiveRecord::Schema.define(:version => 20121106191744) do
     t.boolean  "saturday",       :default => false
     t.boolean  "sunday",         :default => false
     t.boolean  "skip_issues",    :default => false
+  end
+
+  create_table "stocks", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.float    "cost"
+    t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
