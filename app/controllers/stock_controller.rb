@@ -45,7 +45,7 @@ class StockController < ApplicationController
 
   private
 
-  def validation params
+  def validation fields
     @errors = []
     @errors << "Item must have a name." unless fields[:name].length > 0
     @validated = @errors.length > 0 ? false : true

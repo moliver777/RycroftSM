@@ -1,0 +1,22 @@
+<div class="form_section">
+	<h3>Details</h3>
+	<table class="form_table">
+		<tr>
+			<td><%= text_field_tag "name", @item.name, :placeholder => "Name", :class => "long field" %></td>
+		</tr>
+		<tr>
+			<td><%= text_area_tag "description", @item.description, :placeholder => "Description", :class => "field", :size => "80x3" %></td>
+		</tr>
+	</table>
+</div>
+<div class="form_section">
+	<h3>Totals</h3>
+	<table class="form_table">
+		<tr>
+			<td>Cost: £<%= number_field_tag "cost", @item.cost, :placeholder => "Cost", :step => 0.01, :min => 0, :class => "long field" %></td>
+		</tr>
+		<tr>
+			<td>Quantity: <%= number_field_tag "quantity", @item.quantity, :placeholder => "Quantity", :step => 1, :min => 0, :class => "long field" %></td>
+		</tr>
+	</table>
+</div>
