@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130101182451) do
+ActiveRecord::Schema.define(:version => 20130102203037) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -212,8 +212,8 @@ ActiveRecord::Schema.define(:version => 20130101182451) do
   create_table "stocks", :force => true do |t|
     t.string   "name"
     t.string   "description"
-    t.float    "cost"
-    t.integer  "quantity"
+    t.float    "cost",        :default => 0.0, :null => false
+    t.integer  "quantity",    :default => 0,   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
