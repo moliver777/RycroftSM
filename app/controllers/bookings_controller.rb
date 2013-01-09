@@ -363,6 +363,7 @@ class BookingsController < ApplicationController
   end
 
   def payment
+    @stock = Stock.order("name, description")
     @booking = Booking.find(params[:booking_id]) rescue nil
     @event = @booking.event if @booking
   end
@@ -384,6 +385,7 @@ class BookingsController < ApplicationController
   end
 
   def other_payment
+    @stock = Stock.order("name, description")
     @payments = Payment.where(:booking_id => nil, :payment_date => Date.today).order("created_at ASC")
   end
 

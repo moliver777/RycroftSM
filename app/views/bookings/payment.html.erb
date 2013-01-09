@@ -42,6 +42,21 @@
 			<td>Cash-Up Date: <%= text_field_tag :payment_date, Date.today.strftime("%d-%m-%Y"), :class => "field", :style => "width:100px;" %></td>
 		</tr>
 	</table>
+	<br/>
+	<table id="merch_table" class="form_table" style="margin:auto;">
+		<tr><td style="text-align:center;font-weight:bold;">Merchandise</td></tr>
+		<tr id="default">
+			<td>
+				<select class="merch_field">
+					<option value="0"></option>
+					<% @stock.each do |item| %>
+						<option value="<%= item.id %>"><%= item.quantity %>x <%= number_to_currency(item.cost, :unit => "£", :precision => 2) %> - <%= item.name %>: <%= item.description %></option>
+					<% end %>
+				</select> <a class="remove_merch" style="display:none;">Remove</a>
+			</td>
+		</tr>
+	</table>
+	<button id="add_merch" style="font-weight:bold;font-size:14px;">+</button>
 </div>
 <div style="text-align:center;">
 	<ul class="error" id="form_errors" style="margin-left:45%;"></ul>
@@ -52,5 +67,14 @@
 	$(document).ready(function() {
 		$("input#payment_date").datepicker({dateFormat: "dd-mm-yy"});
 		$(".ui-datepicker").hide();
-	})
+
+		$("button#add_merch").unbind("click").click(function() {
+			var new_merch = $("tr#default").clone();
+			$(new_merch).removeAttr("id");
+			$(new_merch).find("a.remove_merch").show().unbind("click").click(function() {
+				$(this).parents("tr").remove();
+			});
+			$("table#merch_table").append(new_merch);
+		});
+	});
 </script>
