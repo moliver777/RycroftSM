@@ -4,8 +4,8 @@
 			<td><%= item.name %></td>
 			<td><%= item.description %></td>
 			<td><%= number_to_currency(item.cost, :unit=>"£", :precision=>2) %></td>
-			<td><button class="quantity_change" direction="DESC">-</button> <span id="quantity_<%= item.id %>"><%= item.quantity %></span> <button class="quantity_change" direction="ASC">+</button></td>
-			<td><a href="/stock/edit/<%= item.id %>">Edit</a></td>
+			<td><button class="quantity_change" direction="DESC" stock_id="<%= item.id %>">-</button> <span id="quantity_<%= item.id %>"><%= item.quantity %></span> <button class="quantity_change" direction="ASC" stock_id="<%= item.id %>">+</button></td>
+			<td><a href="/stock/edit/<%= item.id %>">Edit</a> | <a onclick="confirmation('<%= item.name %>','/stock/delete/<%= item.id %>')">Delete</a></td>
 		</tr>
 	<% end %>
 <% else %>
@@ -13,3 +13,19 @@
 		<td colspan="5" class="center"><strong>No stock items found</strong></td>
 	</tr>
 <% end %>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("button.quantity_change"), function(i,btn) {
+			$(btn).unbind("click").click(function() {
+				$.ajax({
+					url: "/stock/quantity/"+$(this).attr("stock_id")+"/"+$(this).attr("direction"),
+					type: "POST",
+					success: function(json) {
+						$("span#quantity_"+json.stock_id).html(json.count);
+					}
+				});
+			});
+		});
+	});
+</script>

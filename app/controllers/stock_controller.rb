@@ -39,8 +39,8 @@ class StockController < ApplicationController
 
   def quantity
     item = Stock.find(params[:stock_id])
-    item.update_quantity params[:direction]
-    render :nothing => true
+    count = item.update_quantity params[:direction]
+    render :json => {:stock_id => item.id, :count => count}
   end
 
   private

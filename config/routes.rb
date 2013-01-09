@@ -125,7 +125,7 @@ RycroftSM::Application.routes.draw do
   get "/stock/edit/:stock_id" => "stock#edit"
   post "/stock/update/:stock_id" => "stock#update"
   post "/stock/delete/:stock_id" => "stock#destroy"
-  post "/stock/quantity/:stock_id" => "stock#quantity"
+  post "/stock/quantity/:stock_id/:direction" => "stock#quantity"
 
   # ADMIN
   get "/admin" => "admin#index"

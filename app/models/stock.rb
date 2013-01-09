@@ -13,7 +13,8 @@ class Stock < ActiveRecord::Base
     else
       self.quantity -= 1 if self.quantity > 0
     end
-    self.save
+    self.save!
+    return self.quantity
   end
 
   def sell quantity
