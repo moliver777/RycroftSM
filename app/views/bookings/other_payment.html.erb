@@ -46,14 +46,14 @@
 	<br/>
 	<table id="merch_table" class="form_table" style="margin:auto;">
 		<tr><td style="text-align:center;font-weight:bold;">Merchandise</td></tr>
-		<tr id="default">
+		<tr id="default" style="display:none;">
 			<td>
 				<select class="merch_field">
 					<option value="0"></option>
 					<% @stock.each do |item| %>
 						<option value="<%= item.id %>"><%= item.quantity %>x <%= number_to_currency(item.cost, :unit => "£", :precision => 2) %> - <%= item.name %>: <%= item.description %></option>
 					<% end %>
-				</select> <a class="remove_merch" style="display:none;">Remove</a>
+				</select> <a class="remove_merch">Remove</a>
 			</td>
 		</tr>
 	</table>
@@ -97,8 +97,8 @@
 
 		$("button#add_merch").unbind("click").click(function() {
 			var new_merch = $("tr#default").clone();
-			$(new_merch).removeAttr("id");
-			$(new_merch).find("a.remove_merch").show().unbind("click").click(function() {
+			$(new_merch).removeAttr("id").attr("style","display:block;");
+			$(new_merch).find("a.remove_merch").unbind("click").click(function() {
 				$(this).parents("tr").remove();
 			});
 			$("table#merch_table").append(new_merch);
