@@ -17,6 +17,7 @@ class Payment < ActiveRecord::Base
     self.foc = true if fields[:payment_type] == "foc"
     self.amount = fields[:amount]
     self.payment_date = Date.parse(fields[:payment_date])
+    self.stock_ids = fields[:stock_ids]
 
     self.save!
   end

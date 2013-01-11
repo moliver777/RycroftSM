@@ -17,15 +17,13 @@ class Stock < ActiveRecord::Base
     return self.quantity
   end
 
-  def sell quantity
-    quantity.times do |i|
-      self.quantity -= 1 if self.quantity > 0
-    end
+  def sell
+    self.quantity -= 1 if self.quantity > 0
     self.save
   end
 
-  def return quantity
-    self.quantity += quantity
+  def return
+    self.quantity += 1
     self.save
   end
 

@@ -376,11 +376,16 @@ class BookingsController < ApplicationController
       payment = Payment.new
       payment.set_fields params[:fields]
     end
+    params[:fields][:stock_ids].split(",").each{|id| Stock.find(id).sell}
     render :json => json
   end
 
   def delete_payment
-    Payment.find(params[:payment_id]).destroy rescue nil
+    payment = Payment.find(params[:payment_id]) rescue nil
+    if payment
+      payment.stock_ids.split(",").each{|id| Stock.find(id).return} if payment.stock_ids
+      payment.destroy
+    end
     render :nothing => true
   end
 

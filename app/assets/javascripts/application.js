@@ -136,11 +136,16 @@ function savePayment(id) {
 	var id = id;
 	$("ul#form_errors").empty();
 	params = {};
+	merch = []
+	$.each($("select.merch_field"), function(i,field) {
+		if ($(field).val() != "0") merch.push($(field).val());
+	});
 	params["booking_id"] = id;
 	params["amount"] = $("input#amount").val();
 	params["payment_type"] = $('input:radio:checked').val();
 	params["description"] = $("input#description").val();
 	params["payment_date"] = $("input#payment_date").val();
+	params["stock_ids"] = merch.join(",");
 	$.ajax({
 		url: "/bookings/create_payment",
 		type: "POST",
@@ -163,11 +168,16 @@ function saveOtherPayment(id) {
 	var id = id;
 	$("ul#form_errors").empty();
 	params = {};
+	merch = []
+	$.each($("select.merch_field"), function(i,field) {
+		if ($(field).val() != "0") merch.push($(field).val());
+	});
 	params["amount"] = $("input#amount").val();
 	params["payment_type"] = $('input:radio:checked').val();
 	params["reference"] = $("input#reference").val();
 	params["description"] = $("input#description").val();
 	params["payment_date"] = $("input#payment_date").val();
+	params["stock_ids"] = merch.join(",");
 	$.ajax({
 		url: "/bookings/create_payment",
 		type: "POST",
