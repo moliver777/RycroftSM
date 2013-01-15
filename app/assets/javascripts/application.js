@@ -608,10 +608,25 @@ function fancyConfirmAssignEdit() {
 					type: "POST",
 					data: params,
 					success: function() {
-						window.location.reload();
+						$("div#upcoming_bookings").load("/bookings/upcoming/"+$("input#upcoming_date").val());
+						jQuery.fancybox.close();
 					}
 				})
 			})
+		}
+	});
+}
+
+function fancyUndoSuccess() {
+	jQuery.fancybox({
+		'overlayShow' : true,
+		'padding' : 0,
+		modal : true,
+		content : "<div class='popup_wrapper' id='confirm_popup'><h3>CHANGES UNDONE</h3><div class='popup_content reduced_height'><p>Any changes to horse assignments seen last save have been undone.</p></div><div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"OK\" style=\"width:66px;\"></div></div>",
+		onComplete : function() {
+			jQuery("#fancyConfirm_ok").click(function() {
+				jQuery.fancybox.close();
+			});
 		}
 	});
 }

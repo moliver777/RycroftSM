@@ -534,16 +534,6 @@ class BookingsController < ApplicationController
     render :json => json
   end
 
-  def assign_edit
-    if params.include? :date
-      @date = Date.parse(params[:date])
-    else
-      @date = session[:upcoming] ? Date.parse(session[:upcoming]) : Date.today
-    end
-    @events = Event.includes(:bookings).where("event_date = ? and bookings.cancelled = false", @date).order("start_time")
-    @horses = Horse.where(:availability => true).order("name")
-  end
-
   def save_assign
     params[:changes].each do |booking_id,horse_id|
       puts booking_id
@@ -562,6 +552,7 @@ class BookingsController < ApplicationController
   def load_upcoming
     session[:upcoming] = @date.strftime("%Y/%m/%d")
     @upcoming = Event.includes(:bookings).where(:event_date => @date).order("start_time")
+    @horses = Horse.where(:availability => true).order("name")
   end
 
   def format_timetable_events events

@@ -27,15 +27,15 @@
 	<% if !@upcoming.empty? %>
 		<% @upcoming.each do |event| %>
 			<% if event.bookings.empty? %>
-					<tr class="<%= 'cancelled' if event.cancelled %>">
-						<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %>-<%= event.end_time.strftime("%l:%M%P") if event.end_time %></td>
-						<td colspan="2"></td>
-						<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
-						<td><%= event.staff_list %></td>
-						<td><%= event.venue.name if event.venue rescue nil %></td>
-						<td colspan="2"></td>
-						<td><a href="/bookings/show_event/<%= event.id %>">Details</a> | <a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a> | <a onclick="deleteBooking('<%= event.event_type %>','/bookings/delete_event/<%= event.id %>')">Delete</a></td>
-					</tr>
+				<tr class="<%= 'cancelled' if event.cancelled %>">
+					<td><%= event.start_time.strftime("%l:%M%P") if event.start_time %>-<%= event.end_time.strftime("%l:%M%P") if event.end_time %></td>
+					<td colspan="2"></td>
+					<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
+					<td><%= event.staff_list %></td>
+					<td><%= event.venue.name if event.venue rescue nil %></td>
+					<td colspan="2"></td>
+					<td><a href="/bookings/show_event/<%= event.id %>">Details</a> | <a href="/bookings/edit_event/<%= event.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %>','/bookings/cancel_event/<%= event.id %>')">Cancel</a> | <a onclick="deleteBooking('<%= event.event_type %>','/bookings/delete_event/<%= event.id %>')">Delete</a></td>
+				</tr>
 			<% end %>
 			<% event.bookings.order(:cancelled).includes(:client).each_with_index do |booking,i| %>
 				<tr class="<%= 'cancelled' if booking.cancelled %>">
@@ -44,7 +44,21 @@
 					<% elsif i==1 %>
 						<td rowspan="<%= event.bookings.count-1 %>"></td>
 					<% end %>
-					<td><a href="/horses/show/<%= booking.horse_id %>"><%= booking.horse.name if booking.horse rescue nil %></a></td>
+					<td>
+						<% unless booking.cancelled %>
+							<select class="horse_select" booking="<%= booking.id %>">
+								<option value="0"></option>
+								<% @horses.each do |horse| %>
+									<option value="<%= horse.id %>"><%= horse.name %><%= " *" if booking.client.horses.split(";").include?("#{horse.id}") rescue "" %><%= " (L)" if booking.client.leasing == horse.id rescue "" %></option>
+								<% end %>
+							</select>
+							<% if booking.horse %>
+								<script type="text/javascript">
+									$("select[booking='<%= booking.id %>']").val("<%= booking.horse_id %>");
+								</script>
+							<% end %>
+						<% end %>
+					</td>
 					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.first_name if booking.client rescue nil %> <%= booking.client.last_name if booking.client rescue nil %></a></td>
 					<% if i==0 %>
 						<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
@@ -75,6 +89,12 @@
 	<% end %>
 </table>
 
+<div style="text-align:center;padding:10px;">
+	<strong>Horse Assignments</strong><br/>
+	<button id="assign_undo">Undo</button>
+	<button id="assign_save">Check & Save</button>
+</div>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("input#upcoming_date").datepicker({dateFormat: "dd-mm-yy"});
@@ -90,6 +110,15 @@
 			$(date).unbind("click").click(function() {
 				$("div#upcoming_bookings").load("/bookings/upcoming/"+$(this).attr("date"));
 			})
-		})
-	})
+		});
+
+		$("button#assign_undo").unbind("click").click(function() {
+			$("div#upcoming_bookings").load("/bookings/upcoming/"+$("input#upcoming_date").val());
+			fancyUndoSuccess();
+		});
+
+		$("button#assign_save").unbind("click").click(function() {
+			fancyConfirmAssignEdit();
+		});
+	});
 </script>
