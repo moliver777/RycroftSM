@@ -1,4 +1,6 @@
-<div style="text-align:center;position:relative;top:-15px;"><a href="/print/reports/<%= @from.strftime("%d-%m-%Y") %>/<%= @to.strftime("%d-%m-%Y") %>" target="_blank" >Print</a></div>
+<% from_date = Date.parse((@from.strftime("%d-%m-%Y") rescue @from)) %>
+<% to_date = Date.parse((@to.strftime("%d-%m-%Y") rescue @to)) %>
+<div style="text-align:center;position:relative;top:-15px;"><a href="/print/reports/<%= from_date.strftime("%d-%m-%Y") rescue @from %>/<%= to_date.strftime("%d-%m-%Y") %>" target="_blank" >Print</a></div>
 <div style="height:1350px">
 	<div class="report_panel_2">
 		<h3>Horse Workloads</h3>
