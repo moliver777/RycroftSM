@@ -76,6 +76,7 @@ class PrintingController < ApplicationController
         @totals["total"] += p.amount unless type=="voucher" || type=="hours" || type=="foc"
       end
     end
+    @end_of_week = false
     horse_workloads = []
     Horse.all.each do |horse|
       horse_workloads << {:name => horse.name, :workload => horse.workload_period(@date, @date).to_f}
@@ -86,5 +87,13 @@ class PrintingController < ApplicationController
       staff_workloads << {:name => "#{staff.first_name} #{staff.last_name[0]}", :workload => staff.workload_period(@date, @date).to_f} unless staff.first_name == "Horse"
     end
     @staff_workloads = staff_workloads.sort_by{|s| s[:workload]}.reverse
+    if @date.strftime("%a") == "Sun"
+      @end_of_week = true
+      week_horse_workloads = []
+      Horse.all.each do |horse|
+        week_horse_workloads << {:name => horse.name, :workload => horse.workload_period(@date.advance(:days => -7), @date).to_f}
+      end
+      @week_horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
+    end
   end
 end

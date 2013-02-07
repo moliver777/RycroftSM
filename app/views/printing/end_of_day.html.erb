@@ -267,6 +267,12 @@
 			<h3>Staff Workloads - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h3>
 			<div id="staff_workloads_container" style="width:1100px;"></div>
 		</div>
+		<% if @end_of_week %>
+			<div class="report_panel_2">
+				<h3>Weekly Horse Workloads - <%= @date.advance(:days => -7).strftime("%d").to_i.ordinalize %> <%= @date.advance(:days => -7).strftime("%B %Y") %> to <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h3>
+				<div id="week_horse_workloads_container" style="width:1100px;"></div>
+			</div>
+		<% end %>
 	</body>
 </html>
 
@@ -284,6 +290,12 @@
 				data: JSON.parse('<%= @staff_workloads.to_json.html_safe if @staff_workloads %>'),
 				mini: false,
 				container: "#staff_workloads_container"
+			});
+			REPORTS.create({
+				name: "horse_workloads",
+				data: JSON.parse('<%= @week_horse_workloads.to_json.html_safe if @week_horse_workloads %>'),
+				mini: false,
+				container: "#week_horse_workloads_container"
 			});
 		} catch (e) {
 			// console.log(e);
