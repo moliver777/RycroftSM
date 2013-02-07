@@ -5,7 +5,7 @@
 			<select id="horse_id" class="field">
 				<option value="0"></option>
 				<% @horses.each do |horse| %>
-					<option value="<%= horse.id %>"><%= horse.name %> (<%= horse.workload(@date) %>)</option>
+					<option value="<%= horse.id %>"><%= horse.name %> (<%= horse.workload(@date) %>)<%= " (Exercise Only)" if horse.exercise %></option>
 				<% end %>
 			</select>
 		</td>

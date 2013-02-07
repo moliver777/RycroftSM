@@ -24,7 +24,7 @@ class BookingsController < ApplicationController
     @booking = Booking.new
     @events = Event.where("event_date >= ? AND cancelled = ?", Date.today, false).order("event_date, start_time")
     @venue_events = {}
-    @horses = Horse.where(:availability => true).order("name")
+    @horses = Horse.where("availability = true or exercise = true").order("name")
   end
 
   def event
@@ -61,7 +61,7 @@ class BookingsController < ApplicationController
   end
 
   def horses
-    @horses = Horse.where(:availability => true).order("name")
+    @horses = Horse.where("availability = true or exercise = true").order("name")
     @date = params[:date]
     render :partial => "horse_form"
   end
@@ -88,7 +88,7 @@ class BookingsController < ApplicationController
     @venue = Venue.where(:id => @event.master_venue_id).first
     @venues = Venue.where(:name => @venue.name) if @venue
     @venue_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND venue_id IN (?)", @event.event_date, false, @venues.map{|v| v.id})) if @venues
-    @horses = Horse.where(:availability => true).order("name")
+    @horses = Horse.where("availability = true or exercise = true").order("name")
     @date = @event.event_date
   end
 
@@ -536,9 +536,6 @@ class BookingsController < ApplicationController
 
   def save_assign
     params[:changes].each do |booking_id,horse_id|
-      puts booking_id
-      puts horse_id
-      puts "***"
       booking = Booking.where(:id => booking_id).first
       booking.horse_id = horse_id
       booking.save!
@@ -552,7 +549,7 @@ class BookingsController < ApplicationController
   def load_upcoming
     session[:upcoming] = @date.strftime("%Y/%m/%d")
     @upcoming = Event.includes(:bookings).where(:event_date => @date).order("start_time")
-    @horses = Horse.where(:availability => true).order("name")
+    @horses = Horse.where("availability = true or exercise = true").order("name")
   end
 
   def format_timetable_events events

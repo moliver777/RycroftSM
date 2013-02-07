@@ -49,7 +49,7 @@
 							<select class="horse_select" booking="<%= booking.id %>">
 								<option value="0"></option>
 								<% @horses.each do |horse| %>
-									<option value="<%= horse.id %>"><%= horse.name %><%= " *" if booking.client.horses.split(";").include?("#{horse.id}") rescue "" %><%= " (L)" if booking.client.leasing == horse.id rescue "" %></option>
+									<option value="<%= horse.id %>"><%= horse.name %><%= " *" if booking.client.horses.split(";").include?("#{horse.id}") rescue "" %><%= " (L)" if booking.client.leasing == horse.id rescue "" %><%= " (Ex)" if horse.exercise %></option>
 								<% end %>
 							</select>
 							<% if booking.horse %>
@@ -90,6 +90,11 @@
 </table>
 
 <div style="text-align:center;padding:10px;">
+	<strong style="text-decoration:underline;">Horse Indicators Key</strong><br/>
+	<span><strong>*</strong> = Horse is enabled for this client</span><br/>
+	<span><strong>L</strong> = Horse is leased by this client</span><br/>
+	<span><strong>Ex</strong> = Horse is flagged as Exercise Only</span><br/>
+	<br/>
 	<strong>Horse Assignments</strong><br/>
 	<button id="assign_undo">Undo</button>
 	<button id="assign_save">Check & Save</button>

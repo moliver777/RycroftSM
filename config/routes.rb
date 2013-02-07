@@ -80,6 +80,7 @@ RycroftSM::Application.routes.draw do
   post "/horses/update/:horse_id" => "horses#update"
   post "/horses/delete/:horse_id" => "horses#destroy"
   post "/horses/availability/:horse_id/:value" => "horses#availability"
+  post "/horses/exercise/:horse_id/:value" => "horses#exercise"
 
   # STAFF
   get "/staff" => "staff#index"

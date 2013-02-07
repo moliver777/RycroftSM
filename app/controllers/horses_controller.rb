@@ -40,6 +40,13 @@ class HorsesController < ApplicationController
     render :nothing => true
   end
 
+  def exercise
+    horse = Horse.find(params[:horse_id])
+    horse.exercise = params[:value] == "true" ? true : false
+    horse.save
+    render :nothing => true
+  end
+
   def create
     validation params[:fields], 0
     if @validated

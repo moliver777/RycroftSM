@@ -3,7 +3,11 @@
 	<table class="form_table">
 		<tr>
 			<td><%= text_field_tag "name", @horse.name, :placeholder => "Name", :class => "long field" %></td>
+			<td></td>
+		</tr>
+		<tr>
 			<td style="padding-left:10px;padding-right:10px;">Availability: <%= check_box_tag "availability", "", @horse.availability, :class => "field" %></td>
+			<td style="padding-left:10px;padding-right:10px;">Exercise: <%= check_box_tag "exercise", "", @horse.exercise, :class => "field" %></td>
 		</tr>
 		<tr>
 			<td><%= text_field_tag "max_day_workload", @horse.max_day_workload, :placeholder => "Max Day Workload (hrs)", :class => "long field" %></td>
@@ -34,3 +38,14 @@
 		</tr>
 	</table>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input#availability").unbind("click").click(function() {
+			if ($(this).is(':checked') && $("input#exercise").is(':checked')) $("input#exercise").attr("checked", false);
+		});
+		$("input#exercise").unbind("click").click(function() {
+			if ($(this).is(':checked') && $("input#availability").is(':checked')) $("input#availability").attr("checked", false);
+		});
+	})
+</script>

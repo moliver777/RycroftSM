@@ -10,6 +10,13 @@
 					<input class="availability" type="checkbox" horse_id="<%= horse.id %>"></input>
 				<% end %>
 			</td>
+			<td class="center">
+				<% if horse.exercise %>
+					<input class="exercise" type="checkbox" horse_id="<%= horse.id %>" checked="true"></input>
+				<% else %>
+					<input class="exercise" type="checkbox" horse_id="<%= horse.id %>"></input>
+				<% end %>
+			</td>
 			<td style="vertical-align:middle;">
 				<a href="/horses/show/<%= horse.id %>">Details</a> | <a href="/notes/HORSE/<%= horse.id %>">Notes</a> 
 				<% if current_user.user_level != User::BASE %>
@@ -30,7 +37,27 @@
 			$.ajax({
 				url: "/horses/availability/"+$(this).attr('horse_id')+"/"+$(this).is(':checked'),
 				type: "POST"
-			})
-		})
+			});
+			if ($(this).is(':checked') && $("input.exercise[horse_id="+$(this).attr('horse_id')+"]").is(':checked')) {
+				$("input.exercise[horse_id="+$(this).attr('horse_id')+"]").attr("checked", false);
+				$.ajax({
+					url: "/horses/exercise/"+$(this).attr('horse_id')+"/false",
+					type: "POST"
+				});
+			}
+		});
+		$("input.exercise").unbind("click").click(function() {
+			$.ajax({
+				url: "/horses/exercise/"+$(this).attr('horse_id')+"/"+$(this).is(':checked'),
+				type: "POST"
+			});
+			if ($(this).is(':checked') && $("input.availability[horse_id="+$(this).attr('horse_id')+"]").is(':checked')) {
+				$("input.availability[horse_id="+$(this).attr('horse_id')+"]").attr("checked", false);
+				$.ajax({
+					url: "/horses/availability/"+$(this).attr('horse_id')+"/false",
+					type: "POST"
+				});
+			}
+		});
 	})
 </script>
