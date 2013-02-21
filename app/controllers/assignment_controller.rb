@@ -10,9 +10,11 @@ class AssignmentController < ApplicationController
 
   def auto_assign
     session[:upcoming] = params[:date]
-    json = {}
-    bookings = Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", params[:date], Event::HORSE, false).order("start_time").map{|e| e.bookings.where(:cancelled => false)}.flatten.select{|b| !b.horse}
-    bookings.each do |booking|
+    data = {}
+    count = 0
+    assign_ids = Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", params[:date], Event::HORSE, false).order("start_time").map{|e| e.bookings.where(:cancelled => false)}.flatten.select{|b| !b.horse}.map{|b| b.id}
+    while assign_ids[0] && count < 3
+      booking = Booking.where(:id => assign_ids[0]).first
       leased = Horse.where(:id => booking.client.leasing).first
       if leased
         if !leased.over_workload(params[:date], booking.event.duration_mins) && leased.availability
@@ -21,33 +23,80 @@ class AssignmentController < ApplicationController
           end
         end
         key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
-        json[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
+        data[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
         booking.save!
       end
-    end
-    bookings = Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", params[:date], Event::HORSE, false).order("start_time").map{|e| e.bookings.where(:cancelled => false)}.flatten.select{|b| !b.horse}
-    bookings.each do |booking|
-      horses = get_suitable_horses(booking.client)
-      if horses.length > 0
-        horses.each do |horse|
-          if !booking.horse
-            if !horse.over_workload(params[:date], booking.event.duration_mins)
-              if validate_assignment(booking, horse)
-                booking.horse_id = horse.id
+      unless booking.horse
+        horses = get_suitable_horses(booking.client)
+        if horses.length > 0
+          horses.each do |horse|
+            unless booking.horse
+              unless horse.over_workload(params[:date], booking.event.duration_mins)
+                if validate_assignment(booking, horse)
+                  booking.horse_id = horse.id
+                end
               end
             end
           end
+          key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
+          data[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
+          booking.save!
+        else
+          key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
+          data[key] = "N/A"
+        end
+      end
+      count += 1
+      assign_ids.shift
+    end
+    session[:assign_ids] = assign_ids.join(";")
+    # force_status_check unless assign_ids[0]
+    render :json => {:bookings => data, :remaining => assign_ids.count}.to_json
+  end
+
+  def continue_assign
+    data = {}
+    count = 0
+    assign_ids = session[:assign_ids].split(";")
+    while assign_ids[0] && count < 3
+      booking = Booking.where(:id => assign_ids[0]).first
+      leased = Horse.where(:id => booking.client.leasing).first
+      if leased
+        if !leased.over_workload(params[:date], booking.event.duration_mins) && leased.availability
+          if validate_assignment(booking, leased, false)
+            booking.horse_id = leased.id
+          end
         end
         key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
-        json[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
+        data[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
         booking.save!
-      else
-        key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
-        json[key] = "N/A"
       end
+      unless booking.horse
+        horses = get_suitable_horses(booking.client)
+        if horses.length > 0
+          horses.each do |horse|
+            unless booking.horse
+              unless horse.over_workload(params[:date], booking.event.duration_mins)
+                if validate_assignment(booking, horse)
+                  booking.horse_id = horse.id
+                end
+              end
+            end
+          end
+          key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
+          data[key] = booking.horse ? booking.horse.name : "No suitable horse found!"
+          booking.save!
+        else
+          key = "#{booking.event.start_time.strftime("%l:%M%P")} #{booking.event.event_type.downcase.capitalize} - #{booking.client.first_name} #{booking.client.last_name}"
+          data[key] = "N/A"
+        end
+      end
+      count += 1
+      assign_ids.shift
     end
-    force_status_check
-    render :json => json.to_json
+    session[:assign_ids] = assign_ids.join(";")
+    # force_status_check unless assign_ids[0]
+    render :json => {:bookings => data, :remaining => assign_ids.count}.to_json
   end
 
   private

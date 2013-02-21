@@ -537,7 +537,7 @@ class BookingsController < ApplicationController
   def save_assign
     params[:changes].each do |booking_id,horse_id|
       booking = Booking.where(:id => booking_id).first
-      booking.horse_id = horse_id
+      booking.horse_id = (horse_id.to_i == 0) ? nil : horse_id
       booking.save!
     end
     application_status if params.include? :check

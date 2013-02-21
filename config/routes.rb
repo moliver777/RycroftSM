@@ -148,6 +148,7 @@ RycroftSM::Application.routes.draw do
 
   # AUTO-ASSIGN
   post "/assignment/auto_assign/:date" => "assignment#auto_assign"
+  post "/assignment/continue_assign" => "assignment#continue_assign"
   post "/assignment/no_more_prompts" => "assignment#block"
 
   # SESSION

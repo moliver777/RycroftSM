@@ -432,25 +432,51 @@ function fancyConfirmAutoAssign(date) {
 				}
 				$("#fancyConfirm_ok").attr("disabled",true);
 				$("#fancyConfirm_cancel").attr("disabled",true);
-				$("div.popup_content").empty().append("<p>Please wait...</p>");
+				$("div.popup_content").empty().append("<p id='please_wait'>Please wait...</p>");
 				$.ajax({
 					url: "/assignment/auto_assign/"+date,
 					type: "POST",
 					success: function(json) {
-						var data = json;
+						if (parseInt(json.remaining) > 0) window.incomplete = true;
+						var data = json.bookings;
 						var table = "<tr><th>Booking</th><th></th><th>Horse</th></tr>";
 						$.each(data, function(booking,horse) { table += "<tr><td>"+booking+"</td><td>=></td><td>"+horse+"</td></tr>" });
-						$("div.popup_content").empty().append("<p><table style='margin:auto;'>"+table+"</table></p>");
-						$("#fancyConfirm_cancel").hide();
-						$("#fancyConfirm_ok").val("Close").attr("disabled",false).unbind("click").click(function() {
-							jQuery.fancybox.close();
-							window.location.href = "/bookings"
-						});
+						$("div.popup_content").append("<p id='remaining'>Remaining: "+json.remaining+"</p><p><table id='assignment_results' style='margin:auto;'>"+table+"</table></p>");
+						continueAssign();
 					}
 				})
 			})
 		}
 	});
+}
+
+function continueAssign() {
+	if (window.incomplete) {
+		var i = setInterval(function() {
+			clearInterval(i);
+			$.ajax({
+				url: "/assignment/continue_assign",
+				type: "POST",
+				success: function(json) {
+					if (parseInt(json.remaining) == 0) window.incomplete = false;
+					var data = json.bookings;
+					var table = "";
+					$.each(data, function(booking,horse) { table += "<tr><td>"+booking+"</td><td>=></td><td>"+horse+"</td></tr>" });
+					$("p#remaining").html("Remaining: "+json.remaining);
+					$("table#assignment_results").append(table);
+					continueAssign();
+				}
+			})
+		}, 500);
+	} else {
+		$("p#remaining").remove();
+		$("p#please_wait").html("Finished");
+		$("#fancyConfirm_cancel").hide();
+		$("#fancyConfirm_ok").val("Close").attr("disabled",false).unbind("click").click(function() {
+			jQuery.fancybox.close();
+			window.location.href = "/bookings"
+		});
+	}
 }
 
 function fancyPriceList() {
@@ -598,7 +624,7 @@ function fancyConfirmAssignEdit() {
 				var params = {changes:{}}
 				if ($("input#do_check").is(":checked")) params["check"] = true;
 				$.each($("select.horse_select"), function(i,select) {
-					if ($(select).val() != "0") params["changes"][$(select).attr("booking")] = $(select).val();
+					params["changes"][$(select).attr("booking")] = $(select).val();
 				})
 				$("#fancyConfirm_ok").attr("disabled",true);
 				$("#fancyConfirm_cancel").attr("disabled",true);
