@@ -544,6 +544,11 @@ class BookingsController < ApplicationController
     render :nothing => true
   end
 
+  def upcoming_notes
+    @booking = Booking.where(:id => params[:booking_id]).first
+    render :text => render_to_string(:partial => "upcoming_notes")
+  end
+
   private
 
   def load_upcoming

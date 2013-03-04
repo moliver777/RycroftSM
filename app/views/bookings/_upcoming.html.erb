@@ -59,7 +59,12 @@
 							<% end %>
 						<% end %>
 					</td>
-					<td><a href="/clients/show/<%= booking.client_id %>"><%= booking.client.first_name if booking.client rescue nil %> <%= booking.client.last_name if booking.client rescue nil %></a></td>
+					<td>
+						<a href="/clients/show/<%= booking.client_id %>"><%= booking.client.first_name if booking.client rescue nil %> <%= booking.client.last_name if booking.client rescue nil %></a>
+						<% if booking.client.upcoming_notes(booking.id).first %>
+							<span class="upcoming_note" booking="<%= booking.id %>">n</span>
+						<% end %>
+					</td>
 					<% if i==0 %>
 						<td><%= event.event_type.downcase.capitalize if event.event_type %></td>
 						<td><%= event.staff_list %></td>
@@ -114,7 +119,7 @@
 		$.each($("a.change_date"), function(i,date) {
 			$(date).unbind("click").click(function() {
 				$("div#upcoming_bookings").load("/bookings/upcoming/"+$(this).attr("date"));
-			})
+			});
 		});
 
 		$("button#assign_undo").unbind("click").click(function() {
@@ -124,6 +129,12 @@
 
 		$("button#assign_save").unbind("click").click(function() {
 			fancyConfirmAssignEdit();
+		});
+
+		$.each($("span.upcoming_note"), function(i,note) {
+			$(note).unbind("click").click(function() {
+				fancyNotesPopup($(this).attr("booking"));
+			});
 		});
 	});
 </script>

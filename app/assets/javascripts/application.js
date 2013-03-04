@@ -657,6 +657,26 @@ function fancyUndoSuccess() {
 	});
 }
 
+function fancyNotesPopup(booking_id) {
+	$.ajax({
+		url: "/upcoming_notes/"+booking_id,
+		type: "GET",
+		success: function(view) {
+			jQuery.fancybox({
+				'overlayShow' : true,
+				'padding' : 0,
+				modal : true,
+				content : "<div class='popup_wrapper' id='confirm_popup'>"+view+"<div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"OK\" style=\"width:66px;\"></div></div>",
+				onComplete : function() {
+					jQuery("#fancyConfirm_ok").click(function() {
+						jQuery.fancybox.close();
+					});
+				}
+			});
+		}
+	});
+}
+
 function formatTime(time) {
 	if (time.length>0) {
 		var hr = parseInt(time.split(":")[0]);
@@ -667,4 +687,3 @@ function formatTime(time) {
 		return ""
 	}
 }
-

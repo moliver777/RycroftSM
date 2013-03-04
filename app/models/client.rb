@@ -101,4 +101,11 @@ class Client < ActiveRecord::Base
     issues.uniq
   end
 
+  def upcoming_notes booking_id
+    notes = []
+    Booking.where(:id => booking_id).first.notes.each{|note| notes<<note}
+    self.notes.each{|note| notes<<note unless note.title=="Client hasn't visited for 3 months"}
+    notes
+  end
+
 end

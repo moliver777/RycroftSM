@@ -1,0 +1,8 @@
+<h3>NOTES</h3>
+<div class='popup_content reduced_height'>
+	<table>
+		<% @booking.client.upcoming_notes(@booking.id).each do |note| %>
+			<tr><th><%= note.title %></th><td><%= note.content %></td></tr>
+		<% end %>
+	</table>
+</div>

@@ -14,6 +14,18 @@
   text-align: center;
 }
 
+span.upcoming_note {
+  width: 12px;
+  background-color: #5555FF;
+  display: block;
+  color: white;
+  text-align: center;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  cursor: pointer;
+  font-style: italic;
+}
+
 #booking_controls {
   float: right;
   width: 29%;
