@@ -93,7 +93,8 @@ class PrintingController < ApplicationController
       Horse.all.each do |horse|
         week_horse_workloads << {:name => horse.name, :workload => horse.workload_period(@date.advance(:days => -7), @date).to_f}
       end
-      @week_horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
+      @week_horse_workloads = week_horse_workloads.sort_by{|h| h[:workload]}.reverse
+      puts @week_horse_workloads
     end
   end
 end

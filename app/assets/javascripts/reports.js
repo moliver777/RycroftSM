@@ -49,17 +49,20 @@ var REPORTS = {
 			.domain([0, max])
 			.range([0, height]);
 
+		var selector = (options.container=="#horse_workloads_container") ? "horseWorkloads" : "weekHorseWorkloads";
+		var short_selector = (options.container=="#horse_workloads_container") ? "workloadsChart" : "hWorkloadsChart";
+
 		var container = d3.select("#"+$(options.container).attr('id'))
 			.append("svg:svg")
 			.attr("width",$(options.container).css("width"))
 			.attr("height",(height+30)+"px")
-			.attr("id","horseWorkloadsSvg");
+			.attr("id",selector+"Svg");
 
-		var svg = d3.select("svg#horseWorkloadsSvg")
+		var svg = d3.select("svg#"+selector+"Svg")
 			.append("svg:g")
-			.attr("id", "workloadsChart");
+			.attr("id", short_selector);
 
-		var chart = d3.select("g#workloadsChart");
+		var chart = d3.select("g#"+short_selector);
 
 		try {
 			if (max > 0) {
