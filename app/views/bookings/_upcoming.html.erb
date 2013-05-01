@@ -61,8 +61,10 @@
 					</td>
 					<td>
 						<a href="/clients/show/<%= booking.client_id %>"><%= booking.client.first_name if booking.client rescue nil %> <%= booking.client.last_name if booking.client rescue nil %></a>
-						<% if booking.client.upcoming_notes(booking.id).first %>
-							<span class="upcoming_note" booking="<%= booking.id %>">n</span>
+						<% if booking.client %>
+							<% if booking.client.upcoming_notes(booking.id).first %>
+								<span class="upcoming_note" booking="<%= booking.id %>">n</span>
+							<% end %>
 						<% end %>
 					</td>
 					<% if i==0 %>

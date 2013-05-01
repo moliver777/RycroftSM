@@ -35,6 +35,7 @@ var REPORTS = {
 	},
 
 	horse_workloads: function(options) {
+	  var big_text = options.big_text;
 		var max = 0
 		var count = options.data.length;
 		$.each(options.data, function(i,d) {
@@ -79,11 +80,19 @@ var REPORTS = {
 							.attr("y",y(max)+10)
 							.text((horse.name.length > 7) ? horse.name.substr(0,6)+".." : horse.name);
 					} else {
-						svg.append("svg:text")
-							.attr("x",x(i)+2)
-							.attr("y",y(max)+10)
-							.attr("class","print_size")
-							.text((horse.name.length > 6) ? horse.name.substr(0,4)+".." : horse.name);
+						if (big_text) {
+							svg.append("svg:text")
+								.attr("x",x(i)+2)
+								.attr("y",y(max)+15)
+								.attr("class","print_size")
+								.text((horse.name.length > 8) ? horse.name.substr(0,6)+".." : horse.name);
+						} else {
+							svg.append("svg:text")
+								.attr("x",x(i)+2)
+								.attr("y",y(max)+10)
+								.attr("class","print_size")
+								.text((horse.name.length > 6) ? horse.name.substr(0,4)+".." : horse.name);
+						}
 						svg.append("svg:text")
 							.attr("x",x(i)+2)
 							.attr("y",((y(max)-y(horse.workload) < 15) ? y(max)-y(horse.workload)+15 : y(max)-y(horse.workload)-3))

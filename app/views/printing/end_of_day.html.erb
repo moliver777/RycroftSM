@@ -43,6 +43,12 @@
 			text.print_size {
 				font-size: 10px;
 			}
+			
+			div.horse_work_split text.print_size {
+				position: relative;
+				top: 5px;
+				font-size: 20px;
+			}
 		</style>
 	</head>
 	<body>
@@ -261,16 +267,22 @@
 		<!-- REPORTS -->
 		<div class="report_panel_2">
 			<h3>Horse Workloads - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h3>
-			<div id="horse_workloads_container" style="width:1100px;"></div>
+			<div class="horse_work_split" id="horse_workloads_container" style="width:1100px;"></div>
 		</div>
-		<div class="report_panel_2">
+		<% if @chart_splits > 1 && @horse_workloads2[0][:workload] > 0 %>
+			<div class="report_panel_2"><div class="horse_work_split" id="horse_workloads2_container" style="width:1100px;"></div></div>
+			<% if @chart_splits > 2 && @horse_workloads3[0][:workload] > 0 %>
+				<div class="report_panel_2"><div class="horse_work_split" id="horse_workloads3_container" style="width:1100px;"></div></div>
+			<% end %>
+		<% end %>
+		<div class="report_panel_2" style="margin-top:20px;">
 			<h3>Staff Workloads - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h3>
-			<div id="staff_workloads_container" style="width:1100px;"></div>
+			<div id="staff_workloads_container" style="width:1100px;margin-top:20px;"></div>
 		</div>
 		<% if @end_of_week %>
 			<div class="report_panel_2">
 				<h3>Weekly Horse Workloads - <%= @date.advance(:days => -7).strftime("%d").to_i.ordinalize %> <%= @date.advance(:days => -7).strftime("%B %Y") %> to <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h3>
-				<div id="week_horse_workloads_container" style="width:1100px;"></div>
+				<div id="week_horse_workloads_container" style="width:1100px;margin-top:20px;"></div>
 			</div>
 		<% end %>
 	</body>
@@ -283,6 +295,7 @@
 				name: "horse_workloads",
 				data: JSON.parse('<%= @horse_workloads.to_json.html_safe if @horse_workloads %>'),
 				mini: false,
+				big_text: true,
 				container: "#horse_workloads_container"
 			});
 			REPORTS.create({
@@ -300,6 +313,46 @@
 		} catch (e) {
 			// console.log(e);
 		}
+	});
+</script>
+
+<% if @chart_splits > 1 && @horse_workloads2[0][:workload] > 0 %>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			try {
+				REPORTS.create({
+					name: "horse_workloads",
+					data: JSON.parse('<%= @horse_workloads2.to_json.html_safe if @horse_workloads2 %>'),
+					mini: false,
+					big_text: true,
+					container: "#horse_workloads2_container"
+				});
+			} catch (e) {
+				// console.log(e);
+			}
+		});
+	</script>
+	<% if @chart_splits > 2 && @horse_workloads3[0][:workload] > 0 %>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				try {
+					REPORTS.create({
+						name: "horse_workloads",
+						data: JSON.parse('<%= @horse_workloads3.to_json.html_safe if @horse_workloads3 %>'),
+						mini: false,
+						big_text: true,
+						container: "#horse_workloads3_container"
+					});
+				} catch (e) {
+					// console.log(e);
+				}
+			});
+		</script>
+	<% end %>
+<% end %>
+
+<script type="text/javascript">
+	$(document).ready(function() {
 		$("input").click(function() {
 			$(this).attr("checked","checked");
 		});
