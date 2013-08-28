@@ -219,9 +219,6 @@ class BookingsController < ApplicationController
     booking.save!
     unless event.bookings.where(:cancelled => false).first
       event.cancelled = true
-      event.staff_id = true
-      event.staff_id2 = true
-      event.staff_id3 = true
       event.save!
     end
     render :nothing => true
@@ -239,9 +236,6 @@ class BookingsController < ApplicationController
       end
     end
     event.cancelled = true
-    event.staff_id = true
-    event.staff_id2 = true
-    event.staff_id3 = true
     event.save!
     render :nothing => true
   end
