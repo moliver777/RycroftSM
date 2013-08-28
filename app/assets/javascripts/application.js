@@ -568,7 +568,7 @@ function rebookAll(event_id) {
 				'overlayShow' : true,
 				'padding' : 0,
 				modal : true,
-				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"></div></div>",
+				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div style=\"text-align:center;font-weight:bold;\">Please make sure this event/booking has not been<br/>already rebooked at the specified time. This feature will<br/>not automatically check for double-bookings!</div><div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"></div></div>",
 				onComplete : function() {
 					jQuery("#fancyConfirm_ok").click(function() {
 						$("ul#rberrors").empty();
