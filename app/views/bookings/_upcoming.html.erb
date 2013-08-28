@@ -48,6 +48,9 @@
 						<% unless booking.cancelled %>
 							<select class="horse_select" booking="<%= booking.id %>">
 								<option value="0"></option>
+								<% if booking.horse && !(@horses.include? booking.horse) %>
+									<option value="<%= booking.horse.id %>"><%= booking.horse.name %><%= " *" if booking.client.horses.split(";").include?("#{booking.horse.id}") rescue "" %><%= " (L)" if booking.client.leasing == booking.horse.id rescue "" %><%= " (Ex)" if booking.horse.exercise %></option>
+								<% end %>
 								<% @horses.each do |horse| %>
 									<option value="<%= horse.id %>"><%= horse.name %><%= " *" if booking.client.horses.split(";").include?("#{horse.id}") rescue "" %><%= " (L)" if booking.client.leasing == horse.id rescue "" %><%= " (Ex)" if horse.exercise %></option>
 								<% end %>

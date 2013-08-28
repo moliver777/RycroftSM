@@ -35,7 +35,12 @@ class HorsesController < ApplicationController
 
   def availability
     horse = Horse.find(params[:horse_id])
-    horse.availability = params[:value] == "true" ? true : false
+    if params[:value] == "true"
+      horse.availability = true
+    else
+      horse.availability = false
+      horse.bookings.includes(:event).where("events.event_date > ?", Date.today).update_all({:horse_id => nil})
+    end
     horse.save
     render :nothing => true
   end

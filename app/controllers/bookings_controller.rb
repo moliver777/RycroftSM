@@ -549,6 +549,8 @@ class BookingsController < ApplicationController
     session[:upcoming] = @date.strftime("%Y/%m/%d")
     @upcoming = Event.includes(:bookings).where(:event_date => @date).order("start_time")
     @horses = Horse.where("availability = true or exercise = true").order("name")
+    @all_horses = {}
+    Horse.all.each{|horse| @all_horses[horse.id] = horse}
   end
 
   def format_timetable_events events
