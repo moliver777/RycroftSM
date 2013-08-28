@@ -71,19 +71,15 @@
 							<td><%= event.venue.name if event.venue rescue nil %></td>
 						</tr>
 						<% event.bookings.each do |booking| %>
-							<% if booking.cancelled %>
-								<tr style="text-decoration:line-through;color:red;">
-							<% else %>
-								<tr>
-							<% end %>
+							<tr>
 								<% if duration %>
 									<td></td>
 								<% else %>
 									<% duration = true %>
 									<td><%= event.payment_duration %></td>
 								<% end %>
-								<td><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
-								<td><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
+								<td <%= "style='text-decoration:line-through;color:red;'" if booking.cancelled %>><strong>Client:</strong> <%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %></td>
+								<td <%= "style='text-decoration:line-through;color:red;'" if booking.cancelled %>><strong>Horse:</strong> <%= booking.horse.name if booking.horse %></td>
 							</tr>
 						<% end %>
 						<tr>
