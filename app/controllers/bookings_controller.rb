@@ -27,6 +27,27 @@ class BookingsController < ApplicationController
     @horses = Horse.where("availability = true or exercise = true").order("name")
   end
 
+  def add_another
+    @event = Event.find(params[:event_id])
+    @booking = Booking.new
+    @staff1 = Staff.where(:id => @event.staff_id).first
+    @staff2 = Staff.where(:id => @event.staff_id2).first
+    @staff3 = Staff.where(:id => @event.staff_id3).first
+    @staff1_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, false, @staff1.id, @staff1.id, @staff1.id)) if @staff1
+    @staff2_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, false, @staff2.id, @staff2.id, @staff2.id)) if @staff2
+    @staff3_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND (staff_id = ? OR staff_id2 = ? OR staff_id3 = ?)", @event.event_date, false, @staff3.id, @staff3.id, @staff3.id)) if @staff3
+    @horse = Horse.where(:id => @booking.horse).first
+    @horse_events = format_timetable_events(Event.includes(:bookings).where("event_date = ? AND events.cancelled = ? AND bookings.cancelled = ? AND bookings.horse_id = ?", @event.event_date, false, false, @horse.id)) if @horse
+    @events = [@event]
+    Event.where("event_date >= ? AND cancelled = ? AND id != ?", Date.today, false, @event.id).order("event_date, start_time").each{|evt| @events << evt}
+    @venue = Venue.where(:id => @event.master_venue_id).first
+    @venues = Venue.where(:name => @venue.name) if @venue
+    @venue_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND venue_id IN (?)", @event.event_date, false, @venues.map{|v| v.id})) if @venues
+    @horses = Horse.where("availability = true or exercise = true").order("name")
+    @date = @event.event_date
+    render :new
+  end
+
   def event
     event = Event.find(params[:event_id])
     event[:formatted_start_time] = event.start_time.strftime("%H:%M")

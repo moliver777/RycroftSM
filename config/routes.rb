@@ -16,6 +16,7 @@ RycroftSM::Application.routes.draw do
   get "/bookings/date/:date" => "bookings#index"
   get "/bookings/upcoming/:date" => "bookings#upcoming"
   get "/bookings/new" => "bookings#new"
+  get "/bookings/new/:event_id" => "bookings#add_another"
   post "/bookings/create" => "bookings#create"
   get "/bookings/show/:booking_id" => "bookings#show"
   get "/bookings/show_event/:event_id" => "bookings#show_event"

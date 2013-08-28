@@ -124,11 +124,42 @@ function completeBooking(id) {
 					} else {
 						window.location.replace("/bookings/show_event/"+json.event_id);
 					}
-					
 				}
 			}
 		});
 	}
+}
+
+// SAVE BOOKING NEW AND ADD ANOTHER
+function completeBookingAndAdd() {
+  $("ul#form_errors").empty();
+	params = {};
+	if ($("select#event_mode").val() != 0) {params["event_id"] = $("select#event_mode").val()};
+	$.each($("input.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.each($("input.field[type='checkbox']"), function(i,field) {params[$(field).attr("id")] = $(field).is(":checked")});
+	$.each($("select.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	$.each($("textarea.field"), function(i,field) {params[$(field).attr("id")] = $(field).val()});
+	client = {};
+	if ($("input#client_id").val() != 0) {client["client_id"] = $("input#client_id").val()};
+	$.each($("input.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
+	$.each($("input.client_field[type='checkbox']"), function(i,field) {client[$(field).attr("id")] = $(field).is(":checked")});
+	$.each($("select.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
+	$.each($("textarea.client_field"), function(i,field) {client[$(field).attr("id")] = $(field).val()});
+	params["client"] = client;
+	$.ajax({
+		url: "/bookings/create",
+		type: "POST",
+		data: {fields: params},
+		success: function(json) {
+			if (json.errors[0]) {
+				$.each(json.errors, function(i,error) {
+					$("ul#form_errors").append("<li>"+error+"</li>");
+				})
+			} else {
+				window.location.replace("/bookings/new/"+json.event_id);
+			}
+		}
+	});
 }
 
 // SAVE PAYMENT
