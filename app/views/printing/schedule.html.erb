@@ -34,7 +34,11 @@
 						<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
 					</tr>
 					<% event.bookings.each do |booking| %>
-						<tr>
+						<% if booking.cancelled %>
+							<tr style="text-decoration:line-through;color:red;">
+						<% else %>
+							<tr>
+						<% end %>
 							<% if @date > Date.today %>
 								<td colspan="2"></td>
 							<% else %>
@@ -66,8 +70,12 @@
 							<td><strong><%= event.event_type %></strong></td>
 							<td><%= event.venue.name if event.venue rescue nil %></td>
 						</tr>
-						<% event.bookings.where(:cancelled => false).each do |booking| %>
-							<tr>
+						<% event.bookings.each do |booking| %>
+							<% if booking.cancelled %>
+								<tr style="text-decoration:line-through;color:red;">
+							<% else %>
+								<tr>
+							<% end %>
 								<% if duration %>
 									<td></td>
 								<% else %>
