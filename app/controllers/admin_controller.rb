@@ -5,12 +5,13 @@ class AdminController < ApplicationController
   end
 
   def clean_database
-    events = Event.where("event_date < ?", Date.today.advance(:months => -4))
+    events = Event.where("event_date < ?", Date.today.advance(:months => -3))
     events.each do |event|
       event.bookings.each{|booking| booking.payments.destroy_all}
       event.bookings.destroy_all
     end
     events.destroy_all
+    Payment.where("payment_date < ?", Date.today.advance(:months => -3))
     render :nothing => true
   end
 
