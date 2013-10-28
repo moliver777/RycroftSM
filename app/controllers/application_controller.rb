@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :status_available
   before_filter :setup
   before_filter :format_date
+  before_filter :clear_sessions
 
   def authenticated_user?
     unless session.include? :username
@@ -21,6 +22,10 @@ class ApplicationController < ActionController::Base
         redirect_to "/"
       end
     end
+  end
+
+  def clear_sessions
+    Session.where("updated_at < ?", Date.yesterday).destroy_all
   end
 
   def application_status

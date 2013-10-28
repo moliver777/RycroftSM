@@ -1,0 +1,48 @@
+<table class="welfare_header">
+	<tr>
+		<td style="width:15%;" class="welfare_link" href="/welfare"><< Back</td>
+		<td colspan="2" style="width:70%;"><h2>Horses</h2></td>
+		<td style="width:15%;">&nbsp;</td>
+	</tr>
+</table>
+
+<table id="horses" style="width:100%;margin-top:10px;">
+	<tr class="header">
+		<th style="width:12%;">Name</th>
+		<th style="width:14%;">Farrier</th>
+		<th style="width:14%;">Worming</th>
+		<th style="width:14%;">Dentist</th>
+		<th style="width:14%;">Physio</th>
+		<th style="width:14%;">Vaccination</th>
+		<th style="width:18%;">Other</th>
+	</tr>
+	<%= render :partial => "table_contents" %>
+</table>
+
+<button id="save">Save Changes</button>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("table td.welfare_link"), function(i,link) {
+			$(link).unbind("click").click(function() {
+				window.location.href = $(this).attr("href");
+			});
+		});
+
+		$("button#save").unbind("click").click(function() {
+			var params = {};
+			$.each($("table#horses tr.welfare_horse"), function(i,row) {
+				params[$(row).attr("horse")] = {};
+				$.each($(row).find("input.boolean"), function(i,input) {
+					params[$(row).attr("horse")][$(input).attr("field")] = $(input).is(":checked");
+				});
+				$.each($(row).find("input.value"), function(i,input) {
+					params[$(row).attr("horse")][$(input).attr("field")] = $(input).val();
+				});
+			});
+			$.post("/welfare/update", {welfare: params}, function() {
+				fancyWelfareSuccess();
+			});
+		});
+	});
+</script>

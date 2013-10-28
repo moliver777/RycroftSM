@@ -7,6 +7,10 @@ table.welfare_header td {
 	border: none;
 }
 
+table.welfare_header td.selected {
+	background: rgba(0, 0, 0, 0.2);
+}
+
 tr.welfare_sep {
 	height: 10px;
 }
@@ -78,3 +82,14 @@ table#welfare_calendar ul {
 	list-style: none;
 }
 
+input.repeat {
+	width: 25px;
+}
+
+input.date {
+	width: 75px;
+}
+
+input.comments {
+	width: 96%;
+}

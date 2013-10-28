@@ -1,0 +1,73 @@
+<% if !@horses.empty? %>
+	<% @horses.each do |horse| %>
+		<tr class="welfare_horse" horse="<%= horse.id %>">
+			<td><%= horse.name if horse.name %></td>
+			<td>
+				<% if horse.farrier_enabled %>
+					<input class="boolean" field="farrier_enabled" type="checkbox" checked="true"></input>
+				<% else %>
+					<input class="boolean" field="farrier_enabled" type="checkbox"></input>
+				<% end %>
+				Repeat: <input class="value repeat" field="farrier_repeat" type="number" value="<%= horse.farrier_repeat %>" /><br/>
+				<input class="value date" field="farrier_date" type="text" value="<%= horse.farrier_date %>" placeholder="Start Date" />
+			</td>
+			<td>
+				<% if horse.worming_enabled %>
+					<input class="boolean" field="worming_enabled" type="checkbox" checked="true"></input>
+				<% else %>
+					<input class="boolean" field="worming_enabled" type="checkbox"></input>
+				<% end %>
+				Repeat: <input class="value repeat" field="worming_repeat" type="number" value="<%= horse.worming_repeat %>" /><br/>
+				<input class="value date" field="worming_date" type="text" value="<%= horse.worming_date %>" placeholder="Start Date" />
+			</td>
+			<td>
+				<% if horse.dentist_enabled %>
+					<input class="boolean" field="dentist_enabled" type="checkbox" checked="true"></input>
+				<% else %>
+					<input class="boolean" field="dentist_enabled" type="checkbox"></input>
+				<% end %>
+				Repeat: <input class="value repeat" field="dentist_repeat" type="number" value="<%= horse.dentist_repeat %>" /><br/>
+				<input class="value date" field="dentist_date" type="text" value="<%= horse.dentist_date %>" placeholder="Start Date" />
+			</td>
+			<td>
+				<% if horse.physio_enabled %>
+					<input class="boolean" field="physio_enabled" type="checkbox" checked="true"></input>
+				<% else %>
+					<input class="boolean" field="physio_enabled" type="checkbox"></input>
+				<% end %>
+				Repeat: <input class="value repeat" field="physio_repeat" type="number" value="<%= horse.physio_repeat %>" /><br/>
+				<input class="value date" field="physio_date" type="text" value="<%= horse.physio_date %>" placeholder="Start Date" />
+			</td>
+			<td>
+				<% if horse.vaccination_enabled %>
+					<input class="boolean" field="vaccination_enabled" type="checkbox" checked="true"></input>
+				<% else %>
+					<input class="boolean" field="vaccination_enabled" type="checkbox"></input>
+				<% end %>
+				Repeat: <input class="value repeat" field="vaccination_repeat" type="number" value="<%= horse.vaccination_repeat %>" /><br/>
+				<input class="value date" field="vaccination_date" type="text" value="<%= horse.vaccination_date %>" placeholder="Start Date" />
+			</td>
+			<td>
+				<% if horse.other_enabled %>
+					<input class="boolean" field="other_enabled" type="checkbox" checked="true"></input>
+				<% else %>
+					<input class="boolean" field="other_enabled" type="checkbox"></input>
+				<% end %>
+				Repeat: <input class="value repeat" field="other_repeat" type="number" value="<%= horse.other_repeat %>" />&nbsp;
+				<input class="value date" field="other_date" type="text" value="<%= horse.other_date %>" placeholder="Start Date" /><br/>
+				<input class="value comments" field="other_comments" type="text" value="<%= horse.other_comments %>" placeholder="Comments" />
+			</td>
+		</tr>
+	<% end %>
+<% else %>
+	<tr>
+		<td colspan="7" class="center"><strong>No horses found</strong></td>
+	</tr>
+<% end %>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input.date").datepicker({dateFormat: "dd-mm-yy"});
+		$(".ui-datepicker").hide();
+	});
+</script>

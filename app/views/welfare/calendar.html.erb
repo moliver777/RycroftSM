@@ -1,18 +1,20 @@
 <div>
 	<table class="welfare_header">
 		<tr>
-			<td style="width:14%;" class="welfare_link" href="/welfare/calendar/farrier">Farrier</td>
-			<td style="width:14%;" class="welfare_link" href="/welfare/calendar/worming">Worming</td>
-			<td style="width:14%;" class="welfare_link" href="/welfare/calendar/teeth">Teeth</td>
-			<td style="width:14%;" class="welfare_link" href="/welfare/calendar">ALL</td>
-			<td style="width:14%;" class="welfare_link" href="/welfare/calendar/physio">Physio</td>
-			<td style="width:14%;" class="welfare_link" href="/welfare/calendar/vaccination">Vaccination</td>
-			<td style="width:14%;" class="welfare_link" href="/welfare/calendar/weights">Weights</td>
+			<td style="width:12%;" class="welfare_link calendar_link" type="FARRIER">Farrier</td>
+			<td style="width:12%;" class="welfare_link calendar_link" type="WORMING">Worming</td>
+			<td style="width:12%;" class="welfare_link calendar_link" type="DENTIST">Dentist</td>
+			<td style="width:12%;" class="welfare_link calendar_link selected" type="ALL">All</td>
+			<td style="width:12%;" class="welfare_link calendar_link" type="PHYSIO">Physio</td>
+			<td style="width:12%;" class="welfare_link calendar_link" type="VACCINATION">Vaccination</td>
+			<td style="width:12%;" class="welfare_link calendar_link" type="OTHER">Other</td>
+			<td style="width:4%;">&nbsp;</td>
+			<td style="width:12%;" class="welfare_link" href="/welfare">Back >></td>
 		</tr>
 		<tr class="welfare_sep"></tr>
 		<tr>
 			<td colspan="2" style="width:28%;text-align:left;"><< Previous Month</td>
-			<td colspan="3" style="width:42%;text-align:center;"><h2>November 2012</h2></td>
+			<td colspan="5" style="width:42%;text-align:center;"><h2>November 2012</h2></td>
 			<td colspan="2" style="width:28%;text-align:right;">Next Month >></td>
 		</tr>
 	</table>
@@ -220,3 +222,20 @@
 		</tr>
 	</table>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.each($("table td.welfare_link:not(.calendar_link)"), function(i,link) {
+			$(link).unbind("click").click(function() {
+				window.location.href = $(this).attr("href");
+			});
+		});
+
+		$.each($("table td.calendar_link"), function(i,link) {
+			$(link).unbind("click").click(function() {
+				$("td.calendar_link").removeClass("selected");
+				$(this).addClass("selected");
+			});
+		});
+	});
+</script>

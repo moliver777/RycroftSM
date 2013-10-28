@@ -172,5 +172,6 @@ RycroftSM::Application.routes.draw do
   # WELFARE
   get "/welfare" => "welfare#index"
   get "/welfare/calendar" => "welfare#calendar"
-  get "/welfare/lists" => "welfare#lists"
+  get "/welfare/horses" => "welfare#horses"
+  post "/welfare/update" => "welfare#update"
 end

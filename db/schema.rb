@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130207102420) do
+ActiveRecord::Schema.define(:version => 20131028221230) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -93,24 +93,14 @@ ActiveRecord::Schema.define(:version => 20130207102420) do
     t.datetime "updated_at"
     t.string   "feed"
     t.string   "feed_extras"
-    t.float    "hay_weight",        :default => 0.0
+    t.float    "hay_weight",          :default => 0.0
     t.text     "description"
     t.string   "height"
     t.string   "colour"
     t.integer  "max_weight"
     t.string   "owner"
     t.string   "owner_email"
-    t.string   "heart_check"
-    t.string   "eyes_check"
-    t.string   "trot_up_check"
-    t.string   "tack_check_bridle"
-    t.string   "tack_check_saddle"
-    t.text     "tack_check_notes"
-    t.string   "physio_frequency"
-    t.string   "temp"
-    t.string   "pulse"
-    t.string   "respiration"
-    t.integer  "turnout_group",     :default => 0
+    t.integer  "turnout_group",       :default => 0
     t.boolean  "walk"
     t.boolean  "trot_with"
     t.boolean  "trot_without"
@@ -119,11 +109,30 @@ ActiveRecord::Schema.define(:version => 20130207102420) do
     t.boolean  "jump_5_meter"
     t.boolean  "jump_75_meter"
     t.boolean  "x_country"
-    t.boolean  "group",             :default => true
-    t.integer  "bhs",               :default => 1
-    t.boolean  "livery",            :default => false
-    t.boolean  "skip_issues",       :default => false
+    t.boolean  "group",               :default => true
+    t.integer  "bhs",                 :default => 1
+    t.boolean  "livery",              :default => false
+    t.boolean  "skip_issues",         :default => false
     t.boolean  "exercise"
+    t.boolean  "farrier_enabled",     :default => false, :null => false
+    t.date     "farrier_date"
+    t.integer  "farrier_repeat",      :default => 0,     :null => false
+    t.boolean  "worming_enabled",     :default => false, :null => false
+    t.date     "worming_date"
+    t.integer  "worming_repeat",      :default => 0,     :null => false
+    t.boolean  "dentist_enabled",     :default => false, :null => false
+    t.date     "dentist_date"
+    t.integer  "dentist_repeat",      :default => 0,     :null => false
+    t.boolean  "physio_enabled",      :default => false, :null => false
+    t.date     "physio_date"
+    t.integer  "physio_repeat",       :default => 0,     :null => false
+    t.boolean  "vaccination_enabled", :default => false, :null => false
+    t.date     "vaccination_date"
+    t.integer  "vaccination_repeat",  :default => 0,     :null => false
+    t.boolean  "other_enabled",       :default => false, :null => false
+    t.date     "other_date"
+    t.integer  "other_repeat",        :default => 0,     :null => false
+    t.string   "other_comments"
   end
 
   create_table "notes", :force => true do |t|

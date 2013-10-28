@@ -679,7 +679,21 @@ function fancyUndoSuccess() {
 		'overlayShow' : true,
 		'padding' : 0,
 		modal : true,
-		content : "<div class='popup_wrapper' id='confirm_popup'><h3>CHANGES UNDONE</h3><div class='popup_content reduced_height'><p>Any changes to horse assignments seen last save have been undone.</p></div><div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"OK\" style=\"width:66px;\"></div></div>",
+		content : "<div class='popup_wrapper' id='confirm_popup'><h3>CHANGES UNDONE</h3><div class='popup_content reduced_height'><p>Any changes to horse assignments since last save have been undone.</p></div><div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"OK\" style=\"width:66px;\"></div></div>",
+		onComplete : function() {
+			jQuery("#fancyConfirm_ok").click(function() {
+				jQuery.fancybox.close();
+			});
+		}
+	});
+}
+
+function fancyWelfareSuccess() {
+	jQuery.fancybox({
+		'overlayShow' : true,
+		'padding' : 0,
+		modal : true,
+		content : "<div class='popup_wrapper' id='confirm_popup'><h3>WELFARE SAVED</h3><div class='popup_content reduced_height'><p>Changes to welfare saved successfully.</p></div><div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"OK\" style=\"width:66px;\"></div></div>",
 		onComplete : function() {
 			jQuery("#fancyConfirm_ok").click(function() {
 				jQuery.fancybox.close();
