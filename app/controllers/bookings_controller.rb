@@ -212,21 +212,21 @@ class BookingsController < ApplicationController
   end
 
   def destroy
-      booking = Booking.find(params[:booking_id])
-      event = booking.event
-      booking.notes.destroy_all
-      booking.destroy
-      event.destroy unless event.bookings.first
-      render :nothing => true
-    end
+    booking = Booking.find(params[:booking_id])
+    event = booking.event
+    booking.notes.destroy_all
+    booking.destroy
+    event.destroy unless event.bookings.first
+    render :nothing => true
+  end
 
-    def destroy_event
-      event = Event.find(params[:event_id])
-      event.bookings.each{|b| b.notes.destroy_all}
-      event.bookings.destroy_all
-      event.destroy
-      render :nothing => true
-    end
+  def destroy_event
+    event = Event.find(params[:event_id])
+    event.bookings.each{|b| b.notes.destroy_all}
+    event.bookings.destroy_all
+    event.destroy
+    render :nothing => true
+  end
 
   def cancel
     booking = Booking.find(params[:booking_id])
@@ -549,11 +549,14 @@ class BookingsController < ApplicationController
     render :json => json
   end
 
+  # NEED TO TEST NEW SAVE ASSIGN
   def save_assign
+    bookings = Hash[*Booking.where(:id => params[:changes].keys).map{|booking| [booking.id.to_s, booking]}.flatten(1)]
     params[:changes].each do |booking_id,horse_id|
-      booking = Booking.where(:id => booking_id).first
-      booking.horse_id = (horse_id.to_i == 0) ? nil : horse_id
-      booking.save!
+      if bookings[booking_id]
+        bookings[booking_id].horse_id = (horse_id.to_i == 0) ? nil : horse_id
+        bookings[booking_id].save!
+      end
     end
     application_status if params.include? :check
     render :nothing => true

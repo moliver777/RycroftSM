@@ -170,8 +170,10 @@ RycroftSM::Application.routes.draw do
   get "/print/end_of_day/:date" => "printing#end_of_day"
 
   # WELFARE
-  get "/welfare" => "welfare#index"
+  get "/welfare/this_week" => "welfare#index"
+  get "/welfare/this_week/:date" => "welfare#index"
   get "/welfare/calendar" => "welfare#calendar"
+  get "/welfare/calendar/:date" => "welfare#calendar"
   get "/welfare/horses" => "welfare#horses"
   post "/welfare/update" => "welfare#update"
 end

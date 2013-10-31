@@ -2,13 +2,22 @@
 	<table class="welfare_header">
 		<tr>
 			<td style="width:15%;" class="welfare_link" href="/welfare/calendar">Calendar</td>
-			<td colspan="2" style="width:70%;"><h2>Due this Week</h2></td>
+			<td colspan="2" style="width:70%;">
+				<h2>
+					<% if Date.today < @end && Date.today >= @start %>
+						Due this Week
+					<% else %>
+						Due Week Starting <%= @start %>
+					<% end %>
+				</h2>
+			</td>
 			<td style="width:15%;" class="welfare_link" href="/welfare/horses">Horses</td>
 		</tr>
 		<tr class="welfare_sep"></tr>
 		<tr>
-			<td colspan="2" style="width:50%;text-align:left;"><< Previous Week</td>
-			<td colspan="2" style="width:50%;text-align:right;">Next Week >></td>
+			<td style="width:15%;text-align:left;"><a href="/welfare/this_week/<%= @start.advance(:weeks => -1) %>"><< Previous Week</a></td>
+			<td colspan="2" style="text-align:center;"><a href="/welfare/this_week">Go to Current Week</a></td>
+			<td style="width:15%;text-align:right;"><a href="/welfare/this_week/<%= @start.advance(:weeks => 1) %>">Next Week >></a></td>
 		</tr>
 	</table>
 </div>
@@ -19,16 +28,21 @@
 			<th class="due_title">Farrier</th>
 			<td class="due_data">
 				<table class="due_list">
-					<tr>
-						<td><input type="checkbox">Chips - Front and back</td>
-						<td><input type="checkbox">Rex - Trim</td>
-						<td><input type="checkbox">Kohana - Front and back</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox">Zac - Front only</td>
-						<td></td>
-						<td></td>
-					</tr>
+					<% if @week_events["farrier"] %>
+						<tr>
+							<% @week_events["farrier"].each_with_index do |horse,i| %>
+								<% if i%3 == 0 && i>0 %>
+									</tr><tr>
+								<% end %>
+								<td>
+									<a href="/horses/show/<%= horse.id %>"><%= horse.name %></a>
+									<% if horse.farrier_repeat > 0 %>
+										(Every <%= horse.farrier_repeat > 1 ? "#{horse.farrier_repeat} #{horse.farrier_repeat_type}s" : "#{horse.farrier_repeat_type}" %>)
+									<% end %>
+								</td>
+							<% end %>
+						</tr>
+					<% end %>
 				</table>
 			</td>
 		</tr>
@@ -36,38 +50,108 @@
 			<th class="due_title">Worming</th>
 			<td class="due_data">
 				<table class="due_list">
-					<tr>
-						<td><input type="checkbox">Chips</td>
-						<td><input type="checkbox">Rex</td>
-						<td><input type="checkbox">Kohana</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox">Zac</td>
-						<td><input type="checkbox">Benny</td>
-						<td><input type="checkbox">Crystal</td>
-					</tr>
+					<% if @week_events["worming"] %>
+						<tr>
+							<% @week_events["worming"].each_with_index do |horse,i| %>
+								<% if i%3 == 0 && i>0 %>
+									</tr><tr>
+								<% end %>
+								<td>
+									<a href="/horses/show/<%= horse.id %>"><%= horse.name %></a>
+									<% if horse.worming_repeat > 0 %>
+										(Every <%= horse.worming_repeat > 1 ? "#{horse.worming_repeat} #{horse.worming_repeat_type}s" : "#{horse.worming_repeat_type}" %>)
+									<% end %>
+								</td>
+							<% end %>
+						</tr>
+					<% end %>
 				</table>
 			</td>
 		</tr>
 		<tr>
-			<th class="due_title">Teeth</th>
+			<th class="due_title">Dentist</th>
 			<td class="due_data">
 				<table class="due_list">
-					<tr>
-						<td><input type="checkbox">Benny</td>
-						<td></td>
-						<td></td>
-					</tr>
+					<% if @week_events["dentist"] %>
+						<tr>
+							<% @week_events["dentist"].each_with_index do |horse,i| %>
+								<% if i%3 == 0 && i>0 %>
+									</tr><tr>
+								<% end %>
+								<td>
+									<a href="/horses/show/<%= horse.id %>"><%= horse.name %></a>
+									<% if horse.dentist_repeat > 0 %>
+										(Every <%= horse.dentist_repeat > 1 ? "#{horse.dentist_repeat} #{horse.dentist_repeat_type}s" : "#{horse.dentist_repeat_type}" %>)
+									<% end %>
+								</td>
+							<% end %>
+						</tr>
+					<% end %>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<th class="due_title">Physio</th>
-			<td class="due_data"></td>
+			<td class="due_data">
+				<table class="due_list">
+					<% if @week_events["physio"] %>
+						<tr>
+							<% @week_events["physio"].each_with_index do |horse,i| %>
+								<% if i%3 == 0 && i>0 %>
+									</tr><tr>
+								<% end %>
+								<td>
+									<a href="/horses/show/<%= horse.id %>"><%= horse.name %></a>
+									<% if horse.physio_repeat > 0 %>
+										(Every <%= horse.physio_repeat > 1 ? "#{horse.physio_repeat} #{horse.physio_repeat_type}s" : "#{horse.physio_repeat_type}" %>)
+									<% end %>
+								</td>
+							<% end %>
+						</tr>
+					<% end %>
+				</table>
+			</td>
 		</tr>
 		<tr>
 			<th class="due_title">Vaccinations</th>
-			<td class="due_data"></td>
+			<td class="due_data">
+				<table class="due_list">
+					<% if @week_events["vaccination"] %>
+						<tr>
+							<% @week_events["vaccination"].each_with_index do |horse,i| %>
+								<% if i%3 == 0 && i>0 %>
+									</tr><tr>
+								<% end %>
+								<td>
+									<a href="/horses/show/<%= horse.id %>"><%= horse.name %></a>
+									<% if horse.vaccination_repeat > 0 %>
+										(Every <%= horse.vaccination_repeat > 1 ? "#{horse.vaccination_repeat} #{horse.vaccination_repeat_type}s" : "#{horse.vaccination_repeat_type}" %>)
+									<% end %>
+								</td>
+							<% end %>
+						</tr>
+					<% end %>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<th class="due_title">Other</th>
+			<td class="due_data">
+				<table class="due_list">
+					<% if @week_events["other"] %>
+						<% @week_events["other"].each_with_index do |horse,i| %>
+							<tr>
+								<td>
+									<a href="/horses/show/<%= horse.id %>"><%= horse.name %></a>
+									<% if horse.other_repeat > 0 %>
+										(Every <%= horse.other_repeat > 1 ? "#{horse.other_repeat} #{horse.other_repeat_type}s" : "#{horse.other_repeat_type}" %>) <%= horse.other_comments %>
+									<% end %>
+								</td>
+							</tr>
+						<% end %>
+					<% end %>
+				</table>
+			</td>
 		</tr>
 	</table>
 </div>

@@ -1,6 +1,6 @@
 <table class="welfare_header">
 	<tr>
-		<td style="width:15%;" class="welfare_link" href="/welfare"><< Back</td>
+		<td style="width:15%;" class="welfare_link" href="/welfare/this_week"><< Back</td>
 		<td colspan="2" style="width:70%;"><h2>Horses</h2></td>
 		<td style="width:15%;">&nbsp;</td>
 	</tr>
@@ -19,7 +19,7 @@
 	<%= render :partial => "table_contents" %>
 </table>
 
-<button id="save">Save Changes</button>
+<div style="text-align:center;margin-top:10px;"><button id="save" style="width:200px;height:50px;">Save Changes</button></div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -37,6 +37,9 @@
 					params[$(row).attr("horse")][$(input).attr("field")] = $(input).is(":checked");
 				});
 				$.each($(row).find("input.value"), function(i,input) {
+					params[$(row).attr("horse")][$(input).attr("field")] = $(input).val();
+				});
+				$.each($(row).find("select"), function(i,input) {
 					params[$(row).attr("horse")][$(input).attr("field")] = $(input).val();
 				});
 			});
