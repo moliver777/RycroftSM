@@ -21,7 +21,7 @@ class WelfareController < ApplicationController
   end
 
   def horses
-    @horses = Horse.all
+    @horses = Horse.all.order("name")
   end
 
   def update
