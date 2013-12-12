@@ -473,7 +473,7 @@ function fancyConfirmAutoAssign(date) {
 						var table = "<tr><th>Booking</th><th></th><th>Horse</th></tr>";
 						$.each(data, function(booking,horse) { table += "<tr><td>"+booking+"</td><td>=></td><td>"+horse+"</td></tr>" });
 						$("div.popup_content").append("<p id='remaining'>Remaining: "+json.remaining+"</p><p><table id='assignment_results' style='margin:auto;'>"+table+"</table></p>");
-						continueAssign();
+						continueAssign(date);
 					}
 				})
 			})
@@ -481,12 +481,12 @@ function fancyConfirmAutoAssign(date) {
 	});
 }
 
-function continueAssign() {
+function continueAssign(date) {
 	if (window.incomplete) {
 		var i = setInterval(function() {
 			clearInterval(i);
 			$.ajax({
-				url: "/assignment/continue_assign",
+				url: "/assignment/continue_assign/"+date,
 				type: "POST",
 				success: function(json) {
 					if (parseInt(json.remaining) == 0) window.incomplete = false;
@@ -495,7 +495,7 @@ function continueAssign() {
 					$.each(data, function(booking,horse) { table += "<tr><td>"+booking+"</td><td>=></td><td>"+horse+"</td></tr>" });
 					$("p#remaining").html("Remaining: "+json.remaining);
 					$("table#assignment_results").append(table);
-					continueAssign();
+					continueAssign(date);
 				}
 			})
 		}, 500);
