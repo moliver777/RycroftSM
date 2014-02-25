@@ -18,6 +18,15 @@ class PrintingController < ApplicationController
         end
       end
     end
+    @turnouts = []
+    Horse.order("name").each do |horse|
+      horse_events = horse.events.where(:event_date => @date, :cancelled => false).order("end_time")
+      if horse_events.first
+        @turnouts << {:name => horse.name, :turnout => true, :time => horse_events.last.end_time.strftime("%H:%M")}
+      else
+        @turnouts << {:name => horse.name, :turnout => false, :time => "00:00"}
+      end
+    end
   end
 
   def client
