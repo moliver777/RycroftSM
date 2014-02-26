@@ -65,7 +65,7 @@
 				<% @turnouts.sort_by{|t| [t[:time],t[:name]]}.each do |turnout| %>
 					<tr>
 						<td><%= turnout[:name] %></td>
-						<td><%= turnout[:turnout] ? turnout[:time] : "No bookings today" %></td>
+						<td><%= turnout[:turnout] ? turnout[:formatted_time] : "No bookings today" %></td>
 					</tr>
 				<% end %>
 			</table>

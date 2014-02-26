@@ -22,7 +22,7 @@ class PrintingController < ApplicationController
     Horse.order("name").each do |horse|
       horse_events = horse.events.where(:event_date => @date, :cancelled => false).order("end_time")
       if horse_events.first
-        @turnouts << {:name => horse.name, :turnout => true, :time => horse_events.last.end_time.strftime("%H:%M")}
+        @turnouts << {:name => horse.name, :turnout => true, :time => horse_events.last.end_time.strftime("%H:%M"), :formatted_time => horse_events.last.end_time.strftime("%l:%M%P")}
       else
         @turnouts << {:name => horse.name, :turnout => false, :time => "00:00"}
       end
