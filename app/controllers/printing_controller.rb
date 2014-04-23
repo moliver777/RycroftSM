@@ -98,7 +98,7 @@ class PrintingController < ApplicationController
     @horse_workloads3 = horse_workloads.sort_by{|h| h[:workload]}.reverse[(@limiter*2)+2..-1] if @chart_splits > 2
     staff_workloads = []
     Staff.all.each do |staff|
-      staff_workloads << {:name => "#{staff.first_name} #{staff.last_name[0]}", :workload => staff.workload_period(@date, @date).to_f} unless staff.first_name == "Horse"
+      staff_workloads << {:name => "#{staff.first_name} #{staff.last_name}", :workload => staff.workload_period(@date, @date).to_f} unless staff.first_name == "Horse"
     end
     @staff_workloads = staff_workloads.sort_by{|s| s[:workload]}.reverse
     if @date.strftime("%a") == "Sun"

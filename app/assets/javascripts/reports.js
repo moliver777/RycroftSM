@@ -4,8 +4,14 @@ var REPORTS = {
 			case "horse_workloads" :
 				this.horse_workloads(options);
 			break;
+			case "horse_workloads_horz" :
+				this.horse_workloads_horz(options);
+			break;
 			case "staff_workloads" :
 				this.staff_workloads(options);
+			break;
+			case "staff_workloads_horz" :
+				this.staff_workloads_horz(options);
 			break;
 			case "horse_events" :
 				this.horse_events(options);
@@ -136,6 +142,89 @@ var REPORTS = {
 		}
 	},
 
+	horse_workloads_horz: function(options) {
+	  var big_text = options.big_text;
+		var max = 0
+		var count = options.data.length;
+		$.each(options.data, function(i,d) {
+			if (d.workload > max) max = d.workload;
+		})
+		var width = $(options.container).width()-300;
+		var height = 1200;
+		var x = d3.scale.linear()
+			.domain([0, max])
+			.range([0, width]);
+		var y = d3.scale.linear()
+			.domain([0, count])
+			.range([0, height]);
+
+		var selector = (options.container=="#horse_workloads_container") ? "horseWorkloads" : "weekHorseWorkloads";
+		var short_selector = (options.container=="#horse_workloads_container") ? "workloadsChart" : "hWorkloadsChart";
+
+		var container = d3.select("#"+$(options.container).attr('id'))
+			.append("svg:svg")
+			.attr("width",$(options.container).css("width"))
+			.attr("height",(height+30)+"px")
+			.attr("id",selector+"Svg");
+
+		var svg = d3.select("svg#"+selector+"Svg")
+			.append("svg:g")
+			.attr("id", short_selector);
+
+		var chart = d3.select("g#"+short_selector);
+
+		try {
+			if (max > 0) {
+				$.each(options.data, function(i,horse) {
+					chart.append("svg:rect")
+						.attr("x",x(max)-x(horse.workload))
+						.attr("y",y(i))
+						.attr("width",x(horse.workload)+"px")
+						.attr("height",y(1)+"px")
+						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
+					svg.append("svg:text")
+						.attr("x",x(max)+5)
+						.attr("y",y(i)+15)
+						.attr("class","print_size")
+						.text((horse.name.length > 20) ? horse.name.substr(0,20)+"..." : horse.name);
+					svg.append("svg:text")
+						.attr("x",((x(max)-x(horse.workload) > 30) ? x(max)-x(horse.workload)-30 : x(max)-x(horse.workload)))
+						.attr("y",y(i)+15)
+						.text(horse.workload);
+				})
+			}
+		} catch (e) {
+			// console.log(e)
+		}
+
+		chart.append("svg:line")
+			.attr("x1",x(0))
+			.attr("x2",x(max))
+			.attr("y1",y(count))
+			.attr("y2",y(count))
+			.attr("stroke","#000");
+		chart.append("svg:line")
+			.attr("x1",x(max))
+			.attr("x2",x(max))
+			.attr("y1",y(0))
+			.attr("y2",y(count))
+			.attr("stroke","#000")
+			.attr("transform","translate(0,-1)");
+
+		if (max > 0) {
+			svg.append("svg:text")
+				.attr("x",0)
+				.attr("y",y(count)+15)
+				.text(max+"hrs");
+		} else {
+			svg.append("svg:text")
+				.attr("x",(width/2)+10)
+				.attr("y",20)
+				.style("text-anchor","right")
+				.text("No data");
+		}
+	},
+
 	staff_workloads: function(options) {
 		var max = 0
 		var count = options.data.length;
@@ -223,6 +312,85 @@ var REPORTS = {
 		}
 		if (options.mini) {
 			$(options.container).append("<span class='home_report_title'>Staff Workloads ("+options.period+")</span>")
+		}
+	},
+
+	staff_workloads_horz: function(options) {
+		var max = 0
+		var count = options.data.length;
+		$.each(options.data, function(i,d) {
+			if (d.workload > max) max = d.workload;
+		})
+		var width = $(options.container).width()-300;
+		var height = 1200;
+		var x = d3.scale.linear()
+			.domain([0, max])
+			.range([0, width]);
+		var y = d3.scale.linear()
+			.domain([0, count])
+			.range([0, height]);
+
+		var container = d3.select("#"+$(options.container).attr('id'))
+			.append("svg:svg")
+			.attr("width",$(options.container).css("width"))
+			.attr("height",(height+30)+"px")
+			.attr("id","staffWorkloadsSvg");
+
+		var svg = d3.select("svg#staffWorkloadsSvg")
+			.append("svg:g")
+			.attr("id", "workloadsChart2");
+
+		var chart = d3.select("g#workloadsChart2");
+
+		try {
+			if (max > 0) {
+				$.each(options.data, function(i,staff) {
+					chart.append("svg:rect")
+						.attr("x",x(max)-x(staff.workload))
+						.attr("y",y(i))
+						.attr("width",x(staff.workload)+"px")
+						.attr("height",y(1)+"px")
+						.attr("fill", function(){return i%2 ? "#5F5F5F" : "#CCCCCC"});
+					svg.append("svg:text")
+						.attr("x",x(max)+5)
+						.attr("y",y(i)+15)
+						.attr("class","print_size")
+						.text((staff.name.length > 20) ? staff.name.substr(0,20)+"..." : staff.name);
+					svg.append("svg:text")
+						.attr("x",((x(max)-x(staff.workload) > 30) ? x(max)-x(staff.workload)-30 : x(max)-x(staff.workload)))
+						.attr("y",y(i)+15)
+						.text(staff.workload);
+				})
+			}
+		} catch (e) {
+			// console.log(e)
+		}
+
+		chart.append("svg:line")
+			.attr("x1",x(0))
+			.attr("x2",x(max))
+			.attr("y1",y(count))
+			.attr("y2",y(count))
+			.attr("stroke","#000");
+		chart.append("svg:line")
+			.attr("x1",x(max))
+			.attr("x2",x(max))
+			.attr("y1",y(0))
+			.attr("y2",y(count))
+			.attr("stroke","#000")
+			.attr("transform","translate(0,-1)");
+
+		if (max > 0) {
+			svg.append("svg:text")
+				.attr("x",0)
+				.attr("y",y(count)+15)
+				.text(max+"hrs");
+		} else {
+			svg.append("svg:text")
+				.attr("x",(width/2)+10)
+				.attr("y",20)
+				.style("text-anchor","right")
+				.text("No data");
 		}
 	},
 
