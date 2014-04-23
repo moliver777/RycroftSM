@@ -69,44 +69,6 @@
 		</style>
 	</head>
 	<body>
-		<!-- SCHEDULE -->
-		<h1>SCHEDULE - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h1>
-		<% if !@events.empty? %>
-			<table id="schedule" class="break">
-				<% @events.each do |event| %>
-					<tr>
-						<td><%= event.start_time.strftime("%l:%M%P") %>-<%= event.end_time.strftime("%l:%M%P") %></td>
-						<td><strong><%= event.event_type %></strong></td>
-						<td><strong>Instructor:</strong> <%= event.staff_list %></td>
-						<td><strong>Venue:</strong> <%= event.venue.name if event.venue rescue nil %></td>
-					</tr>
-					<% event.bookings.each do |booking| %>
-						<tr>
-							<td></td>
-							<td colspan="2">
-								Rebooked: <%= check_box_tag "rb-#{booking.id}", "", booking.rebooked %>
-								<% if booking.rebooked %>
-									<% rebook = Event.where(:id => event.rebook_id).first %>
-									<% if rebook %>
-										<%= rebook.event_date.strftime("%A %d/%m/%Y") %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= rebook.start_time.strftime("%l:%M%P") %>-<%= rebook.end_time.strftime("%l:%M%P") %>
-									<% else %>
-										CANCELLED
-									<% end %>
-								<% end %>
-							</td>
-							<td><%= booking.client.first_name if booking.client %> <%= booking.client.last_name if booking.client %> (<%= booking.horse.name if booking.horse %>)</td>
-						</tr>
-					<% end %>
-					<tr class="bottom">
-						<td colspan="2"></td>
-						<td colspan="2"><strong>Description:</strong> <%= event.description if event.description %></td>
-					</tr>
-				<% end %>
-			</table>
-		<% else %>
-			<table><tr><td>No events today</td></tr></table>
-		<% end %>
-
 		<!-- CASH-UP -->
 		<h1>CASH UP - <%= @date.strftime("%A") %> <%= @date.strftime("%d").to_i.ordinalize %> <%= @date.strftime("%B %Y") %></h1>
 		<table id="cash_up" class="break">
