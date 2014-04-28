@@ -98,7 +98,7 @@
 			'overlayShow' : true,
 			'padding' : 0,
 			modal : true,
-			content : "<div class='popup_wrapper' id='confirm_popup'><h3>CLEAN DATABASE</h3><div class='popup_content reduced_height'><p>Are you sure you want to clean the database out?</p><p>WARNING! This will destroy events, bookings and payments older than 3 months</p></div><div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\" style=\"width:66px;\"></div></div>",
+			content : "<div class='popup_wrapper' id='confirm_popup'><h3>CLEAN DATABASE</h3><div class='popup_content reduced_height'><p>Are you sure you want to clean the database out?</p><p>WARNING! This will destroy events, bookings and payments older than 2 months</p></div><div class=\"options\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\" style=\"width:66px;\"></div></div>",
 			onComplete : function() {
 				jQuery("#fancyConfirm_cancel").click(function() {
 					jQuery.fancybox.close();
