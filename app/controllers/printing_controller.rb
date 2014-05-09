@@ -90,12 +90,7 @@ class PrintingController < ApplicationController
     Horse.all.each do |horse|
       horse_workloads << {:name => horse.name, :workload => horse.workload_period(@date, @date).to_f}
     end
-    @chart_splits = horse_workloads.count > 8 ? 2 : 1
-    @chart_splits = 3 if horse_workloads.count > 16
-    @limiter = (horse_workloads.count/@chart_splits).ceil
-    @horse_workloads = @chart_splits > 1 ? horse_workloads.sort_by{|h| h[:workload]}.reverse[0..@limiter] : horse_workloads.sort_by{|h| h[:workload]}.reverse
-    @horse_workloads2 = horse_workloads.sort_by{|h| h[:workload]}.reverse[@limiter+1..(@limiter*2)+1] if @chart_splits > 1
-    @horse_workloads3 = horse_workloads.sort_by{|h| h[:workload]}.reverse[(@limiter*2)+2..-1] if @chart_splits > 2
+    @horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
     staff_workloads = []
     Staff.all.each do |staff|
       staff_workloads << {:name => "#{staff.first_name} #{staff.last_name}", :workload => staff.workload_period(@date, @date).to_f} unless staff.first_name == "Horse"
