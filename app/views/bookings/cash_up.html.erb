@@ -1,184 +1,198 @@
-<h2>Cash Up - 
-	<% if @date %>
-		<%= @date == Date.today ? "Today" : @date.strftime("%a")+" "+@date.strftime("%d").to_i.ordinalize+" "+@date.strftime("%b %Y") %>
-	<% end %>
-</h2>
-<div style="text-align:center;margin-bottom:20px;">
-	<%= text_field_tag "date", @date.strftime("%d-%m-%Y"), :placeholder => "Date" %><br/>
-	<button id="change_date">Change Date</button><br/>
-	<a href="/print/cash_up/<%= @date.strftime("%d-%m-%Y") %>" target="_blank">Print</a>
+<div class="password_protected" style="<%= 'display:none;' if @bypass %>">
+	<h2>Cash Up - 
+		<% if @date %>
+			<%= @date == Date.today ? "Today" : @date.strftime("%a")+" "+@date.strftime("%d").to_i.ordinalize+" "+@date.strftime("%b %Y") %>
+		<% end %>
+	</h2>
+	<div style="text-align:center;margin-bottom:20px;">
+		<%= password_field_tag "password" %><br/>
+		<button id="unlock">Unlock</button>
+	</div>
 </div>
-<table style="margin:auto;width:60%;">
-	<tr>
-		<th>Time</th>
-		<th>Booking/Description</th>
-		<th>Client</th>
-		<th>Amount</th>
-	</tr>
-	<tr>
-		<th colspan="4" style="text-align:center;">CASH</th>
-	</tr>
-	<% if @payments["cash"] %>
-		<% @payments["cash"].each do |payment| %>
+
+<div class="password_protected" style="<%= 'display:none;' unless @bypass %>">
+	<h2>Cash Up - 
+		<% if @date %>
+			<%= @date == Date.today ? "Today" : @date.strftime("%a")+" "+@date.strftime("%d").to_i.ordinalize+" "+@date.strftime("%b %Y") %>
+		<% end %>
+	</h2>
+	<div style="text-align:center;margin-bottom:20px;">
+		<%= text_field_tag "date", @date.strftime("%d-%m-%Y"), :placeholder => "Date" %><br/>
+		<button id="change_date">Change Date</button><br/>
+		<a href="/print/cash_up/<%= @date.strftime("%d-%m-%Y") %>" target="_blank">Print</a>
+	</div>
+	<table style="margin:auto;width:60%;">
+		<tr>
+			<th>Time</th>
+			<th>Booking/Description</th>
+			<th>Client</th>
+			<th>Amount</th>
+		</tr>
+		<tr>
+			<th colspan="4" style="text-align:center;">CASH</th>
+		</tr>
+		<% if @payments["cash"] %>
+			<% @payments["cash"].each do |payment| %>
+				<tr>
+					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
+					<% if payment.booking %>
+						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+					<% else %>
+						<td><%= payment.description %></td>
+						<td><%= payment.reference %></td>
+					<% end %>
+					<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+				</tr>
+			<% end %>
+		<% else %>
 			<tr>
-				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<% if payment.booking %>
-					<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-					<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
-				<% else %>
-					<td><%= payment.description %></td>
-					<td><%= payment.reference %></td>
-				<% end %>
-				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+				<td colspan="4" style="text-align:center;">No cash payments</td>
 			</tr>
 		<% end %>
-	<% else %>
 		<tr>
-			<td colspan="4" style="text-align:center;">No cash payments</td>
+			<th colspan="4" style="text-align:center;">CARD</th>
 		</tr>
-	<% end %>
-	<tr>
-		<th colspan="4" style="text-align:center;">CARD</th>
-	</tr>
-	<% if @payments["card"] %>
-		<% @payments["card"].each do |payment| %>
+		<% if @payments["card"] %>
+			<% @payments["card"].each do |payment| %>
+				<tr>
+					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
+					<% if payment.booking %>
+						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+					<% else %>
+						<td><%= payment.description %></td>
+						<td><%= payment.reference %></td>
+					<% end %>
+					<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+				</tr>
+			<% end %>
+		<% else %>
 			<tr>
-				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<% if payment.booking %>
-					<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-					<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
-				<% else %>
-					<td><%= payment.description %></td>
-					<td><%= payment.reference %></td>
-				<% end %>
-				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+				<td colspan="4" style="text-align:center;">No card payments</td>
 			</tr>
 		<% end %>
-	<% else %>
 		<tr>
-			<td colspan="4" style="text-align:center;">No card payments</td>
+			<th colspan="4" style="text-align:center;">CHEQUE</th>
 		</tr>
-	<% end %>
-	<tr>
-		<th colspan="4" style="text-align:center;">CHEQUE</th>
-	</tr>
-	<% if @payments["cheque"] %>
-		<% @payments["cheque"].each do |payment| %>
+		<% if @payments["cheque"] %>
+			<% @payments["cheque"].each do |payment| %>
+				<tr>
+					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
+					<% if payment.booking %>
+						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+					<% else %>
+						<td><%= payment.description %></td>
+						<td><%= payment.reference %></td>
+					<% end %>
+					<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+				</tr>
+			<% end %>
+		<% else %>
 			<tr>
-				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<% if payment.booking %>
-					<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-					<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
-				<% else %>
-					<td><%= payment.description %></td>
-					<td><%= payment.reference %></td>
-				<% end %>
-				<td><%= number_to_currency(payment.amount, :unit => "£", :delimiter => ",", :precision => 2) %></td>
+				<td colspan="4" style="text-align:center;">No cheque payments</td>
 			</tr>
 		<% end %>
-	<% else %>
 		<tr>
-			<td colspan="4" style="text-align:center;">No cheque payments</td>
+			<th colspan="4" style="text-align:center;">VOUCHER</th>
 		</tr>
-	<% end %>
-	<tr>
-		<th colspan="4" style="text-align:center;">VOUCHER</th>
-	</tr>
-	<% if @payments["voucher"] %>
-		<% @payments["voucher"].each do |payment| %>
+		<% if @payments["voucher"] %>
+			<% @payments["voucher"].each do |payment| %>
+				<tr>
+					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
+					<% if payment.booking %>
+						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+					<% else %>
+						<td><%= payment.description %></td>
+						<td><%= payment.reference %></td>
+					<% end %>
+					<td><%= payment.amount %></td>
+				</tr>
+			<% end %>
+		<% else %>
 			<tr>
-				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<% if payment.booking %>
-					<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-					<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
-				<% else %>
-					<td><%= payment.description %></td>
-					<td><%= payment.reference %></td>
-				<% end %>
-				<td><%= payment.amount %></td>
+				<td colspan="4" style="text-align:center;">No voucher payments</td>
 			</tr>
 		<% end %>
-	<% else %>
 		<tr>
-			<td colspan="4" style="text-align:center;">No voucher payments</td>
+			<th colspan="4" style="text-align:center;">HOURS</th>
 		</tr>
-	<% end %>
-	<tr>
-		<th colspan="4" style="text-align:center;">HOURS</th>
-	</tr>
-	<% if @payments["hours"] %>
-		<% @payments["hours"].each do |payment| %>
+		<% if @payments["hours"] %>
+			<% @payments["hours"].each do |payment| %>
+				<tr>
+					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
+					<% if payment.booking %>
+						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+					<% else %>
+						<td><%= payment.description %></td>
+						<td><%= payment.reference %></td>
+					<% end %>
+					<td><%= payment.amount %></td>
+				</tr>
+			<% end %>
+		<% else %>
 			<tr>
-				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<% if payment.booking %>
-					<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-					<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
-				<% else %>
-					<td><%= payment.description %></td>
-					<td><%= payment.reference %></td>
-				<% end %>
-				<td><%= payment.amount %></td>
+				<td colspan="4" style="text-align:center;">No hours payments</td>
 			</tr>
 		<% end %>
-	<% else %>
 		<tr>
-			<td colspan="4" style="text-align:center;">No hours payments</td>
+			<th colspan="4" style="text-align:center;">FREE OF CHARGE</th>
 		</tr>
-	<% end %>
-	<tr>
-		<th colspan="4" style="text-align:center;">FREE OF CHARGE</th>
-	</tr>
-	<% if @payments["foc"] %>
-		<% @payments["foc"].each do |payment| %>
+		<% if @payments["foc"] %>
+			<% @payments["foc"].each do |payment| %>
+				<tr>
+					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
+					<% if payment.booking %>
+						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
+						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+					<% else %>
+						<td><%= payment.description %></td>
+						<td><%= payment.reference %></td>
+					<% end %>
+					<td><%= payment.amount %></td>
+				</tr>
+			<% end %>
+		<% else %>
 			<tr>
-				<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
-				<% if payment.booking %>
-					<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-					<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
-				<% else %>
-					<td><%= payment.description %></td>
-					<td><%= payment.reference %></td>
-				<% end %>
-				<td><%= payment.amount %></td>
+				<td colspan="4" style="text-align:center;">No free of charge payments</td>
 			</tr>
 		<% end %>
-	<% else %>
 		<tr>
-			<td colspan="4" style="text-align:center;">No free of charge payments</td>
+			<th colspan="4" style="text-align:center;">TOTALS</th>
 		</tr>
-	<% end %>
-	<tr>
-		<th colspan="4" style="text-align:center;">TOTALS</th>
-	</tr>
-	<tr>
-		<th colspan="3" style="text-align:right;">Cash:</th>
-		<td><%= number_to_currency(@totals["cash"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
-	</tr>
-	<tr>
-		<th colspan="3" style="text-align:right;">Card:</th>
-		<td><%= number_to_currency(@totals["card"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
-	</tr>
-	<tr>
-		<th colspan="3" style="text-align:right;">Cheque:</th>
-		<td><%= number_to_currency(@totals["cheque"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
-	</tr>
-	<tr>
-		<th colspan="3" style="text-align:right;">Voucher:</th>
-		<td><%= @totals["voucher"] %></td>
-	</tr>
-	<tr>
-		<th colspan="3" style="text-align:right;">Hours:</th>
-		<td><%= @totals["hours"] %></td>
-	</tr>
-	<tr>
-		<th colspan="3" style="text-align:right;">FOC:</th>
-		<td><%= @totals["foc"] %></td>
-	</tr>
-	<tr>
-		<th colspan="3" style="text-align:right;">Total:</th>
-		<td><%= number_to_currency(@totals["total"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
-	</tr>
-</table>
+		<tr>
+			<th colspan="3" style="text-align:right;">Cash:</th>
+			<td><%= number_to_currency(@totals["cash"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+		</tr>
+		<tr>
+			<th colspan="3" style="text-align:right;">Card:</th>
+			<td><%= number_to_currency(@totals["card"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+		</tr>
+		<tr>
+			<th colspan="3" style="text-align:right;">Cheque:</th>
+			<td><%= number_to_currency(@totals["cheque"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+		</tr>
+		<tr>
+			<th colspan="3" style="text-align:right;">Voucher:</th>
+			<td><%= @totals["voucher"] %></td>
+		</tr>
+		<tr>
+			<th colspan="3" style="text-align:right;">Hours:</th>
+			<td><%= @totals["hours"] %></td>
+		</tr>
+		<tr>
+			<th colspan="3" style="text-align:right;">FOC:</th>
+			<td><%= @totals["foc"] %></td>
+		</tr>
+		<tr>
+			<th colspan="3" style="text-align:right;">Total:</th>
+			<td><%= number_to_currency(@totals["total"], :unit => "£", :delimiter => ",", :precision => 2) %></td>
+		</tr>
+	</table>
+</div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -186,7 +200,13 @@
 		$(".ui-datepicker").hide();
 
 		$("button#change_date").unbind("click").click(function() {
-			window.location.href = "/cash_up/"+$("input#date").val();
-		})
+			window.location.href = "/cash_up/"+$("input#date").val()+"?bypass=true";
+		});
+		
+		$("button#unlock").unbind("click").click(function() {
+			if ($("input#password").val() == "<%= @password %>") {
+				$(".password_protected").toggle();
+			}
+		});
 	})
 </script>
