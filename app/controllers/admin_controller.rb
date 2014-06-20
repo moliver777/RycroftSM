@@ -11,7 +11,8 @@ class AdminController < ApplicationController
       event.bookings.destroy_all
     end
     events.destroy_all
-    Payment.where("payment_date < ?", Date.today.advance(:days => -60))
+    payments = Payment.where("payment_date < ?", Date.today.advance(:days => -60))
+    payments.destroy_all
     render :nothing => true
   end
 
