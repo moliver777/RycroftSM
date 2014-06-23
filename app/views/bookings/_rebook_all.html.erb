@@ -198,6 +198,7 @@
 			$("select#event_type").val("<%= @linked.event_type if @linked %>");
 			$("select#master_venue_id").val("<%= @linked.master_venue_id if @linked %>");
 			$("select#duration").val("<%= @linked.duration_mins if @linked %>");
+			$("div#rebook_availability").hide();
 			buildTimes("<%= @linked.id if @linked %>");
 		}
 	});
