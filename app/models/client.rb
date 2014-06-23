@@ -19,8 +19,8 @@ class Client < ActiveRecord::Base
   end
 
   def set_fields fields
-    self.first_name = fields[:first_name]
-    self.last_name = fields[:last_name]
+    self.first_name = fields[:first_name].lstrip.rstrip
+    self.last_name = fields[:last_name].lstrip.rstrip
     self.date_of_birth = fields[:day]+"-"+fields[:month]+"-"+fields[:year]
     self.last_reminder = Date.today
 
