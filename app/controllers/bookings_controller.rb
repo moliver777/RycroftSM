@@ -478,7 +478,7 @@ class BookingsController < ApplicationController
     @event = Event.find(params[:event_id])
     @linked = Event.where(:id => @event.rebook_id).first
     @staff = []
-    staffs = Staff.where("id = ? OR id = ? OR id = ?", @event.staff_id, @event.staff_id2, @event.staff_id3)
+    staffs = Staff.where("(id = ? OR id = ? OR id = ?) AND skip_issues = ?", @event.staff_id, @event.staff_id2, @event.staff_id3, false)
     staffs.each do |staff|
       events = staff.all_events @event.event_date.advance(:days => 7)
       splits = []
@@ -493,7 +493,7 @@ class BookingsController < ApplicationController
   def rebuild_rebook_availability
     @event = Event.find(params[:event_id])
     @staff = []
-    staffs = Staff.where("id = ? OR id = ? OR id = ?", @event.staff_id, @event.staff_id2, @event.staff_id3)
+    staffs = Staff.where("(id = ? OR id = ? OR id = ?) AND skip_issues = ?", @event.staff_id, @event.staff_id2, @event.staff_id3, false)
     staffs.each do |staff|
       events = staff.all_events params[:date]
       splits = []
