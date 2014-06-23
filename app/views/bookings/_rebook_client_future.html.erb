@@ -13,7 +13,7 @@
 			<th>Ends</th>
 			<th>Instructors</th>
 		</tr>
-		<% future_bookings = booking.client.bookings.includes(:event).where("events.event_date > ?", @event.event_date) %>
+		<% future_bookings = booking.client.bookings.includes(:event).where("events.event_date > ?", @event.event_date).order("events.event_date ASC") %>
 		<% if future_bookings.empty? %>
 			<tr>
 				<td colspan="5">No future bookings</td>
