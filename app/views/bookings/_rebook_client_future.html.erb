@@ -1,0 +1,44 @@
+<h3>Clients Future Bookings</h3>
+<ul id="client_future_tabs">
+	<% @event.bookings.each_with_index do |booking,i| %>
+		<li class="client_future_tab <%= 'selected' if i==0 %>" data-id="<%= i %>"><%= booking.client.first_name %> <%= booking.client.last_name %></li>
+	<% end %>
+</ul>
+<% @event.bookings.each_with_index do |booking,i| %>
+	<table class="future_table" style="<%= 'display:none;' unless i==0 %>" id="future_table_<%= i %>">
+		<tr>
+			<th>Event</th>
+			<th>Date</th>
+			<th>Time</th>
+			<th>Ends</th>
+			<th>Instructors</th>
+		</tr>
+		<% future_bookings = booking.client.bookings.includes(:event).where("events.event_date > ?", @event.event_date) %>
+		<% if future_bookings.empty? %>
+			<tr>
+				<td colspan="5">No future bookings</td>
+			</tr>
+		<% else %>
+			<% future_bookings.each do |booking| %>
+				<tr>
+					<td><%= booking.event.event_type.downcase.capitalize %></td>
+					<td><%= booking.event.event_date.strftime("%a") %> <%= booking.event.event_date.strftime("%d").to_i.ordinalize %> <%= booking.event.event_date.strftime("%b %Y") %></td>
+					<td><%= booking.event.start_time.strftime("%l:%M %P") %></td>
+					<td><%= booking.event.end_time.strftime("%l:%M %P") %></td>
+					<td><%= booking.event.staff_list %></td>
+				</tr>
+			<% end %>
+		<% end %>
+	</table>
+<% end %>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("li.client_future_tab").click(function() {
+			$("li.client_future_tab").removeClass("selected");
+			$(this).addClass("selected");
+			$("table.future_table").hide();
+			$("table#future_table_"+$(this).attr("data-id")).show();
+		});
+	});
+</script>

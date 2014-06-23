@@ -46,6 +46,7 @@ RycroftSM::Application.routes.draw do
   post "/rebook_status/:booking_id" => "bookings#rebook_status"
   get "/rebook_all/:event_id" => "bookings#rebook_all"
   get "/get_rebook_details" => "bookings#get_rebook_details"
+  get "/rebuild_rebook_availability/:event_id/:date" => "bookings#rebuild_rebook_availability"
   post "/do_rebook_all" => "bookings#do_rebook_all"
   post "/save_assign" => "bookings#save_assign"
   get "/upcoming_notes/:booking_id" => "bookings#upcoming_notes"

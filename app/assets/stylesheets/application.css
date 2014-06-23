@@ -1275,3 +1275,26 @@ input.date {
 input.comments {
 	width: 96%;
 }
+
+ul#client_future_tabs {
+  list-style: none;
+}
+
+li.client_future_tab {
+  float:left;
+  padding: 5px;
+  cursor: pointer;
+}
+
+li.client_future_tab.selected {
+  background-color: #5f5f5f;
+  color: white;
+}
+
+table.future_table, table.future_table td, table.future_staff, table.future_staff td {
+  border: 1px solid #5f5f5f!important;
+}
+
+td.booked {
+  background-color: yellow;
+}

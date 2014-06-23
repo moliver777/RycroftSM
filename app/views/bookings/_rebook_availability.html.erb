@@ -1,0 +1,27 @@
+<h3>Instructor Availability</h3>
+<% @staff.each do |staff| %>
+	<strong><%= staff[:name] %></strong>
+	<table class="future_staff">
+		<tr>
+			<% 15.times do |hr| %>
+				<% hr += 7 %>
+				<td colspan="4" style="text-align:left;">
+					<% if hr < 13 %>
+						<%= hr %><%= hr == 12 ? "pm" : "am" %>
+					<% else %>
+						<%= hr-12 %>pm
+					<% end %>
+				</td>
+			<% end %>
+		</tr>
+		<tr>
+			<% 15.times do |hr| %>
+				<% hr += 7 %>
+				<% 4.times do |min| %>
+					<% min = min*15 %>
+					<td class="iseg <%= 'booked' if staff[:splits].include?((hr < 10 ? '0'+hr.to_s : hr.to_s)+":"+(min == 0 ? '00' : min.to_s)) %>" style="height:20px;" hour="<%= hr < 10 ? '0'+hr.to_s : hr %>" mins="<%= min == 0 ? '00' : min %>"></td>
+				<% end %>
+			<% end %>
+		</tr>
+	</table>
+<% end %>

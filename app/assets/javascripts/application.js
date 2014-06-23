@@ -599,45 +599,66 @@ function rebookAll(event_id) {
 				'overlayShow' : true,
 				'padding' : 0,
 				modal : true,
-				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div style=\"text-align:center;font-weight:bold;\">Please make sure this event/booking has not been<br/>already rebooked at the specified time. This feature will<br/>not automatically check for double-bookings!</div><div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"></div></div>",
+				content: "<div class='popup_wrapper' id='confirm_popup'>" + view + "<div class=\"options\"><input id=\"fancyConfirm_ok\" class=\"btn ok_btn\" type=\"button\" value=\"Ok\"><input id=\"fancyConfirm_cancel\" class=\"btn cancel_btn\" type=\"button\" value=\"Cancel\"></div></div>",
 				onComplete : function() {
+          // change date, get staff availability
 					jQuery("#fancyConfirm_ok").click(function() {
 						$("ul#rberrors").empty();
-						var params = {}
+						var params = {};
 						$.each($("select.field"), function(i,select) {
 							params[$(select).attr("id")] = $(select).val();
-						})
+						});
 						$.each($("input.field"), function(i,input) {
 							params[$(input).attr("id")] = $(input).val();
-						})
+						});
 						params["copy_horses"] = $("input#copy_horses").is(":checked");
 						params["copy_staff"] = $("input#copy_staff").is(":checked");
-						params["bookings"] = []
+						params["bookings"] = [];
 						$.each($("input.booking"), function(i,booking) {
 							if ($(booking).is(":checked")) params["bookings"].push({id:$(booking).val(),confirm:$("input.confirm[value='"+$(booking).val()+"']").is(":checked")});
-						})
-						$.ajax({
-							url: "/do_rebook_all",
-							type: "POST",
-							data: params,
-							success: function(json) {
-								if (json.errors.length > 0) {
-									$.each($(json.errors), function(i,error) {
-										$("ul#rberrors").append("<li style='text-align:center;'>"+error+"</li>");
-									})
-								} else {
-									window.location.href = json.event_id ? "/bookings/show_event/"+json.event_id : "/bookings/show/"+json.booking_id;
-								}
-							}
-						})
-					})
+						});
+            if (checkRebookDoubleBookings()) {
+  						$.ajax({
+  							url: "/do_rebook_all",
+  							type: "POST",
+  							data: params,
+  							success: function(json) {
+  								if (json.errors.length > 0) {
+  									$.each($(json.errors), function(i,error) {
+  										$("ul#rberrors").append("<li style='text-align:center;'>"+error+"</li>");
+  									})
+  								} else {
+  									window.location.href = json.event_id ? "/bookings/show_event/"+json.event_id : "/bookings/show/"+json.booking_id;
+  								}
+  							}
+  						});
+            } else {
+              $("ul#rberrors").append("<li style='text-align:center;'>You're attempting to double book an instructor. Please check the instructor avilability displays and your requested booking time</li>");
+            }
+					});
 					jQuery("#fancyConfirm_cancel").click(function() {
 						jQuery.fancybox.close();
-					})
+					});
 				}
-			})
+			});
 		}
-	})
+	});
+}
+
+function rebuildRebookAvailability(event_id, date) {
+	$.ajax({
+		url: "/rebuild_rebook_availability/"+event_id+"/"+date,
+		type: "GET",
+		success: function(view) {
+		  $("div#rebook_availability").html(view);
+		}
+  });
+}
+
+function checkRebookDoubleBookings() {
+  // if staff tables visible
+  // start time and duration - check no staff table has those splits booked
+  return true;
 }
 
 function fancyConfirmAssignEdit() {

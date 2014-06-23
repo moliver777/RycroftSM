@@ -1,6 +1,6 @@
 <h3>REBOOK ALL</h3>
-<div id="inner_available_now_wrapper" style="width:400px;">
-	<div id="rebook_details">
+<div id="inner_available_now_wrapper" style="width:700px;">
+	<div id="rebook_details" style="width:400px;margin-left:150px;">
 		<table>
 			<tr>
 				<td><%= text_field_tag :event_date, @event.event_date.advance(:days => 7).strftime("%d-%m-%Y"), :class => "trig field" %></td>
@@ -39,7 +39,7 @@
 					<select id="start_time" disabled="true" class="wipeout custom field"><option value="0">START</option></select>
 					<input id="fixed_start_time" class="fixed" disabled="true" style="display:none;width:90px;"></input>
 				</td>
-				<td>Copy horses: <input type="checkbox" id="copy_horses"><br/>Copy instructors: <input type="checkbox" id="copy_staff"></td>
+				<td>Copy horses: <input type="checkbox" id="copy_horses"><br/>Copy instructors: <input type="checkbox" id="copy_staff" checked="true"></td>
 			</tr>
 		</table>
 		<table style="width:80%;margin:auto;">
@@ -58,6 +58,12 @@
 		</table>
 	</div>
 	<ul id="rberrors" style="list-style:none;color:red;font-weight:bold;"></ul>
+	<div id="rebook_availability">
+		<%= render :partial => "rebook_availability" %>
+	</div>
+	<div id="rebook_client_future">
+		<%= render :partial => "rebook_client_future" %>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -74,7 +80,24 @@
 		$.each($(".trig"), function(i,trig) {
 			$(trig).unbind("change").change(function() {
 				buildTimes(false);
-			})
+				if ($(trig).attr("id") == "event_date") rebuildRebookAvailability("<%= @event.id %>", $(trig).val());
+			});
+		});
+		
+		$("select#event_id").unbind("change").change(function() {
+			if (String($(this).val()) == "0" && $("input#copy_staff").is(":checked")) {
+				$("div#rebook_availability").show();
+			} else {
+				$("div#rebook_availability").hide();
+			}
+		});
+
+		$("input#copy_staff").unbind("click").click(function() {
+			if (String($("select#event_id").val()) == "0" && $(this).is(":checked")) {
+				$("div#rebook_availability").show();
+			} else {
+				$("div#rebook_availability").hide();
+			}
 		});
 
 		function buildTimes(event_id) {
@@ -107,6 +130,11 @@
 						$("select#event_id").val("0").removeAttr("disabled");
 						$("select#start_time").val('<%= @event.start_time.strftime("%H:%M") %>').removeAttr("disabled");
 						$("select#event_id").unbind("change").change(function() {
+							if (String($(this).val()) == "0" && $("input#copy_staff").is(":checked")) {
+								$("div#rebook_availability").show();
+							} else {
+								$("div#rebook_availability").hide();
+							}
 							if ($(this).val()=="0") {
 								$("select.custom").show();
 								$("input.fixed").hide();
@@ -120,7 +148,14 @@
 									}
 								})
 							}
-						})
+						});
+						$("input#copy_staff").unbind("click").click(function() {
+							if (String($("select#event_id").val()) == "0" && $(this).is(":checked")) {
+								$("div#rebook_availability").show();
+							} else {
+								$("div#rebook_availability").hide();
+							}
+						});
 						if (window.linked) {
 							$("select#event_id").val(window.linked);
 							$("select.custom").hide();
@@ -140,6 +175,20 @@
 				$("select#event_id").append('<option value="0">New</option>');
 				$("select#start_time").append('<option value="0">START</option>');
 				$("select.wipeout").val("0").attr("disabled","true");
+				$("select#event_id").unbind("change").change(function() {
+					if (String($(this).val()) == "0" && $("input#copy_staff").is(":checked")) {
+						$("div#rebook_availability").show();
+					} else {
+						$("div#rebook_availability").hide();
+					}
+				});
+				$("input#copy_staff").unbind("click").click(function() {
+					if (String($("select#event_id").val()) == "0" && $(this).is(":checked")) {
+						$("div#rebook_availability").show();
+					} else {
+						$("div#rebook_availability").hide();
+					}
+				});
 			}
 		}
 

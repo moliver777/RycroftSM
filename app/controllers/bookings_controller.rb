@@ -477,7 +477,32 @@ class BookingsController < ApplicationController
   def rebook_all
     @event = Event.find(params[:event_id])
     @linked = Event.where(:id => @event.rebook_id).first
+    @staff = []
+    staffs = Staff.where("id = ? OR id = ? OR id = ?", @event.staff_id, @event.staff_id2, @event.staff_id3)
+    staffs.each do |staff|
+      events = staff.all_events @event.event_date.advance(:days => 7)
+      splits = []
+      events.each do |event|
+        splits += event.get_non_inclusive_splits
+      end
+      @staff << {:name => "#{staff.first_name} #{staff.last_name}", :splits => splits}
+    end
     render :partial => "rebook_all"
+  end
+
+  def rebuild_rebook_availability
+    @event = Event.find(params[:event_id])
+    @staff = []
+    staffs = Staff.where("id = ? OR id = ? OR id = ?", @event.staff_id, @event.staff_id2, @event.staff_id3)
+    staffs.each do |staff|
+      events = staff.all_events params[:date]
+      splits = []
+      events.each do |event|
+        splits += event.get_non_inclusive_splits
+      end
+      @staff << {:name => "#{staff.first_name} #{staff.last_name}", :splits => splits}
+    end
+    render :partial => "rebook_availability"
   end
 
   def get_rebook_details

@@ -125,6 +125,23 @@ class Event < ActiveRecord::Base
     end
     splits
   end
+  
+  def get_non_inclusive_splits
+    splits = []
+    hour = self.start_time.strftime("%H").to_i
+    mins = self.start_time.strftime("%M").to_i
+    time = (hour < 10 ? "0#{hour}" : "#{hour}")+":"+(mins == 0 ? "00" : "#{mins}")
+    while time != self.end_time.strftime("%H:%M")
+      splits << time
+      mins += 15
+      mins = 0 if mins == 60
+      hour += 1 if mins == 0
+      new_hour = hour < 10 ? "0#{hour}" : "#{hour}"
+      new_mins = mins == 0 ? "00" : "#{mins}"
+      time = new_hour+":"+new_mins
+    end
+    splits
+  end
 
   def self.get_splits_times start_time, end_time
     splits = [start_time.strftime("%H:%M")]
