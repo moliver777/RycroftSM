@@ -37,7 +37,7 @@
 					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 					<% if payment.booking %>
 						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<td><%= payment.booking.client.first_name if payment.booking && payment.booking.client %> <%= payment.booking.client.last_name if payment.booking && payment.booking.client %></td>
 					<% else %>
 						<td><%= payment.description %></td>
 						<td><%= payment.reference %></td>
@@ -59,7 +59,7 @@
 					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 					<% if payment.booking %>
 						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<td><%= payment.booking.client.first_name if payment.booking && payment.booking.client %> <%= payment.booking.client.last_name if payment.booking && payment.booking.client %></td>
 					<% else %>
 						<td><%= payment.description %></td>
 						<td><%= payment.reference %></td>
@@ -81,7 +81,7 @@
 					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 					<% if payment.booking %>
 						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<td><%= payment.booking.client.first_name if payment.booking && payment.booking.client %> <%= payment.booking.client.last_name if payment.booking && payment.booking.client %></td>
 					<% else %>
 						<td><%= payment.description %></td>
 						<td><%= payment.reference %></td>
@@ -103,7 +103,7 @@
 					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 					<% if payment.booking %>
 						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<td><%= payment.booking.client.first_name if payment.booking && payment.booking.client %> <%= payment.booking.client.last_name if payment.booking && payment.booking.client %></td>
 					<% else %>
 						<td><%= payment.description %></td>
 						<td><%= payment.reference %></td>
@@ -125,7 +125,7 @@
 					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 					<% if payment.booking %>
 						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<td><%= payment.booking.client.first_name if payment.booking && payment.booking.client %> <%= payment.booking.client.last_name if payment.booking && payment.booking.client %></td>
 					<% else %>
 						<td><%= payment.description %></td>
 						<td><%= payment.reference %></td>
@@ -147,7 +147,7 @@
 					<td><%= payment.created_at.localtime.strftime("%l:%M%P") %></td>
 					<% if payment.booking %>
 						<td><%= payment.booking ? payment.booking.event.event_date.strftime("%d-%m-%Y") : "Not found" %> - <%= payment.booking.event.start_time.strftime("%l:%M%P") if payment.booking %><%= " - "+payment.description if payment.description %></td>
-						<td><%= payment.booking.client.first_name if payment.booking %> <%= payment.booking.client.last_name if payment.booking %></td>
+						<td><%= payment.booking.client.first_name if payment.booking && payment.booking.client %> <%= payment.booking.client.last_name if payment.booking && payment.booking.client %></td>
 					<% else %>
 						<td><%= payment.description %></td>
 						<td><%= payment.reference %></td>
