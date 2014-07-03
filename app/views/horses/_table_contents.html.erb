@@ -20,7 +20,8 @@
 			<td style="vertical-align:middle;">
 				<a href="/horses/show/<%= horse.id %>">Details</a> | <a href="/notes/HORSE/<%= horse.id %>">Notes</a> 
 				<% if current_user.user_level != User::BASE %>
-					 | <a href="/horses/edit/<%= horse.id %>">Edit</a> | <a onclick="confirmation('<%= horse.name %>','/horses/delete/<%= horse.id %>')">Delete</a>
+					 | <a href="/horses/edit/<%= horse.id %>">Edit</a>
+					  <!-- | <a onclick="confirmation('<%= horse.name %>','/horses/delete/<%= horse.id %>')">Delete</a> -->
 				<% end %>
 			</td>
 		</tr>

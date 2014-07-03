@@ -80,11 +80,11 @@
 					<td style="text-align:center;"><%= check_box_tag "rb#{booking.id}", "", booking.rebooked, :disabled => true %></td>
 					<td style="text-align:center;"><%= check_box_tag "py#{booking.id}", "", booking.payments.first, :disabled => true %></td>
 					<td>
-						<a href="/bookings/show/<%= booking.id %>">Details</a> | 
+						<a href="/bookings/show/<%= booking.id %>">Details</a>
 						<% if current_user.user_level != User::BASE && !booking.cancelled %>
-							<a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/cancel/<%= booking.id %>')">Cancel</a> | 
+							 | <a href="/bookings/edit/<%= booking.id %>">Edit</a> | <a onclick="cancelBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/cancel/<%= booking.id %>')">Cancel</a>
 						<% end %>
-						<a onclick="deleteBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/delete/<%= booking.id %>')">Delete</a>
+						<!-- <a onclick="deleteBooking('<%= event.event_type %> : <%= booking.client.first_name+" "+booking.client.last_name if booking.client %>','/bookings/delete/<%= booking.id %>')">Delete</a> -->
 						<% if current_user.user_level != User::BASE && i==0 %>
 							 | <a onclick="rebookAll('<%= event.id %>')">Rebook</a>
 						<% end %>

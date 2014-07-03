@@ -10,7 +10,8 @@
 			<td style="vertical-align:middle;">
 				<a href="/clients/show/<%= client.id %>">Details</a> | <a href="/clients/horses/<%= client.id %>">Horses</a> | <a href="/notes/CLIENT/<%= client.id %>">Notes</a>
 				<% if current_user.user_level != User::BASE %>
-					 | <a href="/clients/edit/<%= client.id %>">Edit</a> | <a onclick="confirmation('<%= client.first_name+" "+client.last_name %>','/clients/delete/<%= client.id %>')">Delete</a>
+					 | <a href="/clients/edit/<%= client.id %>">Edit</a>
+					  <!-- | <a onclick="confirmation('<%= client.first_name+" "+client.last_name %>','/clients/delete/<%= client.id %>')">Delete</a> -->
 				<% end %>
 			</td>
 		</tr>
