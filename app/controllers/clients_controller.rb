@@ -2,13 +2,13 @@ class ClientsController < ApplicationController
   skip_before_filter :user_permission?, :only => [:index,:show]
 
   def index
-    @clients = Client.order("first_name, last_name")
+    @clients = Client.where(hidden: false).order("first_name, last_name")
   end
 
   def horses
-    @client = Client.find(params[:client_id])
+    @client = Client.where(hidden: false).find(params[:client_id])
     @mapping = @client.horses ? @client.horses.split(";") : []
-    @horses = Horse.order("name")
+    @horses = Horse.where(hidden: false).order("name")
   end
 
   def set_horses
@@ -19,7 +19,7 @@ class ClientsController < ApplicationController
 
   def no_horses
     @clients = []
-    Client.order(:first_name).each do |client|
+    Client.where(hidden: false).order(:first_name).each do |client|
       if !client.leasing
         if client.horses
           @clients << client if client.horses.split(";").length==0
@@ -31,7 +31,7 @@ class ClientsController < ApplicationController
   end
 
   def sort
-    @clients = Client.order(params[:sort]+" "+params[:mod]+", first_name, last_name")
+    @clients = Client.where(hidden: false).order(params[:sort]+" "+params[:mod]+", first_name, last_name")
     view = render_to_string(:partial => "table_contents")
     render :json => view.to_json
   end
@@ -69,7 +69,8 @@ class ClientsController < ApplicationController
   def destroy
     client = Client.find(params[:client_id])
     client.notes.destroy_all
-    client.destroy
+    client.update_attribute(:hidden, true)
+    # client.destroy
     render :nothing => true
   end
 

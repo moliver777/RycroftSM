@@ -15,7 +15,7 @@ class AssignmentController < ApplicationController
     assign_ids = Event.where("event_date = ? AND event_type IN (?) AND cancelled = ?", params[:date], Event::HORSE, false).order("start_time").map{|e| e.bookings.where(:cancelled => false)}.flatten.select{|b| !b.horse}.map{|b| b.id}
     while assign_ids[0] && count < 3
       booking = Booking.where(:id => assign_ids[0]).first
-      leased = Horse.where(:id => booking.client.leasing).first
+      leased = Horse.where(hidden: false, id: booking.client.leasing).first
       if leased
         if !leased.over_workload(params[:date], booking.event.duration_mins) && leased.availability
           if validate_assignment(booking, leased, false)
@@ -60,7 +60,7 @@ class AssignmentController < ApplicationController
     assign_ids = session[:assign_ids].split(";")
     while assign_ids[0] && count < 3
       booking = Booking.where(:id => assign_ids[0]).first
-      leased = Horse.where(:id => booking.client.leasing).first
+      leased = Horse.where(hidden: false, id: booking.client.leasing).first
       if leased
         if !leased.over_workload(params[:date], booking.event.duration_mins) && leased.availability
           if validate_assignment(booking, leased, false)
@@ -120,7 +120,7 @@ class AssignmentController < ApplicationController
   end
 
   def get_suitable_horses client
-    Horse.where("availability = true AND id IN (?)", client.horses.split(";")).shuffle.sort_by{|h| h.current_mins(params[:date])} rescue []
+    Horse.where("hidden = false AND availability = true AND id IN (?)", client.horses.split(";")).shuffle.sort_by{|h| h.current_mins(params[:date])} rescue []
   end
 
   def get_splits horse, evt

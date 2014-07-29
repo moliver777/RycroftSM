@@ -19,7 +19,7 @@ class PrintingController < ApplicationController
       end
     end
     @turnouts = []
-    Horse.order("name").each do |horse|
+    Horse.where(hidden: false).order("name").each do |horse|
       horse_events = horse.events.where(:event_date => @date, :cancelled => false).order("end_time")
       if horse_events.first
         @turnouts << {:name => horse.name, :turnout => true, :time => horse_events.last.end_time.strftime("%H:%M"), :formatted_time => horse_events.last.end_time.strftime("%l:%M%P")}
@@ -87,7 +87,7 @@ class PrintingController < ApplicationController
     end
     @end_of_week = false
     horse_workloads = []
-    Horse.all.each do |horse|
+    Horse.where(hidden: false).each do |horse|
       horse_workloads << {:name => horse.name, :workload => horse.workload_period(@date, @date).to_f}
     end
     @horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse

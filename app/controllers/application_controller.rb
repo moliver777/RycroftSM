@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
 
   def horse_workloads
     horse_workloads = []
-    Horse.all.each do |horse|
+    Horse.where(hidden: false).each do |horse|
       horse_workloads << {:name => horse.name, :workload => horse.workload_period(@from, @to).to_f}
     end
     @horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
 
   def horse_events
     horse_events = []
-    Horse.all.each do |horse|
+    Horse.where(hidden: false).each do |horse|
       horse_events << {:name => horse.name, :events => horse.events.where(:event_date => @from..@to, :cancelled => false).count}
     end
     horse_events = horse_events.sort_by{|h| h[:events]}.reverse
@@ -109,7 +109,7 @@ class ApplicationController < ActionController::Base
       {:name => "46-55", :count => 0},
       {:name => "56+", :count => 0}
     ]
-    Client.all.each do |client|
+    Client.where(hidden: false).each do |client|
       if client.age != 0
         if client.age < 19
           @client_ages[0][:count] = @client_ages[0][:count] += 1
@@ -131,7 +131,7 @@ class ApplicationController < ActionController::Base
 
   def client_events
     client_events = []
-    Client.all.each do |client|
+    Client.where(hidden: false).each do |client|
       client_events << {:name => client.first_name+" "+client.last_name, :events => client.events.where(:event_date => @from..@to, :cancelled => false).count}
     end
     client_events = client_events.sort_by{|h| h[:events]}.reverse
@@ -140,10 +140,10 @@ class ApplicationController < ActionController::Base
 
   def client_standards
     @client_standards = [
-      {:name => "Lead-reign", :count => Client.where(:standard => Client::LEADREIGN).count},
-      {:name => "Beginner", :count => Client.where(:standard => Client::BEGINNER).count},
-      {:name => "Inter", :count => Client.where(:standard => Client::INTERMEDIATE).count},
-      {:name => "Advanced", :count => Client.where(:standard => Client::ADVANCED).count}
+      {:name => "Lead-reign", :count => Client.where(hidden: false, standard: Client::LEADREIGN).count},
+      {:name => "Beginner", :count => Client.where(hidden: false, standard: Client::BEGINNER).count},
+      {:name => "Inter", :count => Client.where(hidden: false, standard: Client::INTERMEDIATE).count},
+      {:name => "Advanced", :count => Client.where(hidden: false, standard: Client::ADVANCED).count}
     ]
   end
 

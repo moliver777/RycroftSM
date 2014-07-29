@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131031085600) do
+ActiveRecord::Schema.define(:version => 20140729191509) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "event_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20131031085600) do
     t.integer  "leasing"
     t.string   "horses"
     t.string   "email_address"
+    t.boolean  "hidden",                  :default => false, :null => false
   end
 
   create_table "events", :force => true do |t|
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20131031085600) do
     t.string   "physio_repeat_type",      :default => "week", :null => false
     t.string   "vaccination_repeat_type", :default => "week", :null => false
     t.string   "other_repeat_type",       :default => "week", :null => false
+    t.boolean  "hidden",                  :default => false,  :null => false
   end
 
   create_table "notes", :force => true do |t|

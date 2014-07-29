@@ -2,13 +2,13 @@ class HorsesController < ApplicationController
   skip_before_filter :user_permission?, :only => [:index,:show,:availability]
 
   def index
-    @horses = Horse.order("name")
+    @horses = Horse.where(hidden: false).order("name")
   end
 
   def leased
     @leases = {}
-    Client.all.each do |client|
-      horse = Horse.where(:id => client.leasing).first
+    Client.where(hidden: false).each do |client|
+      horse = Horse.where(hidden: false, id: client.leasing).first
       if horse
         @leases[horse.name] = "#{client.first_name if client.first_name} #{client.last_name if client.last_name}"
       end
@@ -16,7 +16,7 @@ class HorsesController < ApplicationController
   end
 
   def sort
-    @horses = Horse.order(params[:sort]+" "+params[:mod]+", name")
+    @horses = Horse.where(hidden: false).order(params[:sort]+" "+params[:mod]+", name")
     view = render_to_string(:partial => "table_contents")
     render :json => view.to_json
   end
@@ -86,7 +86,8 @@ class HorsesController < ApplicationController
       b.save!
     end
     horse.notes.destroy_all
-    horse.destroy
+    horse.update_attribute(:hidden, true)
+    # horse.destroy
     render :nothing => true
   end
 

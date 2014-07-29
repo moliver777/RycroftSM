@@ -24,7 +24,7 @@ class BookingsController < ApplicationController
     @booking = Booking.new
     @events = Event.where("event_date >= ? AND cancelled = ?", Date.today, false).order("event_date, start_time")
     @venue_events = {}
-    @horses = Horse.where("availability = true or exercise = true").order("name")
+    @horses = Horse.where("hidden = false and (availability = true or exercise = true)").order("name")
   end
 
   def add_another
@@ -43,7 +43,7 @@ class BookingsController < ApplicationController
     @venue = Venue.where(:id => @event.master_venue_id).first
     @venues = Venue.where(:name => @venue.name) if @venue
     @venue_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND venue_id IN (?)", @event.event_date, false, @venues.map{|v| v.id})) if @venues
-    @horses = Horse.where("availability = true or exercise = true").order("name")
+    @horses = Horse.where("hidden = false and (availability = true or exercise = true)").order("name")
     @date = @event.event_date
     render :new
   end
@@ -57,10 +57,10 @@ class BookingsController < ApplicationController
 
   def client_search
     if params[:search] == "ALL"
-      @results = Client.order("first_name, last_name")
+      @results = Client.where(hidden: false).order("first_name, last_name")
     else
       results = []
-      clients = Client.all
+      clients = Client.where(hidden: false)
       parse_search(params[:search]).split(" ").each do |term|
         clients.select{|c| c.first_name.downcase == term.downcase || c.last_name.downcase == term.downcase}.each do |result|
           results << result
@@ -82,7 +82,7 @@ class BookingsController < ApplicationController
   end
 
   def horses
-    @horses = Horse.where("availability = true or exercise = true").order("name")
+    @horses = Horse.where("hidden = false and (availability = true or exercise = true)").order("name")
     @date = params[:date]
     render :partial => "horse_form"
   end
@@ -109,7 +109,7 @@ class BookingsController < ApplicationController
     @venue = Venue.where(:id => @event.master_venue_id).first
     @venues = Venue.where(:name => @venue.name) if @venue
     @venue_events = format_timetable_events(Event.where("event_date = ? AND cancelled = ? AND venue_id IN (?)", @event.event_date, false, @venues.map{|v| v.id})) if @venues
-    @horses = Horse.where("availability = true or exercise = true").order("name")
+    @horses = Horse.where("hidden = false and (availability = true or exercise = true)").order("name")
     @date = @event.event_date
   end
 
@@ -269,13 +269,13 @@ class BookingsController < ApplicationController
   end
 
   def search
-    @clients = Client.order("first_name, last_name")
-    @horses = Horse.order("name")
+    @clients = Client.where(hidden: false).order("first_name, last_name")
+    @horses = Horse.where(hidden: false).order("name")
   end
 
   def auto_search
-    @clients = Client.order("first_name, last_name")
-    @horses = Horse.order("name")
+    @clients = Client.where(hidden: false).order("first_name, last_name")
+    @horses = Horse.where(hidden: false).order("name")
     @results = []
     horse = Horse.find(params[:horse_id]) if params[:horse_id] rescue nil
     @horse_id = horse.id if horse
@@ -316,7 +316,7 @@ class BookingsController < ApplicationController
     required = get_required @start_time, @end_time
     temp_venues = []
     v_unique = []
-    @clients = Client.order("first_name, last_name")
+    @clients = Client.where(hidden: false).order("first_name, last_name")
     @venues = []
     @staff = []
     @horses = []
@@ -346,7 +346,7 @@ class BookingsController < ApplicationController
       end
     end
     # get available horses
-    Horse.where(:availability => true).each do |h|
+    Horse.where(hidden: false, availability: true).each do |h|
       splits = []
       available = true
       h.events.where(:cancelled => false).each{|e| splits << e.get_splits}
@@ -599,9 +599,9 @@ class BookingsController < ApplicationController
   def load_upcoming
     session[:upcoming] = @date.strftime("%Y/%m/%d")
     @upcoming = Event.includes(:bookings).where(:event_date => @date).order("start_time")
-    @horses = Horse.where("availability = true or exercise = true").order("name")
+    @horses = Horse.where("hidden = false and (availability = true or exercise = true)").order("name")
     @all_horses = {}
-    Horse.all.each{|horse| @all_horses[horse.id] = horse}
+    Horse.where(hidden: false).each{|horse| @all_horses[horse.id] = horse}
   end
 
   def format_timetable_events events
