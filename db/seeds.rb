@@ -26,47 +26,39 @@ config.save!
 config = SiteSetting.new
 config.name = "application_status_check"
 config.value = "0"
-config.external = false
 config.save!
 
 config = SiteSetting.new
 config.name = "block_auto_assign_prompt"
 config.value = Date.today.to_time.advance(:days => -1).to_date
-config.external = false
 config.save!
 
 config = SiteSetting.new
 config.name = "event_chain_id"
 config.value = "0"
-config.external = false
 config.save!
 
 config = SiteSetting.new
 config.name = "status_check_interval"
 config.value = "1"
-config.external = true
 config.save!
 
 config = SiteSetting.new
 config.name = "business_name"
 config.value = "Test Riding School"
-config.external = true
 config.save!
 
 config = SiteSetting.new
 config.name = "business_address"
 config.value = "The School, The Road, The Town"
-config.external = true
 config.save!
 
 config = SiteSetting.new
 config.name = "business_telephone"
 config.value = "01234 567 890"
-config.external = true
 config.save!
 
 config = SiteSetting.new
 config.name = "business_email"
 config.value = "test@ridingschool.com"
-config.external = true
 config.save!
