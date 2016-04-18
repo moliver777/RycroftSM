@@ -78,6 +78,7 @@ class ApplicationController < ActionController::Base
     Horse.where(hidden: false).each do |horse|
       horse_workloads << {:name => horse.name, :workload => horse.workload_period(@from, @to).to_f}
     end
+    horse_workloads.delete_if {|h| h[:workload] == 0.0 }
     @horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
     # @horse_workloads = horse_workloads.length > 5 ? horse_workloads.slice(0,5) : horse_workloads
   end
@@ -87,6 +88,7 @@ class ApplicationController < ActionController::Base
     Staff.all.each do |staff|
       staff_workloads << {:name => "#{staff.first_name} #{staff.last_name[0]}", :workload => staff.workload_period(@from, @to).to_f}
     end
+    staff_workloads.delete_if {|s| s[:workload] == 0.0 }
     @staff_workloads = staff_workloads.sort_by{|s| s[:workload]}.reverse
     # @staff_workloads = staff_workloads.length > 5 ? staff_workloads.slice(0,5) : staff_workloads
   end

@@ -5,65 +5,52 @@
 			text.print_size{
 				font-size:10px;
 			}
-			div#report_controls {
-				text-align: center;
-				padding: 20px;
-			}
 			div.report_panel {
-				float:left;
-				width: 49%;
-				height: 250px;
-				margin-bottom: 20px;
-			}
-			div.report_panel_2 {
 				float:left;
 				width: 100%;
 				height: 250px;
-				margin-bottom: 20px;
-			}
-			div.report_panel h3 {
-				text-align: center;
+				margin-bottom: 50px;
 			}
 		</style>
 		<%= javascript_include_tag "application" %>
 	</head>
 	<body>
 		<h1>REPORTS - <%= @from.strftime("%A") %> <%= @from.strftime("%d").to_i.ordinalize %> <%= @from.strftime("%B %Y") %> to <%= @to.strftime("%A") %> <%= @to.strftime("%d").to_i.ordinalize %> <%= @to.strftime("%B %Y") %></h1>
-		<div class="report_panel_2">
+		<div class="report_panel">
 			<h3>Horse Workloads</h3>
 			<div id="horse_workloads_container" style="width:1100px;"></div>
 		</div>
-		<div class="report_panel_2">
+		<div class="report_panel">
 			<h3>Staff Workloads</h3>
 			<div id="staff_workloads_container" style="width:1100px;"></div>
 		</div>
 		<div class="report_panel">
 			<h3>Horse Events</h3>
-			<div id="horse_events_container"></div>
+			<div id="horse_events_container" style="width:1100px;"></div>
 		</div>
 		<div class="report_panel">
 			<h3>Client Ages</h3>
-			<div id="client_ages_container"></div>
+			<div id="client_ages_container" style="width:1100px;"></div>
 		</div>
 		<div class="report_panel">
 			<h3>Client Events</h3>
-			<div id="client_events_container"></div>
+			<div id="client_events_container" style="width:1100px;"></div>
 		</div>
 		<!-- <div class="report_panel">
 			<h3>Client Standards</h3>
-			<div id="client_standards_container"></div>
+			<div id="client_standards_container" style="width:1100px;"></div>
 		</div> -->
 		<div class="report_panel">
 			<h3>Event Types</h3>
-			<div id="event_types_container"></div>
+			<div id="event_types_container" style="width:1100px;"></div>
 		</div>
 		<div class="report_panel">
 			<h3>Bookings by Day</h3>
-			<div id="day_bookings_container"></div>
+			<div id="day_bookings_container" style="width:1100px;"></div>
 		</div>
 		<div class="report_panel">
 			<h3>Bookings by Hour</h3>
-			<div id="hour_bookings_container"></div>
+			<div id="hour_bookings_container" style="width:1100px;"></div>
 		</div>
 	</body>
 </html>
