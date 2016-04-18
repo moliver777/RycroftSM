@@ -336,7 +336,7 @@ class BookingsController < ApplicationController
       end
     end
     # get available staff
-    Staff.all.each do |s|
+    Staff.where(hidden: false).each do |s|
       splits = []
       available = true
       if s.is_available Date.today.strftime("%a")

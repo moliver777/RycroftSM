@@ -85,7 +85,7 @@ class ApplicationController < ActionController::Base
 
   def staff_workloads
     staff_workloads = []
-    Staff.all.each do |staff|
+    Staff.where(hidden: false).each do |staff|
       staff_workloads << {:name => "#{staff.first_name} #{staff.last_name[0]}", :workload => staff.workload_period(@from, @to).to_f}
     end
     staff_workloads.delete_if {|s| s[:workload] == 0.0 }

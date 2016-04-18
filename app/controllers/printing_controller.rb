@@ -10,7 +10,7 @@ class PrintingController < ApplicationController
     end
     @events = Event.where(:event_date => @date, :cancelled => false).order("start_time")
     @staff = {}
-    Staff.order("first_name, last_name").each do |s|
+    Staff.where(hidden: false).order("first_name, last_name").each do |s|
       @events.each do |e|
         if e.staff_id == s.id || e.staff_id2 == s.id || e.staff_id3 == s.id
           @staff["#{s.first_name} #{s.last_name}"] = [] unless @staff["#{s.first_name} #{s.last_name}"]
@@ -92,7 +92,7 @@ class PrintingController < ApplicationController
     end
     @horse_workloads = horse_workloads.sort_by{|h| h[:workload]}.reverse
     staff_workloads = []
-    Staff.all.each do |staff|
+    Staff.where(hidden: false).each do |staff|
       staff_workloads << {:name => "#{staff.first_name} #{staff.last_name}", :workload => staff.workload_period(@date, @date).to_f} unless staff.first_name == "Horse"
     end
     @staff_workloads = staff_workloads.sort_by{|s| s[:workload]}.reverse

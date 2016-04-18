@@ -10,7 +10,7 @@
 				<a href="/staff/show/<%= staff.id %>">Details</a> | <a href="/notes/STAFF/<%= staff.id %>">Notes</a> 
 				<% if current_user.user_level != User::BASE %>
 					 | <a href="/staff/edit/<%= staff.id %>">Edit</a>
-					  <!-- | <a onclick="confirmation('<%= staff.first_name+" "+staff.last_name %>','/staff/delete/<%= staff.id %>')">Delete</a> -->
+					 | <a onclick="confirmation('<%= staff.first_name+" "+staff.last_name %>','/staff/delete/<%= staff.id %>')">Delete</a>
 				<% end %>
 			</td>
 		</tr>

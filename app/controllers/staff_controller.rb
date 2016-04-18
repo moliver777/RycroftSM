@@ -2,11 +2,11 @@ class StaffController < ApplicationController
   skip_before_filter :user_permission?, :only => [:index,:show]
 
   def index
-    @staff = Staff.order("first_name, last_name")
+    @staff = Staff.where(hidden: false).order("first_name, last_name")
   end
 
   def sort
-    @staff = Staff.order(params[:sort]+" "+params[:mod]+", first_name, last_name")
+    @staff = Staff.where(hidden: false).order(params[:sort]+" "+params[:mod]+", first_name, last_name")
     view = render_to_string(:partial => "table_contents")
     render :json => view.to_json
   end
@@ -43,8 +43,13 @@ class StaffController < ApplicationController
 
   def destroy
     staff = Staff.find(params[:staff_id])
+    staff.events.where("event_date > ?", Date.today).each do |e|
+      e.staff_id = nil
+      e.save!
+    end
     staff.notes.destroy_all
-    staff.destroy
+    staff.update_attribute(:hidden, true)
+    # staff.destroy
     render :nothing => true
   end
 
