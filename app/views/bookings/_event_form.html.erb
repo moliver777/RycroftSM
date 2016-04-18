@@ -43,7 +43,7 @@
 		<td>
 			<select id="staff_id" class="staff_select field">
 				<option value="0">Instructor</option>
-				<% Staff.order("last_name").each do |staff| %>
+				<% Staff.where(hidden: false).order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
 				<% end %>
 			</select>
@@ -51,7 +51,7 @@
 		<td>
 			<select id="staff_id2" class="staff_select field">
 				<option value="0">Instructor</option>
-				<% Staff.order("last_name").each do |staff| %>
+				<% Staff.where(hidden: false).order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
 				<% end %>
 			</select>
@@ -59,7 +59,7 @@
 		<td>
 			<select id="staff_id3" class="staff_select field">
 				<option value="0">Instructor</option>
-				<% Staff.order("last_name").each do |staff| %>
+				<% Staff.where(hidden: false).order("last_name").each do |staff| %>
 					<option value="<%= staff.id %>"><%= staff.first_name %> <%= staff.last_name %></option>
 				<% end %>
 			</select>

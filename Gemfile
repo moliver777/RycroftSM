@@ -10,9 +10,6 @@ gem 'activerecord'
 # Encryption
 gem 'aes'
 
-# Deploy with Heroku
-gem 'heroku'
-
 # Gems used only for assets and not required in production environments by default
 group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
@@ -22,7 +19,7 @@ end
 
 # Use mysql2 for local development
 group :development do
-  gem 'mysql2'
+  gem 'mysql2', '0.3.17'
 end
 
 group :test do
