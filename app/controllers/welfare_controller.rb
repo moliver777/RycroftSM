@@ -21,11 +21,11 @@ class WelfareController < ApplicationController
   end
 
   def horses
-    @horses = Horse.order("name")
+    @horses = Horse.where(hidden: false).order("name")
   end
 
   def update
-    Horse.all.each do |horse|
+    Horse.where(hidden: false).each do |horse|
       params["welfare"][horse.id.to_s].each do |key, value|
         horse.send "#{key}=", value
       end
@@ -37,7 +37,7 @@ class WelfareController < ApplicationController
   private
 
   def build_week_events
-    @horses = Horse.all
+    @horses = Horse.where(hidden: false)
     @week_events = {}
     @horses.each do |horse|
       event_in_week(horse, horse.farrier_date, horse.farrier_repeat, horse.farrier_repeat_type, "farrier") if horse.farrier_enabled
@@ -50,7 +50,7 @@ class WelfareController < ApplicationController
   end
 
   def build_month_events
-    @horses = Horse.all
+    @horses = Horse.where(hidden: false)
     @month_events = {}
     @horses.each do |horse|
       event_in_month(horse, horse.farrier_date, horse.farrier_repeat, horse.farrier_repeat_type, "farrier") if horse.farrier_enabled
