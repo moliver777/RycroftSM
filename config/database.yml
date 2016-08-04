@@ -1,6 +1,6 @@
 development:
   adapter: mysql2
   username: root
-  database: schettle
+  database: rsm_development
   pool: 5
   timeout: 5000
