@@ -81,7 +81,7 @@ class HorsesController < ApplicationController
 
   def destroy
     horse = Horse.find(params[:horse_id])
-    horse.bookings.includes(:event).where("event.event_date > ?", Date.today).each do |b|
+    horse.bookings.includes(:event).where("events.event_date > ?", Date.today).each do |b|
       b.horse_id = nil
       b.save!
     end
