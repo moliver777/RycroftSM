@@ -443,3 +443,9 @@ config.name = "business_email"
 config.value = "rycroft.riding@btopenworld.com"
 config.external = true
 config.save!
+
+config = SiteSetting.new
+config.name = "cash_up_password"
+config.value = "password"
+config.external = false
+config.save!
