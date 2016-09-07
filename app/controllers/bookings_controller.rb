@@ -410,8 +410,6 @@ class BookingsController < ApplicationController
   end
 
   def cash_up
-    @password = SiteSetting.where(:name => "cash_up_password").first.value rescue "password"
-    @bypass = (params[:bypass] && params[:bypass] == "true") ? true : false
     @date = params[:date] ? (Date.parse(params[:date]) rescue nil) : Date.today
     @totals = {"cash" => 0.00, "card" => 0.00, "cheque" => 0.00, "voucher" => 0.00, "hours" => 0.00, "foc" => 0.00, "total" => 0.00}
     @payments = Payment.where(:payment_date => @date).group_by{|p| p.friendly_type.downcase}
