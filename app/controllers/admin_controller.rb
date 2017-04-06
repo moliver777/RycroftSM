@@ -4,18 +4,6 @@ class AdminController < ApplicationController
   def index
   end
 
-  def clean_database
-    events = Event.where("event_date < ?", Date.today.advance(:days => -60))
-    events.each do |event|
-      event.bookings.each{|booking| booking.payments.destroy_all}
-      event.bookings.destroy_all
-    end
-    events.destroy_all
-    payments = Payment.where("payment_date < ?", Date.today.advance(:days => -60))
-    payments.destroy_all
-    render :nothing => true
-  end
-
   def settings
     @preferences = Preference.where("name != 'price_list'")
     @price_list = Preference.where(:name => "price_list").first.value rescue "No Price List found!"
