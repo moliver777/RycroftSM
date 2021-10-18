@@ -6,7 +6,7 @@ gem 'rails', '4.2.11.3'
 gem 'jquery-rails'
 
 # PostgreSQL database and activerecord querying
-gem 'pg', '1.2.3'
+gem 'pg', '0.11'
 gem 'activerecord'
 gem 'activerecord-session_store'
 # Encryption
