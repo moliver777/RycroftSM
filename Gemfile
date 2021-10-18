@@ -6,7 +6,6 @@ gem 'rails', '4.2.11.3'
 gem 'jquery-rails'
 
 # PostgreSQL database and activerecord querying
-gem 'pg'
 gem 'activerecord'
 gem 'activerecord-session_store'
 # Encryption
@@ -27,4 +26,8 @@ end
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+end
+
+group :production do
+  gem 'pg', '1.2.3'
 end
