@@ -66,5 +66,4 @@ config.save!
 config = SiteSetting.new
 config.name = "cash_up_password"
 config.value = "password"
-config.external = false
 config.save!
