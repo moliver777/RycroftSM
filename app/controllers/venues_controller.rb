@@ -1,5 +1,5 @@
 class VenuesController < ApplicationController
-  before_filter :master_only
+  before_action :master_only
 
   def index
     @venues = Venue.where(:master => true).order("name")

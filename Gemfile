@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby '2.6.3'
 
-gem 'rails', '4.2.11.3'
+gem 'rails', '5.2.6'
 gem 'jquery-rails'
 
 # PostgreSQL database and activerecord querying

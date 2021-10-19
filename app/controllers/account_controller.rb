@@ -1,5 +1,5 @@
 class AccountController < ApplicationController
-  skip_before_filter :user_permission?
+  skip_before_action :user_permission?
 
   def index
   end

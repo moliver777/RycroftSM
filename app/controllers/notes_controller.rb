@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  skip_before_filter :user_permission?, :except => [:new,:edit,:create,:update,:destroy]
+  skip_before_action :user_permission?, :except => [:new,:edit,:create,:update,:destroy]
 
   def index
     @notes = Note.where(:repeated => false).order("urgent DESC, end_date DESC")

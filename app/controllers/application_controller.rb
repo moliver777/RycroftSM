@@ -1,12 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :authenticated_user?
-  before_filter :user_permission?
-  before_filter :status_available
-  before_filter :setup
-  before_filter :format_date
-  before_filter :clear_sessions
+  before_action :authenticated_user?
+  before_action :user_permission?
+  before_action :status_available
+  before_action :setup
+  before_action :format_date
+  before_action :clear_sessions
 
   def authenticated_user?
     unless session.include? :username

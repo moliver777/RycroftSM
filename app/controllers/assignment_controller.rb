@@ -1,5 +1,5 @@
 class AssignmentController < ApplicationController
-  skip_before_filter :setup
+  skip_before_action :setup
 
   def block
     block = SiteSetting.where(:name => "block_auto_assign_prompt").first

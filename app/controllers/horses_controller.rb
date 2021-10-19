@@ -1,5 +1,5 @@
 class HorsesController < ApplicationController
-  skip_before_filter :user_permission?, :only => [:index,:show,:availability]
+  skip_before_action :user_permission?, :only => [:index,:show,:availability]
 
   def index
     @horses = Horse.where(hidden: false).order("name")
