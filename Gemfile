@@ -1,25 +1,27 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0'
+ruby '2.6.3'
+
+gem 'rails', '4.2.11.3'
 gem 'jquery-rails'
 
 # PostgreSQL database and activerecord querying
-gem 'pg'
+gem 'pg', '0.15'
 gem 'activerecord'
-
+gem 'activerecord-session_store'
 # Encryption
 gem 'aes'
 
 # Gems used only for assets and not required in production environments by default
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
+  gem 'sass-rails'
+  gem 'coffee-rails'
   gem 'uglifier'
 end
 
 # Use mysql2 for local development
 group :development do
-  gem 'mysql2', '0.3.17'
+  gem 'mysql2', '0.5.3'
 end
 
 group :test do
