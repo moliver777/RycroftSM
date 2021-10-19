@@ -1,4 +1,4 @@
-class CreateStocks < ActiveRecord::Migration
+class CreateStocks < ActiveRecord::Migration[5.2]
   def change
     create_table :stocks, :force => true do |t|
       t.string :name

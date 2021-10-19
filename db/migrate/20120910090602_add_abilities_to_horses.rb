@@ -1,4 +1,4 @@
-class AddAbilitiesToHorses < ActiveRecord::Migration
+class AddAbilitiesToHorses < ActiveRecord::Migration[5.2]
   def change
     add_column :horses, :walk, :boolean
     add_column :horses, :trot_with, :boolean

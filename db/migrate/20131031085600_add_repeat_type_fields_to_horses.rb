@@ -1,4 +1,4 @@
-class AddRepeatTypeFieldsToHorses < ActiveRecord::Migration
+class AddRepeatTypeFieldsToHorses < ActiveRecord::Migration[5.2]
   def change
     add_column :horses, :farrier_repeat_type, :string, :default => "week", :null => false
     add_column :horses, :worming_repeat_type, :string, :default => "week", :null => false

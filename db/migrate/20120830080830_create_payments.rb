@@ -1,4 +1,4 @@
-class CreatePayments < ActiveRecord::Migration
+class CreatePayments < ActiveRecord::Migration[5.2]
   def change
     create_table :payments, :force => true do |t|
       t.integer :booking_id

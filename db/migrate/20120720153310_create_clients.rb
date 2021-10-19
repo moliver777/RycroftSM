@@ -1,4 +1,4 @@
-class CreateClients < ActiveRecord::Migration
+class CreateClients < ActiveRecord::Migration[5.2]
   def change
     create_table :clients, :force => true do |t|
       t.string :first_name

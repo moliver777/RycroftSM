@@ -1,4 +1,4 @@
-class CreateBookings < ActiveRecord::Migration
+class CreateBookings < ActiveRecord::Migration[5.2]
   def change
     create_table :bookings, :force => true do |t|
       t.integer :event_id

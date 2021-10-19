@@ -1,4 +1,4 @@
-class CreateStaff < ActiveRecord::Migration
+class CreateStaff < ActiveRecord::Migration[5.2]
   def change
     create_table :staff, :force => true do |t|
       t.string :first_name

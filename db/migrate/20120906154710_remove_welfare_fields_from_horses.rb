@@ -1,4 +1,4 @@
-class RemoveWelfareFieldsFromHorses < ActiveRecord::Migration
+class RemoveWelfareFieldsFromHorses < ActiveRecord::Migration[5.2]
   def change
     remove_column :horses, :farrier
     remove_column :horses, :farrier_date

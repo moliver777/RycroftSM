@@ -1,4 +1,4 @@
-class CreateHorses < ActiveRecord::Migration
+class CreateHorses < ActiveRecord::Migration[5.2]
   def change
     create_table :horses, :force => true do |t|
       t.string :name

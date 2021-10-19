@@ -1,4 +1,4 @@
-class AddPreferenceAndSiteSettingTables < ActiveRecord::Migration
+class AddPreferenceAndSiteSettingTables < ActiveRecord::Migration[5.2]
   def change
     create_table :preferences, :force => true do |t|
       t.string :name
@@ -14,4 +14,3 @@ class AddPreferenceAndSiteSettingTables < ActiveRecord::Migration
     end
   end
 end
-

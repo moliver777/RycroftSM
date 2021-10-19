@@ -1,4 +1,4 @@
-class AddWelfareFieldsToHorses < ActiveRecord::Migration
+class AddWelfareFieldsToHorses < ActiveRecord::Migration[5.2]
   def change
     remove_column :horses, :heart_check
     remove_column :horses, :eyes_check

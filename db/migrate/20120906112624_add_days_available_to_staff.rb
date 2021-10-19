@@ -1,4 +1,4 @@
-class AddDaysAvailableToStaff < ActiveRecord::Migration
+class AddDaysAvailableToStaff < ActiveRecord::Migration[5.2]
   def change
     add_column :staffs, :monday, :boolean, :default => false
     add_column :staffs, :tuesday, :boolean, :default => false
